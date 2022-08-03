@@ -37,7 +37,7 @@ import pdfRoutes from '../routes/pdf';
 class Server {
     private app: Application;
     private port: string;
-    private llave: boolean = false;
+    private llave: boolean = true;
     private apiPaths = {
         usuarios: '/api/usuarios',
         auth: '/api/auth',

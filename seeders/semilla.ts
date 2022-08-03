@@ -28,7 +28,7 @@ import Rango from '../models/rango';
 
 export const dbSeed = () => {
 
-    const llave: boolean = true;
+    const llave: boolean = false;
     const salt: any = bcrypt.genSaltSync();
 
     if (llave) {

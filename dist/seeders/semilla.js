@@ -50,7 +50,7 @@ const institucion_1 = __importDefault(require("../models/institucion"));
 const hora_1 = __importDefault(require("../models/hora"));
 const rango_1 = __importDefault(require("../models/rango"));
 const dbSeed = () => {
-    const llave = true;
+    const llave = false;
     const salt = bcryptjs_1.default.genSaltSync();
     if (llave) {
         seed_local.instituciones.forEach(institucion => {

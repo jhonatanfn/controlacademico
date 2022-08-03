@@ -49,7 +49,7 @@ const semilla_1 = require("../seeders/semilla");
 const pdf_1 = __importDefault(require("../routes/pdf"));
 class Server {
     constructor() {
-        this.llave = false;
+        this.llave = true;
         this.apiPaths = {
             usuarios: '/api/usuarios',
             auth: '/api/auth',
