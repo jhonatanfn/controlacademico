@@ -8,95 +8,116 @@ const getMenu = (role) => {
             {
                 titulo: 'Comunidad del Colegio',
                 url: '',
+                icono: 'bi bi-people-fill',
                 toggle: 'dropdown-toggle',
                 submenu: [
                     {
                         titulo: 'Institución',
-                        url: 'institucion'
+                        url: 'institucion',
+                        icono: 'bi bi-building'
                     },
                     {
                         titulo: 'Docentes',
-                        url: 'docentes'
+                        url: 'docentes',
+                        icono: 'bi bi-person-video3'
                     },
                     {
                         titulo: 'Alumnos',
-                        url: 'alumnos'
+                        url: 'alumnos',
+                        icono: 'bi bi-mortarboard'
                     },
                     {
                         titulo: 'Apoderados',
-                        url: 'apoderados'
+                        url: 'apoderados',
+                        icono: 'bi bi-file-ppt'
                     }
                 ]
             },
             {
                 titulo: 'Planificación',
                 url: '',
+                icono: 'bi bi-square',
                 toggle: 'dropdown-toggle',
                 submenu: [
                     {
                         titulo: 'Periodos',
-                        url: 'periodos'
+                        url: 'periodos',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Areas',
-                        url: 'areas'
+                        url: 'areas',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Subareas',
-                        url: 'subareas'
+                        url: 'subareas',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Niveles',
-                        url: 'niveles'
+                        url: 'niveles',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Grados',
-                        url: 'grados'
+                        url: 'grados',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Secciones',
-                        url: 'secciones'
+                        url: 'secciones',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Rangos',
-                        url: 'rangos'
+                        url: 'rangos',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Aulas',
-                        url: 'aulas'
+                        url: 'aulas',
+                        icono: 'bi bi-square',
                     },
                 ]
             },
             {
                 titulo: 'Ejecución',
                 url: '',
+                icono: 'bi bi-square',
                 toggle: 'dropdown-toggle',
                 submenu: [
                     {
                         titulo: 'Programaciones',
-                        url: 'programaciones'
+                        url: 'programaciones',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Alumnos Matriculados',
-                        url: 'matriculas'
+                        url: 'matriculas',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Notas',
-                        url: 'notas'
+                        url: 'notas',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Asistencias',
                         url: 'asistencias',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Horarios',
                         url: 'horarios',
+                        icono: 'bi bi-square',
                     }
                 ]
             },
             {
                 titulo: 'Materiales',
                 url: 'materiales',
+                icono: 'bi bi-square',
                 toggle: '',
                 submenu: []
             },
@@ -104,47 +125,58 @@ const getMenu = (role) => {
                 titulo: 'Usuarios',
                 url: 'usuarios',
                 toggle: '',
+                icono: 'bi bi-square',
                 submenu: []
             },
             {
                 titulo: 'Reportes',
                 url: '',
+                icono: 'bi bi-square',
                 toggle: 'dropdown-toggle',
                 submenu: [
                     {
                         titulo: 'Notas por Bimestre',
-                        url: 'reportes/notas'
+                        url: 'reportes/notas',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Notas por Bimestre y Alumno',
-                        url: 'reportes/notasalumno'
+                        url: 'reportes/notasalumno',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Notas por Periodo',
-                        url: 'reportes/anual'
+                        url: 'reportes/anual',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Notas por Periodo Detallado',
-                        url: 'reportes/notasalumnoanual'
+                        url: 'reportes/notasalumnoanual',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Notas por Area',
-                        url: 'reportes/notasareatotal'
+                        url: 'reportes/notasareatotal',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Notas por Area y Alumno',
-                        url: 'reportes/notasarea'
+                        url: 'reportes/notasarea',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Asistencias por Fecha',
                         url: 'reportes/asistencias',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Asistencias por Alumno',
                         url: 'reportes/asistenciasalumno',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Asistencias Consolidado',
+                        icono: 'bi bi-square',
                         url: 'reportes/rango',
                     }
                 ]
@@ -156,19 +188,23 @@ const getMenu = (role) => {
             {
                 titulo: 'Ejecución',
                 url: '',
+                icono: 'bi bi-square',
                 toggle: 'dropdown-toggle',
                 submenu: [
                     {
                         titulo: 'Programaciones',
-                        url: 'programaciones/docente'
+                        url: 'programaciones/docente',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Notas',
-                        url: 'notas/docente'
+                        url: 'notas/docente',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Asistencias',
                         url: 'asistencias/docente',
+                        icono: 'bi bi-square',
                     }
                 ]
             },
@@ -176,54 +212,66 @@ const getMenu = (role) => {
                 titulo: 'Horarios',
                 url: 'horarios/docente',
                 toggle: '',
+                icono: 'bi bi-square',
                 submenu: []
             },
             {
                 titulo: 'Materiales',
                 url: 'materiales/docente',
                 toggle: '',
+                icono: 'bi bi-square',
                 submenu: []
             },
             {
                 titulo: 'Reportes',
                 url: '',
+                icono: 'bi bi-square',
                 toggle: 'dropdown-toggle',
                 submenu: [
                     {
                         titulo: 'Notas por Bimestre',
-                        url: 'reportes/notas'
+                        url: 'reportes/notas',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Notas por Bimestre y Alumno',
-                        url: 'reportes/notasalumno'
+                        url: 'reportes/notasalumno',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Notas por Periodo',
-                        url: 'reportes/anual'
+                        url: 'reportes/anual',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Notas por Periodo Detallado',
-                        url: 'reportes/notasalumnoanual'
+                        url: 'reportes/notasalumnoanual',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Notas por Area',
-                        url: 'reportes/notasareatotal'
+                        url: 'reportes/notasareatotal',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Notas por Area y Alumno',
-                        url: 'reportes/notasarea'
+                        url: 'reportes/notasarea',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Asistencias por Fecha',
                         url: 'reportes/asistencias',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Asistencias por Alumno',
                         url: 'reportes/asistenciasalumno',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Asistencias Consolidado',
                         url: 'reportes/rango',
+                        icono: 'bi bi-square',
                     }
                 ]
             }
@@ -235,40 +283,48 @@ const getMenu = (role) => {
                 titulo: 'Matriculas',
                 url: 'matriculas/alumno',
                 toggle: '',
+                icono: 'bi bi-square',
                 submenu: []
             },
             {
                 titulo: 'Materiales',
                 url: 'materiales/alumno',
                 toggle: '',
+                icono: 'bi bi-square',
                 submenu: []
             },
             {
                 titulo: 'Horarios',
                 url: 'horarios/alumno',
                 toggle: '',
+                icono: 'bi bi-square',
                 submenu: []
             },
             {
                 titulo: 'Reportes',
                 url: '',
+                icono: 'bi bi-square',
                 toggle: 'dropdown-toggle',
                 submenu: [
                     {
                         titulo: 'Notas por Bimestre',
-                        url: 'reportes/notasalumno'
+                        url: 'reportes/notasalumno',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Notas por Periodo Detallado',
-                        url: 'reportes/notasalumnoanual'
+                        url: 'reportes/notasalumnoanual',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Notas por Area y Alumno',
-                        url: 'reportes/notasarea'
+                        url: 'reportes/notasarea',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Asistencias',
                         url: 'reportes/asistenciasalumno',
+                        icono: 'bi bi-square',
                     }
                 ]
             }
@@ -280,50 +336,61 @@ const getMenu = (role) => {
                 titulo: 'Matriculas',
                 url: 'matriculas/apoderado',
                 toggle: '',
+                icono: 'bi bi-square',
                 submenu: []
             },
             {
                 titulo: 'Horarios',
                 url: 'horarios/apoderado',
                 toggle: '',
+                icono: 'bi bi-square',
                 submenu: []
             },
             {
                 titulo: 'Reportes',
                 url: '',
+                icono: 'bi bi-square',
                 toggle: 'dropdown-toggle',
                 submenu: [
                     {
                         titulo: 'Notas por Bimestre',
-                        url: 'reportes/notas'
+                        url: 'reportes/notas',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Notas por Bimestre y Alumno',
-                        url: 'reportes/notasalumno'
+                        url: 'reportes/notasalumno',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Notas por Periodo',
-                        url: 'reportes/anual'
+                        url: 'reportes/anual',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Notas por Periodo Detallado',
-                        url: 'reportes/notasalumnoanual'
+                        url: 'reportes/notasalumnoanual',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Notas por Area y Alumno',
-                        url: 'reportes/notasarea'
+                        url: 'reportes/notasarea',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Asistencias por Fecha',
                         url: 'reportes/asistencias',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Asistencias por Alumno',
                         url: 'reportes/asistenciasalumno',
+                        icono: 'bi bi-square',
                     },
                     {
                         titulo: 'Asistencias Consolidado',
                         url: 'reportes/rango',
+                        icono: 'bi bi-square',
                     }
                 ]
             }
