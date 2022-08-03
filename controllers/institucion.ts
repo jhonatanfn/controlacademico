@@ -1,0 +1,103 @@
+import { Request, Response } from "express";
+import Institucion from "../models/institucion";
+
+export const getInstituciones= (req:Request,res:Response)=>{
+    
+}
+
+export const getInstitucion= async (req:Request,res:Response)=>{
+    const { id }= req.params;
+
+    try {
+        const institucion= await Institucion.findByPk(id,{
+            attributes:['id','nombre','direccion','telefono','email','img']
+        });
+        
+        if(!institucion){
+            return res.status(400).json({
+                ok:false,
+                msg: `No existe la institucion con el id: ${id}`
+            });
+        }
+
+        res.json({
+            ok:true,
+            institucion
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok:false,
+            msg:'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+
+export const postInstitucion= async (req:Request,res:Response)=>{
+        
+    const { body }= req;
+    try {
+        const institucion= Institucion.build(body);
+        await institucion.save();
+        res.json({
+            ok:true,
+            msg:'Institucion creada exitosamente',
+            institucion
+        });
+    } catch (error) {
+        res.status(500).json({
+            ok:false,
+            msg:'Se produjo un error. Hable con el administrador'
+        });
+    }
+
+
+}
+export const putInstitucion= async (req:Request,res:Response)=>{
+    const { id } = req.params;
+    const { body }= req;
+    try {
+        const institucion:any = await Institucion.findByPk(id);
+        if(!institucion){
+           return  res.status(400).json({
+                ok:false,
+                msg: `No existe un institucion con el id: ${id}`
+            });
+        }
+        await institucion?.update(body);
+        res.json({
+            ok:true,
+            msg:'Institucion actualizada exitosamente',
+            institucion
+        });
+    } catch (error) {
+        res.status(500).json({
+            ok:false,
+            msg:'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+export const deleteInstitucion= async (req:Request,res:Response)=>{
+    const { id } = req.params;
+    try {
+        const institucion:any = await Institucion.findByPk(id);
+        if(!institucion){
+            return res.status(400).json({
+                ok:false,
+                msg: `No existe una institucion con el id: ${id}`
+            });
+        }
+        await institucion?.update({ estado:false});
+        res.json({
+            ok:true,
+            msg:'Institucion eliminada exitosamente',
+            institucion
+        });
+    } catch (error) {
+        res.status(500).json({
+            ok:false,
+            msg:'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
