@@ -5,7 +5,7 @@ import { Router } from 'express';
 import { check  } from 'express-validator';
 import { busquedaNotas, deleteNota, getNota, getNotas,
     getNotasArea,
-getNotasMatricula,getNotasMatriculaCicloEvaluacion,getNotasProgramacionFechaEvaluacionCiclo, 
+getNotasMatricula,getNotasMatriculaCicloEvaluacion,getNotasPeriodo,getNotasPeriodoAula,getNotasPeriodoAulaArea,getNotasPeriodoAulaAreaSubarea,getNotasPeriodoAulaAreaSubareaCiclo,getNotasPeriodoAulaAreaSubareaCicloAlumno,getNotasProgramacionFechaEvaluacionCiclo, 
 postNota, putNota } from '../controllers/nota';
 import { validarCampos } from '../middlewares/validar-campos';
 import { validarJWT } from '../middlewares/validar-jwt';
@@ -19,8 +19,18 @@ router.get('/programacion/fecha/evaluacion/ciclo/:programacionId/:fecha/:evaluac
 validarJWT,getNotasProgramacionFechaEvaluacionCiclo);
 router.get('/:id',validarJWT,getNotasMatricula);
 router.get('/:matriculaId/:cicloId/:evaluacionId', validarJWT, getNotasMatriculaCicloEvaluacion);
-
 router.get('/area/:periodoId/:aulaId/:areaId/:cicloId/:alumnoId', validarJWT, getNotasArea);
+
+router.get('/porperiodo/:periodoId', validarJWT, getNotasPeriodo);
+router.get('/reportedos/porperiodoaula/:periodoId/:aulaId', validarJWT, getNotasPeriodoAula);
+router.get('/reportetres/porperiodoaulaarea/:periodoId/:aulaId/:areaId', validarJWT, getNotasPeriodoAulaArea);
+router.get('/porperiodoaulaareasubarea/:periodoId/:aulaId/:areaId/:subareaId', validarJWT, 
+getNotasPeriodoAulaAreaSubarea);
+router.get('/porperiodoaulaareasubareaciclo/:periodoId/:aulaId/:areaId/:subareaId/:cicloId', validarJWT, 
+getNotasPeriodoAulaAreaSubareaCiclo);
+router.get('/porperiodoaulaareasubareacicloalumno/:periodoId/:aulaId/:areaId/:subareaId/:cicloId/:alumnoId', validarJWT, 
+getNotasPeriodoAulaAreaSubareaCicloAlumno);
+
 
 router.post('/',[
     validarJWT,

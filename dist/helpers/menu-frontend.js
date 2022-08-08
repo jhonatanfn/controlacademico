@@ -129,56 +129,72 @@ const getMenu = (role) => {
             {
                 titulo: 'Reportes',
                 url: '',
-                icono: 'bi bi-graph-up',
+                icono: 'bi bi-clipboard-data',
                 toggle: 'dropdown-toggle',
                 submenu: [
                     {
-                        titulo: 'Notas por Bimestre',
-                        url: 'reportes/notas',
-                        icono: 'bi bi-square',
-                    },
-                    {
-                        titulo: 'Notas por Bimestre y Alumno',
-                        url: 'reportes/notasalumno',
-                        icono: 'bi bi-square',
+                        titulo: 'Notas por Area',
+                        url: 'reportes/notasareatotal',
+                        icono: 'bi bi-pin-angle',
                     },
                     {
                         titulo: 'Notas por Periodo',
                         url: 'reportes/anual',
-                        icono: 'bi bi-square',
+                        icono: 'bi bi-pin-angle',
                     },
                     {
-                        titulo: 'Notas por Periodo Detallado',
-                        url: 'reportes/notasalumnoanual',
-                        icono: 'bi bi-square',
-                    },
-                    {
-                        titulo: 'Notas por Area',
-                        url: 'reportes/notasareatotal',
-                        icono: 'bi bi-square',
-                    },
-                    {
-                        titulo: 'Notas por Area y Alumno',
-                        url: 'reportes/notasarea',
-                        icono: 'bi bi-square',
+                        titulo: 'Notas Consolidado',
+                        url: 'reportes/notas/consolidado',
+                        icono: 'bi bi-pin-angle',
                     },
                     {
                         titulo: 'Asistencias por Fecha',
                         url: 'reportes/asistencias',
-                        icono: 'bi bi-square',
+                        icono: 'bi bi-pin-angle',
                     },
                     {
                         titulo: 'Asistencias por Alumno',
                         url: 'reportes/asistenciasalumno',
-                        icono: 'bi bi-square',
+                        icono: 'bi bi-pin-angle',
                     },
                     {
                         titulo: 'Asistencias Consolidado',
-                        icono: 'bi bi-square',
+                        icono: 'bi bi-pin-angle',
                         url: 'reportes/rango',
                     }
                 ]
+            },
+            /*
+            {
+              titulo: 'Reportes',
+              url: '',
+              icono: 'bi bi-clipboard-data',
+              toggle: 'dropdown-toggle',
+              submenu: [
+                {
+                  titulo: 'Notas por Bimestre',
+                  url: 'reportes/notas',
+                  icono: 'bi bi-square',
+                },
+                {
+                  titulo: 'Notas por Bimestre y Alumno',
+                  url: 'reportes/notasalumno',
+                  icono: 'bi bi-square',
+                },
+                {
+                  titulo: 'Notas por Periodo Detallado',
+                  url: 'reportes/notasalumnoanual',
+                  icono: 'bi bi-square',
+                },
+                {
+                  titulo: 'Notas por Area y Alumno',
+                  url: 'reportes/notasarea',
+                  icono: 'bi bi-square',
+                },
+             
+              ]
             }
+            */
         ];
     }
     if (role === 'DOCENTE') {
@@ -219,7 +235,7 @@ const getMenu = (role) => {
             {
                 titulo: 'Reportes',
                 url: '',
-                icono: 'bi bi-graph-up',
+                icono: 'bi bi-clipboard-data',
                 toggle: 'dropdown-toggle',
                 submenu: [
                     {
@@ -297,7 +313,7 @@ const getMenu = (role) => {
             {
                 titulo: 'Reportes',
                 url: '',
-                icono: 'bi bi-graph-up',
+                icono: 'bi bi-clipboard-data',
                 toggle: 'dropdown-toggle',
                 submenu: [
                     {
@@ -343,7 +359,7 @@ const getMenu = (role) => {
             {
                 titulo: 'Reportes',
                 url: '',
-                icono: 'bi bi-graph-up',
+                icono: 'bi bi-clipboard-data',
                 toggle: 'dropdown-toggle',
                 submenu: [
                     {

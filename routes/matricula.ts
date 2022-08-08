@@ -11,7 +11,7 @@ import {
     deleteMatricula, existeMatricula, getMatricula,
     getMatriculaAnual,
     getMatriculaCiclo,
-    getMatriculas, getMatriculasAnual, getMatriculasAnualApoderado, getMatriculasPeriodoAulaArea, getMatriculasPeriodoAulaAreaApoderado, getMatriculasPeriodoAulaSubarea, getMatriculasPeriodoAulaSubareaaApoderado, getMatriculasPeriodoAulaSubareaCiclo,
+    getMatriculas, getMatriculasAnual, getMatriculasAnualApoderado, getMatriculasPeriodoAula, getMatriculasPeriodoAulaArea, getMatriculasPeriodoAulaAreaApoderado, getMatriculasPeriodoAulaSubarea, getMatriculasPeriodoAulaSubareaaApoderado, getMatriculasPeriodoAulaSubareaCiclo,
     getMatriculasPeriodoAulaSubareaCicloApoderado,
     getMatriculasProgramacion, getMatriculasProgramacionRangoFechas, getMatriculasSubarea, matriculasAlumno,
     matriculasAlumnoPeriodo,
@@ -60,15 +60,10 @@ router.get('/listamatriculas/:periodoId/:aulaId/:subareaId', validarJWT,
     getMatriculasPeriodoAulaSubarea);
 router.get('/listamatriculasapoderado/:periodoId/:aulaId/:subareaId/:apoderadoId', validarJWT,
     getMatriculasPeriodoAulaSubareaaApoderado);
-
-
 router.get('/listamatriculasarea/:periodoId/:aulaId/:areaId', validarJWT,
     getMatriculasPeriodoAulaArea);
 router.get('/listamatriculasapoderadoarea/:periodoId/:aulaId/:areaId/:apoderadoId', validarJWT,
     getMatriculasPeriodoAulaAreaApoderado);
-
-
-
 router.get('/busquedaapoderado/:apoderadoId/:valor', validarJWT,
     busquedaMatriculasPorAlumnoApoderado);
 router.get('/busquedaapoderadoperiodo/:apoderadoId/:periodoId/:valor', validarJWT,
@@ -85,6 +80,9 @@ router.get('/alumno/apoderado/reporte/:apoderadoId', validarJWT,
     matriculasApoderado);
 router.get('/apoderado/parahorario/:apoderadoId/:periodoId/:aulaId', validarJWT,
     matriculasApoderadoPeriodoAula);
+
+router.get('/periodoaula/:periodoId/:aulaId', validarJWT,
+    getMatriculasPeriodoAula);
 
 router.post('/', [
     validarJWT,

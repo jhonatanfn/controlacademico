@@ -131,7 +131,47 @@ export const getMenu = (role: string) => {
       {
         titulo: 'Reportes',
         url: '',
-        icono: 'bi bi-graph-up',
+        icono: 'bi bi-clipboard-data',
+        toggle: 'dropdown-toggle',
+        submenu: [
+          {
+            titulo: 'Notas por Area',
+            url: 'reportes/notasareatotal',
+            icono: 'bi bi-pin-angle',
+          },
+          {
+            titulo: 'Notas por Periodo',
+            url: 'reportes/anual',
+            icono: 'bi bi-pin-angle',
+          },
+          {
+            titulo: 'Notas Consolidado',
+            url: 'reportes/notas/consolidado',
+            icono: 'bi bi-pin-angle',
+          },
+             {
+            titulo: 'Asistencias por Fecha',
+            url: 'reportes/asistencias',
+            icono: 'bi bi-pin-angle',
+          },
+          {
+            titulo: 'Asistencias por Alumno',
+            url: 'reportes/asistenciasalumno',
+            icono: 'bi bi-pin-angle',
+          },
+          {
+            titulo: 'Asistencias Consolidado',
+            icono: 'bi bi-pin-angle',
+            url: 'reportes/rango',
+          }
+        ]
+      },
+
+      /*
+      {
+        titulo: 'Reportes',
+        url: '',
+        icono: 'bi bi-clipboard-data',
         toggle: 'dropdown-toggle',
         submenu: [
           {
@@ -145,18 +185,8 @@ export const getMenu = (role: string) => {
             icono: 'bi bi-square',
           },
           {
-            titulo: 'Notas por Periodo',
-            url: 'reportes/anual',
-            icono: 'bi bi-square',
-          },
-          {
             titulo: 'Notas por Periodo Detallado',
             url: 'reportes/notasalumnoanual',
-            icono: 'bi bi-square',
-          },
-          {
-            titulo: 'Notas por Area',
-            url: 'reportes/notasareatotal',
             icono: 'bi bi-square',
           },
           {
@@ -164,23 +194,13 @@ export const getMenu = (role: string) => {
             url: 'reportes/notasarea',
             icono: 'bi bi-square',
           },
-          {
-            titulo: 'Asistencias por Fecha',
-            url: 'reportes/asistencias',
-            icono: 'bi bi-square',
-          },
-          {
-            titulo: 'Asistencias por Alumno',
-            url: 'reportes/asistenciasalumno',
-            icono: 'bi bi-square',
-          },
-          {
-            titulo: 'Asistencias Consolidado',
-            icono: 'bi bi-square',
-            url: 'reportes/rango',
-          }
+       
         ]
       }
+      */
+
+
+
     ];
   }
 
@@ -223,7 +243,7 @@ export const getMenu = (role: string) => {
       {
         titulo: 'Reportes',
         url: '',
-        icono: 'bi bi-graph-up',
+        icono: 'bi bi-clipboard-data',
         toggle: 'dropdown-toggle',
         submenu: [
           {
@@ -302,7 +322,7 @@ export const getMenu = (role: string) => {
       {
         titulo: 'Reportes',
         url: '',
-        icono: 'bi bi-graph-up',
+        icono: 'bi bi-clipboard-data',
         toggle: 'dropdown-toggle',
         submenu: [
           {
@@ -349,7 +369,7 @@ export const getMenu = (role: string) => {
       {
         titulo: 'Reportes',
         url: '',
-        icono: 'bi bi-graph-up',
+        icono: 'bi bi-clipboard-data',
         toggle: 'dropdown-toggle',
         submenu: [
           {

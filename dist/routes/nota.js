@@ -16,6 +16,12 @@ router.get('/programacion/fecha/evaluacion/ciclo/:programacionId/:fecha/:evaluac
 router.get('/:id', validar_jwt_1.validarJWT, nota_1.getNotasMatricula);
 router.get('/:matriculaId/:cicloId/:evaluacionId', validar_jwt_1.validarJWT, nota_1.getNotasMatriculaCicloEvaluacion);
 router.get('/area/:periodoId/:aulaId/:areaId/:cicloId/:alumnoId', validar_jwt_1.validarJWT, nota_1.getNotasArea);
+router.get('/porperiodo/:periodoId', validar_jwt_1.validarJWT, nota_1.getNotasPeriodo);
+router.get('/reportedos/porperiodoaula/:periodoId/:aulaId', validar_jwt_1.validarJWT, nota_1.getNotasPeriodoAula);
+router.get('/reportetres/porperiodoaulaarea/:periodoId/:aulaId/:areaId', validar_jwt_1.validarJWT, nota_1.getNotasPeriodoAulaArea);
+router.get('/porperiodoaulaareasubarea/:periodoId/:aulaId/:areaId/:subareaId', validar_jwt_1.validarJWT, nota_1.getNotasPeriodoAulaAreaSubarea);
+router.get('/porperiodoaulaareasubareaciclo/:periodoId/:aulaId/:areaId/:subareaId/:cicloId', validar_jwt_1.validarJWT, nota_1.getNotasPeriodoAulaAreaSubareaCiclo);
+router.get('/porperiodoaulaareasubareacicloalumno/:periodoId/:aulaId/:areaId/:subareaId/:cicloId/:alumnoId', validar_jwt_1.validarJWT, nota_1.getNotasPeriodoAulaAreaSubareaCicloAlumno);
 router.post('/', [
     validar_jwt_1.validarJWT,
     (0, express_validator_1.check)('matriculaId', 'La Matricula es obligatoria').not().isEmpty(),

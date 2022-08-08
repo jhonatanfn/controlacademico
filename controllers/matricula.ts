@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Op } from 'sequelize';
+import { Op, Sequelize } from 'sequelize';
 import Alumno from '../models/alumno';
 import Persona from '../models/persona';
 import Tipodocumento from '../models/tipodocumento';
@@ -3566,9 +3566,6 @@ export const matriculasApoderadoPeriodoAula = async (req: Request, res: Response
         });
     }
 }
-
-
-
 export const getMatriculasPeriodoAulaArea = async (req: Request, res: Response) => {
     const { periodoId, aulaId, areaId } = req.params;
     try {
@@ -3671,7 +3668,6 @@ export const getMatriculasPeriodoAulaArea = async (req: Request, res: Response) 
         });
     }
 }
-
 export const getMatriculasPeriodoAulaAreaApoderado = async (req: Request, res: Response) => {
     const { periodoId, aulaId, areaId, apoderadoId } = req.params;
     try {
@@ -3781,6 +3777,71 @@ export const getMatriculasPeriodoAulaAreaApoderado = async (req: Request, res: R
             total: matriculas.length
         });
     } catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+export const getMatriculasPeriodoAula= async (req: Request, res: Response)=>{
+    const { periodoId, aulaId } = req.params;
+    try {
+        const matriculas = await Matricula.findAll({
+            where: {
+                estado: true,
+                '$programacion.periodo.id$': periodoId,
+                '$programacion.aula.id$': aulaId
+            },
+            order: [
+                [{ model: Alumno, as: 'alumno' }, { model: Persona, as: 'persona' }, 'apellidopaterno', 'ASC']
+            ],
+            attributes: [
+                'id', 
+                'alumnoId', 
+                'programacionId',
+            ],
+            group: ['alumnoId'],
+            include: [
+                {
+                    model: Alumno,
+                    as: 'alumno',
+                    required: false,
+                    attributes: ['id', 'alumnoId', 'personaId'],
+                    include: [
+                        {
+                            model: Persona,
+                            as: 'persona',
+                            attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
+                        },
+                    ],
+                },
+                {
+                    model: Programacion,
+                    as: 'programacion',
+                    attributes: ['id', 'aulaId','periodoId'],
+                    include: [
+                        {
+                            model: Aula,
+                            as: 'aula',
+                            attributes: ['id', 'nombre']
+                        },
+                        {
+                            model: Periodo,
+                            as: 'periodo',
+                            attributes: ['id', 'nombre']
+                        }
+                    ]
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            matriculas,
+            total: matriculas.length
+        });
+
+    } catch (error) {
+        console.log(error);
         res.status(500).json({
             ok: false,
             msg: 'Se produjo un error. Hable con el administrador'

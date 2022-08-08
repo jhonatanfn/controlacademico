@@ -625,7 +625,6 @@ export const getNotasMatriculaCicloEvaluacion = async (req: Request, res: Respon
     }
 
 }
-
 export const getNotasArea = async (req: Request, res: Response) => {
     const { periodoId, aulaId, areaId, cicloId, alumnoId } = req.params;
     try {
@@ -736,6 +735,469 @@ export const getNotasArea = async (req: Request, res: Response) => {
             notas
         });
 
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+
+
+export const getNotasPeriodo = async (req: Request, res: Response) => {
+    const { periodoId } = req.params;
+    try {
+        const notas = await Nota.findAll({
+            where: {
+                estado: true,
+                '$matricula.programacion.periodo.id$': periodoId,
+            },
+            attributes: ['id', 'valor'],
+            include: [
+                {
+                    model: Matricula,
+                    as: 'matricula',
+                    attributes: ['id', 'programacionId'],
+                    include: [
+                        {
+                            model: Programacion,
+                            as: 'programacion',
+                            attributes: ['id', 'periodoId'],
+                            include: [
+                                {
+                                    model: Periodo,
+                                    as: 'periodo',
+                                    attributes: ['id', 'nombre']
+                                },
+                            ]
+                        }
+                    ]
+                }
+            ]
+        });
+
+        res.json({
+            ok: true,
+            notas
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+export const getNotasPeriodoAula = async (req: Request, res: Response) => {
+    const { periodoId, aulaId } = req.params;
+    try {
+        const notas = await Nota.findAll({
+            where: {
+                estado: true,
+                '$matricula.programacion.periodo.id$': periodoId,
+                '$matricula.programacion.aula.id$': aulaId,
+            },
+            attributes: ['id', 'valor'],
+            include: [
+                {
+                    model: Matricula,
+                    as: 'matricula',
+                    attributes: ['id', 'programacionId'],
+                    include: [
+                        {
+                            model: Programacion,
+                            as: 'programacion',
+                            attributes: ['id', 'periodoId'],
+                            include: [
+                                {
+                                    model: Periodo,
+                                    as: 'periodo',
+                                    attributes: ['id', 'nombre']
+                                },
+                                {
+                                    model: Aula,
+                                    as: 'aula',
+                                    attributes: ['id', 'nombre'],
+                                    include: [
+                                        {
+                                            model: Nivel,
+                                            as: 'nivel',
+                                            attributes: ['id', 'nombre']
+                                        },
+                                        {
+                                            model: Grado,
+                                            as: 'grado',
+                                            attributes: ['id', 'nombre']
+                                        },
+                                        {
+                                            model: Seccion,
+                                            as: 'seccion',
+                                            attributes: ['id', 'nombre']
+                                        }
+                                    ]
+                                },
+                            ]
+                        }
+                    ]
+                }
+            ]
+        });
+
+        res.json({
+            ok: true,
+            notas
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+export const getNotasPeriodoAulaArea = async (req: Request, res: Response) => {
+    const { periodoId, aulaId, areaId } = req.params;
+    try {
+        const notas = await Nota.findAll({
+            where: {
+                estado: true,
+                '$matricula.programacion.periodo.id$': periodoId,
+                '$matricula.programacion.aula.id$': aulaId,
+                '$matricula.programacion.subarea.area.id$': areaId,
+            },
+            attributes: ['id', 'valor'],
+            include: [
+                {
+                    model: Matricula,
+                    as: 'matricula',
+                    attributes: ['id', 'programacionId'],
+                    include: [
+                        {
+                            model: Programacion,
+                            as: 'programacion',
+                            attributes: ['id', 'periodoId'],
+                            include: [
+                                {
+                                    model: Periodo,
+                                    as: 'periodo',
+                                    attributes: ['id', 'nombre']
+                                },
+                                {
+                                    model: Aula,
+                                    as: 'aula',
+                                    attributes: ['id', 'nombre'],
+                                    include: [
+                                        {
+                                            model: Nivel,
+                                            as: 'nivel',
+                                            attributes: ['id', 'nombre']
+                                        },
+                                        {
+                                            model: Grado,
+                                            as: 'grado',
+                                            attributes: ['id', 'nombre']
+                                        },
+                                        {
+                                            model: Seccion,
+                                            as: 'seccion',
+                                            attributes: ['id', 'nombre']
+                                        }
+                                    ]
+                                },
+                                {
+                                    model: Subarea,
+                                    as: 'subarea',
+                                    attributes: ['id', 'nombre', 'areaId'],
+                                    include: [
+                                        {
+                                            model: Area,
+                                            as: 'area',
+                                            attributes: ['id', 'nombre']
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        });
+
+        res.json({
+            ok: true,
+            notas
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+export const getNotasPeriodoAulaAreaSubarea = async (req: Request, res: Response) => {
+    const { periodoId, aulaId, areaId, subareaId } = req.params;
+    try {
+        const notas = await Nota.findAll({
+            where: {
+                estado: true,
+                '$matricula.programacion.periodo.id$': periodoId,
+                '$matricula.programacion.aula.id$': aulaId,
+                '$matricula.programacion.subarea.area.id$': areaId,
+                '$matricula.programacion.subarea.id$': subareaId,
+            },
+            attributes: ['id', 'valor'],
+            include: [
+                {
+                    model: Matricula,
+                    as: 'matricula',
+                    attributes: ['id', 'programacionId'],
+                    include: [
+                        {
+                            model: Programacion,
+                            as: 'programacion',
+                            attributes: ['id', 'periodoId'],
+                            include: [
+                                {
+                                    model: Periodo,
+                                    as: 'periodo',
+                                    attributes: ['id', 'nombre']
+                                },
+                                {
+                                    model: Aula,
+                                    as: 'aula',
+                                    attributes: ['id', 'nombre'],
+                                    include: [
+                                        {
+                                            model: Nivel,
+                                            as: 'nivel',
+                                            attributes: ['id', 'nombre']
+                                        },
+                                        {
+                                            model: Grado,
+                                            as: 'grado',
+                                            attributes: ['id', 'nombre']
+                                        },
+                                        {
+                                            model: Seccion,
+                                            as: 'seccion',
+                                            attributes: ['id', 'nombre']
+                                        }
+                                    ]
+                                },
+                                {
+                                    model: Subarea,
+                                    as: 'subarea',
+                                    attributes: ['id', 'nombre', 'areaId'],
+                                    include: [
+                                        {
+                                            model: Area,
+                                            as: 'area',
+                                            attributes: ['id', 'nombre']
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        });
+
+        res.json({
+            ok: true,
+            notas
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+export const getNotasPeriodoAulaAreaSubareaCiclo = async (req: Request, res: Response) => {
+    const { periodoId, aulaId, areaId, subareaId, cicloId } = req.params;
+    try {
+        const notas = await Nota.findAll({
+            where: {
+                estado: true,
+                '$matricula.programacion.periodo.id$': periodoId,
+                '$matricula.programacion.aula.id$': aulaId,
+                '$matricula.programacion.subarea.area.id$': areaId,
+                '$matricula.programacion.subarea.id$': subareaId,
+                cicloId: cicloId,
+
+            },
+            attributes: ['id', 'valor'],
+            include: [
+                {
+                    model: Ciclo,
+                    as: 'ciclo',
+                    attributes: ['id', 'nombre']
+                },
+                {
+                    model: Matricula,
+                    as: 'matricula',
+                    attributes: ['id', 'programacionId'],
+                    include: [
+                        {
+                            model: Programacion,
+                            as: 'programacion',
+                            attributes: ['id', 'periodoId'],
+                            include: [
+                                {
+                                    model: Periodo,
+                                    as: 'periodo',
+                                    attributes: ['id', 'nombre']
+                                },
+                                {
+                                    model: Aula,
+                                    as: 'aula',
+                                    attributes: ['id', 'nombre'],
+                                    include: [
+                                        {
+                                            model: Nivel,
+                                            as: 'nivel',
+                                            attributes: ['id', 'nombre']
+                                        },
+                                        {
+                                            model: Grado,
+                                            as: 'grado',
+                                            attributes: ['id', 'nombre']
+                                        },
+                                        {
+                                            model: Seccion,
+                                            as: 'seccion',
+                                            attributes: ['id', 'nombre']
+                                        }
+                                    ]
+                                },
+                                {
+                                    model: Subarea,
+                                    as: 'subarea',
+                                    attributes: ['id', 'nombre', 'areaId'],
+                                    include: [
+                                        {
+                                            model: Area,
+                                            as: 'area',
+                                            attributes: ['id', 'nombre']
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        });
+
+        res.json({
+            ok: true,
+            notas
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+export const getNotasPeriodoAulaAreaSubareaCicloAlumno = async (req: Request, res: Response) => {
+    const { periodoId, aulaId, areaId, subareaId, cicloId, alumnoId } = req.params;
+    try {
+        const notas = await Nota.findAll({
+            where: {
+                estado: true,
+                '$matricula.programacion.periodo.id$': periodoId,
+                '$matricula.programacion.aula.id$': aulaId,
+                '$matricula.programacion.subarea.area.id$': areaId,
+                '$matricula.programacion.subarea.id$': subareaId,
+                cicloId: cicloId,
+                matriculaId: alumnoId,
+
+            },
+            attributes: ['id', 'valor'],
+            include: [
+                {
+                    model: Ciclo,
+                    as: 'ciclo',
+                    attributes: ['id', 'nombre']
+                },
+                {
+                    model: Matricula,
+                    as: 'matricula',
+                    attributes: ['id', 'programacionId'],
+                    include: [
+                        {
+                            model: Alumno,
+                            as: 'alumno',
+                            attributes: ['id', 'personaId'],
+                            include: [
+                                {
+                                    model: Persona,
+                                    as: 'persona',
+                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno']
+                                }
+                            ]
+                        },
+                        {
+                            model: Programacion,
+                            as: 'programacion',
+                            attributes: ['id', 'periodoId'],
+                            include: [
+                                {
+                                    model: Periodo,
+                                    as: 'periodo',
+                                    attributes: ['id', 'nombre']
+                                },
+                                {
+                                    model: Aula,
+                                    as: 'aula',
+                                    attributes: ['id', 'nombre'],
+                                    include: [
+                                        {
+                                            model: Nivel,
+                                            as: 'nivel',
+                                            attributes: ['id', 'nombre']
+                                        },
+                                        {
+                                            model: Grado,
+                                            as: 'grado',
+                                            attributes: ['id', 'nombre']
+                                        },
+                                        {
+                                            model: Seccion,
+                                            as: 'seccion',
+                                            attributes: ['id', 'nombre']
+                                        }
+                                    ]
+                                },
+                                {
+                                    model: Subarea,
+                                    as: 'subarea',
+                                    attributes: ['id', 'nombre', 'areaId'],
+                                    include: [
+                                        {
+                                            model: Area,
+                                            as: 'area',
+                                            attributes: ['id', 'nombre']
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        });
+
+        res.json({
+            ok: true,
+            notas
+        });
     } catch (error) {
         console.log(error);
         res.status(500).json({

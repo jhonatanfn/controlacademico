@@ -42,6 +42,7 @@ router.get('/anual/:periodoId/:aulaId/:subareaId', validar_jwt_1.validarJWT, mat
 router.get('/anualapoderado/:periodoId/:aulaId/:subareaId/:apoderadoId', validar_jwt_1.validarJWT, matricula_1.getMatriculasAnualApoderado);
 router.get('/alumno/apoderado/reporte/:apoderadoId', validar_jwt_1.validarJWT, matricula_1.matriculasApoderado);
 router.get('/apoderado/parahorario/:apoderadoId/:periodoId/:aulaId', validar_jwt_1.validarJWT, matricula_1.matriculasApoderadoPeriodoAula);
+router.get('/periodoaula/:periodoId/:aulaId', validar_jwt_1.validarJWT, matricula_1.getMatriculasPeriodoAula);
 router.post('/', [
     validar_jwt_1.validarJWT,
     (0, express_validator_1.check)('alumnoId', 'El alumno es obligatorio').not().isEmpty(),
