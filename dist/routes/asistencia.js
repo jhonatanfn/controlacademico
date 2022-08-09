@@ -21,6 +21,11 @@ router.get('/rango/:periodoId/:aulaId/:subareaId/:fechainicial/:fechafinal', val
 router.get('/rangomatricula/:periodoId/:aulaId/:subareaId/:matriculaId/:fechainicial/:fechafinal', validar_jwt_1.validarJWT, asistencia_1.getAsistenciasRangoMatricula);
 router.get('/obtenerasistenciasapoderado/:periodoId/:aulaId/:subareaId/:fecha/:apoderadoId', validar_jwt_1.validarJWT, asistencia_1.getAsistenciasPeriodoAulaSubareaFechaApoderado);
 router.get('/rangoapoderado/:periodoId/:aulaId/:subareaId/:fechainicial/:fechafinal/:apoderadoId', validar_jwt_1.validarJWT, asistencia_1.getAsistenciasRangoApoderado);
+router.get('/porperiodo/:periodoId', validar_jwt_1.validarJWT, asistencia_1.getAsistenciasPeriodo);
+router.get('/reportedos/porperiodoaula/:periodoId/:aulaId', validar_jwt_1.validarJWT, asistencia_1.getAsistenciasPeriodoAula);
+router.get('/reportetres/porperiodoaulaarea/:periodoId/:aulaId/:areaId', validar_jwt_1.validarJWT, asistencia_1.getAsistenciasPeriodoAulaArea);
+router.get('/porperiodoaulaareasubarea/:periodoId/:aulaId/:areaId/:subareaId', validar_jwt_1.validarJWT, asistencia_1.getAsistenciasPeriodoAulaAreaSubarea);
+router.get('/porperiodoaulaareasubareacicloalumno/:periodoId/:aulaId/:areaId/:subareaId/:alumnoId', validar_jwt_1.validarJWT, asistencia_1.getAsistenciasPeriodoAulaAreaSubareaCicloAlumno);
 router.post('/', [
     validar_jwt_1.validarJWT,
     (0, express_validator_1.check)('fecha', 'El fecha es obligatorio').not().isEmpty(),

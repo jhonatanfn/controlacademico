@@ -133,13 +133,18 @@ const getMenu = (role) => {
                 toggle: 'dropdown-toggle',
                 submenu: [
                     {
-                        titulo: 'Notas por Area',
+                        titulo: 'Notas por Areas',
                         url: 'reportes/notasareatotal',
                         icono: 'bi bi-pin-angle',
                     },
                     {
                         titulo: 'Notas por Periodo',
                         url: 'reportes/anual',
+                        icono: 'bi bi-pin-angle',
+                    },
+                    {
+                        titulo: 'Notas por Evaluaciones',
+                        url: 'reportes/notaseva',
                         icono: 'bi bi-pin-angle',
                     },
                     {
@@ -158,9 +163,14 @@ const getMenu = (role) => {
                         icono: 'bi bi-pin-angle',
                     },
                     {
-                        titulo: 'Asistencias Consolidado',
+                        titulo: 'Asistencias por Rangos',
                         icono: 'bi bi-pin-angle',
                         url: 'reportes/rango',
+                    },
+                    {
+                        titulo: 'Asistencias Consolidado',
+                        icono: 'bi bi-pin-angle',
+                        url: 'reportes/asistenciasconsolidado',
                     }
                 ]
             },
@@ -239,52 +249,72 @@ const getMenu = (role) => {
                 toggle: 'dropdown-toggle',
                 submenu: [
                     {
-                        titulo: 'Notas por Bimestre',
-                        url: 'reportes/notas',
-                        icono: 'bi bi-square',
-                    },
-                    {
-                        titulo: 'Notas por Bimestre y Alumno',
-                        url: 'reportes/notasalumno',
-                        icono: 'bi bi-square',
+                        titulo: 'Notas por Areas',
+                        url: 'reportes/notasareatotal',
+                        icono: 'bi bi-pin-angle',
                     },
                     {
                         titulo: 'Notas por Periodo',
                         url: 'reportes/anual',
-                        icono: 'bi bi-square',
+                        icono: 'bi bi-pin-angle',
                     },
                     {
-                        titulo: 'Notas por Periodo Detallado',
-                        url: 'reportes/notasalumnoanual',
-                        icono: 'bi bi-square',
+                        titulo: 'Notas por Evaluaciones',
+                        url: 'reportes/notaseva',
+                        icono: 'bi bi-pin-angle',
                     },
                     {
-                        titulo: 'Notas por Area',
-                        url: 'reportes/notasareatotal',
-                        icono: 'bi bi-square',
-                    },
-                    {
-                        titulo: 'Notas por Area y Alumno',
-                        url: 'reportes/notasarea',
-                        icono: 'bi bi-square',
+                        titulo: 'Notas Consolidado',
+                        url: 'reportes/notas/consolidado',
+                        icono: 'bi bi-pin-angle',
                     },
                     {
                         titulo: 'Asistencias por Fecha',
                         url: 'reportes/asistencias',
-                        icono: 'bi bi-square',
+                        icono: 'bi bi-pin-angle',
                     },
                     {
                         titulo: 'Asistencias por Alumno',
                         url: 'reportes/asistenciasalumno',
-                        icono: 'bi bi-square',
+                        icono: 'bi bi-pin-angle',
+                    },
+                    {
+                        titulo: 'Asistencias por Rangos',
+                        icono: 'bi bi-pin-angle',
+                        url: 'reportes/rango',
                     },
                     {
                         titulo: 'Asistencias Consolidado',
-                        url: 'reportes/rango',
-                        icono: 'bi bi-square',
+                        icono: 'bi bi-pin-angle',
+                        url: 'reportes/asistenciasconsolidado',
                     }
                 ]
+            },
+            /*
+            {
+              titulo: 'Reportes',
+              url: '',
+              icono: 'bi bi-clipboard-data',
+              toggle: 'dropdown-toggle',
+              submenu: [
+                {
+                  titulo: 'Notas por Bimestre y Alumno',
+                  url: 'reportes/notasalumno',
+                  icono: 'bi bi-square',
+                },
+                {
+                  titulo: 'Notas por Periodo Detallado',
+                  url: 'reportes/notasalumnoanual',
+                  icono: 'bi bi-square',
+                },
+                {
+                  titulo: 'Notas por Area y Alumno',
+                  url: 'reportes/notasarea',
+                  icono: 'bi bi-square',
+                },
+              ]
             }
+          */
         ];
     }
     if (role === 'ALUMNO') {

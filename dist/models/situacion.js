@@ -14,6 +14,10 @@ Situacion.init({
     abreviatura: {
         type: sequelize_1.DataTypes.STRING
     },
+    color: {
+        type: sequelize_1.DataTypes.STRING,
+        defaultValue: 'secondary'
+    },
     estado: {
         type: sequelize_1.DataTypes.BOOLEAN,
         defaultValue: true

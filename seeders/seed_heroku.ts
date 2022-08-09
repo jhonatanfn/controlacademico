@@ -19,9 +19,9 @@ export const roles = [
     { id: 34, nombre: "ALUMNO" },
 ];
 export const situaciones = [
-    { id: 4, nombre: "FALTÓ" },
-    { id: 14, nombre: "ASISTIÓ" },
-    { id: 24, nombre: "JUSTIFICÓ" }
+    { id: 4, nombre: "FALTÓ", color:'danger' },
+    { id: 14, nombre: "ASISTIÓ", color:'success' },
+    { id: 24, nombre: "JUSTIFICÓ", color:'primary' }
 ];
 export const areas = [
     { id: 4, nombre: "MATEMATICA" },
@@ -31,8 +31,7 @@ export const areas = [
     { id: 44, nombre: "CIENCIA Y TECNOLOGIA" }
 ];
 export const tipodocumentos = [
-    { id: 4, nombre: 'DNI' },
-    { id: 14, nombre: 'CEDULA' }
+    { id: 4, nombre: 'DNI' }
 ];
 export const niveles = [
     { id: 4, nombre: 'SECUNDARIA' }

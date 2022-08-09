@@ -13,11 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.busquedaSituaciones = exports.deleteSituacion = exports.putSituacion = exports.postSituacion = exports.getSituacion = exports.getSituaciones = exports.getTodo = void 0;
-const nivel_1 = __importDefault(require("../models/nivel"));
+const situacion_1 = __importDefault(require("../models/situacion"));
 const sequelize_1 = require("sequelize");
 const getTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const situaciones = yield nivel_1.default.findAll({
+        const situaciones = yield situacion_1.default.findAll({
             where: { estado: true }
         });
         res.json({
@@ -36,10 +36,10 @@ exports.getTodo = getTodo;
 const getSituaciones = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const desde = Number(req.query.desde) || 0;
     try {
-        const total = (yield nivel_1.default.findAll({
+        const total = (yield situacion_1.default.findAll({
             where: { estado: true }
         })).length;
-        const situaciones = yield nivel_1.default.findAll({
+        const situaciones = yield situacion_1.default.findAll({
             where: { estado: true },
             order: [
                 [
@@ -67,7 +67,7 @@ exports.getSituaciones = getSituaciones;
 const getSituacion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
-        const situacion = yield nivel_1.default.findByPk(id);
+        const situacion = yield situacion_1.default.findByPk(id);
         if (!situacion) {
             return res.status(400).json({
                 ok: false,
@@ -90,7 +90,7 @@ exports.getSituacion = getSituacion;
 const postSituacion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     try {
-        const situacion = nivel_1.default.build(body);
+        const situacion = situacion_1.default.build(body);
         yield situacion.save();
         res.json({
             ok: true,
@@ -110,7 +110,7 @@ const putSituacion = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     const { id } = req.params;
     const { body } = req;
     try {
-        const situacion = yield nivel_1.default.findByPk(id);
+        const situacion = yield situacion_1.default.findByPk(id);
         if (!situacion) {
             return res.status(400).json({
                 ok: false,
@@ -135,7 +135,7 @@ exports.putSituacion = putSituacion;
 const deleteSituacion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
-        const situacion = yield nivel_1.default.findByPk(id);
+        const situacion = yield situacion_1.default.findByPk(id);
         if (!situacion) {
             return res.status(400).json({
                 ok: false,
@@ -160,7 +160,7 @@ exports.deleteSituacion = deleteSituacion;
 const busquedaSituaciones = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { valor } = req.params;
     try {
-        const data = yield nivel_1.default.findAll({
+        const data = yield situacion_1.default.findAll({
             where: {
                 nombre: {
                     [sequelize_1.Op.like]: `%${valor}%`

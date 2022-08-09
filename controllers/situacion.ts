@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import Situacion from "../models/nivel";
+import Situacion from "../models/situacion";
 import { Op } from 'sequelize';
 
 export const getTodo=  async (req:Request,res:Response)=>{

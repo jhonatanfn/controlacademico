@@ -9,6 +9,10 @@ Situacion.init({
     abreviatura:{
         type: DataTypes.STRING
     },
+    color:{
+        type: DataTypes.STRING,
+        defaultValue: 'secondary'
+    },
     estado:{
         type: DataTypes.BOOLEAN,
         defaultValue: true

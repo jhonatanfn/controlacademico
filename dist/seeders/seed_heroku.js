@@ -22,9 +22,9 @@ exports.roles = [
     { id: 34, nombre: "ALUMNO" },
 ];
 exports.situaciones = [
-    { id: 4, nombre: "FALTÓ" },
-    { id: 14, nombre: "ASISTIÓ" },
-    { id: 24, nombre: "JUSTIFICÓ" }
+    { id: 4, nombre: "FALTÓ", color: 'danger' },
+    { id: 14, nombre: "ASISTIÓ", color: 'success' },
+    { id: 24, nombre: "JUSTIFICÓ", color: 'primary' }
 ];
 exports.areas = [
     { id: 4, nombre: "MATEMATICA" },
@@ -34,8 +34,7 @@ exports.areas = [
     { id: 44, nombre: "CIENCIA Y TECNOLOGIA" }
 ];
 exports.tipodocumentos = [
-    { id: 4, nombre: 'DNI' },
-    { id: 14, nombre: 'CEDULA' }
+    { id: 4, nombre: 'DNI' }
 ];
 exports.niveles = [
     { id: 4, nombre: 'SECUNDARIA' }
