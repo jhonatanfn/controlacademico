@@ -10,7 +10,7 @@ export const getInstitucion= async (req:Request,res:Response)=>{
 
     try {
         const institucion= await Institucion.findByPk(id,{
-            attributes:['id','nombre','direccion','telefono','email','img']
+            attributes:['id','nombre','direccion','telefono','email','img','departamento','provincia','distrito','centropoblado','dre','ugel','tipogestion','generoalumno','formaatencion','paginaweb','turnoatencion']
         });
         
         if(!institucion){

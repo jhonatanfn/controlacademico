@@ -3,11 +3,22 @@ import moment from 'moment';
 export const instituciones = [
     {
         id: 4,
-        nombre: "I.E. N° 14787 VICTOR RAÚL HAYA DE LA TORRE SULLANA",
-        direccion: "Jr. Pisagua 1336, Sullana",
-        telefono: "073-223344",
-        email: "victorraulsullana@gmail.com",
-        img: "victorraulsullana.jpg"
+        nombre: "I.E. N° 14787 VICTOR RAÚL HAYA DE LA TORRE",
+        direccion: "CALLE EDUARDO VASQUEZ 401",
+        telefono: "505701",
+        email: "vicraul2006@hotmail.com",
+        img: "victorraulsullana.jpg",
+        departamento: "PIURA",
+        provincia: "SULLANA",
+        distrito: "SULLANA",
+        centropoblado: "SULLANA",
+        dre: "PIURA",
+        ugel: "SULLANA",
+        tipogestion: "Pública de gestión directa",
+        generoalumno: "Mixto",
+        formaatencion: "Escolarizada",
+        turnoatencion: "Mañana-Tarde",
+        paginaweb: "No tiene"
     }
 
 ];
@@ -19,9 +30,9 @@ export const roles = [
     { id: 34, nombre: "ALUMNO" },
 ];
 export const situaciones = [
-    { id: 4, nombre: "FALTÓ", color:'danger' },
-    { id: 14, nombre: "ASISTIÓ", color:'success' },
-    { id: 24, nombre: "JUSTIFICÓ", color:'primary' }
+    { id: 4, nombre: "FALTÓ", color: 'danger' },
+    { id: 14, nombre: "ASISTIÓ", color: 'success' },
+    { id: 24, nombre: "JUSTIFICÓ", color: 'primary' }
 ];
 export const areas = [
     { id: 4, nombre: "MATEMATICA" },
@@ -47,7 +58,7 @@ export const secciones = [
     { id: 4, nombre: 'UNICA' }
 ];
 export const periodos = [
-    { id: 4, nombre: '2022' }
+    { id: 4, nombre: '2022', fechainicial: "2022-03-01", fechafinal: "2022-12-31" }
 ];
 export const evaluaciones = [
     { id: 4, nombre: 'PRACTICA CALIFICADA', abreviatura: 'PC' },
@@ -75,11 +86,11 @@ export const horas = [
     { id: 94, nombre: "10°", inicio: "2:15 pm", fin: "3:00 pm", tipo: 1 },
 ];
 
-export const rangos=[
-    { id:4, letra: "C", inicio: 0, fin: 10, situacion:"INICIO", color:"ROJO", alias:"danger" },
-    { id:14, letra: "B", inicio: 11, fin: 14, situacion:"PROCESO", color:"AMARILLO", alias:"warning" },
-    { id:24, letra: "A", inicio: 15, fin: 17, situacion:"LOGRADO", color:"AZUL", alias:"primary" },
-    { id:34, letra: "AD", inicio: 18, fin: 20, situacion:"DESTACADO", color:"VERDE", alias:"success" }
+export const rangos = [
+    { id: 4, letra: "C", inicio: 0, fin: 10, situacion: "INICIO", color: "ROJO", alias: "danger" },
+    { id: 14, letra: "B", inicio: 11, fin: 14, situacion: "PROCESO", color: "AMARILLO", alias: "warning" },
+    { id: 24, letra: "A", inicio: 15, fin: 17, situacion: "LOGRADO", color: "AZUL", alias: "primary" },
+    { id: 34, letra: "AD", inicio: 18, fin: 20, situacion: "DESTACADO", color: "VERDE", alias: "success" }
 ];
 
 export const subareas = [

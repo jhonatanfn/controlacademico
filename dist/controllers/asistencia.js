@@ -609,7 +609,7 @@ const getAsistenciasPeriodoAulaSubareaFecha = (req, res) => __awaiter(void 0, vo
                                 {
                                     model: periodo_1.default,
                                     as: 'periodo',
-                                    attributes: ['id', 'nombre']
+                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                                 },
                                 {
                                     model: subarea_1.default,
@@ -722,7 +722,7 @@ const asistenciasPorMatriculaRango = (req, res) => __awaiter(void 0, void 0, voi
                                 {
                                     model: periodo_1.default,
                                     as: 'periodo',
-                                    attributes: ['id', 'nombre']
+                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                                 },
                                 {
                                     model: subarea_1.default,
@@ -840,7 +840,7 @@ const getAsistenciasRango = (req, res) => __awaiter(void 0, void 0, void 0, func
                                 {
                                     model: periodo_1.default,
                                     as: 'periodo',
-                                    attributes: ['id', 'nombre']
+                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                                 },
                                 {
                                     model: subarea_1.default,
@@ -960,7 +960,7 @@ const getAsistenciasRangoMatricula = (req, res) => __awaiter(void 0, void 0, voi
                                 {
                                     model: periodo_1.default,
                                     as: 'periodo',
-                                    attributes: ['id', 'nombre']
+                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                                 },
                                 {
                                     model: subarea_1.default,
@@ -1083,7 +1083,7 @@ const getAsistenciasPeriodoAulaSubareaFechaApoderado = (req, res) => __awaiter(v
                                 {
                                     model: periodo_1.default,
                                     as: 'periodo',
-                                    attributes: ['id', 'nombre']
+                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                                 },
                                 {
                                     model: subarea_1.default,
@@ -1208,7 +1208,7 @@ const getAsistenciasRangoApoderado = (req, res) => __awaiter(void 0, void 0, voi
                                 {
                                     model: periodo_1.default,
                                     as: 'periodo',
-                                    attributes: ['id', 'nombre']
+                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                                 },
                                 {
                                     model: subarea_1.default,
@@ -1275,7 +1275,7 @@ const getAsistenciasPeriodo = (req, res) => __awaiter(void 0, void 0, void 0, fu
                                 {
                                     model: periodo_1.default,
                                     as: 'periodo',
-                                    attributes: ['id', 'nombre']
+                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                                 },
                             ]
                         }
@@ -1487,7 +1487,7 @@ const getAsistenciasPeriodoAulaAreaSubarea = (req, res) => __awaiter(void 0, voi
                                 {
                                     model: periodo_1.default,
                                     as: 'periodo',
-                                    attributes: ['id', 'nombre']
+                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                                 },
                                 {
                                     model: aula_1.default,
@@ -1587,7 +1587,7 @@ const getAsistenciasPeriodoAulaAreaSubareaCicloAlumno = (req, res) => __awaiter(
                                 {
                                     model: periodo_1.default,
                                     as: 'periodo',
-                                    attributes: ['id', 'nombre']
+                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                                 },
                                 {
                                     model: aula_1.default,

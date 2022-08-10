@@ -12,6 +12,14 @@ Periodo.init({
         type: sequelize_1.DataTypes.STRING,
         allowNull: false
     },
+    fechainicial: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false
+    },
+    fechafinal: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false
+    },
     estado: {
         type: sequelize_1.DataTypes.BOOLEAN,
         defaultValue: true

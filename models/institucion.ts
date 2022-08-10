@@ -22,6 +22,39 @@ Institucion.init({
     img:{
         type: DataTypes.STRING,
     },
+    departamento:{
+        type: DataTypes.STRING
+    },
+    provincia:{
+        type: DataTypes.STRING
+    },
+    distrito:{
+        type: DataTypes.STRING
+    },
+    centropoblado:{
+        type: DataTypes.STRING
+    },
+    dre:{
+        type: DataTypes.STRING
+    },
+    ugel:{
+        type: DataTypes.STRING
+    },
+    tipogestion:{
+        type: DataTypes.STRING
+    },
+    generoalumno:{
+        type: DataTypes.STRING
+    },
+    formaatencion:{
+        type: DataTypes.STRING
+    },
+    turnoatencion:{
+        type: DataTypes.STRING
+    },
+    paginaweb:{
+        type: DataTypes.STRING
+    },
     estado:{
         type: DataTypes.BOOLEAN,
         defaultValue: true

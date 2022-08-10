@@ -70,7 +70,7 @@ const getProgramacionesDocente = (req, res) => __awaiter(void 0, void 0, void 0,
                 {
                     model: periodo_1.default,
                     as: 'periodo',
-                    attributes: ['id', 'nombre']
+                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                 },
                 {
                     model: subarea_1.default,
@@ -152,7 +152,7 @@ const getProgramacionesDocentePeriodo = (req, res) => __awaiter(void 0, void 0, 
                 {
                     model: periodo_1.default,
                     as: 'periodo',
-                    attributes: ['id', 'nombre']
+                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                 },
                 {
                     model: subarea_1.default,
@@ -236,7 +236,7 @@ const getProgramaciones = (req, res) => __awaiter(void 0, void 0, void 0, functi
                 {
                     model: periodo_1.default,
                     as: 'periodo',
-                    attributes: ['id', 'nombre']
+                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                 },
                 {
                     model: subarea_1.default,
@@ -314,7 +314,7 @@ const getProgramacion = (req, res) => __awaiter(void 0, void 0, void 0, function
                 {
                     model: periodo_1.default,
                     as: 'periodo',
-                    attributes: ['id', 'nombre']
+                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                 },
                 {
                     model: subarea_1.default,
@@ -695,7 +695,7 @@ const programacionPeriodo = (req, res) => __awaiter(void 0, void 0, void 0, func
                 {
                     model: periodo_1.default,
                     as: 'periodo',
-                    attributes: ['id', 'nombre']
+                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                 },
                 {
                     model: subarea_1.default,
@@ -931,7 +931,7 @@ const programacionPeriodoPaginado = (req, res) => __awaiter(void 0, void 0, void
                 {
                     model: periodo_1.default,
                     as: 'periodo',
-                    attributes: ['id', 'nombre']
+                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                 },
                 {
                     model: subarea_1.default,
@@ -1121,7 +1121,7 @@ const getProgramacionesDocentePeriodoPaginado = (req, res) => __awaiter(void 0, 
                 {
                     model: periodo_1.default,
                     as: 'periodo',
-                    attributes: ['id', 'nombre']
+                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                 },
                 {
                     model: subarea_1.default,

@@ -96,7 +96,7 @@ export const getHorarios = async (req: Request, res: Response) => {
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
                         },
                         {
                             model: Subarea,
@@ -320,7 +320,7 @@ export const busquedaHorarios = async (req: Request, res: Response) => {
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
                         },
                         {
                             model: Subarea,
@@ -379,7 +379,7 @@ export const existeHorario = async (req: Request, res: Response) => {
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
                         }
                     ]
                 },
@@ -594,7 +594,7 @@ export const horariosPeriodoAula = async (req: Request, res: Response) => {
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
                         },
                         {
                             model: Subarea,
@@ -689,7 +689,7 @@ export const horariosPeriodoDocente = async (req: Request, res: Response) => {
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
                         },
                         {
                             model: Subarea,

@@ -17,11 +17,15 @@ router.get('/tieneprogramaciones/:periodoId', validar_jwt_1.validarJWT, periodo_
 router.post('/', [
     validar_jwt_1.validarJWT,
     (0, express_validator_1.check)('nombre', 'El nombre es obligatorio').not().isEmpty(),
+    (0, express_validator_1.check)('fechainicial', 'La fecha inicial es obligatorio').not().isEmpty(),
+    (0, express_validator_1.check)('fechafinal', 'La fecha final es obligatorio').not().isEmpty(),
     validar_campos_1.validarCampos
 ], periodo_1.postPeriodo);
 router.put('/:id', [
     validar_jwt_1.validarJWT,
     (0, express_validator_1.check)('nombre', 'El nombre es obligatorio').not().isEmpty(),
+    (0, express_validator_1.check)('fechainicial', 'La fecha inicial es obligatorio').not().isEmpty(),
+    (0, express_validator_1.check)('fechafinal', 'La fecha final es obligatorio').not().isEmpty(),
     validar_campos_1.validarCampos
 ], periodo_1.putPeriodo);
 router.delete('/:id', validar_jwt_1.validarJWT, periodo_1.deletePeriodo);

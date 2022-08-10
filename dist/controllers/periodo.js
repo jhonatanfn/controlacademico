@@ -38,7 +38,7 @@ exports.getTodo = getTodo;
 const getPeriodos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const periodos = yield periodo_1.default.findAll({
-            attributes: ['id', 'nombre'],
+            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
             where: { estado: true }
         });
         res.json({

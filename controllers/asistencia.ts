@@ -606,7 +606,7 @@ export const getAsistenciasPeriodoAulaSubareaFecha = async (req: Request, res: R
                                 {
                                     model: Periodo,
                                     as: 'periodo',
-                                    attributes: ['id', 'nombre']
+                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                                 },
                                 {
                                     model: Subarea,
@@ -723,7 +723,7 @@ export const asistenciasPorMatriculaRango = async (req: Request, res: Response) 
                                 {
                                     model: Periodo,
                                     as: 'periodo',
-                                    attributes: ['id', 'nombre']
+                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                                 },
                                 {
                                     model: Subarea,
@@ -766,7 +766,7 @@ export const asistenciasPorMatriculaRango = async (req: Request, res: Response) 
 }
 export const getAsistenciasRango = async (req: Request, res: Response) => {
 
-    const { periodoId, aulaId, subareaId, fechainicial,fechafinal } = req.params;
+    const { periodoId, aulaId, subareaId, fechainicial, fechafinal } = req.params;
     try {
 
         const asistencias = await Asistencia.findAll({
@@ -846,7 +846,7 @@ export const getAsistenciasRango = async (req: Request, res: Response) => {
                                 {
                                     model: Periodo,
                                     as: 'periodo',
-                                    attributes: ['id', 'nombre']
+                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                                 },
                                 {
                                     model: Subarea,
@@ -889,7 +889,7 @@ export const getAsistenciasRango = async (req: Request, res: Response) => {
 }
 export const getAsistenciasRangoMatricula = async (req: Request, res: Response) => {
 
-    const { periodoId, aulaId, subareaId, matriculaId, fechainicial,fechafinal } = req.params;
+    const { periodoId, aulaId, subareaId, matriculaId, fechainicial, fechafinal } = req.params;
     try {
 
         const asistencias = await Asistencia.findAll({
@@ -970,7 +970,7 @@ export const getAsistenciasRangoMatricula = async (req: Request, res: Response) 
                                 {
                                     model: Periodo,
                                     as: 'periodo',
-                                    attributes: ['id', 'nombre']
+                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                                 },
                                 {
                                     model: Subarea,
@@ -1097,7 +1097,7 @@ export const getAsistenciasPeriodoAulaSubareaFechaApoderado = async (req: Reques
                                 {
                                     model: Periodo,
                                     as: 'periodo',
-                                    attributes: ['id', 'nombre']
+                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                                 },
                                 {
                                     model: Subarea,
@@ -1140,7 +1140,7 @@ export const getAsistenciasPeriodoAulaSubareaFechaApoderado = async (req: Reques
 }
 export const getAsistenciasRangoApoderado = async (req: Request, res: Response) => {
 
-    const { periodoId, aulaId, subareaId, fechainicial,fechafinal, apoderadoId } = req.params;
+    const { periodoId, aulaId, subareaId, fechainicial, fechafinal, apoderadoId } = req.params;
     try {
 
         const asistencias = await Asistencia.findAll({
@@ -1226,7 +1226,7 @@ export const getAsistenciasRangoApoderado = async (req: Request, res: Response) 
                                 {
                                     model: Periodo,
                                     as: 'periodo',
-                                    attributes: ['id', 'nombre']
+                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                                 },
                                 {
                                     model: Subarea,
@@ -1267,9 +1267,6 @@ export const getAsistenciasRangoApoderado = async (req: Request, res: Response) 
     }
 
 }
-
-
-
 export const getAsistenciasPeriodo = async (req: Request, res: Response) => {
     const { periodoId } = req.params;
     try {
@@ -1278,12 +1275,12 @@ export const getAsistenciasPeriodo = async (req: Request, res: Response) => {
                 estado: true,
                 '$matricula.programacion.periodo.id$': periodoId,
             },
-            attributes: ['id', 'fecha','hora'],
+            attributes: ['id', 'fecha', 'hora'],
             include: [
                 {
                     model: Situacion,
                     as: 'situacion',
-                    attributes: ['id','nombre','abreviatura','color']
+                    attributes: ['id', 'nombre', 'abreviatura', 'color']
                 },
                 {
                     model: Matricula,
@@ -1298,7 +1295,7 @@ export const getAsistenciasPeriodo = async (req: Request, res: Response) => {
                                 {
                                     model: Periodo,
                                     as: 'periodo',
-                                    attributes: ['id', 'nombre']
+                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                                 },
                             ]
                         }
@@ -1328,12 +1325,12 @@ export const getAsistenciasPeriodoAula = async (req: Request, res: Response) => 
                 '$matricula.programacion.periodo.id$': periodoId,
                 '$matricula.programacion.aula.id$': aulaId,
             },
-            attributes: ['id', 'fecha','hora'],
+            attributes: ['id', 'fecha', 'hora'],
             include: [
                 {
                     model: Situacion,
                     as: 'situacion',
-                    attributes: ['id','nombre','abreviatura','color']
+                    attributes: ['id', 'nombre', 'abreviatura', 'color']
                 },
                 {
                     model: Matricula,
@@ -1401,12 +1398,12 @@ export const getAsistenciasPeriodoAulaArea = async (req: Request, res: Response)
                 '$matricula.programacion.aula.id$': aulaId,
                 '$matricula.programacion.subarea.area.id$': areaId,
             },
-            attributes: ['id', 'fecha','hora'],
+            attributes: ['id', 'fecha', 'hora'],
             include: [
                 {
                     model: Situacion,
                     as: 'situacion',
-                    attributes: ['id','nombre','abreviatura','color']
+                    attributes: ['id', 'nombre', 'abreviatura', 'color']
                 },
                 {
                     model: Matricula,
@@ -1487,12 +1484,12 @@ export const getAsistenciasPeriodoAulaAreaSubarea = async (req: Request, res: Re
                 '$matricula.programacion.subarea.area.id$': areaId,
                 '$matricula.programacion.subarea.id$': subareaId,
             },
-            attributes: ['id', 'fecha','hora'],
+            attributes: ['id', 'fecha', 'hora'],
             include: [
                 {
                     model: Situacion,
                     as: 'situacion',
-                    attributes: ['id','nombre','abreviatura','color']
+                    attributes: ['id', 'nombre', 'abreviatura', 'color']
                 },
                 {
                     model: Matricula,
@@ -1507,7 +1504,7 @@ export const getAsistenciasPeriodoAulaAreaSubarea = async (req: Request, res: Re
                                 {
                                     model: Periodo,
                                     as: 'periodo',
-                                    attributes: ['id', 'nombre']
+                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                                 },
                                 {
                                     model: Aula,
@@ -1574,12 +1571,12 @@ export const getAsistenciasPeriodoAulaAreaSubareaCicloAlumno = async (req: Reque
                 '$matricula.programacion.subarea.id$': subareaId,
                 matriculaId: alumnoId,
             },
-            attributes: ['id', 'fecha','hora'],
+            attributes: ['id', 'fecha', 'hora'],
             include: [
                 {
                     model: Situacion,
                     as: 'situacion',
-                    attributes: ['id','nombre','abreviatura','color']
+                    attributes: ['id', 'nombre', 'abreviatura', 'color']
                 },
                 {
                     model: Matricula,
@@ -1606,7 +1603,7 @@ export const getAsistenciasPeriodoAulaAreaSubareaCicloAlumno = async (req: Reque
                                 {
                                     model: Periodo,
                                     as: 'periodo',
-                                    attributes: ['id', 'nombre']
+                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                                 },
                                 {
                                     model: Aula,

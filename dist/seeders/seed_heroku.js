@@ -8,11 +8,22 @@ const moment_1 = __importDefault(require("moment"));
 exports.instituciones = [
     {
         id: 4,
-        nombre: "I.E. N° 14787 VICTOR RAÚL HAYA DE LA TORRE SULLANA",
-        direccion: "Jr. Pisagua 1336, Sullana",
-        telefono: "073-223344",
-        email: "victorraulsullana@gmail.com",
-        img: "victorraulsullana.jpg"
+        nombre: "I.E. N° 14787 VICTOR RAÚL HAYA DE LA TORRE",
+        direccion: "CALLE EDUARDO VASQUEZ 401",
+        telefono: "505701",
+        email: "vicraul2006@hotmail.com",
+        img: "victorraulsullana.jpg",
+        departamento: "PIURA",
+        provincia: "SULLANA",
+        distrito: "SULLANA",
+        centropoblado: "SULLANA",
+        dre: "PIURA",
+        ugel: "SULLANA",
+        tipogestion: "Pública de gestión directa",
+        generoalumno: "Mixto",
+        formaatencion: "Escolarizada",
+        turnoatencion: "Mañana-Tarde",
+        paginaweb: "No tiene"
     }
 ];
 exports.roles = [
@@ -50,7 +61,7 @@ exports.secciones = [
     { id: 4, nombre: 'UNICA' }
 ];
 exports.periodos = [
-    { id: 4, nombre: '2022' }
+    { id: 4, nombre: '2022', fechainicial: "2022-03-01", fechafinal: "2022-12-31" }
 ];
 exports.evaluaciones = [
     { id: 4, nombre: 'PRACTICA CALIFICADA', abreviatura: 'PC' },

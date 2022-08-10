@@ -27,6 +27,39 @@ Institucion.init({
     img: {
         type: sequelize_1.DataTypes.STRING,
     },
+    departamento: {
+        type: sequelize_1.DataTypes.STRING
+    },
+    provincia: {
+        type: sequelize_1.DataTypes.STRING
+    },
+    distrito: {
+        type: sequelize_1.DataTypes.STRING
+    },
+    centropoblado: {
+        type: sequelize_1.DataTypes.STRING
+    },
+    dre: {
+        type: sequelize_1.DataTypes.STRING
+    },
+    ugel: {
+        type: sequelize_1.DataTypes.STRING
+    },
+    tipogestion: {
+        type: sequelize_1.DataTypes.STRING
+    },
+    generoalumno: {
+        type: sequelize_1.DataTypes.STRING
+    },
+    formaatencion: {
+        type: sequelize_1.DataTypes.STRING
+    },
+    turnoatencion: {
+        type: sequelize_1.DataTypes.STRING
+    },
+    paginaweb: {
+        type: sequelize_1.DataTypes.STRING
+    },
     estado: {
         type: sequelize_1.DataTypes.BOOLEAN,
         defaultValue: true

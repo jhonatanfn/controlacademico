@@ -109,7 +109,7 @@ const getHorarios = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                         {
                             model: periodo_1.default,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
                         {
                             model: subarea_1.default,
@@ -338,7 +338,7 @@ const busquedaHorarios = (req, res) => __awaiter(void 0, void 0, void 0, functio
                         {
                             model: periodo_1.default,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
                         {
                             model: subarea_1.default,
@@ -396,7 +396,7 @@ const existeHorario = (req, res) => __awaiter(void 0, void 0, void 0, function* 
                         {
                             model: periodo_1.default,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         }
                     ]
                 },
@@ -601,7 +601,7 @@ const horariosPeriodoAula = (req, res) => __awaiter(void 0, void 0, void 0, func
                         {
                             model: periodo_1.default,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
                         {
                             model: subarea_1.default,
@@ -696,7 +696,7 @@ const horariosPeriodoDocente = (req, res) => __awaiter(void 0, void 0, void 0, f
                         {
                             model: periodo_1.default,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
                         {
                             model: subarea_1.default,

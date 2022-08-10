@@ -21,7 +21,7 @@ const getInstitucion = (req, res) => __awaiter(void 0, void 0, void 0, function*
     const { id } = req.params;
     try {
         const institucion = yield institucion_1.default.findByPk(id, {
-            attributes: ['id', 'nombre', 'direccion', 'telefono', 'email', 'img']
+            attributes: ['id', 'nombre', 'direccion', 'telefono', 'email', 'img', 'departamento', 'provincia', 'distrito', 'centropoblado', 'dre', 'ugel', 'tipogestion', 'generoalumno', 'formaatencion', 'paginaweb', 'turnoatencion']
         });
         if (!institucion) {
             return res.status(400).json({

@@ -60,7 +60,7 @@ export const getProgramacionesDocente = async (req: Request, res: Response) => {
                 {
                     model: Periodo,
                     as: 'periodo',
-                    attributes: ['id', 'nombre']
+                    attributes: ['id', 'nombre','fechainicial','fechafinal'],
                 },
                 {
                     model: Subarea,
@@ -143,7 +143,7 @@ export const getProgramacionesDocentePeriodo = async (req: Request, res: Respons
                 {
                     model: Periodo,
                     as: 'periodo',
-                    attributes: ['id', 'nombre']
+                    attributes: ['id', 'nombre','fechainicial','fechafinal'],
                 },
                 {
                     model: Subarea,
@@ -229,7 +229,7 @@ export const getProgramaciones = async (req: Request, res: Response) => {
                 {
                     model: Periodo,
                     as: 'periodo',
-                    attributes: ['id', 'nombre']
+                    attributes: ['id', 'nombre','fechainicial','fechafinal'],
                 },
                 {
                     model: Subarea,
@@ -306,7 +306,7 @@ export const getProgramacion = async (req: Request, res: Response) => {
                 {
                     model: Periodo,
                     as: 'periodo',
-                    attributes: ['id', 'nombre']
+                    attributes: ['id', 'nombre','fechainicial','fechafinal'],
                 },
                 {
                     model: Subarea,
@@ -701,7 +701,7 @@ export const programacionPeriodo = async (req: Request, res: Response) => {
                 {
                     model: Periodo,
                     as: 'periodo',
-                    attributes: ['id', 'nombre']
+                    attributes: ['id', 'nombre','fechainicial','fechafinal'],
                 },
                 {
                     model: Subarea,
@@ -940,7 +940,7 @@ export const programacionPeriodoPaginado = async (req: Request, res: Response) =
                 {
                     model: Periodo,
                     as: 'periodo',
-                    attributes: ['id', 'nombre']
+                    attributes: ['id', 'nombre','fechainicial','fechafinal'],
                 },
                 {
                     model: Subarea,
@@ -1136,7 +1136,7 @@ export const getProgramacionesDocentePeriodoPaginado = async (req: Request, res:
                 {
                     model: Periodo,
                     as: 'periodo',
-                    attributes: ['id', 'nombre']
+                    attributes: ['id', 'nombre','fechainicial','fechafinal'],
                 },
                 {
                     model: Subarea,

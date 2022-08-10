@@ -28,7 +28,7 @@ export const getPeriodos = async (req: Request, res: Response) => {
 
     try {
         const periodos = await Periodo.findAll({
-            attributes: ['id', 'nombre'],
+            attributes: ['id', 'nombre','fechainicial','fechafinal'],
             where: { estado: true }
         });
         res.json({

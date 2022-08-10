@@ -1340,7 +1340,7 @@ const getMatriculasPeriodoAulaSubareaCiclo = (req, res) => __awaiter(void 0, voi
                         {
                             model: periodo_1.default,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
                         {
                             model: subarea_1.default,
@@ -1508,7 +1508,7 @@ const busquedaMatriculasPorAlumnoApoderado = (req, res) => __awaiter(void 0, voi
                         {
                             model: periodo_1.default,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
                         {
                             model: subarea_1.default,
@@ -1656,7 +1656,7 @@ const busquedaMatriculasPorAlumno = (req, res) => __awaiter(void 0, void 0, void
                         {
                             model: periodo_1.default,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
                         {
                             model: subarea_1.default,
@@ -1758,7 +1758,7 @@ const getMatriculasAnual = (req, res) => __awaiter(void 0, void 0, void 0, funct
                         {
                             model: periodo_1.default,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
                         {
                             model: subarea_1.default,
@@ -1956,7 +1956,7 @@ const getMatriculasPeriodoAulaSubarea = (req, res) => __awaiter(void 0, void 0, 
                         {
                             model: periodo_1.default,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
                         {
                             model: subarea_1.default,
@@ -2064,7 +2064,7 @@ const getMatriculaCiclo = (req, res) => __awaiter(void 0, void 0, void 0, functi
                         {
                             model: periodo_1.default,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
                         {
                             model: subarea_1.default,
@@ -2298,7 +2298,7 @@ const getMatriculasPeriodoAulaSubareaCicloApoderado = (req, res) => __awaiter(vo
                         {
                             model: periodo_1.default,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
                         {
                             model: subarea_1.default,
@@ -2422,7 +2422,7 @@ const getMatriculasPeriodoAulaSubareaaApoderado = (req, res) => __awaiter(void 0
                         {
                             model: periodo_1.default,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
                         {
                             model: subarea_1.default,
@@ -2548,7 +2548,7 @@ const getMatriculasAnualApoderado = (req, res) => __awaiter(void 0, void 0, void
                         {
                             model: periodo_1.default,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
                         {
                             model: subarea_1.default,
@@ -2897,7 +2897,7 @@ const busquedaMatriculasPorAlumnoApoderadoPeriodo = (req, res) => __awaiter(void
                         {
                             model: periodo_1.default,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
                         {
                             model: subarea_1.default,
@@ -3163,7 +3163,7 @@ const busquedaMatriculasPorAlumnoPeriodo = (req, res) => __awaiter(void 0, void 
                         {
                             model: periodo_1.default,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
                         {
                             model: subarea_1.default,
@@ -3349,7 +3349,7 @@ const getMatriculaAnual = (req, res) => __awaiter(void 0, void 0, void 0, functi
                         {
                             model: periodo_1.default,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
                         {
                             model: subarea_1.default,
@@ -3557,7 +3557,7 @@ const getMatriculasPeriodoAulaArea = (req, res) => __awaiter(void 0, void 0, voi
                         {
                             model: periodo_1.default,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
                         {
                             model: subarea_1.default,
@@ -3671,7 +3671,7 @@ const getMatriculasPeriodoAulaAreaApoderado = (req, res) => __awaiter(void 0, vo
                         {
                             model: periodo_1.default,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
                         {
                             model: subarea_1.default,
@@ -3759,7 +3759,7 @@ const getMatriculasPeriodoAula = (req, res) => __awaiter(void 0, void 0, void 0,
                         {
                             model: periodo_1.default,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         }
                     ]
                 }

@@ -1367,7 +1367,7 @@ export const getMatriculasPeriodoAulaSubareaCiclo = async (req: Request, res: Re
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
                         },
                         {
                             model: Subarea,
@@ -1537,7 +1537,7 @@ export const busquedaMatriculasPorAlumnoApoderado = async (req: Request, res: Re
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
                         },
                         {
                             model: Subarea,
@@ -1690,7 +1690,7 @@ export const busquedaMatriculasPorAlumno = async (req: Request, res: Response) =
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
                         },
                         {
                             model: Subarea,
@@ -1796,7 +1796,7 @@ export const getMatriculasAnual = async (req: Request, res: Response) => {
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
                         },
                         {
                             model: Subarea,
@@ -1999,7 +1999,7 @@ export const getMatriculasPeriodoAulaSubarea = async (req: Request, res: Respons
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
                         },
                         {
                             model: Subarea,
@@ -2110,7 +2110,7 @@ export const getMatriculaCiclo = async (req: Request, res: Response) => {
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
                         },
                         {
                             model: Subarea,
@@ -2346,7 +2346,7 @@ export const getMatriculasPeriodoAulaSubareaCicloApoderado = async (req: Request
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
                         },
                         {
                             model: Subarea,
@@ -2471,7 +2471,7 @@ export const getMatriculasPeriodoAulaSubareaaApoderado = async (req: Request, re
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
                         },
                         {
                             model: Subarea,
@@ -2596,7 +2596,7 @@ export const getMatriculasAnualApoderado = async (req: Request, res: Response) =
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
                         },
                         {
                             model: Subarea,
@@ -2951,7 +2951,7 @@ export const busquedaMatriculasPorAlumnoApoderadoPeriodo = async (req: Request, 
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
                         },
                         {
                             model: Subarea,
@@ -3223,7 +3223,7 @@ export const busquedaMatriculasPorAlumnoPeriodo = async (req: Request, res: Resp
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
                         },
                         {
                             model: Subarea,
@@ -3415,7 +3415,7 @@ export const getMatriculaAnual = async (req: Request, res: Response) => {
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
                         },
                         {
                             model: Subarea,
@@ -3627,7 +3627,7 @@ export const getMatriculasPeriodoAulaArea = async (req: Request, res: Response) 
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
                         },
                         {
                             model: Subarea,
@@ -3742,7 +3742,7 @@ export const getMatriculasPeriodoAulaAreaApoderado = async (req: Request, res: R
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
                         },
                         {
                             model: Subarea,
@@ -3828,7 +3828,7 @@ export const getMatriculasPeriodoAula= async (req: Request, res: Response)=>{
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre']
+                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
                         }
                     ]
                 }
