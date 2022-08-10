@@ -22,6 +22,7 @@ router.get('/reportetres/porperiodoaulaarea/:periodoId/:aulaId/:areaId', validar
 router.get('/porperiodoaulaareasubarea/:periodoId/:aulaId/:areaId/:subareaId', validar_jwt_1.validarJWT, nota_1.getNotasPeriodoAulaAreaSubarea);
 router.get('/porperiodoaulaareasubareaciclo/:periodoId/:aulaId/:areaId/:subareaId/:cicloId', validar_jwt_1.validarJWT, nota_1.getNotasPeriodoAulaAreaSubareaCiclo);
 router.get('/porperiodoaulaareasubareacicloalumno/:periodoId/:aulaId/:areaId/:subareaId/:cicloId/:alumnoId', validar_jwt_1.validarJWT, nota_1.getNotasPeriodoAulaAreaSubareaCicloAlumno);
+router.get('/parahoynotas/periodofecha/:periodoId/:fecha', validar_jwt_1.validarJWT, nota_1.getNotasHoy);
 router.post('/', [
     validar_jwt_1.validarJWT,
     (0, express_validator_1.check)('matriculaId', 'La Matricula es obligatoria').not().isEmpty(),

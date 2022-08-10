@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNotasPeriodoAulaAreaSubareaCicloAlumno = exports.getNotasPeriodoAulaAreaSubareaCiclo = exports.getNotasPeriodoAulaAreaSubarea = exports.getNotasPeriodoAulaArea = exports.getNotasPeriodoAula = exports.getNotasPeriodo = exports.getNotasArea = exports.getNotasMatriculaCicloEvaluacion = exports.getNotasMatricula = exports.getNotasProgramacionFechaEvaluacionCiclo = exports.deleteNota = exports.putNota = exports.postNota = exports.getNota = exports.getNotas = exports.busquedaNotas = void 0;
+exports.getNotasHoy = exports.getNotasPeriodoAulaAreaSubareaCicloAlumno = exports.getNotasPeriodoAulaAreaSubareaCiclo = exports.getNotasPeriodoAulaAreaSubarea = exports.getNotasPeriodoAulaArea = exports.getNotasPeriodoAula = exports.getNotasPeriodo = exports.getNotasArea = exports.getNotasMatriculaCicloEvaluacion = exports.getNotasMatricula = exports.getNotasProgramacionFechaEvaluacionCiclo = exports.deleteNota = exports.putNota = exports.postNota = exports.getNota = exports.getNotas = exports.busquedaNotas = void 0;
 const alumno_1 = __importDefault(require("../models/alumno"));
 const persona_1 = __importDefault(require("../models/persona"));
 const sequelize_1 = require("sequelize");
@@ -1204,4 +1204,50 @@ const getNotasPeriodoAulaAreaSubareaCicloAlumno = (req, res) => __awaiter(void 0
     }
 });
 exports.getNotasPeriodoAulaAreaSubareaCicloAlumno = getNotasPeriodoAulaAreaSubareaCicloAlumno;
+const getNotasHoy = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { periodoId, fecha } = req.params;
+    try {
+        const notas = yield nota_1.default.findAll({
+            where: {
+                estado: true,
+                '$matricula.programacion.periodo.id$': periodoId,
+                fecha: fecha
+            },
+            attributes: ['id', 'valor'],
+            include: [
+                {
+                    model: matricula_1.default,
+                    as: 'matricula',
+                    attributes: ['id', 'programacionId'],
+                    include: [
+                        {
+                            model: programacion_1.default,
+                            as: 'programacion',
+                            attributes: ['id', 'periodoId'],
+                            include: [
+                                {
+                                    model: periodo_1.default,
+                                    as: 'periodo',
+                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal']
+                                },
+                            ]
+                        }
+                    ]
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            notas
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.getNotasHoy = getNotasHoy;
 //# sourceMappingURL=nota.js.map

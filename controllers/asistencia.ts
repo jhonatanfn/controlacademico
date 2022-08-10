@@ -1658,3 +1658,55 @@ export const getAsistenciasPeriodoAulaAreaSubareaCicloAlumno = async (req: Reque
         });
     }
 }
+
+
+export const getAsistenciasHoy = async (req: Request, res: Response) => {
+    const { periodoId, fecha } = req.params;
+    try {
+        const asistencias = await Asistencia.findAll({
+            where: {
+                estado: true,
+                '$matricula.programacion.periodo.id$': periodoId,
+                fecha: fecha
+            },
+            attributes: ['id', 'fecha'],
+            include: [
+                {
+                    model: Situacion,
+                    as: 'situacion',
+                    attributes: ['id', 'nombre', 'abreviatura']
+                },
+                {
+                    model: Matricula,
+                    as: 'matricula',
+                    attributes: ['id', 'programacionId'],
+                    include: [
+                        {
+                            model: Programacion,
+                            as: 'programacion',
+                            attributes: ['id', 'periodoId'],
+                            include: [
+                                {
+                                    model: Periodo,
+                                    as: 'periodo',
+                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal']
+                                },
+                            ]
+                        }
+
+                    ]
+                },
+            ]
+        });
+        res.json({
+            ok: true,
+            asistencias
+        });
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+
+}

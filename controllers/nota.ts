@@ -1206,3 +1206,49 @@ export const getNotasPeriodoAulaAreaSubareaCicloAlumno = async (req: Request, re
         });
     }
 }
+
+export const getNotasHoy = async (req: Request, res: Response) => {
+    const { periodoId, fecha } = req.params;
+    try {
+        const notas = await Nota.findAll({
+            where: {
+                estado: true,
+                '$matricula.programacion.periodo.id$': periodoId,
+                fecha: fecha
+            },
+            attributes: ['id', 'valor'],
+            include: [
+                {
+                    model: Matricula,
+                    as: 'matricula',
+                    attributes: ['id', 'programacionId'],
+                    include: [
+                        {
+                            model: Programacion,
+                            as: 'programacion',
+                            attributes: ['id', 'periodoId'],
+                            include: [
+                                {
+                                    model: Periodo,
+                                    as: 'periodo',
+                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal']
+                                },
+                            ]
+                        }
+                    ]
+                }
+            ]
+        });
+
+        res.json({
+            ok: true,
+            notas
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}

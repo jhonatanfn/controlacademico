@@ -5,6 +5,7 @@ import { Router } from 'express';
 import { check } from 'express-validator';
 import { asistenciasPorMatricula, asistenciasPorMatriculaRango, deleteAsistencia, existeAsistenciaProgramacionFecha, 
     getAsistencia, getAsistencias, 
+    getAsistenciasHoy, 
     getAsistenciasPeriodo, 
     getAsistenciasPeriodoAula, 
     getAsistenciasPeriodoAulaArea, 
@@ -48,6 +49,8 @@ router.get('/porperiodoaulaareasubarea/:periodoId/:aulaId/:areaId/:subareaId', v
 getAsistenciasPeriodoAulaAreaSubarea);
 router.get('/porperiodoaulaareasubareacicloalumno/:periodoId/:aulaId/:areaId/:subareaId/:alumnoId', validarJWT, 
 getAsistenciasPeriodoAulaAreaSubareaCicloAlumno);
+
+router.get('/parahoyasistencias/periodofecha/:periodoId/:fecha', validarJWT, getAsistenciasHoy);
 
 router.post('/', [
     validarJWT,

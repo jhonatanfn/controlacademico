@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAsistenciasPeriodoAulaAreaSubareaCicloAlumno = exports.getAsistenciasPeriodoAulaAreaSubarea = exports.getAsistenciasPeriodoAulaArea = exports.getAsistenciasPeriodoAula = exports.getAsistenciasPeriodo = exports.getAsistenciasRangoApoderado = exports.getAsistenciasPeriodoAulaSubareaFechaApoderado = exports.getAsistenciasRangoMatricula = exports.getAsistenciasRango = exports.asistenciasPorMatriculaRango = exports.getAsistenciasPeriodoAulaSubareaFecha = exports.existeAsistenciaProgramacionFecha = exports.asistenciasPorMatricula = exports.getAsistenciasProgramacionFecha = exports.deleteAsistencia = exports.putAsistencia = exports.postAsistencia = exports.getAsistencia = exports.getAsistencias = exports.getTodo = void 0;
+exports.getAsistenciasHoy = exports.getAsistenciasPeriodoAulaAreaSubareaCicloAlumno = exports.getAsistenciasPeriodoAulaAreaSubarea = exports.getAsistenciasPeriodoAulaArea = exports.getAsistenciasPeriodoAula = exports.getAsistenciasPeriodo = exports.getAsistenciasRangoApoderado = exports.getAsistenciasPeriodoAulaSubareaFechaApoderado = exports.getAsistenciasRangoMatricula = exports.getAsistenciasRango = exports.asistenciasPorMatriculaRango = exports.getAsistenciasPeriodoAulaSubareaFecha = exports.existeAsistenciaProgramacionFecha = exports.asistenciasPorMatricula = exports.getAsistenciasProgramacionFecha = exports.deleteAsistencia = exports.putAsistencia = exports.postAsistencia = exports.getAsistencia = exports.getAsistencias = exports.getTodo = void 0;
 const alumno_1 = __importDefault(require("../models/alumno"));
 const sequelize_1 = require("sequelize");
 const area_1 = __importDefault(require("../models/area"));
@@ -1643,4 +1643,54 @@ const getAsistenciasPeriodoAulaAreaSubareaCicloAlumno = (req, res) => __awaiter(
     }
 });
 exports.getAsistenciasPeriodoAulaAreaSubareaCicloAlumno = getAsistenciasPeriodoAulaAreaSubareaCicloAlumno;
+const getAsistenciasHoy = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { periodoId, fecha } = req.params;
+    try {
+        const asistencias = yield asistencia_1.default.findAll({
+            where: {
+                estado: true,
+                '$matricula.programacion.periodo.id$': periodoId,
+                fecha: fecha
+            },
+            attributes: ['id', 'fecha'],
+            include: [
+                {
+                    model: situacion_1.default,
+                    as: 'situacion',
+                    attributes: ['id', 'nombre', 'abreviatura']
+                },
+                {
+                    model: matricula_1.default,
+                    as: 'matricula',
+                    attributes: ['id', 'programacionId'],
+                    include: [
+                        {
+                            model: programacion_1.default,
+                            as: 'programacion',
+                            attributes: ['id', 'periodoId'],
+                            include: [
+                                {
+                                    model: periodo_1.default,
+                                    as: 'periodo',
+                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal']
+                                },
+                            ]
+                        }
+                    ]
+                },
+            ]
+        });
+        res.json({
+            ok: true,
+            asistencias
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.getAsistenciasHoy = getAsistenciasHoy;
 //# sourceMappingURL=asistencia.js.map

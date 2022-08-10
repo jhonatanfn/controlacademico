@@ -26,6 +26,7 @@ router.get('/reportedos/porperiodoaula/:periodoId/:aulaId', validar_jwt_1.valida
 router.get('/reportetres/porperiodoaulaarea/:periodoId/:aulaId/:areaId', validar_jwt_1.validarJWT, asistencia_1.getAsistenciasPeriodoAulaArea);
 router.get('/porperiodoaulaareasubarea/:periodoId/:aulaId/:areaId/:subareaId', validar_jwt_1.validarJWT, asistencia_1.getAsistenciasPeriodoAulaAreaSubarea);
 router.get('/porperiodoaulaareasubareacicloalumno/:periodoId/:aulaId/:areaId/:subareaId/:alumnoId', validar_jwt_1.validarJWT, asistencia_1.getAsistenciasPeriodoAulaAreaSubareaCicloAlumno);
+router.get('/parahoyasistencias/periodofecha/:periodoId/:fecha', validar_jwt_1.validarJWT, asistencia_1.getAsistenciasHoy);
 router.post('/', [
     validar_jwt_1.validarJWT,
     (0, express_validator_1.check)('fecha', 'El fecha es obligatorio').not().isEmpty(),

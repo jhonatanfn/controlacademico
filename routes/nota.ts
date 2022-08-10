@@ -5,6 +5,7 @@ import { Router } from 'express';
 import { check  } from 'express-validator';
 import { busquedaNotas, deleteNota, getNota, getNotas,
     getNotasArea,
+    getNotasHoy,
 getNotasMatricula,getNotasMatriculaCicloEvaluacion,getNotasPeriodo,getNotasPeriodoAula,getNotasPeriodoAulaArea,getNotasPeriodoAulaAreaSubarea,getNotasPeriodoAulaAreaSubareaCiclo,getNotasPeriodoAulaAreaSubareaCicloAlumno,getNotasProgramacionFechaEvaluacionCiclo, 
 postNota, putNota } from '../controllers/nota';
 import { validarCampos } from '../middlewares/validar-campos';
@@ -31,6 +32,7 @@ getNotasPeriodoAulaAreaSubareaCiclo);
 router.get('/porperiodoaulaareasubareacicloalumno/:periodoId/:aulaId/:areaId/:subareaId/:cicloId/:alumnoId', validarJWT, 
 getNotasPeriodoAulaAreaSubareaCicloAlumno);
 
+router.get('/parahoynotas/periodofecha/:periodoId/:fecha', validarJWT, getNotasHoy);
 
 router.post('/',[
     validarJWT,
