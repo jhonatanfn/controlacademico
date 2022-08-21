@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.busquedaUsuariosPorRol = exports.habilitarDesabilitarUsuario = exports.emailRepetido = exports.busquedaUsuarios = exports.deleteUsuario = exports.actualizarPassword = exports.putUsuario = exports.postUsuario = exports.getUsuarioAreas = exports.getUsuario = exports.getUsuarios = exports.getUsuariosPorRol = exports.getUsuariosTodos = void 0;
+exports.obtenerUsuarioEmail = exports.busquedaUsuariosPorRol = exports.habilitarDesabilitarUsuario = exports.emailRepetido = exports.busquedaUsuarios = exports.deleteUsuario = exports.actualizarPassword = exports.putUsuario = exports.postUsuario = exports.getUsuarioAreas = exports.getUsuario = exports.getUsuarios = exports.getUsuariosPorRol = exports.getUsuariosTodos = void 0;
 const sequelize_1 = require("sequelize");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const usuario_1 = __importDefault(require("../models/usuario"));
@@ -546,4 +546,45 @@ const busquedaUsuariosPorRol = (req, res) => __awaiter(void 0, void 0, void 0, f
     }
 });
 exports.busquedaUsuariosPorRol = busquedaUsuariosPorRol;
+const obtenerUsuarioEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email } = req.body;
+    try {
+        const usuario = yield usuario_1.default.findOne({
+            where: {
+                email: email
+            },
+            attributes: ['id', 'email'],
+            include: [
+                {
+                    model: role_1.default,
+                    as: 'role',
+                    attributes: ['id', 'nombre']
+                }, {
+                    model: persona_1.default,
+                    as: 'persona',
+                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
+                }
+            ]
+        });
+        if (!usuario) {
+            return res.status(404).json({
+                ok: false,
+                msg: `No existe un usuario con el email: ${email}`
+            });
+        }
+        res.json({
+            ok: true,
+            usuario
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador',
+            error
+        });
+    }
+});
+exports.obtenerUsuarioEmail = obtenerUsuarioEmail;
 //# sourceMappingURL=usuarios.js.map

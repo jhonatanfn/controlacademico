@@ -49,7 +49,7 @@ export const fileUpload= async (req:Request,res:Response)=>{
         const nombreCortado=file.name.split('.');
         const extensionArchivo=nombreCortado[nombreCortado.length-1];
     
-        const extencionesValidas=['png','jpg','jpeg','gif'];
+        const extencionesValidas=['png','jpg','jpeg','gif','JPG','JPEG','PNG'];
         if( !extencionesValidas.includes(extensionArchivo)){
             return res.status(400).json({
                 ok:false,
@@ -120,7 +120,7 @@ export const fileUploadCloudinary= async (req:Request,res:Response)=>{
         const nombreCortado=file.name.split('.');
         const extensionArchivo=nombreCortado[nombreCortado.length-1];
     
-        const extencionesValidas=['png','jpg','jpeg','gif'];
+        const extencionesValidas=['png','jpg','jpeg','gif','JPG','JPEG','PNG'];
         if( !extencionesValidas.includes(extensionArchivo)){
             return res.status(400).json({
                 ok:false,
@@ -180,7 +180,7 @@ export const fileUploadCloudinaryArea= async (req:Request,res:Response)=>{
         const nombreCortado=file.name.split('.');
         const extensionArchivo=nombreCortado[nombreCortado.length-1];
     
-        const extencionesValidas=['png','jpg','jpeg','gif'];
+        const extencionesValidas=['png','jpg','jpeg','gif','JPG','JPEG','PNG'];
         if( !extencionesValidas.includes(extensionArchivo)){
             return res.status(400).json({
                 ok:false,
@@ -239,7 +239,7 @@ export const fileUploadPdf= async (req:Request,res:Response)=>{
         const nombreCortado=file.name.split('.');
         const extensionArchivo=nombreCortado[nombreCortado.length-1];
     
-        const extencionesValidas=['pdf','png','jpg','jpeg','gif'];
+        const extencionesValidas=['pdf','png','jpg','jpeg','gif','JPG','JPEG','PNG'];
         if( !extencionesValidas.includes(extensionArchivo)){
             return res.status(400).json({
                 ok:false,

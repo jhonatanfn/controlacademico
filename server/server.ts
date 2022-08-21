@@ -33,6 +33,7 @@ import horariosRoutes from '../routes/horario';
 import rangosRoutes from '../routes/rango';
 import { dbSeed } from '../seeders/semilla';
 import pdfRoutes from '../routes/pdf';
+import mensajeriaRoutes from '../routes/mensajeria';
 
 class Server {
     private app: Application;
@@ -67,7 +68,8 @@ class Server {
         instituciones: '/api/instituciones',
         horas: '/api/horas',
         horarios: '/api/horarios',
-        rangos: '/api/rangos'
+        rangos: '/api/rangos',
+        mensajerias: '/api/mensajerias'
     };
 
     constructor() {
@@ -131,7 +133,8 @@ class Server {
         this.app.use(this.apiPaths.instituciones, institucionRoutes);
         this.app.use(this.apiPaths.horas, horasRoutes);
         this.app.use(this.apiPaths.horarios, horariosRoutes);
-        this.app.use(this.apiPaths.rangos,rangosRoutes);
+        this.app.use(this.apiPaths.rangos, rangosRoutes);
+        this.app.use(this.apiPaths.mensajerias, mensajeriaRoutes);
 
         this.app.get('*', (req, res) => {
             res.sendFile(path.resolve(__dirname, '../../public/index.html'));

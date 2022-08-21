@@ -20,7 +20,6 @@ export const instituciones = [
         turnoatencion: "Mañana-Tarde",
         paginaweb: "No tiene"
     }
-
 ];
 
 export const roles = [
@@ -61,10 +60,10 @@ export const periodos = [
     { id: 4, nombre: '2022', fechainicial: "2022-03-01", fechafinal: "2022-12-31" }
 ];
 export const evaluaciones = [
-    { id: 4, nombre: 'PRACTICA CALIFICADA', abreviatura: 'PC' },
-    { id: 14, nombre: 'TRABAJO', abreviatura: 'TRAB' },
-    { id: 24, nombre: 'INTERVENCION ORAL', abreviatura: 'IO' },
-    { id: 34, nombre: 'EXAMEN', abreviatura: 'EX' }
+    { id: 4, nombre: 'PRACTICA EN AULA', abreviatura: 'PA' },
+    { id: 14, nombre: 'TAREA EN CASA', abreviatura: 'TRAB' },
+    { id: 24, nombre: 'PARTICIPACIONES', abreviatura: 'PA' },
+    { id: 34, nombre: 'EXAMEN ESCRITO', abreviatura: 'EX' }
 ];
 export const ciclos = [
     { id: 4, nombre: 'BIMESTRE 1' },
@@ -1323,3 +1322,45 @@ export const materiales = [
     { id: 694, titulo: "Lorem ipsum dolor sit amet consectetur adipisicing elit", descripcion: " Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nesciunt quo itaque voluptatem nam, repellendus,assumenda consectetur unde distinctio vitae fugit id neque accusamus labore maiores quaerat laudantium inventore eligendi! ", programacionId: 694, fecha: moment().format('YYYY-MM-DD'), archivo: "https://res.cloudinary.com/archivos/image/upload/v1643918075/material/qnamfhnsgkkbs9rqearb.pdf" },
 
 ];
+
+export const mensajerias = [
+    {
+        id: 4,
+        emisor: "jhonatan@mail.com",
+        receptor: "dante5@mail.com",
+        asunto: "Mensaje de Prueba",
+        contenido:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum earum molestiae iste explicabo laboriosam adipisci quas debitis temporibus accusamus at, impedit eos ducimus cum. Dicta accusantium enim iure omnis optio!",
+        fecha:moment().format('YYYY-MM-DD'),
+        hora: moment().format('LTS'),
+    },
+    {
+        id: 14,
+        emisor: "jhonatan@mail.com",
+        receptor: "dante5@mail.com",
+        asunto: "Mensaje de Prueba 2",
+        contenido:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum earum molestiae iste explicabo laboriosam adipisci quas debitis temporibus accusamus at, impedit eos ducimus cum. Dicta accusantium enim iure omnis optio!",
+        fecha:moment().format('YYYY-MM-DD'),
+        hora: moment().format('LTS'),
+    },
+    {
+        id: 24,
+        emisor: "dante5@mail.com",
+        receptor: "jhonatan@mail.com",
+        asunto: "Mensaje de Prueba 2",
+        contenido:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum earum molestiae iste explicabo laboriosam adipisci quas debitis temporibus accusamus at, impedit eos ducimus cum. Dicta accusantium enim iure omnis optio!",
+        fecha:moment().format('YYYY-MM-DD'),
+        hora: moment().format('LTS'),
+    },
+    {
+        id: 34,
+        emisor: "dante5@mail.com",
+        receptor: "jhonatan@mail.com",
+        asunto: "Mensaje de Prueba 2",
+        contenido:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum earum molestiae iste explicabo laboriosam adipisci quas debitis temporibus accusamus at, impedit eos ducimus cum. Dicta accusantium enim iure omnis optio!",
+        fecha:moment().format('YYYY-MM-DD'),
+        hora: moment().format('LTS'),
+    }
+
+
+];
+

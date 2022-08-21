@@ -5,7 +5,7 @@
 import  { Router } from 'express';
 import  { check } from 'express-validator';
 
-import { actualizarPassword, busquedaUsuarios, busquedaUsuariosPorRol, deleteUsuario, emailRepetido, getUsuario, getUsuarioAreas, getUsuarios, getUsuariosPorRol, getUsuariosTodos, habilitarDesabilitarUsuario, postUsuario, putUsuario } from '../controllers/usuarios';
+import { actualizarPassword, busquedaUsuarios, busquedaUsuariosPorRol, deleteUsuario, emailRepetido, getUsuario, getUsuarioAreas, getUsuarios, getUsuariosPorRol, getUsuariosTodos, habilitarDesabilitarUsuario, obtenerUsuarioEmail, postUsuario, putUsuario } from '../controllers/usuarios';
 import { validarCampos } from '../middlewares/validar-campos';
 import { validarJWT } from '../middlewares/validar-jwt';
 
@@ -17,6 +17,12 @@ router.get('/porrol/:rolId', validarJWT, getUsuariosPorRol);
 router.get('/filtrado/todo',validarJWT, getUsuariosTodos);
 router.get('/:id',validarJWT,getUsuario);
 router.get('/:id/areas',validarJWT,getUsuarioAreas);
+
+router.post('/consultaporemail',[ 
+    validarJWT,
+    check('email','El email es obligatorio').not().isEmpty(),
+], obtenerUsuarioEmail);
+
 
 router.post('/verificar/email',[ 
     validarJWT,

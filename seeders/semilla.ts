@@ -25,6 +25,7 @@ import Situacion from '../models/situacion';
 import Institucion from '../models/institucion';
 import Hora from '../models/hora';
 import Rango from '../models/rango';
+import Mensajeria from '../models/mensajeria';
 
 export const dbSeed = () => {
 
@@ -48,11 +49,11 @@ export const dbSeed = () => {
         seed_local.niveles.forEach(nivel => {
             Nivel.create(nivel);
         });
-        seed_local.situaciones.forEach(situacion => {
-            Situacion.create(situacion);
-        });
         seed_local.grados.forEach(grado => {
             Grado.create(grado);
+        });
+        seed_local.situaciones.forEach(situacion => {
+            Situacion.create(situacion);
         });
         seed_local.secciones.forEach(seccion => {
             Seccion.create(seccion);
@@ -102,6 +103,9 @@ export const dbSeed = () => {
         });
         seed_local.materiales.forEach(material => {
             Material.create(material);
+        });
+        seed_local.mensajerias.forEach(mensajeria=>{
+            Mensajeria.create(mensajeria);
         });
 
     } else {
@@ -175,7 +179,9 @@ export const dbSeed = () => {
         seed_heroku.materiales.forEach(material => {
             Material.create(material);
         });
-
+        seed_heroku.mensajerias.forEach(mensajeria=>{
+            Mensajeria.create(mensajeria);
+        });
     }
 
 }

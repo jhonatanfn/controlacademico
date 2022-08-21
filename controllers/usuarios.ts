@@ -547,3 +547,43 @@ export const busquedaUsuariosPorRol = async (req: any, res: Response) => {
         });
     }
 }
+
+export const obtenerUsuarioEmail = async (req: Request, res: Response) => {
+    const { email } = req.body;
+    try {
+        const usuario: any = await Usuario.findOne({
+            where: {
+                email: email
+            },
+            attributes: ['id', 'email'],
+            include: [
+                {
+                    model: Role,
+                    as: 'role',
+                    attributes: ['id', 'nombre']
+                }, {
+                    model: Persona,
+                    as: 'persona',
+                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
+                }
+            ]
+        });
+        if (!usuario) {
+            return res.status(404).json({
+                ok: false,
+                msg: `No existe un usuario con el email: ${email}`
+            });
+        }
+        res.json({
+            ok: true,
+            usuario
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador',
+            error
+        });
+    }
+}

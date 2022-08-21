@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.materiales = exports.matriculas = exports.programaciones = exports.aulas = exports.alumnos = exports.apoderados = exports.docentes = exports.usuarios = exports.personas = exports.subareas = exports.rangos = exports.horas = exports.ciclos = exports.evaluaciones = exports.periodos = exports.secciones = exports.grados = exports.niveles = exports.tipodocumentos = exports.areas = exports.situaciones = exports.roles = exports.instituciones = void 0;
+exports.mensajerias = exports.materiales = exports.matriculas = exports.programaciones = exports.aulas = exports.alumnos = exports.apoderados = exports.docentes = exports.usuarios = exports.personas = exports.subareas = exports.rangos = exports.horas = exports.ciclos = exports.evaluaciones = exports.periodos = exports.secciones = exports.grados = exports.niveles = exports.tipodocumentos = exports.areas = exports.situaciones = exports.roles = exports.instituciones = void 0;
 const moment_1 = __importDefault(require("moment"));
 exports.instituciones = [
     {
@@ -64,10 +64,10 @@ exports.periodos = [
     { id: 4, nombre: '2022', fechainicial: "2022-03-01", fechafinal: "2022-12-31" }
 ];
 exports.evaluaciones = [
-    { id: 4, nombre: 'PRACTICA CALIFICADA', abreviatura: 'PC' },
-    { id: 14, nombre: 'TRABAJO', abreviatura: 'TRAB' },
-    { id: 24, nombre: 'INTERVENCION ORAL', abreviatura: 'IO' },
-    { id: 34, nombre: 'EXAMEN', abreviatura: 'EX' }
+    { id: 4, nombre: 'PRACTICA EN AULA', abreviatura: 'PA' },
+    { id: 14, nombre: 'TAREA EN CASA', abreviatura: 'TRAB' },
+    { id: 24, nombre: 'PARTICIPACIONES', abreviatura: 'PA' },
+    { id: 34, nombre: 'EXAMEN ESCRITO', abreviatura: 'EX' }
 ];
 exports.ciclos = [
     { id: 4, nombre: 'BIMESTRE 1' },
@@ -1221,5 +1221,43 @@ exports.materiales = [
     { id: 674, titulo: "Lorem ipsum dolor sit amet consectetur adipisicing elit", descripcion: " Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nesciunt quo itaque voluptatem nam, repellendus,assumenda consectetur unde distinctio vitae fugit id neque accusamus labore maiores quaerat laudantium inventore eligendi! ", programacionId: 674, fecha: (0, moment_1.default)().format('YYYY-MM-DD'), archivo: "https://res.cloudinary.com/archivos/image/upload/v1643918075/material/qnamfhnsgkkbs9rqearb.pdf" },
     { id: 684, titulo: "Lorem ipsum dolor sit amet consectetur adipisicing elit", descripcion: " Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nesciunt quo itaque voluptatem nam, repellendus,assumenda consectetur unde distinctio vitae fugit id neque accusamus labore maiores quaerat laudantium inventore eligendi! ", programacionId: 684, fecha: (0, moment_1.default)().format('YYYY-MM-DD'), archivo: "https://res.cloudinary.com/archivos/image/upload/v1643918075/material/qnamfhnsgkkbs9rqearb.pdf" },
     { id: 694, titulo: "Lorem ipsum dolor sit amet consectetur adipisicing elit", descripcion: " Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nesciunt quo itaque voluptatem nam, repellendus,assumenda consectetur unde distinctio vitae fugit id neque accusamus labore maiores quaerat laudantium inventore eligendi! ", programacionId: 694, fecha: (0, moment_1.default)().format('YYYY-MM-DD'), archivo: "https://res.cloudinary.com/archivos/image/upload/v1643918075/material/qnamfhnsgkkbs9rqearb.pdf" },
+];
+exports.mensajerias = [
+    {
+        id: 4,
+        emisor: "jhonatan@mail.com",
+        receptor: "dante5@mail.com",
+        asunto: "Mensaje de Prueba",
+        contenido: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum earum molestiae iste explicabo laboriosam adipisci quas debitis temporibus accusamus at, impedit eos ducimus cum. Dicta accusantium enim iure omnis optio!",
+        fecha: (0, moment_1.default)().format('YYYY-MM-DD'),
+        hora: (0, moment_1.default)().format('LTS'),
+    },
+    {
+        id: 14,
+        emisor: "jhonatan@mail.com",
+        receptor: "dante5@mail.com",
+        asunto: "Mensaje de Prueba 2",
+        contenido: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum earum molestiae iste explicabo laboriosam adipisci quas debitis temporibus accusamus at, impedit eos ducimus cum. Dicta accusantium enim iure omnis optio!",
+        fecha: (0, moment_1.default)().format('YYYY-MM-DD'),
+        hora: (0, moment_1.default)().format('LTS'),
+    },
+    {
+        id: 24,
+        emisor: "dante5@mail.com",
+        receptor: "jhonatan@mail.com",
+        asunto: "Mensaje de Prueba 2",
+        contenido: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum earum molestiae iste explicabo laboriosam adipisci quas debitis temporibus accusamus at, impedit eos ducimus cum. Dicta accusantium enim iure omnis optio!",
+        fecha: (0, moment_1.default)().format('YYYY-MM-DD'),
+        hora: (0, moment_1.default)().format('LTS'),
+    },
+    {
+        id: 34,
+        emisor: "dante5@mail.com",
+        receptor: "jhonatan@mail.com",
+        asunto: "Mensaje de Prueba 2",
+        contenido: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum earum molestiae iste explicabo laboriosam adipisci quas debitis temporibus accusamus at, impedit eos ducimus cum. Dicta accusantium enim iure omnis optio!",
+        fecha: (0, moment_1.default)().format('YYYY-MM-DD'),
+        hora: (0, moment_1.default)().format('LTS'),
+    }
 ];
 //# sourceMappingURL=seed_heroku.js.map

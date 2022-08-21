@@ -55,7 +55,7 @@ const fileUpload = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const file = req.files.imagen;
         const nombreCortado = file.name.split('.');
         const extensionArchivo = nombreCortado[nombreCortado.length - 1];
-        const extencionesValidas = ['png', 'jpg', 'jpeg', 'gif'];
+        const extencionesValidas = ['png', 'jpg', 'jpeg', 'gif', 'JPG', 'JPEG', 'PNG'];
         if (!extencionesValidas.includes(extensionArchivo)) {
             return res.status(400).json({
                 ok: false,
@@ -124,7 +124,7 @@ const fileUploadCloudinary = (req, res) => __awaiter(void 0, void 0, void 0, fun
         const file = req.files.imagen;
         const nombreCortado = file.name.split('.');
         const extensionArchivo = nombreCortado[nombreCortado.length - 1];
-        const extencionesValidas = ['png', 'jpg', 'jpeg', 'gif'];
+        const extencionesValidas = ['png', 'jpg', 'jpeg', 'gif', 'JPG', 'JPEG', 'PNG'];
         if (!extencionesValidas.includes(extensionArchivo)) {
             return res.status(400).json({
                 ok: false,
@@ -177,7 +177,7 @@ const fileUploadCloudinaryArea = (req, res) => __awaiter(void 0, void 0, void 0,
         const file = req.files.imagen;
         const nombreCortado = file.name.split('.');
         const extensionArchivo = nombreCortado[nombreCortado.length - 1];
-        const extencionesValidas = ['png', 'jpg', 'jpeg', 'gif'];
+        const extencionesValidas = ['png', 'jpg', 'jpeg', 'gif', 'JPG', 'JPEG', 'PNG'];
         if (!extencionesValidas.includes(extensionArchivo)) {
             return res.status(400).json({
                 ok: false,
@@ -229,7 +229,7 @@ const fileUploadPdf = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const file = req.files.archivo;
         const nombreCortado = file.name.split('.');
         const extensionArchivo = nombreCortado[nombreCortado.length - 1];
-        const extencionesValidas = ['pdf', 'png', 'jpg', 'jpeg', 'gif'];
+        const extencionesValidas = ['pdf', 'png', 'jpg', 'jpeg', 'gif', 'JPG', 'JPEG', 'PNG'];
         if (!extencionesValidas.includes(extensionArchivo)) {
             return res.status(400).json({
                 ok: false,

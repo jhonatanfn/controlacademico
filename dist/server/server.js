@@ -47,6 +47,7 @@ const horario_1 = __importDefault(require("../routes/horario"));
 const rango_1 = __importDefault(require("../routes/rango"));
 const semilla_1 = require("../seeders/semilla");
 const pdf_1 = __importDefault(require("../routes/pdf"));
+const mensajeria_1 = __importDefault(require("../routes/mensajeria"));
 class Server {
     constructor() {
         this.llave = false;
@@ -79,7 +80,8 @@ class Server {
             instituciones: '/api/instituciones',
             horas: '/api/horas',
             horarios: '/api/horarios',
-            rangos: '/api/rangos'
+            rangos: '/api/rangos',
+            mensajerias: '/api/mensajerias'
         };
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || environments_1.environment.PORT;
@@ -143,6 +145,7 @@ class Server {
         this.app.use(this.apiPaths.horas, hora_1.default);
         this.app.use(this.apiPaths.horarios, horario_1.default);
         this.app.use(this.apiPaths.rangos, rango_1.default);
+        this.app.use(this.apiPaths.mensajerias, mensajeria_1.default);
         this.app.get('*', (req, res) => {
             res.sendFile(path_1.default.resolve(__dirname, '../../public/index.html'));
         });

@@ -49,6 +49,7 @@ const situacion_1 = __importDefault(require("../models/situacion"));
 const institucion_1 = __importDefault(require("../models/institucion"));
 const hora_1 = __importDefault(require("../models/hora"));
 const rango_1 = __importDefault(require("../models/rango"));
+const mensajeria_1 = __importDefault(require("../models/mensajeria"));
 const dbSeed = () => {
     const llave = false;
     const salt = bcryptjs_1.default.genSaltSync();
@@ -68,11 +69,11 @@ const dbSeed = () => {
         seed_local.niveles.forEach(nivel => {
             nivel_1.default.create(nivel);
         });
-        seed_local.situaciones.forEach(situacion => {
-            situacion_1.default.create(situacion);
-        });
         seed_local.grados.forEach(grado => {
             grado_1.default.create(grado);
+        });
+        seed_local.situaciones.forEach(situacion => {
+            situacion_1.default.create(situacion);
         });
         seed_local.secciones.forEach(seccion => {
             seccion_1.default.create(seccion);
@@ -122,6 +123,9 @@ const dbSeed = () => {
         });
         seed_local.materiales.forEach(material => {
             material_1.default.create(material);
+        });
+        seed_local.mensajerias.forEach(mensajeria => {
+            mensajeria_1.default.create(mensajeria);
         });
     }
     else {
@@ -194,6 +198,9 @@ const dbSeed = () => {
         });
         seed_heroku.materiales.forEach(material => {
             material_1.default.create(material);
+        });
+        seed_heroku.mensajerias.forEach(mensajeria => {
+            mensajeria_1.default.create(mensajeria);
         });
     }
 };

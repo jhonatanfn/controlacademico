@@ -14,6 +14,10 @@ router.get('/porrol/:rolId', validar_jwt_1.validarJWT, usuarios_1.getUsuariosPor
 router.get('/filtrado/todo', validar_jwt_1.validarJWT, usuarios_1.getUsuariosTodos);
 router.get('/:id', validar_jwt_1.validarJWT, usuarios_1.getUsuario);
 router.get('/:id/areas', validar_jwt_1.validarJWT, usuarios_1.getUsuarioAreas);
+router.post('/consultaporemail', [
+    validar_jwt_1.validarJWT,
+    (0, express_validator_1.check)('email', 'El email es obligatorio').not().isEmpty(),
+], usuarios_1.obtenerUsuarioEmail);
 router.post('/verificar/email', [
     validar_jwt_1.validarJWT,
     (0, express_validator_1.check)('email', 'El email es obligatorio').not().isEmpty(),
