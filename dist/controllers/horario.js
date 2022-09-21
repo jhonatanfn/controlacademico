@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.horariosPeriodoDocente = exports.horariosPeriodoAula = exports.horarioduplicado = exports.horarioregistrado = exports.existeHorario = exports.busquedaHorarios = exports.deleteHorario = exports.putHorario = exports.postHorario = exports.getHorario = exports.getHorarios = exports.getTodo = void 0;
+exports.getHorariosPorDia = exports.horariosPeriodoDocente = exports.horariosPeriodoAula = exports.horarioduplicado = exports.horarioregistrado = exports.existeHorario = exports.busquedaHorariosPorDia = exports.busquedaHorarios = exports.deleteHorario = exports.putHorario = exports.postHorario = exports.getHorario = exports.getHorarios = exports.getTodo = void 0;
 const horario_1 = __importDefault(require("../models/horario"));
 const sequelize_1 = require("sequelize");
 const programacion_1 = __importDefault(require("../models/programacion"));
@@ -23,7 +23,6 @@ const seccion_1 = __importDefault(require("../models/seccion"));
 const docente_1 = __importDefault(require("../models/docente"));
 const persona_1 = __importDefault(require("../models/persona"));
 const periodo_1 = __importDefault(require("../models/periodo"));
-const subarea_1 = __importDefault(require("../models/subarea"));
 const area_1 = __importDefault(require("../models/area"));
 const hora_1 = __importDefault(require("../models/hora"));
 const getTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -55,7 +54,7 @@ const getHorarios = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             where: { estado: true },
             order: [
                 [
-                    'id', 'ASC'
+                    'id', 'DESC'
                 ]
             ],
             limit: 5,
@@ -70,7 +69,7 @@ const getHorarios = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 {
                     model: programacion_1.default,
                     as: 'programacion',
-                    attributes: ['id', 'numeromat', 'numeromaxmat', 'aulaId', 'docenteId', 'subareaId', 'periodoId'],
+                    attributes: ['id', 'numeromat', 'numeromaxmat', 'aulaId', 'docenteId', 'areaId', 'periodoId'],
                     include: [
                         {
                             model: aula_1.default,
@@ -101,7 +100,7 @@ const getHorarios = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                                 {
                                     model: persona_1.default,
                                     as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img'],
+                                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                                     required: false
                                 }
                             ]
@@ -112,16 +111,9 @@ const getHorarios = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                             attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
                         {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
+                            model: area_1.default,
+                            as: 'area',
+                            attributes: ['id', 'nombre']
                         }
                     ]
                 },
@@ -152,13 +144,6 @@ const getHorario = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                     model: programacion_1.default,
                     as: 'programacion',
                     attributes: ['id', 'subareaId', 'docenteId'],
-                    include: [
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            attributes: ['id'],
-                        }
-                    ]
                 }
             ]
         });
@@ -267,7 +252,22 @@ const busquedaHorarios = (req, res) => __awaiter(void 0, void 0, void 0, functio
                         }
                     },
                     {
-                        '$programacion.subarea.nombre$': {
+                        '$programacion.area.nombre$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        },
+                    },
+                    {
+                        '$programacion.docente.persona.nombres$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        },
+                    },
+                    {
+                        '$programacion.docente.persona.apellidopaterno$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        },
+                    },
+                    {
+                        '$programacion.docente.persona.apellidomaterno$': {
                             [sequelize_1.Op.like]: `%${valor}%`
                         },
                     },
@@ -299,7 +299,7 @@ const busquedaHorarios = (req, res) => __awaiter(void 0, void 0, void 0, functio
                 {
                     model: programacion_1.default,
                     as: 'programacion',
-                    attributes: ['id', 'numeromat', 'numeromaxmat', 'aulaId', 'docenteId', 'subareaId', 'periodoId'],
+                    attributes: ['id', 'numeromat', 'numeromaxmat', 'aulaId', 'docenteId', 'areaId', 'periodoId'],
                     include: [
                         {
                             model: aula_1.default,
@@ -330,7 +330,7 @@ const busquedaHorarios = (req, res) => __awaiter(void 0, void 0, void 0, functio
                                 {
                                     model: persona_1.default,
                                     as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img'],
+                                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                                     required: false
                                 }
                             ]
@@ -341,16 +341,9 @@ const busquedaHorarios = (req, res) => __awaiter(void 0, void 0, void 0, functio
                             attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
                         {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
+                            model: area_1.default,
+                            as: 'area',
+                            attributes: ['id', 'nombre']
                         }
                     ]
                 },
@@ -371,6 +364,131 @@ const busquedaHorarios = (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.busquedaHorarios = busquedaHorarios;
+const busquedaHorariosPorDia = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { valor } = req.params;
+    try {
+        const data = yield horario_1.default.findAll({
+            where: {
+                [sequelize_1.Op.or]: [
+                    {
+                        '$programacion.aula.nombre$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$programacion.area.nombre$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        },
+                    },
+                    {
+                        '$programacion.docente.persona.nombres$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        },
+                    },
+                    {
+                        '$programacion.docente.persona.apellidopaterno$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        },
+                    },
+                    {
+                        '$programacion.docente.persona.apellidomaterno$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        },
+                    },
+                    {
+                        '$hora.inicio$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$hora.fin$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        dia: {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        },
+                    }
+                ],
+                dia: req.params.diaNombre,
+                estado: true
+            },
+            attributes: ['id', 'dia', 'programacionId', 'horaId', 'estado'],
+            include: [
+                {
+                    model: hora_1.default,
+                    as: 'hora',
+                    attributes: ['id', 'nombre', 'inicio', 'fin', 'tipo']
+                },
+                {
+                    model: programacion_1.default,
+                    as: 'programacion',
+                    attributes: ['id', 'numeromat', 'numeromaxmat', 'aulaId', 'docenteId', 'areaId', 'periodoId'],
+                    include: [
+                        {
+                            model: aula_1.default,
+                            as: 'aula',
+                            attributes: ['id', 'nombre', 'nivelId', 'gradoId', 'seccionId'],
+                            include: [
+                                {
+                                    model: nivel_1.default,
+                                    as: 'nivel',
+                                    attributes: ['id', 'nombre']
+                                },
+                                {
+                                    model: grado_1.default,
+                                    as: 'grado',
+                                    attributes: ['id', 'nombre']
+                                },
+                                {
+                                    model: seccion_1.default,
+                                    as: 'seccion',
+                                    attributes: ['id', 'nombre']
+                                }
+                            ]
+                        },
+                        {
+                            model: docente_1.default,
+                            as: 'docente',
+                            include: [
+                                {
+                                    model: persona_1.default,
+                                    as: 'persona',
+                                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                                    required: false
+                                }
+                            ]
+                        },
+                        {
+                            model: periodo_1.default,
+                            as: 'periodo',
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
+                        },
+                        {
+                            model: area_1.default,
+                            as: 'area',
+                            attributes: ['id', 'nombre']
+                        }
+                    ]
+                },
+            ]
+        });
+        res.json({
+            ok: true,
+            total: data.length,
+            busquedas: data
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.busquedaHorariosPorDia = busquedaHorariosPorDia;
 const existeHorario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { periodoId, aulaId, diaNombre, horaId } = req.params;
     try {
@@ -471,14 +589,14 @@ const horarioregistrado = (req, res) => __awaiter(void 0, void 0, void 0, functi
 });
 exports.horarioregistrado = horarioregistrado;
 const horarioduplicado = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { periodoId, aulaId, subareaId, dia, horaId } = req.params;
+    const { periodoId, aulaId, areaId, dia, horaId } = req.params;
     try {
         const programacion = yield programacion_1.default.findOne({
             where: {
                 estado: true,
                 periodoId: periodoId,
                 aulaId: aulaId,
-                subareaId: subareaId
+                areaId: areaId
             },
             include: [
                 {
@@ -491,7 +609,7 @@ const horarioduplicado = (req, res) => __awaiter(void 0, void 0, void 0, functio
         if (programacion) {
             const horario = yield horario_1.default.findOne({
                 where: {
-                    '$programacion.subarea.id$': subareaId,
+                    '$programacion.area.id$': areaId,
                     '$programacion.docente.id$': programacion.docenteId,
                     dia: dia,
                     horaId: horaId,
@@ -501,16 +619,16 @@ const horarioduplicado = (req, res) => __awaiter(void 0, void 0, void 0, functio
                     {
                         model: programacion_1.default,
                         as: 'programacion',
-                        attributes: ['id', 'subareaId', 'docenteId'],
+                        attributes: ['id', 'areaId', 'docenteId'],
                         include: [
-                            {
-                                model: subarea_1.default,
-                                as: 'subarea',
-                                attributes: ['id'],
-                            },
                             {
                                 model: docente_1.default,
                                 as: 'docente',
+                                attributes: ['id']
+                            },
+                            {
+                                model: area_1.default,
+                                as: 'area',
                                 attributes: ['id']
                             }
                         ]
@@ -562,7 +680,7 @@ const horariosPeriodoAula = (req, res) => __awaiter(void 0, void 0, void 0, func
                 {
                     model: programacion_1.default,
                     as: 'programacion',
-                    attributes: ['id', 'numeromat', 'numeromaxmat', 'aulaId', 'docenteId', 'subareaId', 'periodoId'],
+                    attributes: ['id', 'numeromat', 'numeromaxmat', 'aulaId', 'docenteId', 'areaId', 'periodoId'],
                     include: [
                         {
                             model: aula_1.default,
@@ -593,7 +711,7 @@ const horariosPeriodoAula = (req, res) => __awaiter(void 0, void 0, void 0, func
                                 {
                                     model: persona_1.default,
                                     as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img'],
+                                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                                     required: false
                                 }
                             ]
@@ -604,16 +722,9 @@ const horariosPeriodoAula = (req, res) => __awaiter(void 0, void 0, void 0, func
                             attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
                         {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
+                            model: area_1.default,
+                            as: 'area',
+                            attributes: ['id', 'nombre']
                         }
                     ]
                 },
@@ -657,7 +768,102 @@ const horariosPeriodoDocente = (req, res) => __awaiter(void 0, void 0, void 0, f
                 {
                     model: programacion_1.default,
                     as: 'programacion',
-                    attributes: ['id', 'numeromat', 'numeromaxmat', 'aulaId', 'docenteId', 'subareaId', 'periodoId'],
+                    attributes: ['id', 'numeromat', 'numeromaxmat', 'aulaId', 'docenteId', 'areaId', 'periodoId'],
+                    include: [
+                        {
+                            model: aula_1.default,
+                            as: 'aula',
+                            attributes: ['id', 'nombre', 'nivelId', 'gradoId', 'seccionId', 'tipovalor'],
+                            include: [
+                                {
+                                    model: nivel_1.default,
+                                    as: 'nivel',
+                                    attributes: ['id', 'nombre']
+                                },
+                                {
+                                    model: grado_1.default,
+                                    as: 'grado',
+                                    attributes: ['id', 'nombre']
+                                },
+                                {
+                                    model: seccion_1.default,
+                                    as: 'seccion',
+                                    attributes: ['id', 'nombre']
+                                }
+                            ]
+                        },
+                        {
+                            model: docente_1.default,
+                            as: 'docente',
+                            include: [
+                                {
+                                    model: persona_1.default,
+                                    as: 'persona',
+                                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                                    required: false
+                                }
+                            ]
+                        },
+                        {
+                            model: periodo_1.default,
+                            as: 'periodo',
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
+                        },
+                        {
+                            model: area_1.default,
+                            as: 'area',
+                            attributes: ['id', 'nombre']
+                        }
+                    ]
+                },
+            ]
+        });
+        res.json({
+            ok: true,
+            horarios
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.horariosPeriodoDocente = horariosPeriodoDocente;
+const getHorariosPorDia = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const desde = Number(req.query.desde) || 0;
+    try {
+        const total = (yield horario_1.default.findAll({
+            where: {
+                estado: true,
+                dia: req.params.diaNombre
+            }
+        })).length;
+        const horarios = yield horario_1.default.findAll({
+            where: {
+                estado: true,
+                dia: req.params.diaNombre
+            },
+            order: [
+                [
+                    'id', 'DESC'
+                ]
+            ],
+            limit: 5,
+            offset: desde,
+            attributes: ['id', 'dia', 'programacionId', 'horaId', 'estado'],
+            include: [
+                {
+                    model: hora_1.default,
+                    as: 'hora',
+                    attributes: ['id', 'nombre', 'inicio', 'fin', 'tipo']
+                },
+                {
+                    model: programacion_1.default,
+                    as: 'programacion',
+                    attributes: ['id', 'numeromat', 'numeromaxmat', 'aulaId', 'docenteId', 'areaId', 'periodoId'],
                     include: [
                         {
                             model: aula_1.default,
@@ -688,7 +894,7 @@ const horariosPeriodoDocente = (req, res) => __awaiter(void 0, void 0, void 0, f
                                 {
                                     model: persona_1.default,
                                     as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img'],
+                                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                                     required: false
                                 }
                             ]
@@ -699,16 +905,9 @@ const horariosPeriodoDocente = (req, res) => __awaiter(void 0, void 0, void 0, f
                             attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
                         {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
+                            model: area_1.default,
+                            as: 'area',
+                            attributes: ['id', 'nombre']
                         }
                     ]
                 },
@@ -716,7 +915,9 @@ const horariosPeriodoDocente = (req, res) => __awaiter(void 0, void 0, void 0, f
         });
         res.json({
             ok: true,
-            horarios
+            horarios,
+            desde,
+            total
         });
     }
     catch (error) {
@@ -727,5 +928,5 @@ const horariosPeriodoDocente = (req, res) => __awaiter(void 0, void 0, void 0, f
         });
     }
 });
-exports.horariosPeriodoDocente = horariosPeriodoDocente;
+exports.getHorariosPorDia = getHorariosPorDia;
 //# sourceMappingURL=horario.js.map

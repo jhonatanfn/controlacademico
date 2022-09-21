@@ -14,6 +14,8 @@ router.get('/', validar_jwt_1.validarJWT, grado_1.getGrados);
 router.get('/:id', validar_jwt_1.validarJWT, grado_1.getGrado);
 router.get('/busqueda/:valor', validar_jwt_1.validarJWT, grado_1.busquedaGrados);
 router.get('/tieneaulas/:gradoId', validar_jwt_1.validarJWT, grado_1.tieneAulas);
+router.get('/nombrerepetido/:gradoNombre', validar_jwt_1.validarJWT, grado_1.nombreRepetido);
+router.get('/nombrerepetidoeditar/:gradoId/:gradoNombre', validar_jwt_1.validarJWT, grado_1.nombreRepetidoEditar);
 router.post('/', [
     validar_jwt_1.validarJWT,
     (0, express_validator_1.check)('nombre', 'El nombre es obligatorio').not().isEmpty(),

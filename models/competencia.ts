@@ -1,14 +1,11 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../db/connection';
 
-class Subarea extends Model{}
-Subarea.init({
-    
-    nombre:{
-        type: DataTypes.STRING
-    },
-    img:{
-        type: DataTypes.STRING
+class Competencia extends Model{}
+Competencia.init({
+    descripcion:{
+        type: DataTypes.STRING,
+        allowNull: false
     },
     estado:{
         type: DataTypes.BOOLEAN,
@@ -16,8 +13,9 @@ Subarea.init({
     },
 },{
     sequelize,
-    modelName:'subarea',
+    modelName:'competencia',
     timestamps: true,
 });
 
-export default Subarea;
+export default Competencia;
+

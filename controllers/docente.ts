@@ -16,13 +16,12 @@ export const getTodo = async (req: Request, res: Response) => {
             include: [{
                 model: Persona,
                 as: 'persona',
-                required: false,
+                attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                 include: [
                     {
                         model: Tipodocumento,
                         as: 'tipodocumento',
-                        attributes: ['id', 'nombre'],
-                        required: false
+                        attributes: ['id', 'nombre']
                     }
                 ]
             }]
@@ -60,19 +59,20 @@ export const getDocentes = async (req: Request, res: Response) => {
             ],
             limit: 5,
             offset: desde,
-            include: [{
-                model: Persona,
-                as: 'persona',
-                required: false,
-                include: [
-                    {
-                        model: Tipodocumento,
-                        as: 'tipodocumento',
-                        attributes: ['id', 'nombre'],
-                        required: false
-                    }
-                ]
-            }]
+            include: [
+                {
+                    model: Persona,
+                    as: 'persona',
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                    include: [
+                        {
+                            model: Tipodocumento,
+                            as: 'tipodocumento',
+                            attributes: ['id', 'nombre']
+                        }
+                    ]
+                }
+            ]
         });
         res.json({
             ok: true,
@@ -97,12 +97,12 @@ export const getDocente = async (req: Request, res: Response) => {
             include: [{
                 model: Persona,
                 as: 'persona',
+                attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                 include: [
                     {
                         model: Tipodocumento,
                         as: 'tipodocumento',
-                        attributes: ['id', 'nombre'],
-                        required: false
+                        attributes: ['id', 'nombre']
                     }
                 ]
 
@@ -132,7 +132,6 @@ export const getDocente = async (req: Request, res: Response) => {
 export const getDocentePersona = async (req: Request, res: Response) => {
     const { persona } = req.params;
     try {
-
         const docente = await Docente.findOne({
             where: {
                 estado: true,
@@ -142,9 +141,11 @@ export const getDocentePersona = async (req: Request, res: Response) => {
                 {
                     model: Persona,
                     as: 'persona',
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                     include: [{
                         model: Tipodocumento,
-                        as: 'tipodocumento'
+                        as: 'tipodocumento',
+                        attributes: ['id','nombre']
                     }]
                 }
             ]
@@ -184,7 +185,7 @@ export const postDocente = async (req: Request, res: Response) => {
         await Usuario.create({
             nombre: arr[0],
             numero: numeroUsuario,
-            email: arr[0] + '' + numeroUsuario + '@gutemberg.com',
+            email: arr[0] + '' + numeroUsuario + '@mail.com',
             password: bcrypt.hashSync('123456', salt),
             roleId: roles[1].id,
             personaId: body.personaId
@@ -206,7 +207,6 @@ export const putDocente = async (req: Request, res: Response) => {
 
     const { id } = req.params;
     const { body } = req;
-
     try {
 
         const docente: any = await Docente.findByPk(id);
@@ -294,17 +294,35 @@ export const busquedaDocentes = async (req: Request, res: Response) => {
     try {
         const data = await Docente.findAll({
             where: {
-                estado: true
+                estado: true,
+                [Op.or]: [
+                    {
+                        '$persona.dni$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$persona.nombres$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$persona.apellidopaterno$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$persona.apellidomaterno$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    }
+                ]
             },
             include: [
                 {
                     model: Persona,
                     as: 'persona',
-                    where: {
-                        nombres: {
-                            [Op.like]: `%${valor}%`
-                        }
-                    }
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                 }
             ]
         });
@@ -322,6 +340,44 @@ export const busquedaDocentes = async (req: Request, res: Response) => {
     }
 
 }
+
+export const searchDNI = async (req: Request, res: Response) => {
+    const { dni } = req.params;
+    try {
+
+        const docente = await Docente.findOne({
+            where: {
+                estado: true,
+                '$persona.dni$': dni,
+            },
+            include: [
+                {
+                    model: Persona,
+                    as: 'persona',
+                    attributes: ['id', 'dni'],
+                }
+            ]
+        });
+
+        if (docente) {
+            return res.json({
+                ok: true,
+                msg: "El DNI ya se encuentra registrado"
+            });
+        }
+        res.json({
+            ok: false,
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+
+
 export const maxDocenteNumero = async (req: Request, res: Response) => {
     try {
         const max_valor = await Docente.max('numero');

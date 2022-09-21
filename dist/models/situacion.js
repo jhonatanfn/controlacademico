@@ -21,7 +21,7 @@ Situacion.init({
     estado: {
         type: sequelize_1.DataTypes.BOOLEAN,
         defaultValue: true
-    },
+    }
 }, {
     sequelize: connection_1.default,
     modelName: 'situacion',

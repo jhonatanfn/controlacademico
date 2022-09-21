@@ -27,11 +27,9 @@ const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const area_1 = __importDefault(require("../models/area"));
 const persona_1 = __importDefault(require("../models/persona"));
 const role_1 = __importDefault(require("../models/role"));
-const subarea_1 = __importDefault(require("../models/subarea"));
 const tipodocumento_1 = __importDefault(require("../models/tipodocumento"));
 const usuario_1 = __importDefault(require("../models/usuario"));
 const docente_1 = __importDefault(require("../models/docente"));
-const apoderado_1 = __importDefault(require("../models/apoderado"));
 const alumno_1 = __importDefault(require("../models/alumno"));
 const nivel_1 = __importDefault(require("../models/nivel"));
 const grado_1 = __importDefault(require("../models/grado"));
@@ -50,6 +48,12 @@ const institucion_1 = __importDefault(require("../models/institucion"));
 const hora_1 = __importDefault(require("../models/hora"));
 const rango_1 = __importDefault(require("../models/rango"));
 const mensajeria_1 = __importDefault(require("../models/mensajeria"));
+const director_1 = __importDefault(require("../models/director"));
+const competencia_1 = __importDefault(require("../models/competencia"));
+const padre_1 = __importDefault(require("../models/padre"));
+const madre_1 = __importDefault(require("../models/madre"));
+const matriculadetalle_1 = __importDefault(require("../models/matriculadetalle"));
+const auxiliar_1 = __importDefault(require("../models/auxiliar"));
 const dbSeed = () => {
     const llave = false;
     const salt = bcryptjs_1.default.genSaltSync();
@@ -60,8 +64,14 @@ const dbSeed = () => {
         seed_local.roles.forEach(rol => {
             role_1.default.create(rol);
         });
+        seed_local.situaciones.forEach(situacion => {
+            situacion_1.default.create(situacion);
+        });
         seed_local.areas.forEach(area => {
             area_1.default.create(area);
+        });
+        seed_local.competencias.forEach(competencia => {
+            competencia_1.default.create(competencia);
         });
         seed_local.tipodocumentos.forEach(tipodocumento => {
             tipodocumento_1.default.create(tipodocumento);
@@ -71,9 +81,6 @@ const dbSeed = () => {
         });
         seed_local.grados.forEach(grado => {
             grado_1.default.create(grado);
-        });
-        seed_local.situaciones.forEach(situacion => {
-            situacion_1.default.create(situacion);
         });
         seed_local.secciones.forEach(seccion => {
             seccion_1.default.create(seccion);
@@ -93,9 +100,6 @@ const dbSeed = () => {
         seed_local.rangos.forEach(rango => {
             rango_1.default.create(rango);
         });
-        seed_local.subareas.forEach(subarea => {
-            subarea_1.default.create(subarea);
-        });
         seed_local.personas.forEach(persona => {
             persona_1.default.create(persona);
         });
@@ -106,11 +110,20 @@ const dbSeed = () => {
         seed_local.docentes.forEach(docente => {
             docente_1.default.create(docente);
         });
-        seed_local.apoderados.forEach(apoderado => {
-            apoderado_1.default.create(apoderado);
+        seed_local.padres.forEach(padre => {
+            padre_1.default.create(padre);
+        });
+        seed_local.madres.forEach(madre => {
+            madre_1.default.create(madre);
         });
         seed_local.alumnos.forEach(alumno => {
             alumno_1.default.create(alumno);
+        });
+        seed_local.auxiliares.forEach(auxiliar => {
+            auxiliar_1.default.create(auxiliar);
+        });
+        seed_local.directores.forEach(director => {
+            director_1.default.create(director);
         });
         seed_local.aulas.forEach(aula => {
             aula_1.default.create(aula);
@@ -120,6 +133,9 @@ const dbSeed = () => {
         });
         seed_local.matriculas.forEach(matricula => {
             matricula_1.default.create(matricula);
+        });
+        seed_local.matriculadetalles.forEach(matriculadetalle => {
+            matriculadetalle_1.default.create(matriculadetalle);
         });
         seed_local.materiales.forEach(material => {
             material_1.default.create(material);
@@ -135,8 +151,14 @@ const dbSeed = () => {
         seed_heroku.roles.forEach(rol => {
             role_1.default.create(rol);
         });
+        seed_heroku.situaciones.forEach(situacion => {
+            situacion_1.default.create(situacion);
+        });
         seed_heroku.areas.forEach(area => {
             area_1.default.create(area);
+        });
+        seed_heroku.competencias.forEach(competencia => {
+            competencia_1.default.create(competencia);
         });
         seed_heroku.tipodocumentos.forEach(tipodocumento => {
             tipodocumento_1.default.create(tipodocumento);
@@ -146,9 +168,6 @@ const dbSeed = () => {
         });
         seed_heroku.grados.forEach(grado => {
             grado_1.default.create(grado);
-        });
-        seed_heroku.situaciones.forEach(situacion => {
-            situacion_1.default.create(situacion);
         });
         seed_heroku.secciones.forEach(seccion => {
             seccion_1.default.create(seccion);
@@ -168,9 +187,6 @@ const dbSeed = () => {
         seed_heroku.rangos.forEach(rango => {
             rango_1.default.create(rango);
         });
-        seed_heroku.subareas.forEach(subarea => {
-            subarea_1.default.create(subarea);
-        });
         seed_heroku.personas.forEach(persona => {
             persona_1.default.create(persona);
         });
@@ -181,11 +197,20 @@ const dbSeed = () => {
         seed_heroku.docentes.forEach(docente => {
             docente_1.default.create(docente);
         });
-        seed_heroku.apoderados.forEach(apoderado => {
-            apoderado_1.default.create(apoderado);
+        seed_heroku.padres.forEach(padre => {
+            padre_1.default.create(padre);
+        });
+        seed_heroku.madres.forEach(madre => {
+            madre_1.default.create(madre);
         });
         seed_heroku.alumnos.forEach(alumno => {
             alumno_1.default.create(alumno);
+        });
+        seed_heroku.auxiliares.forEach(auxiliar => {
+            auxiliar_1.default.create(auxiliar);
+        });
+        seed_heroku.directores.forEach(director => {
+            director_1.default.create(director);
         });
         seed_heroku.aulas.forEach(aula => {
             aula_1.default.create(aula);
@@ -195,6 +220,9 @@ const dbSeed = () => {
         });
         seed_heroku.matriculas.forEach(matricula => {
             matricula_1.default.create(matricula);
+        });
+        seed_heroku.matriculadetalles.forEach(matriculadetalle => {
+            matriculadetalle_1.default.create(matriculadetalle);
         });
         seed_heroku.materiales.forEach(material => {
             material_1.default.create(material);

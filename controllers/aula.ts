@@ -7,29 +7,25 @@ import Programacion from "../models/programacion";
 import Seccion from "../models/seccion";
 
 export const getTodo = async (req:Request,res:Response)=>{
-
     try {
-        
         const aulas= await Aula.findAll({
             where:{estado:true},
+            attributes:['id','nombre','tipovalor'],
             include:[
                 {
                     model: Nivel,
                     as: 'nivel',
                     attributes:['id','nombre'],
-                    required: false
                 },
                 {
                     model:Grado,
                     as: 'grado',
                     attributes:['id','nombre'],
-                    required: false
                 },
                 {
                     model: Seccion,
                     as: 'seccion',
                     attributes:['id','nombre'],
-                    required:false
                 }
             ]
         });
@@ -66,6 +62,7 @@ export const getAulas= async (req:Request,res:Response)=>{
             ],
             limit:5,
             offset:desde,
+            attributes:['id','nombre','tipovalor'],
             include:[
                 {
                     model: Nivel,
@@ -118,7 +115,7 @@ export const getAulaPorNivelGradoSeccion= async (req:Request,res:Response)=>{
                 {
                     model: Nivel,
                     as: 'nivel',
-                    attributes:['id','nombre'],
+                    attributes:['id','nombre','tipovalor'],
                     required: false
                 },
                 {
@@ -162,7 +159,7 @@ export const getAula= async (req:Request,res:Response)=>{
 
     try {
         const aula:any= await Aula.findByPk(id,{
-            attributes:['id','nombre'],
+            attributes:['id','nombre','tipovalor'],
             include:[
                 {
                     model: Nivel,
@@ -413,4 +410,62 @@ export const busquedaAulasTotal= async (req:Request,res:Response)=>{
         });
     }
 
+}
+
+export const existeAula= async (req:Request,res:Response)=>{
+    try {
+        const aula= await Aula.findOne({
+            where:{
+                nivelId: req.params.nivelId,
+                gradoId: req.params.gradoId,
+                seccionId: req.params.seccionId,
+            },
+            attributes:['id'],
+        });
+        if(aula){
+            return res.json({
+                ok:true,
+                msg: `Ya existe el aula`
+            });
+        }
+        res.json({
+            ok:false
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok:false,
+            msg:'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+export const existeAulaEditar= async (req:Request,res:Response)=>{
+    try {
+        const aula= await Aula.findOne({
+            where:{
+                nivelId: req.params.nivelId,
+                gradoId: req.params.gradoId,
+                seccionId: req.params.seccionId,
+                id:{
+                    [Op.ne]: req.params.idAula
+                }
+            },
+            attributes:['id'],
+        });
+        if(aula){
+            return res.json({
+                ok:true,
+                msg: `Ya existe el aula`
+            });
+        }
+        res.json({
+            ok:false
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok:false,
+            msg:'Se produjo un error. Hable con el administrador'
+        });
+    }
 }

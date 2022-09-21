@@ -9,21 +9,17 @@ import Periodo from "../models/periodo";
 import Persona from "../models/persona";
 import Programacion from "../models/programacion";
 import Seccion from "../models/seccion";
-import Subarea from "../models/subarea";
 
 export const getProgramacionesDocente = async (req: Request, res: Response) => {
-
     const { docente } = req.params;
     const desde = Number(req.query.desde) || 0;
     try {
-
         const total = (await Programacion.findAll({
             where: {
                 estado: true,
                 docenteId: docente
             },
         })).length;
-
         const programaciones = await Programacion.findAll({
             where: {
                 estado: true,
@@ -35,7 +31,7 @@ export const getProgramacionesDocente = async (req: Request, res: Response) => {
                 {
                     model: Aula,
                     as: 'aula',
-                    required: false,
+                    attributes:['id','nombre','tipovalor'],
                     include: [
                         {
                             model: Nivel,
@@ -60,20 +56,7 @@ export const getProgramacionesDocente = async (req: Request, res: Response) => {
                 {
                     model: Periodo,
                     as: 'periodo',
-                    attributes: ['id', 'nombre','fechainicial','fechafinal'],
-                },
-                {
-                    model: Subarea,
-                    as: 'subarea',
-                    attributes: ['id', 'nombre'],
-                    required: false,
-                    include: [
-                        {
-                            model: Area,
-                            as: 'area',
-                            attributes: ['id', 'nombre']
-                        }
-                    ]
+                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                 },
                 {
                     model: Docente,
@@ -83,8 +66,14 @@ export const getProgramacionesDocente = async (req: Request, res: Response) => {
                         {
                             model: Persona,
                             as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
                         }
                     ]
+                },
+                {
+                    model: Area,
+                    as: 'area',
+                    attributes: ['id', 'nombre']
                 }
             ]
         });
@@ -104,21 +93,21 @@ export const getProgramacionesDocente = async (req: Request, res: Response) => {
     }
 
 }
-export const getProgramacionesDocentePeriodo = async (req: Request, res: Response) => {
-    const { docente, periodo } = req.params;
-    try {
 
+export const getProgramacionesDocenteTodo = async (req: Request, res: Response) => {
+    const { docente } = req.params;
+    const desde = Number(req.query.desde) || 0;
+    try {
         const programaciones = await Programacion.findAll({
             where: {
                 estado: true,
-                docenteId: docente,
-                periodoId: periodo
+                docenteId: docente
             },
             include: [
                 {
                     model: Aula,
                     as: 'aula',
-                    required: false,
+                    attributes:['id','nombre','tipovalor'],
                     include: [
                         {
                             model: Nivel,
@@ -143,20 +132,7 @@ export const getProgramacionesDocentePeriodo = async (req: Request, res: Respons
                 {
                     model: Periodo,
                     as: 'periodo',
-                    attributes: ['id', 'nombre','fechainicial','fechafinal'],
-                },
-                {
-                    model: Subarea,
-                    as: 'subarea',
-                    attributes: ['id', 'nombre'],
-                    required: false,
-                    include: [
-                        {
-                            model: Area,
-                            as: 'area',
-                            attributes: ['id', 'nombre']
-                        }
-                    ]
+                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                 },
                 {
                     model: Docente,
@@ -166,8 +142,88 @@ export const getProgramacionesDocentePeriodo = async (req: Request, res: Respons
                         {
                             model: Persona,
                             as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
                         }
                     ]
+                },
+                {
+                    model: Area,
+                    as: 'area',
+                    attributes: ['id', 'nombre']
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            programaciones
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+
+}
+
+export const getProgramacionesDocentePeriodo = async (req: Request, res: Response) => {
+    const { docente, periodo } = req.params;
+    try {
+        const programaciones = await Programacion.findAll({
+            where: {
+                estado: true,
+                docenteId: docente,
+                periodoId: periodo
+            },
+            include: [
+                {
+                    model: Aula,
+                    as: 'aula',
+                    attributes:['id','nombre','tipovalor'],
+                    include: [
+                        {
+                            model: Nivel,
+                            as: 'nivel',
+                            attributes: ['id', 'nombre'],
+                            required: false
+                        },
+                        {
+                            model: Grado,
+                            as: 'grado',
+                            attributes: ['id', 'nombre'],
+                            required: false
+                        },
+                        {
+                            model: Seccion,
+                            as: 'seccion',
+                            attributes: ['id', 'nombre'],
+                            required: false
+                        }
+                    ]
+                },
+                {
+                    model: Periodo,
+                    as: 'periodo',
+                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
+                },
+
+                {
+                    model: Docente,
+                    as: 'docente',
+                    include: [
+                        {
+                            model: Persona,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
+                        }
+                    ]
+                },
+                {
+                    model: Area,
+                    as: 'area',
+                    attributes: ['id', 'nombre']
                 }
             ]
         });
@@ -185,14 +241,11 @@ export const getProgramacionesDocentePeriodo = async (req: Request, res: Respons
     }
 }
 export const getProgramaciones = async (req: Request, res: Response) => {
-
     const desde = Number(req.query.desde) || 0;
-
     try {
         const total = (await Programacion.findAll({
             where: { estado: true }
         })).length;
-
         const programaciones = await Programacion.findAll({
             where: { estado: true },
             order: [
@@ -204,7 +257,7 @@ export const getProgramaciones = async (req: Request, res: Response) => {
                 {
                     model: Aula,
                     as: 'aula',
-                    required: false,
+                    attributes:['id','nombre','tipovalor'],
                     include: [
                         {
                             model: Nivel,
@@ -229,31 +282,23 @@ export const getProgramaciones = async (req: Request, res: Response) => {
                 {
                     model: Periodo,
                     as: 'periodo',
-                    attributes: ['id', 'nombre','fechainicial','fechafinal'],
-                },
-                {
-                    model: Subarea,
-                    as: 'subarea',
-                    attributes: ['id', 'nombre'],
-                    required: false,
-                    include: [
-                        {
-                            model: Area,
-                            as: 'area',
-                            attributes: ['id', 'nombre']
-                        }
-                    ]
+                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                 },
                 {
                     model: Docente,
                     as: 'docente',
-                    required: false,
                     include: [
                         {
                             model: Persona,
                             as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
                         }
                     ]
+                },
+                {
+                    model: Area,
+                    as: 'area',
+                    attributes: ['id', 'nombre']
                 }
             ]
         });
@@ -273,64 +318,51 @@ export const getProgramaciones = async (req: Request, res: Response) => {
 }
 export const getProgramacion = async (req: Request, res: Response) => {
     const { id } = req.params;
-
     try {
         const programacion: any = await Programacion.findByPk(id, {
             include: [
                 {
                     model: Aula,
                     as: 'aula',
-                    attributes: ['id', 'nombre'],
-                    required: false,
+                    attributes:['id','nombre','tipovalor'],
                     include: [
                         {
                             model: Nivel,
                             as: 'nivel',
                             attributes: ['id', 'nombre'],
-                            required: false
                         },
                         {
                             model: Grado,
                             as: 'grado',
                             attributes: ['id', 'nombre'],
-                            required: false
                         },
                         {
                             model: Seccion,
                             as: 'seccion',
                             attributes: ['id', 'nombre'],
-                            required: false
                         }
                     ]
                 },
                 {
                     model: Periodo,
                     as: 'periodo',
-                    attributes: ['id', 'nombre','fechainicial','fechafinal'],
-                },
-                {
-                    model: Subarea,
-                    as: 'subarea',
-                    attributes: ['id', 'nombre'],
-                    required: false,
-                    include: [
-                        {
-                            model: Area,
-                            as: 'area',
-                            attributes: ['id', 'nombre']
-                        }
-                    ]
+                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                 },
                 {
                     model: Docente,
                     as: 'docente',
-                    required: false,
                     include: [
                         {
                             model: Persona,
                             as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
                         }
                     ]
+                },
+                {
+                    model: Area,
+                    as: 'area',
+                    attributes: ['id', 'nombre']
                 }
             ]
         });
@@ -338,7 +370,7 @@ export const getProgramacion = async (req: Request, res: Response) => {
         if (!programacion || programacion.estado == false) {
             return res.status(400).json({
                 ok: false,
-                msg: `No existe una programacion con el id: ${id}`
+                msg: `No existe una asignación con el id: ${id}`
             });
         }
 
@@ -356,9 +388,7 @@ export const getProgramacion = async (req: Request, res: Response) => {
     }
 }
 export const getProgramacionesPeriodoAula = async (req: Request, res: Response) => {
-
     const { periodoid, aulaid } = req.params;
-
     try {
 
         const periodo = await Periodo.findByPk(periodoid);
@@ -376,65 +406,56 @@ export const getProgramacionesPeriodoAula = async (req: Request, res: Response) 
             });
         }
         const programaciones = await Programacion.findAll({
+            where:{
+                estado: true,
+                periodoId: periodoid,
+                aulaId: aulaid
+            },
             include: [
                 {
                     model: Periodo,
                     as: 'periodo',
-                    where: {
-                        id: periodoid
-                    }
+                    attributes:['id','nombre']
                 },
                 {
                     model: Aula,
                     as: 'aula',
-                    where: {
-                        id: aulaid
-                    },
+                    attributes:['id','nombre','tipovalor'],
                     include: [
                         {
                             model: Nivel,
                             as: 'nivel',
-                            attributes: ['id', 'nombre'],
-                            required: false
+                            attributes: ['id', 'nombre']
                         },
                         {
                             model: Grado,
                             as: 'grado',
-                            attributes: ['id', 'nombre'],
-                            required: false
+                            attributes: ['id', 'nombre']
                         },
                         {
                             model: Seccion,
                             as: 'seccion',
-                            attributes: ['id', 'nombre'],
-                            required: false
+                            attributes: ['id', 'nombre']
                         }
                     ]
 
                 },
                 {
-                    model: Subarea,
-                    as: 'subarea',
-                    attributes: ['id', 'nombre'],
-                    required: false,
-                    include: [
-                        {
-                            model: Area,
-                            as: 'area',
-                            attributes: ['id', 'nombre']
-                        }
-                    ]
-                },
-                {
                     model: Docente,
                     as: 'docente',
-                    required: false,
+                    attributes:['id'],
                     include: [
                         {
                             model: Persona,
                             as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
                         }
                     ]
+                },
+                {
+                    model: Area,
+                    as: 'area',
+                    attributes: ['id', 'nombre']
                 }
             ]
 
@@ -462,7 +483,7 @@ export const postProgramacion = async (req: Request, res: Response) => {
         await programacion.save();
         res.json({
             ok: true,
-            msg: 'Programacion creada exitosamente',
+            msg: 'Asignación creada exitosamente',
             programacion
         });
     } catch (error) {
@@ -476,19 +497,18 @@ export const postProgramacion = async (req: Request, res: Response) => {
 export const putProgramacion = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { body } = req;
-
     try {
         const programacion: any = await Programacion.findByPk(id);
         if (!programacion) {
             return res.status(400).json({
                 ok: false,
-                msg: `No existe una programacion con el id: ${id}`
+                msg: `No existe una asignación con el id: ${id}`
             });
         }
         await programacion?.update(body);
         res.json({
             ok: true,
-            msg: 'Programacion actualizado exitosamente',
+            msg: 'Asignación actualizada exitosamente',
             programacion
         });
     } catch (error) {
@@ -506,13 +526,13 @@ export const deleteProgramacion = async (req: Request, res: Response) => {
         if (!programacion) {
             return res.status(400).json({
                 ok: false,
-                msg: `No existe una programacion con el id: ${id}`
+                msg: `No existe una asignación con el id: ${id}`
             });
         }
         await programacion?.update({ estado: false });
         res.json({
             ok: true,
-            msg: 'Programacion eliminada exitosamente',
+            msg: 'Asignación eliminada exitosamente',
             programacion
         });
     } catch (error) {
@@ -525,29 +545,38 @@ export const deleteProgramacion = async (req: Request, res: Response) => {
 }
 export const busquedaProgramaciones = async (req: Request, res: Response) => {
     const { valor } = req.params;
-
     try {
-
         const data = await Programacion.findAll({
             where: {
-                '$aula.nombre$': {
-                    [Op.like]: `%${valor}%`
-                },
-                estado: true
+                estado: true,
+                [Op.or]: [
+                    {
+                        '$aula.nombre$': {
+                            [Op.like]: `%${valor}%`
+                        },
+                    },
+                    {
+                        '$area.nombre$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$docente.persona.nombres$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    }
+                ]
             },
             include: [
                 {
                     model: Periodo,
                     as: 'periodo'
                 },
-                {
-                    model: Subarea,
-                    as: 'subarea'
-                },
+
                 {
                     model: Aula,
                     as: 'aula',
-                    required: true,
+                    attributes:['id','nombre','tipovalor'],
                     include: [
                         {
                             model: Nivel,
@@ -577,8 +606,170 @@ export const busquedaProgramaciones = async (req: Request, res: Response) => {
                         {
                             model: Persona,
                             as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
                         }
                     ]
+                },
+                {
+                    model: Area,
+                    as: 'area',
+                    attributes: ['id', 'nombre']
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            total: data.length,
+            busquedas: data
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+export const existeProgramacion = async (req: Request, res: Response) => {
+    const { periodo, aula, area } = req.params;
+    try {
+        const programacion = await Programacion.findOne({
+            where: {
+                periodoId: periodo,
+                aulaId: aula,
+                areaId: area,
+                estado: true
+            }
+        });
+        if (programacion) {
+            return res.json({
+                ok: true,
+                msg: 'La asignación ya esta registrada.'
+            });
+        }
+        res.json({
+            ok: false
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+export const existeProgramacionEditar = async (req: Request, res: Response) => {
+    const { periodoId, aulaId, areaId, programacionId } = req.params;
+    try {
+        const programacion = await Programacion.findOne({
+            where: {
+                periodoId: periodoId,
+                aulaId: aulaId,
+                areaId: areaId,
+                estado: true,
+                id:{
+                    [Op.ne]: programacionId,
+                }
+            }
+        });
+        if (programacion) {
+            return res.json({
+                ok: true,
+                msg: 'La asignación ya está registrada.'
+            });
+        }
+        res.json({
+            ok: false
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+export const busquedaProgramacionesSubareaPorDocentePeriodo = async (req: Request, res: Response) => {
+    const { valor, docenteId, periodoId } = req.params;
+    try {
+        const data = await Programacion.findAll({
+            where: {
+                [Op.or]: [
+                    {
+                        '$area.nombre$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$aula.nombre$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$aula.nivel.nombre$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$aula.grado.nombre$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$aula.seccion.nombre$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    }
+                ],
+                '$docente.id$': docenteId,
+                periodoId: periodoId,
+                estado: true
+            },
+            attributes:['id','numeromat','numeromaxmat'],
+            include: [
+                {
+                    model: Periodo,
+                    as: 'periodo',
+                    attributes: ['id','nombre']
+                },
+                {
+                    model: Aula,
+                    as: 'aula',
+                    attributes: ['id','nombre','tipovalor'],
+                    include: [
+                        {
+                            model: Nivel,
+                            as: 'nivel',
+                            attributes: ['id', 'nombre'],
+                        },
+                        {
+                            model: Grado,
+                            as: 'grado',
+                            attributes: ['id', 'nombre'],
+                        },
+                        {
+                            model: Seccion,
+                            as: 'seccion',
+                            attributes: ['id', 'nombre'],
+                        }
+                    ]
+                },
+                {
+                    model: Docente,
+                    as: 'docente',
+                    attributes:['id'],
+                    include: [
+                        {
+                            model: Persona,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
+                        }
+                    ]
+                },
+                {
+                    model: Area,
+                    as: 'area',
+                    attributes: ['id','nombre']
                 }
             ]
         });
@@ -597,28 +788,177 @@ export const busquedaProgramaciones = async (req: Request, res: Response) => {
 
 
 }
-export const existeProgramacion = async (req: Request, res: Response) => {
-
-    const { periodo, aula, subarea } = req.params;
-
+export const busquedaProgramacionesSubareaPorDocente = async (req: Request, res: Response) => {
+    const { valor, docenteId } = req.params;
     try {
-
-        const programacion = await Programacion.findOne({
+        const data = await Programacion.findAll({
             where: {
-                periodoId: periodo,
-                aulaId: aula,
-                subareaId: subarea,
+                [Op.or]: [
+                    {
+                        '$area.nombre$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$aula.nombre$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$aula.nivel.nombre$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$aula.grado.nombre$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$aula.seccion.nombre$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    }
+                ],
+                '$docente.id$': docenteId,
                 estado: true
-            }
+            },
+            attributes:['id','numeromat','numeromaxmat'],
+            include: [
+                {
+                    model: Periodo,
+                    as: 'periodo',
+                    attributes: ['id','nombre']
+                },
+                {
+                    model: Aula,
+                    as: 'aula',
+                    attributes: ['id','nombre','tipovalor'],
+                    include: [
+                        {
+                            model: Nivel,
+                            as: 'nivel',
+                            attributes: ['id', 'nombre'],
+                        },
+                        {
+                            model: Grado,
+                            as: 'grado',
+                            attributes: ['id', 'nombre'],
+                        },
+                        {
+                            model: Seccion,
+                            as: 'seccion',
+                            attributes: ['id', 'nombre'],
+                        }
+                    ]
+                },
+                {
+                    model: Docente,
+                    as: 'docente',
+                    attributes:['id'],
+                    include: [
+                        {
+                            model: Persona,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
+                        }
+                    ]
+                },
+                {
+                    model: Area,
+                    as: 'area',
+                    attributes: ['id','nombre']
+                }
+            ]
         });
-        if (programacion) {
-            return res.json({
-                ok: true,
-                msg: 'Ya existe una programación con esos parametros'
-            });
-        }
         res.json({
-            ok: false
+            ok: true,
+            total: data.length,
+            busquedas: data
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+export const getProgramacionesDocentePeriodoPaginado = async (req: Request, res: Response) => {
+    const { docente, periodo } = req.params;
+    const desde = Number(req.query.desde) || 0;
+    try {
+        const total = (await Programacion.findAll({
+            where: {
+                estado: true,
+                docenteId: docente,
+                periodoId: periodo
+            },
+        })).length;
+
+        const programaciones = await Programacion.findAll({
+            where: {
+                estado: true,
+                docenteId: docente,
+                periodoId: periodo
+            },
+            limit: 5,
+            offset: desde,
+            include: [
+                {
+                    model: Aula,
+                    as: 'aula',
+                    attributes:['id','nombre','tipovalor'],
+                    include: [
+                        {
+                            model: Nivel,
+                            as: 'nivel',
+                            attributes: ['id', 'nombre'],
+                            required: false
+                        },
+                        {
+                            model: Grado,
+                            as: 'grado',
+                            attributes: ['id', 'nombre'],
+                            required: false
+                        },
+                        {
+                            model: Seccion,
+                            as: 'seccion',
+                            attributes: ['id', 'nombre'],
+                            required: false
+                        }
+                    ]
+                },
+                {
+                    model: Periodo,
+                    as: 'periodo',
+                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
+                },
+                {
+                    model: Docente,
+                    as: 'docente',
+                    required: false,
+                    include: [
+                        {
+                            model: Persona,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
+                        }
+                    ]
+                },
+                {
+                    model: Area,
+                    as: 'area',
+                    attributes: ['id', 'nombre']
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            programaciones,
+            desde,
+            total
         });
 
     } catch (error) {
@@ -628,7 +968,79 @@ export const existeProgramacion = async (req: Request, res: Response) => {
             msg: 'Se produjo un error. Hable con el administrador'
         });
     }
+}
+export const getProgramacionesDocentePeriodoPaginadoTodo = async (req: Request, res: Response) => {
+    const { docente, periodo } = req.params;
+    
+    try {
+        const programaciones = await Programacion.findAll({
+            where: {
+                estado: true,
+                docenteId: docente,
+                periodoId: periodo
+            },
+            include: [
+                {
+                    model: Aula,
+                    as: 'aula',
+                    attributes:['id','nombre','tipovalor'],
+                    include: [
+                        {
+                            model: Nivel,
+                            as: 'nivel',
+                            attributes: ['id', 'nombre'],
+                            required: false
+                        },
+                        {
+                            model: Grado,
+                            as: 'grado',
+                            attributes: ['id', 'nombre'],
+                            required: false
+                        },
+                        {
+                            model: Seccion,
+                            as: 'seccion',
+                            attributes: ['id', 'nombre'],
+                            required: false
+                        }
+                    ]
+                },
+                {
+                    model: Periodo,
+                    as: 'periodo',
+                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
+                },
+                {
+                    model: Docente,
+                    as: 'docente',
+                    required: false,
+                    include: [
+                        {
+                            model: Persona,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
+                        }
+                    ]
+                },
+                {
+                    model: Area,
+                    as: 'area',
+                    attributes: ['id', 'nombre']
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            programaciones
+        });
 
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
 }
 export const perteneceProgramacionDocente = async (req: Request, res: Response) => {
 
@@ -658,9 +1070,41 @@ export const perteneceProgramacionDocente = async (req: Request, res: Response) 
             msg: 'Se produjo un error. Hable con el administrador'
         });
     }
-
-
 }
+
+export const perteneceAulaDocente = async (req: Request, res: Response) => {
+    const { aulaId, docenteId } = req.params;
+    try {
+        const programacion = await Programacion.findOne({
+            where: {
+                estado: true,
+                aulaId: aulaId,
+                docenteId: docenteId
+            }
+        });
+        if (programacion) {
+            return res.json({
+                ok: true
+            });
+        }
+        res.json({
+            ok: false
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+
+
+
+
+
+
+
 export const programacionPeriodo = async (req: Request, res: Response) => {
 
     const { id } = req.params;
@@ -701,21 +1145,9 @@ export const programacionPeriodo = async (req: Request, res: Response) => {
                 {
                     model: Periodo,
                     as: 'periodo',
-                    attributes: ['id', 'nombre','fechainicial','fechafinal'],
+                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                 },
-                {
-                    model: Subarea,
-                    as: 'subarea',
-                    attributes: ['id', 'nombre'],
-                    required: false,
-                    include: [
-                        {
-                            model: Area,
-                            as: 'area',
-                            attributes: ['id', 'nombre']
-                        }
-                    ]
-                },
+
                 {
                     model: Docente,
                     as: 'docente',
@@ -758,92 +1190,7 @@ export const busquedaProgramacionesSubarea = async (req: Request, res: Response)
                     model: Periodo,
                     as: 'periodo'
                 },
-                {
-                    model: Subarea,
-                    as: 'subarea'
-                },
-                {
-                    model: Aula,
-                    as: 'aula',
-                    required: true,
-                    include: [
-                        {
-                            model: Nivel,
-                            as: 'nivel',
-                            attributes: ['id', 'nombre'],
-                            required: false
-                        },
-                        {
-                            model: Grado,
-                            as: 'grado',
-                            attributes: ['id', 'nombre'],
-                            required: false
-                        },
-                        {
-                            model: Seccion,
-                            as: 'seccion',
-                            attributes: ['id', 'nombre'],
-                            required: false
-                        }
-                    ]
-                },
-                {
-                    model: Docente,
-                    as: 'docente',
-                    required: false,
-                    include: [
-                        {
-                            model: Persona,
-                            as: 'persona',
-                        }
-                    ]
-                }
-            ]
-        });
-        res.json({
-            ok: true,
-            total: data.length,
-            busquedas: data
-        });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
-    }
 
-
-}
-export const busquedaProgramacionesSubareaPorDocente = async (req: Request, res: Response) => {
-    const { valor, docenteId } = req.params;
-    try {
-        const data = await Programacion.findAll({
-            where: {
-                [Op.or]: [
-                    {
-                        '$subarea.nombre$': {
-                            [Op.like]: `%${valor}%`
-                        }
-                    },
-                    {
-                        '$aula.nombre$': {
-                            [Op.like]: `%${valor}%`
-                        }
-                    }
-                ],
-                '$docente.id$': docenteId,
-                estado: true
-            },
-            include: [
-                {
-                    model: Periodo,
-                    as: 'periodo'
-                },
-                {
-                    model: Subarea,
-                    as: 'subarea'
-                },
                 {
                     model: Aula,
                     as: 'aula',
@@ -898,24 +1245,24 @@ export const busquedaProgramacionesSubareaPorDocente = async (req: Request, res:
 
 }
 export const programacionPeriodoPaginado = async (req: Request, res: Response) => {
-
     const { id } = req.params;
     const desde = Number(req.query.desde) || 0;
-
     try {
-
         const programaciones = await Programacion.findAll({
             where: {
                 estado: true,
                 periodoId: id
             },
+            order: [
+                ['id', 'DESC']
+            ],
             limit: 5,
             offset: desde,
             include: [
                 {
                     model: Aula,
                     as: 'aula',
-                    required: false,
+                    attributes:['id','nombre','tipovalor'],
                     include: [
                         {
                             model: Nivel,
@@ -940,21 +1287,9 @@ export const programacionPeriodoPaginado = async (req: Request, res: Response) =
                 {
                     model: Periodo,
                     as: 'periodo',
-                    attributes: ['id', 'nombre','fechainicial','fechafinal'],
+                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                 },
-                {
-                    model: Subarea,
-                    as: 'subarea',
-                    attributes: ['id', 'nombre'],
-                    required: false,
-                    include: [
-                        {
-                            model: Area,
-                            as: 'area',
-                            attributes: ['id', 'nombre']
-                        }
-                    ]
-                },
+
                 {
                     model: Docente,
                     as: 'docente',
@@ -963,8 +1298,14 @@ export const programacionPeriodoPaginado = async (req: Request, res: Response) =
                         {
                             model: Persona,
                             as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
                         }
                     ]
+                },
+                {
+                    model: Area,
+                    as: 'area',
+                    attributes: ['id', 'nombre']
                 }
             ]
         });
@@ -1026,193 +1367,12 @@ export const busquedaProgramacionesPorDocente = async (req: Request, res: Respon
                     model: Periodo,
                     as: 'periodo'
                 },
-                {
-                    model: Subarea,
-                    as: 'subarea',
-                    attributes: ['id', 'nombre']
 
-                },
                 {
                     model: Aula,
                     as: 'aula',
                     required: true,
-                    attributes: ['id', 'nombre'],
-                    include: [
-                        {
-                            model: Nivel,
-                            as: 'nivel',
-                            attributes: ['id', 'nombre'],
-                            required: false
-                        },
-                        {
-                            model: Grado,
-                            as: 'grado',
-                            attributes: ['id', 'nombre'],
-                            required: false
-                        },
-                        {
-                            model: Seccion,
-                            as: 'seccion',
-                            attributes: ['id', 'nombre'],
-                            required: false
-                        }
-                    ]
-                },
-                {
-                    model: Docente,
-                    as: 'docente',
-                    required: false,
-                    include: [
-                        {
-                            model: Persona,
-                            as: 'persona',
-                        }
-                    ]
-                }
-            ]
-        });
-        res.json({
-            ok: true,
-            total: data.length,
-            busquedas: data
-        });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
-    }
-
-
-}
-export const getProgramacionesDocentePeriodoPaginado = async (req: Request, res: Response) => {
-    const { docente, periodo } = req.params;
-    const desde = Number(req.query.desde) || 0;
-    try {
-
-        const total = (await Programacion.findAll({
-            where: {
-                estado: true,
-                docenteId: docente,
-                periodoId: periodo
-            },
-        })).length;
-
-        const programaciones = await Programacion.findAll({
-            where: {
-                estado: true,
-                docenteId: docente,
-                periodoId: periodo
-            },
-            limit: 5,
-            offset: desde,
-            include: [
-                {
-                    model: Aula,
-                    as: 'aula',
-                    required: false,
-                    include: [
-                        {
-                            model: Nivel,
-                            as: 'nivel',
-                            attributes: ['id', 'nombre'],
-                            required: false
-                        },
-                        {
-                            model: Grado,
-                            as: 'grado',
-                            attributes: ['id', 'nombre'],
-                            required: false
-                        },
-                        {
-                            model: Seccion,
-                            as: 'seccion',
-                            attributes: ['id', 'nombre'],
-                            required: false
-                        }
-                    ]
-                },
-                {
-                    model: Periodo,
-                    as: 'periodo',
-                    attributes: ['id', 'nombre','fechainicial','fechafinal'],
-                },
-                {
-                    model: Subarea,
-                    as: 'subarea',
-                    attributes: ['id', 'nombre'],
-                    required: false,
-                    include: [
-                        {
-                            model: Area,
-                            as: 'area',
-                            attributes: ['id', 'nombre']
-                        }
-                    ]
-                },
-                {
-                    model: Docente,
-                    as: 'docente',
-                    required: false,
-                    include: [
-                        {
-                            model: Persona,
-                            as: 'persona',
-                        }
-                    ]
-                }
-            ]
-        });
-        res.json({
-            ok: true,
-            programaciones,
-            desde,
-            total
-        });
-
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
-    }
-}
-export const busquedaProgramacionesSubareaPorDocentePeriodo = async (req: Request, res: Response) => {
-    const { valor, docenteId, periodoId } = req.params;
-    try {
-        const data = await Programacion.findAll({
-            where: {
-                [Op.or]: [
-                    {
-                        '$subarea.nombre$': {
-                            [Op.like]: `%${valor}%`
-                        }
-                    },
-                    {
-                        '$aula.nombre$': {
-                            [Op.like]: `%${valor}%`
-                        }
-                    }
-                ],
-                '$docente.id$': docenteId,
-                periodoId: periodoId,
-                estado: true
-            },
-            include: [
-                {
-                    model: Periodo,
-                    as: 'periodo'
-                },
-                {
-                    model: Subarea,
-                    as: 'subarea'
-                },
-                {
-                    model: Aula,
-                    as: 'aula',
-                    required: true,
+                    attributes:['id','nombre','tipovalor'],
                     include: [
                         {
                             model: Nivel,
@@ -1305,12 +1465,7 @@ export const getProgramacionesAdministradorPeriodo = async (req: Request, res: R
                     model: Periodo,
                     as: 'periodo'
                 },
-                {
-                    model: Subarea,
-                    as: 'subarea',
-                    attributes: ['id', 'nombre']
 
-                },
                 {
                     model: Aula,
                     as: 'aula',
@@ -1366,9 +1521,8 @@ export const getProgramacionesAdministradorPeriodo = async (req: Request, res: R
 
 
 }
-
 export const getProgramacionesAdministrador = async (req: Request, res: Response) => {
-    const {  valor } = req.params;
+    const { valor } = req.params;
 
     try {
         const data = await Programacion.findAll({
@@ -1407,12 +1561,6 @@ export const getProgramacionesAdministrador = async (req: Request, res: Response
                 {
                     model: Periodo,
                     as: 'periodo'
-                },
-                {
-                    model: Subarea,
-                    as: 'subarea',
-                    attributes: ['id', 'nombre']
-
                 },
                 {
                     model: Aula,
@@ -1466,6 +1614,4 @@ export const getProgramacionesAdministrador = async (req: Request, res: Response
             msg: 'Se produjo un error. Hable con el administrador'
         });
     }
-
-
 }

@@ -4,74 +4,74 @@ import { Op } from 'sequelize';
 import Aula from "../models/aula";
 
 
-export const busquedaGrados= async (req:Request,res:Response)=>{
+export const busquedaGrados = async (req: Request, res: Response) => {
 
-    const { valor }= req.params;
+    const { valor } = req.params;
     try {
-        const data= await Grado.findAll({
-            where:{
-                nombre:{
-                    [Op.like]:`%${valor}%`
+        const data = await Grado.findAll({
+            where: {
+                nombre: {
+                    [Op.like]: `%${valor}%`
                 },
                 estado: true
             }
         });
         res.json({
-            ok:true,
-            total:data.length,
-            busquedas:data
+            ok: true,
+            total: data.length,
+            busquedas: data
         });
     } catch (error) {
         console.log(error);
         res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
         });
     }
 
 }
 
 
-export const getTodo= async (req:Request,res:Response)=>{
+export const getTodo = async (req: Request, res: Response) => {
 
     try {
-        const grados= await Grado.findAll({
-            where:{estado:true}
+        const grados = await Grado.findAll({
+            where: { estado: true }
         });
         res.json({
-            ok:true,
+            ok: true,
             grados
         });
     } catch (error) {
         console.log(error);
         res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
         });
     }
 
 }
 
 
-export const getGrados= async (req:Request,res:Response)=>{
-    const desde= Number(req.query.desde) || 0;
+export const getGrados = async (req: Request, res: Response) => {
+    const desde = Number(req.query.desde) || 0;
     try {
-        const total=  (await Grado.findAll({
-            where:{estado:true}
+        const total = (await Grado.findAll({
+            where: { estado: true }
         })).length;
 
-        const grados= await Grado.findAll({
-            where:{estado:true},
+        const grados = await Grado.findAll({
+            where: { estado: true },
             order: [
-                [ 
+                [
                     'id', 'ASC'
                 ]
             ],
-            limit:5,
-            offset:desde,
+            limit: 5,
+            offset: desde,
         });
         res.json({
-            ok:true,
+            ok: true,
             grados,
             desde,
             total
@@ -79,121 +79,121 @@ export const getGrados= async (req:Request,res:Response)=>{
     } catch (error) {
         console.log(error);
         res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
         });
     }
 }
 
-export const getGrado= async (req:Request,res:Response)=>{
-    const { id }= req.params;
+export const getGrado = async (req: Request, res: Response) => {
+    const { id } = req.params;
 
     try {
-        const grado= await Grado.findByPk(id);
-        
-        if(!grado){
+        const grado = await Grado.findByPk(id);
+
+        if (!grado) {
             return res.status(400).json({
-                ok:false,
+                ok: false,
                 msg: `No existe un grado con el id: ${id}`
             });
         }
 
         res.json({
-            ok:true,
+            ok: true,
             grado
         });
 
     } catch (error) {
         console.log(error);
         res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
         });
     }
 }
 
-export const postGrado= async (req:Request,res:Response)=>{
-    const { body }= req;
+export const postGrado = async (req: Request, res: Response) => {
+    const { body } = req;
     try {
-        const grado= Grado.build(body);
+        const grado = Grado.build(body);
         await grado.save();
         res.json({
-            ok:true,
-            msg:'Grado creado exitosamente',
+            ok: true,
+            msg: 'Grado creado exitosamente',
             grado
         });
     } catch (error) {
         console.log(error);
         res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
         });
     }
 
 }
-export const putGrado= async (req:Request,res:Response)=>{
+export const putGrado = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const { body }= req;
+    const { body } = req;
 
     try {
-        const grado:any = await Grado.findByPk(id);
-        if(!grado){
-           return  res.status(400).json({
-                ok:false,
+        const grado: any = await Grado.findByPk(id);
+        if (!grado) {
+            return res.status(400).json({
+                ok: false,
                 msg: `No existe un grado con el id: ${id}`
             });
         }
         await grado?.update(body);
         res.json({
-            ok:true,
-            msg:'Grado actualizado exitosamente',
+            ok: true,
+            msg: 'Grado actualizado exitosamente',
             grado
         });
     } catch (error) {
         console.log(error);
         res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
         });
     }
 }
-export const deleteGrado= async (req:Request,res:Response)=>{
+export const deleteGrado = async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
-        const grado:any = await Grado.findByPk(id);
-        if(!grado){
+        const grado: any = await Grado.findByPk(id);
+        if (!grado) {
             return res.status(400).json({
-                ok:false,
+                ok: false,
                 msg: `No existe un grado con el id: ${id}`
             });
         }
-        await grado?.update({ estado:false});
+        await grado?.update({ estado: false });
         res.json({
-            ok:true,
-            msg:'Grado eliminado exitosamente',
+            ok: true,
+            msg: 'Grado eliminado exitosamente',
             grado
         });
     } catch (error) {
         console.log(error);
         res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
         });
     }
 }
 
-export const tieneAulas = async (req:Request,res:Response)=>{
+export const tieneAulas = async (req: Request, res: Response) => {
 
     const { gradoId } = req.params;
     try {
-        
+
         const aulas = await Aula.findAll({
-            where:{
+            where: {
                 estado: true,
-                gradoId:gradoId
+                gradoId: gradoId
             }
         });
-        if(aulas.length>0){
+        if (aulas.length > 0) {
             return res.json({
                 ok: true,
                 msg: "No se puede eliminar el grado."
@@ -205,9 +205,69 @@ export const tieneAulas = async (req:Request,res:Response)=>{
 
     } catch (error) {
         res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
         });
     }
 
+}
+
+export const nombreRepetido = async (req: Request, res: Response) => {
+    const { gradoNombre } = req.params;
+    try {
+        const grado = await Grado.findOne({
+            where: {
+                estado: true,
+                nombre: {
+                    [Op.like]: `%${gradoNombre}%`
+                }
+            },
+            attributes: ['id']
+        });
+        if (grado) {
+            return res.json({
+                ok: true
+            });
+        }
+        res.json({
+            ok: false
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+export const nombreRepetidoEditar = async (req: Request, res: Response) => {
+    const { gradoId, gradoNombre } = req.params;
+    try {
+        const grado = await Grado.findOne({
+            where: {
+                estado: true,
+                nombre: {
+                    [Op.like]: `%${gradoNombre}%`
+                },
+                id: {
+                    [Op.ne]: gradoId
+                }
+            },
+            attributes: ['id']
+        });
+        if (grado) {
+            return res.json({
+                ok: true
+            });
+        }
+        res.json({
+            ok: false
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
 }

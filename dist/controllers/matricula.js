@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMatriculasPeriodoAula = exports.getMatriculasPeriodoAulaAreaApoderado = exports.getMatriculasPeriodoAulaArea = exports.matriculasApoderadoPeriodoAula = exports.getMatriculaAnual = exports.matriculasAlumnoReporte = exports.busquedaMatriculasPorAlumnoPeriodo = exports.matriculasAlumnoPeriodo = exports.busquedaMatriculasPorAlumnoApoderadoPeriodo = exports.matriculasAlumnoPorApoderadoPeriodo = exports.getMatriculasAnualApoderado = exports.getMatriculasPeriodoAulaSubareaaApoderado = exports.getMatriculasPeriodoAulaSubareaCicloApoderado = exports.matriculasApoderado = exports.getMatriculaCiclo = exports.getMatriculasPeriodoAulaSubarea = exports.busquedaMatriculasSubarea = exports.getMatriculasAnual = exports.busquedaMatriculasPorAlumno = exports.busquedaMatriculasPorAlumnoApoderado = exports.getMatriculasPeriodoAulaSubareaCiclo = exports.perteneceMatriculaApoderado = exports.matriculasAlumnoPorApoderado = exports.getMatriculasProgramacionRangoFechas = exports.matriculasProgramacionCiclo = exports.perteneceProgramacionAlumno = exports.perteneceMatriculaAlumno = exports.matriculasAlumno = exports.existeMatricula = exports.busquedaMatriculas = exports.deleteMatricula = exports.putMatricula = exports.postMatricula = exports.getMatricula = exports.getMatriculasSubarea = exports.getMatriculas = exports.getMatriculasProgramacion = void 0;
+exports.listarmatriculasanterior = exports.aprobadoAlumno = exports.getMatriculasPeriodoAula = exports.getMatriculasPeriodoAulaAreaApoderado = exports.getMatriculasPeriodoAulaArea = exports.matriculasApoderadoPeriodoAula = exports.getMatriculaAnual = exports.matriculasAlumnoReporte = exports.busquedaMatriculasPorAlumnoApoderadoPeriodo = exports.matriculasAlumnoPorApoderadoPeriodo = exports.getMatriculasAnualApoderado = exports.getMatriculasPeriodoAulaSubareaaApoderado = exports.getMatriculasPeriodoAulaSubareaCicloApoderado = exports.matriculasApoderado = exports.getMatriculaCiclo = exports.getMatriculasPeriodoAulaSubarea = exports.busquedaMatriculasSubarea = exports.getMatriculasAnual = exports.busquedaMatriculasPorAlumno = exports.busquedaMatriculasPorAlumnoApoderado = exports.getMatriculasPeriodoAulaSubareaCiclo = exports.perteneceMatriculaApoderado = exports.matriculasAlumnoPorApoderado = exports.getMatriculasProgramacionRangoFechas = exports.matriculasProgramacionCiclo = exports.perteneceProgramacionAlumno = exports.perteneceMatriculaAlumno = exports.existeMatricula = exports.getMatriculasSubarea = exports.getMatriculasProgramacion = exports.busquedaMatriculasPorAlumnoPeriodo = exports.matriculasAlumno = exports.matriculasAlumnoPeriodo = exports.busquedaMatriculas = exports.deleteMatricula = exports.putMatricula = exports.postMatricula = exports.getMatricula = exports.getMatriculas = void 0;
 const sequelize_1 = require("sequelize");
 const alumno_1 = __importDefault(require("../models/alumno"));
 const persona_1 = __importDefault(require("../models/persona"));
@@ -25,120 +25,12 @@ const grado_1 = __importDefault(require("../models/grado"));
 const seccion_1 = __importDefault(require("../models/seccion"));
 const docente_1 = __importDefault(require("../models/docente"));
 const periodo_1 = __importDefault(require("../models/periodo"));
-const subarea_1 = __importDefault(require("../models/subarea"));
 const area_1 = __importDefault(require("../models/area"));
 const evaluacion_1 = __importDefault(require("../models/evaluacion"));
 const ciclo_1 = __importDefault(require("../models/ciclo"));
 const nota_1 = __importDefault(require("../models/nota"));
 const asistencia_1 = __importDefault(require("../models/asistencia"));
-const apoderado_1 = __importDefault(require("../models/apoderado"));
-const getMatriculasProgramacion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { programacion } = req.params;
-    try {
-        const matriculas = yield matricula_1.default.findAll({
-            where: {
-                estado: true,
-                programacionId: programacion
-            },
-            order: [
-                [{ model: alumno_1.default, as: 'alumno' }, { model: persona_1.default, as: 'persona' }, 'apellidopaterno', 'ASC']
-            ],
-            include: [
-                {
-                    model: alumno_1.default,
-                    as: 'alumno',
-                    required: false,
-                    include: [
-                        {
-                            model: persona_1.default,
-                            as: 'persona'
-                        },
-                    ],
-                },
-                {
-                    model: programacion_1.default,
-                    as: 'programacion',
-                    include: [
-                        {
-                            model: aula_1.default,
-                            as: 'aula',
-                            include: [
-                                {
-                                    model: nivel_1.default,
-                                    as: 'nivel'
-                                },
-                                {
-                                    model: grado_1.default,
-                                    as: 'grado'
-                                },
-                                {
-                                    model: seccion_1.default,
-                                    as: 'seccion'
-                                }
-                            ]
-                        },
-                        {
-                            model: docente_1.default,
-                            as: 'docente',
-                            include: [
-                                {
-                                    model: persona_1.default,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno'],
-                                    required: false,
-                                    include: [
-                                        {
-                                            model: tipodocumento_1.default,
-                                            as: 'tipodocumento'
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            model: periodo_1.default,
-                            as: 'periodo'
-                        },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area'
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    model: asistencia_1.default,
-                    as: 'asistencia'
-                }
-            ]
-        });
-        if (matriculas.length > 0) {
-            return res.json({
-                ok: true,
-                matriculas,
-                total: matriculas.length
-            });
-        }
-        else {
-            res.json({
-                ok: false,
-                msg: "No hay registros"
-            });
-        }
-    }
-    catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
-    }
-});
-exports.getMatriculasProgramacion = getMatriculasProgramacion;
+const matriculadetalle_1 = __importDefault(require("../models/matriculadetalle"));
 const getMatriculas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const desde = Number(req.query.desde) || 0;
     try {
@@ -147,81 +39,22 @@ const getMatriculas = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         })).length;
         const matriculas = yield matricula_1.default.findAll({
             where: { estado: true },
+            order: [
+                ['id', 'DESC']
+            ],
             limit: 5,
             offset: desde,
+            attributes: ['id', 'fecha', 'hora'],
             include: [
                 {
                     model: alumno_1.default,
                     as: 'alumno',
-                    required: false,
+                    attributes: ['id'],
                     include: [
                         {
                             model: persona_1.default,
                             as: 'persona',
-                            attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno'],
-                            required: false,
-                            include: [
-                                {
-                                    model: tipodocumento_1.default,
-                                    as: 'tipodocumento'
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    model: programacion_1.default,
-                    as: 'programacion',
-                    include: [
-                        {
-                            model: aula_1.default,
-                            as: 'aula',
-                            include: [
-                                {
-                                    model: nivel_1.default,
-                                    as: 'nivel'
-                                },
-                                {
-                                    model: grado_1.default,
-                                    as: 'grado'
-                                },
-                                {
-                                    model: seccion_1.default,
-                                    as: 'seccion'
-                                }
-                            ]
-                        },
-                        {
-                            model: docente_1.default,
-                            as: 'docente',
-                            include: [
-                                {
-                                    model: persona_1.default,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno'],
-                                    required: false,
-                                    include: [
-                                        {
-                                            model: tipodocumento_1.default,
-                                            as: 'tipodocumento'
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            model: periodo_1.default,
-                            as: 'periodo'
-                        },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area'
-                                }
-                            ]
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
                         }
                     ]
                 }
@@ -243,212 +76,25 @@ const getMatriculas = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.getMatriculas = getMatriculas;
-const getMatriculasSubarea = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const desde = Number(req.query.desde) || 0;
-    const { subareaId } = req.params;
-    try {
-        const total = (yield matricula_1.default.findAll({
-            where: {
-                estado: true,
-                '$programacion.subarea.id$': subareaId,
-            },
-            include: [
-                {
-                    model: programacion_1.default,
-                    as: 'programacion',
-                    include: [
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        })).length;
-        const matriculas = yield matricula_1.default.findAll({
-            where: {
-                estado: true,
-                '$programacion.subarea.id$': subareaId,
-            },
-            limit: 5,
-            offset: desde,
-            include: [
-                {
-                    model: alumno_1.default,
-                    as: 'alumno',
-                    required: false,
-                    include: [
-                        {
-                            model: persona_1.default,
-                            as: 'persona',
-                            attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno'],
-                            required: false,
-                            include: [
-                                {
-                                    model: tipodocumento_1.default,
-                                    as: 'tipodocumento'
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    model: programacion_1.default,
-                    as: 'programacion',
-                    include: [
-                        {
-                            model: aula_1.default,
-                            as: 'aula',
-                            include: [
-                                {
-                                    model: nivel_1.default,
-                                    as: 'nivel'
-                                },
-                                {
-                                    model: grado_1.default,
-                                    as: 'grado'
-                                },
-                                {
-                                    model: seccion_1.default,
-                                    as: 'seccion'
-                                }
-                            ]
-                        },
-                        {
-                            model: docente_1.default,
-                            as: 'docente',
-                            include: [
-                                {
-                                    model: persona_1.default,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno'],
-                                    required: false,
-                                    include: [
-                                        {
-                                            model: tipodocumento_1.default,
-                                            as: 'tipodocumento'
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            model: periodo_1.default,
-                            as: 'periodo'
-                        },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        });
-        res.json({
-            ok: true,
-            matriculas,
-            desde,
-            total
-        });
-    }
-    catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
-    }
-});
-exports.getMatriculasSubarea = getMatriculasSubarea;
 const getMatricula = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
-        const matricula = yield matricula_1.default.findByPk(id, {
+        const matricula = yield matricula_1.default.findOne({
+            where: {
+                estado: true,
+                id: id
+            },
+            attributes: ['id', 'fecha', 'hora'],
             include: [
                 {
                     model: alumno_1.default,
                     as: 'alumno',
-                    required: false,
+                    attributes: ['id'],
                     include: [
                         {
                             model: persona_1.default,
                             as: 'persona',
-                            attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno'],
-                            required: false,
-                            include: [
-                                {
-                                    model: tipodocumento_1.default,
-                                    as: 'tipodocumento'
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    model: programacion_1.default,
-                    as: 'programacion',
-                    include: [
-                        {
-                            model: aula_1.default,
-                            as: 'aula',
-                            include: [
-                                {
-                                    model: nivel_1.default,
-                                    as: 'nivel'
-                                },
-                                {
-                                    model: grado_1.default,
-                                    as: 'grado'
-                                },
-                                {
-                                    model: seccion_1.default,
-                                    as: 'seccion'
-                                }
-                            ]
-                        },
-                        {
-                            model: docente_1.default,
-                            as: 'docente',
-                            include: [
-                                {
-                                    model: persona_1.default,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno'],
-                                    required: false,
-                                    include: [
-                                        {
-                                            model: tipodocumento_1.default,
-                                            as: 'tipodocumento'
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            model: periodo_1.default,
-                            as: 'periodo'
-                        },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area'
-                                }
-                            ]
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
                         }
                     ]
                 }
@@ -479,13 +125,6 @@ const postMatricula = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     try {
         const matricula = matricula_1.default.build(body);
         yield matricula.save();
-        const programacion = yield programacion_1.default.findOne({
-            where: {
-                id: body.programacionId
-            }
-        });
-        programacion.numeromat = programacion.numeromat + 1;
-        programacion.save();
         res.json({
             ok: true,
             msg: 'Matricula guardada exitosamente',
@@ -539,13 +178,6 @@ const deleteMatricula = (req, res) => __awaiter(void 0, void 0, void 0, function
             });
         }
         yield (matricula === null || matricula === void 0 ? void 0 : matricula.update({ estado: false }));
-        const programacion = yield programacion_1.default.findOne({
-            where: {
-                id: matricula.programacionId
-            }
-        });
-        programacion.numeromat += 1;
-        programacion.save();
         res.json({
             ok: true,
             msg: 'Matricula eliminada exitosamente',
@@ -566,71 +198,41 @@ const busquedaMatriculas = (req, res) => __awaiter(void 0, void 0, void 0, funct
     try {
         let data = yield matricula_1.default.findAll({
             where: {
-                '$alumno.persona.nombres$': {
-                    [sequelize_1.Op.like]: `%${valor}%`
-                },
-                estado: true
+                estado: true,
+                [sequelize_1.Op.or]: [
+                    {
+                        '$alumno.persona.dni$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        },
+                    },
+                    {
+                        '$alumno.persona.nombres$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        },
+                    },
+                    {
+                        '$alumno.persona.apellidopaterno$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        },
+                    },
+                    {
+                        '$alumno.persona.apellidomaterno$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        },
+                    }
+                ],
             },
+            attributes: ['id', 'fecha', 'hora'],
             include: [
                 {
                     model: alumno_1.default,
                     as: 'alumno',
-                    required: true,
+                    attributes: ['id'],
                     include: [
                         {
                             model: persona_1.default,
                             as: 'persona',
-                            required: true
-                        }
-                    ]
-                },
-                {
-                    model: programacion_1.default,
-                    as: 'programacion',
-                    required: false,
-                    include: [
-                        {
-                            model: aula_1.default,
-                            as: 'aula',
-                            include: [
-                                {
-                                    model: nivel_1.default,
-                                    as: 'nivel'
-                                },
-                                {
-                                    model: grado_1.default,
-                                    as: 'grado'
-                                },
-                                {
-                                    model: seccion_1.default,
-                                    as: 'seccion'
-                                }
-                            ]
-                        },
-                        {
-                            model: docente_1.default,
-                            as: 'docente',
-                            include: [
-                                {
-                                    model: persona_1.default,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno']
-                                }
-                            ]
-                        },
-                        {
-                            model: periodo_1.default,
-                            as: 'periodo'
-                        },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area'
-                                }
-                            ]
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
                         }
                     ]
                 }
@@ -651,64 +253,46 @@ const busquedaMatriculas = (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.busquedaMatriculas = busquedaMatriculas;
-const existeMatricula = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { periodo, aula, alumno } = req.params;
+const matriculasAlumnoPeriodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { alumnoId, periodoId } = req.params;
+    const desde = Number(req.query.desde) || 0;
     try {
-        const matricula = yield matricula_1.default.findOne({
+        const total = (yield matricula_1.default.findAll({
             where: {
-                alumnoId: alumno,
-                estado: true
+                estado: true,
+                alumnoId: alumnoId,
+                '$programacion.periodo.id$': periodoId,
             },
             include: [
                 {
                     model: programacion_1.default,
                     as: 'programacion',
-                    where: {
-                        periodoId: periodo,
-                        aulaId: aula
-                    }
+                    include: [
+                        {
+                            model: periodo_1.default,
+                            as: 'periodo',
+                        },
+                    ]
                 }
             ]
-        });
-        if (matricula) {
-            return res.json({
-                ok: true,
-                msg: 'El alumno ya esta matriculado'
-            });
-        }
-        res.json({
-            ok: false
-        });
-    }
-    catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
-    }
-});
-exports.existeMatricula = existeMatricula;
-const matriculasAlumno = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    const desde = Number(req.query.desde) || 0;
-    try {
-        const total = (yield matricula_1.default.findAll({
-            where: { estado: true, alumnoId: id },
         })).length;
         const matriculas = yield matricula_1.default.findAll({
-            where: { estado: true, alumnoId: id },
+            where: {
+                estado: true,
+                alumnoId: alumnoId,
+                '$programacion.periodo.id$': periodoId,
+            },
             limit: 5,
             offset: desde,
             include: [
                 {
                     model: alumno_1.default,
                     as: 'alumno',
-                    required: false,
                     include: [
                         {
                             model: persona_1.default,
-                            as: 'persona'
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                         }
                     ]
                 },
@@ -757,14 +341,101 @@ const matriculasAlumno = (req, res) => __awaiter(void 0, void 0, void 0, functio
                             as: 'periodo'
                         },
                         {
-                            model: subarea_1.default,
-                            as: 'subarea',
+                            model: area_1.default,
+                            as: 'area',
+                            attributes: ['id', 'nombre']
+                        }
+                    ]
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            matriculas,
+            desde,
+            total
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.matriculasAlumnoPeriodo = matriculasAlumnoPeriodo;
+const matriculasAlumno = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const desde = Number(req.query.desde) || 0;
+    try {
+        const total = (yield matricula_1.default.findAll({
+            where: { estado: true, alumnoId: id },
+        })).length;
+        const matriculas = yield matricula_1.default.findAll({
+            where: { estado: true, alumnoId: id },
+            limit: 5,
+            offset: desde,
+            include: [
+                {
+                    model: alumno_1.default,
+                    as: 'alumno',
+                    include: [
+                        {
+                            model: persona_1.default,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                        }
+                    ]
+                },
+                {
+                    model: programacion_1.default,
+                    as: 'programacion',
+                    include: [
+                        {
+                            model: aula_1.default,
+                            as: 'aula',
                             include: [
                                 {
-                                    model: area_1.default,
-                                    as: 'area'
+                                    model: nivel_1.default,
+                                    as: 'nivel'
+                                },
+                                {
+                                    model: grado_1.default,
+                                    as: 'grado'
+                                },
+                                {
+                                    model: seccion_1.default,
+                                    as: 'seccion'
                                 }
                             ]
+                        },
+                        {
+                            model: docente_1.default,
+                            as: 'docente',
+                            include: [
+                                {
+                                    model: persona_1.default,
+                                    as: 'persona',
+                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno'],
+                                    required: false,
+                                    include: [
+                                        {
+                                            model: tipodocumento_1.default,
+                                            as: 'tipodocumento'
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            model: periodo_1.default,
+                            as: 'periodo'
+                        },
+                        {
+                            model: area_1.default,
+                            as: 'area',
+                            attributes: ['id', 'nombre']
                         }
                     ]
                 }
@@ -786,6 +457,336 @@ const matriculasAlumno = (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.matriculasAlumno = matriculasAlumno;
+const busquedaMatriculasPorAlumnoPeriodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { alumnoId, periodoId, valor } = req.params;
+    try {
+        let matriculas = yield matricula_1.default.findAll({
+            where: {
+                estado: true,
+                '$alumno.id$': alumnoId,
+                '$programacion.periodo.id$': periodoId,
+                [sequelize_1.Op.or]: [
+                    {
+                        '$alumno.persona.nombres$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$alumno.persona.apellidopaterno$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$alumno.persona.apellidomaterno$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$programacion.aula.nombre$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$programacion.docente.persona.nombres$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$programacion.subarea.nombre$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                ],
+            },
+            attributes: ['id', 'alumnoId', 'programacionId'],
+            include: [
+                {
+                    model: alumno_1.default,
+                    as: 'alumno',
+                    required: false,
+                    attributes: ['id', 'alumnoId', 'personaId', 'apoderadoId'],
+                    include: [
+                        {
+                            model: persona_1.default,
+                            as: 'persona',
+                            attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
+                        },
+                    ],
+                },
+                {
+                    model: programacion_1.default,
+                    as: 'programacion',
+                    attributes: ['id', 'numeromat', 'numeromaxmat', 'aulaId', 'docenteId', 'subareaId', 'periodoId'],
+                    include: [
+                        {
+                            model: aula_1.default,
+                            as: 'aula',
+                            attributes: ['id', 'nombre', 'nivelId', 'gradoId', 'seccionId'],
+                            include: [
+                                {
+                                    model: nivel_1.default,
+                                    as: 'nivel',
+                                    attributes: ['id', 'nombre']
+                                },
+                                {
+                                    model: grado_1.default,
+                                    as: 'grado',
+                                    attributes: ['id', 'nombre']
+                                },
+                                {
+                                    model: seccion_1.default,
+                                    as: 'seccion',
+                                    attributes: ['id', 'nombre']
+                                }
+                            ]
+                        },
+                        {
+                            model: docente_1.default,
+                            as: 'docente',
+                            include: [
+                                {
+                                    model: persona_1.default,
+                                    as: 'persona',
+                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img'],
+                                    required: false
+                                }
+                            ]
+                        },
+                        {
+                            model: periodo_1.default,
+                            as: 'periodo',
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
+                        },
+                    ]
+                },
+            ]
+        });
+        res.json({
+            ok: true,
+            total: matriculas.length,
+            busquedas: matriculas
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.busquedaMatriculasPorAlumnoPeriodo = busquedaMatriculasPorAlumnoPeriodo;
+const getMatriculasProgramacion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { programacionId } = req.params;
+    try {
+        const matriculadetalles = yield matriculadetalle_1.default.findAll({
+            where: {
+                estado: true,
+                programacionId: programacionId
+            },
+            attributes: ['id', 'aprobado', 'programacionId'],
+            order: [
+                [
+                    { model: matricula_1.default, as: 'matricula' },
+                    { model: alumno_1.default, as: 'alumno' },
+                    { model: persona_1.default, as: 'persona' },
+                    'apellidopaterno', 'ASC'
+                ]
+            ],
+            include: [
+                {
+                    model: matricula_1.default,
+                    as: 'matricula',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: alumno_1.default,
+                            as: 'alumno',
+                            attributes: ['id'],
+                            include: [
+                                {
+                                    model: persona_1.default,
+                                    as: 'persona',
+                                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                                },
+                            ],
+                        },
+                    ]
+                },
+                {
+                    model: programacion_1.default,
+                    as: 'programacion',
+                    attributes: ['id'],
+                }
+            ]
+        });
+        if (matriculadetalles.length > 0) {
+            return res.json({
+                ok: true,
+                matriculadetalles,
+                total: matriculadetalles.length
+            });
+        }
+        else {
+            res.json({
+                ok: false,
+                msg: "No hay registros"
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.getMatriculasProgramacion = getMatriculasProgramacion;
+const getMatriculasSubarea = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const desde = Number(req.query.desde) || 0;
+    const { subareaId } = req.params;
+    try {
+        const total = (yield matricula_1.default.findAll({
+            where: {
+                estado: true,
+                '$programacion.subarea.id$': subareaId,
+            },
+            include: [
+                {
+                    model: programacion_1.default,
+                    as: 'programacion',
+                }
+            ]
+        })).length;
+        const matriculas = yield matricula_1.default.findAll({
+            where: {
+                estado: true,
+                '$programacion.subarea.id$': subareaId,
+            },
+            limit: 5,
+            offset: desde,
+            include: [
+                {
+                    model: alumno_1.default,
+                    as: 'alumno',
+                    required: false,
+                    include: [
+                        {
+                            model: persona_1.default,
+                            as: 'persona',
+                            attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno'],
+                            required: false,
+                            include: [
+                                {
+                                    model: tipodocumento_1.default,
+                                    as: 'tipodocumento'
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    model: programacion_1.default,
+                    as: 'programacion',
+                    include: [
+                        {
+                            model: aula_1.default,
+                            as: 'aula',
+                            include: [
+                                {
+                                    model: nivel_1.default,
+                                    as: 'nivel'
+                                },
+                                {
+                                    model: grado_1.default,
+                                    as: 'grado'
+                                },
+                                {
+                                    model: seccion_1.default,
+                                    as: 'seccion'
+                                }
+                            ]
+                        },
+                        {
+                            model: docente_1.default,
+                            as: 'docente',
+                            include: [
+                                {
+                                    model: persona_1.default,
+                                    as: 'persona',
+                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno'],
+                                    required: false,
+                                    include: [
+                                        {
+                                            model: tipodocumento_1.default,
+                                            as: 'tipodocumento'
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            model: periodo_1.default,
+                            as: 'periodo'
+                        },
+                    ]
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            matriculas,
+            desde,
+            total
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.getMatriculasSubarea = getMatriculasSubarea;
+const existeMatricula = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { periodo, aula, alumno } = req.params;
+    try {
+        const matricula = yield matricula_1.default.findOne({
+            where: {
+                alumnoId: alumno,
+                estado: true
+            },
+            include: [
+                {
+                    model: programacion_1.default,
+                    as: 'programacion',
+                    where: {
+                        periodoId: periodo,
+                        aulaId: aula
+                    }
+                }
+            ]
+        });
+        if (matricula) {
+            return res.json({
+                ok: true,
+                msg: 'El alumno ya esta matriculado'
+            });
+        }
+        res.json({
+            ok: false
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.existeMatricula = existeMatricula;
 const perteneceMatriculaAlumno = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { matriculaId, alumnoId } = req.params;
     try {
@@ -905,16 +906,6 @@ const matriculasProgramacionCiclo = (req, res) => __awaiter(void 0, void 0, void
                             model: periodo_1.default,
                             as: 'periodo'
                         },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area'
-                                }
-                            ]
-                        }
                     ]
                 },
                 {
@@ -1016,16 +1007,6 @@ const getMatriculasProgramacionRangoFechas = (req, res) => __awaiter(void 0, voi
                             model: periodo_1.default,
                             as: 'periodo'
                         },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area'
-                                }
-                            ]
-                        }
                     ]
                 },
                 {
@@ -1067,16 +1048,6 @@ const matriculasAlumnoPorApoderado = (req, res) => __awaiter(void 0, void 0, voi
                             model: persona_1.default,
                             as: 'persona'
                         },
-                        {
-                            model: apoderado_1.default,
-                            as: 'apoderado',
-                            include: [
-                                {
-                                    model: persona_1.default,
-                                    as: 'persona'
-                                }
-                            ]
-                        }
                     ]
                 },
                 {
@@ -1115,16 +1086,6 @@ const matriculasAlumnoPorApoderado = (req, res) => __awaiter(void 0, void 0, voi
                             model: periodo_1.default,
                             as: 'periodo'
                         },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area'
-                                }
-                            ]
-                        }
                     ]
                 },
             ]
@@ -1152,16 +1113,6 @@ const matriculasAlumnoPorApoderado = (req, res) => __awaiter(void 0, void 0, voi
                             model: persona_1.default,
                             as: 'persona'
                         },
-                        {
-                            model: apoderado_1.default,
-                            as: 'apoderado',
-                            include: [
-                                {
-                                    model: persona_1.default,
-                                    as: 'persona'
-                                }
-                            ]
-                        }
                     ]
                 },
                 {
@@ -1200,16 +1151,6 @@ const matriculasAlumnoPorApoderado = (req, res) => __awaiter(void 0, void 0, voi
                             model: periodo_1.default,
                             as: 'periodo'
                         },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area'
-                                }
-                            ]
-                        }
                     ]
                 },
             ]
@@ -1243,12 +1184,6 @@ const perteneceMatriculaApoderado = (req, res) => __awaiter(void 0, void 0, void
                 {
                     model: alumno_1.default,
                     as: 'alumno',
-                    include: [
-                        {
-                            model: apoderado_1.default,
-                            as: 'apoderado'
-                        }
-                    ]
                 }
             ]
         });
@@ -1342,18 +1277,6 @@ const getMatriculasPeriodoAulaSubareaCiclo = (req, res) => __awaiter(void 0, voi
                             as: 'periodo',
                             attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
-                        }
                     ]
                 },
                 {
@@ -1452,18 +1375,6 @@ const busquedaMatriculasPorAlumnoApoderado = (req, res) => __awaiter(void 0, voi
                             as: 'persona',
                             attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
                         },
-                        {
-                            model: apoderado_1.default,
-                            as: 'apoderado',
-                            attributes: ['id', 'apoderadoId', 'personaId'],
-                            include: [
-                                {
-                                    model: persona_1.default,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
-                                }
-                            ]
-                        }
                     ],
                 },
                 {
@@ -1510,18 +1421,6 @@ const busquedaMatriculasPorAlumnoApoderado = (req, res) => __awaiter(void 0, voi
                             as: 'periodo',
                             attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
-                        }
                     ]
                 },
             ]
@@ -1580,13 +1479,6 @@ const busquedaMatriculasPorAlumno = (req, res) => __awaiter(void 0, void 0, void
                     },
                 ],
             },
-            order: [
-                [
-                    { model: programacion_1.default, as: 'programacion' },
-                    { model: subarea_1.default, as: 'subarea' },
-                    'nombre', 'ASC'
-                ]
-            ],
             attributes: ['id', 'alumnoId', 'programacionId'],
             include: [
                 {
@@ -1600,18 +1492,6 @@ const busquedaMatriculasPorAlumno = (req, res) => __awaiter(void 0, void 0, void
                             as: 'persona',
                             attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
                         },
-                        {
-                            model: apoderado_1.default,
-                            as: 'apoderado',
-                            attributes: ['id', 'apoderadoId', 'personaId'],
-                            include: [
-                                {
-                                    model: persona_1.default,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
-                                }
-                            ]
-                        }
                     ],
                 },
                 {
@@ -1658,18 +1538,6 @@ const busquedaMatriculasPorAlumno = (req, res) => __awaiter(void 0, void 0, void
                             as: 'periodo',
                             attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
-                        }
                     ]
                 },
             ]
@@ -1760,18 +1628,6 @@ const getMatriculasAnual = (req, res) => __awaiter(void 0, void 0, void 0, funct
                             as: 'periodo',
                             attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
-                        }
                     ]
                 },
                 {
@@ -1869,16 +1725,6 @@ const busquedaMatriculasSubarea = (req, res) => __awaiter(void 0, void 0, void 0
                             model: periodo_1.default,
                             as: 'periodo'
                         },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area'
-                                }
-                            ]
-                        }
                     ]
                 }
             ]
@@ -1957,18 +1803,6 @@ const getMatriculasPeriodoAulaSubarea = (req, res) => __awaiter(void 0, void 0, 
                             model: periodo_1.default,
                             as: 'periodo',
                             attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
-                        },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
                         },
                         {
                             model: docente_1.default,
@@ -2066,18 +1900,6 @@ const getMatriculaCiclo = (req, res) => __awaiter(void 0, void 0, void 0, functi
                             as: 'periodo',
                             attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
-                        }
                     ]
                 },
                 {
@@ -2139,16 +1961,6 @@ const matriculasApoderado = (req, res) => __awaiter(void 0, void 0, void 0, func
                             model: persona_1.default,
                             as: 'persona'
                         },
-                        {
-                            model: apoderado_1.default,
-                            as: 'apoderado',
-                            include: [
-                                {
-                                    model: persona_1.default,
-                                    as: 'persona'
-                                }
-                            ]
-                        }
                     ]
                 },
                 {
@@ -2187,16 +1999,6 @@ const matriculasApoderado = (req, res) => __awaiter(void 0, void 0, void 0, func
                             model: periodo_1.default,
                             as: 'periodo'
                         },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area'
-                                }
-                            ]
-                        }
                     ]
                 },
             ]
@@ -2242,18 +2044,6 @@ const getMatriculasPeriodoAulaSubareaCicloApoderado = (req, res) => __awaiter(vo
                             as: 'persona',
                             attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
                         },
-                        {
-                            model: apoderado_1.default,
-                            as: 'apoderado',
-                            attributes: ['id'],
-                            include: [
-                                {
-                                    model: persona_1.default,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
-                                }
-                            ]
-                        }
                     ],
                 },
                 {
@@ -2300,18 +2090,6 @@ const getMatriculasPeriodoAulaSubareaCicloApoderado = (req, res) => __awaiter(vo
                             as: 'periodo',
                             attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
-                        }
                     ]
                 },
                 {
@@ -2378,18 +2156,6 @@ const getMatriculasPeriodoAulaSubareaaApoderado = (req, res) => __awaiter(void 0
                             as: 'persona',
                             attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
                         },
-                        {
-                            model: apoderado_1.default,
-                            as: 'apoderado',
-                            attributes: ['id'],
-                            include: [
-                                {
-                                    model: persona_1.default,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
-                                }
-                            ]
-                        }
                     ],
                 },
                 {
@@ -2423,18 +2189,6 @@ const getMatriculasPeriodoAulaSubareaaApoderado = (req, res) => __awaiter(void 0
                             model: periodo_1.default,
                             as: 'periodo',
                             attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
-                        },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
                         },
                         {
                             model: docente_1.default,
@@ -2492,18 +2246,6 @@ const getMatriculasAnualApoderado = (req, res) => __awaiter(void 0, void 0, void
                             as: 'persona',
                             attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
                         },
-                        {
-                            model: apoderado_1.default,
-                            as: 'apoderado',
-                            attributes: ['id'],
-                            include: [
-                                {
-                                    model: persona_1.default,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
-                                }
-                            ]
-                        }
                     ],
                 },
                 {
@@ -2550,18 +2292,6 @@ const getMatriculasAnualApoderado = (req, res) => __awaiter(void 0, void 0, void
                             as: 'periodo',
                             attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
-                        }
                     ]
                 },
                 {
@@ -2616,16 +2346,6 @@ const matriculasAlumnoPorApoderadoPeriodo = (req, res) => __awaiter(void 0, void
                             model: persona_1.default,
                             as: 'persona'
                         },
-                        {
-                            model: apoderado_1.default,
-                            as: 'apoderado',
-                            include: [
-                                {
-                                    model: persona_1.default,
-                                    as: 'persona'
-                                }
-                            ]
-                        }
                     ]
                 },
                 {
@@ -2664,16 +2384,6 @@ const matriculasAlumnoPorApoderadoPeriodo = (req, res) => __awaiter(void 0, void
                             model: periodo_1.default,
                             as: 'periodo'
                         },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area'
-                                }
-                            ]
-                        }
                     ]
                 },
             ]
@@ -2695,26 +2405,6 @@ const matriculasAlumnoPorApoderadoPeriodo = (req, res) => __awaiter(void 0, void
             offset: desde,
             include: [
                 {
-                    model: alumno_1.default,
-                    as: 'alumno',
-                    include: [
-                        {
-                            model: persona_1.default,
-                            as: 'persona'
-                        },
-                        {
-                            model: apoderado_1.default,
-                            as: 'apoderado',
-                            include: [
-                                {
-                                    model: persona_1.default,
-                                    as: 'persona'
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
                     model: programacion_1.default,
                     as: 'programacion',
                     include: [
@@ -2750,16 +2440,6 @@ const matriculasAlumnoPorApoderadoPeriodo = (req, res) => __awaiter(void 0, void
                             model: periodo_1.default,
                             as: 'periodo'
                         },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area'
-                                }
-                            ]
-                        }
                     ]
                 },
             ]
@@ -2841,18 +2521,6 @@ const busquedaMatriculasPorAlumnoApoderadoPeriodo = (req, res) => __awaiter(void
                             as: 'persona',
                             attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
                         },
-                        {
-                            model: apoderado_1.default,
-                            as: 'apoderado',
-                            attributes: ['id', 'apoderadoId', 'personaId'],
-                            include: [
-                                {
-                                    model: persona_1.default,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
-                                }
-                            ]
-                        }
                     ],
                 },
                 {
@@ -2899,18 +2567,6 @@ const busquedaMatriculasPorAlumnoApoderadoPeriodo = (req, res) => __awaiter(void
                             as: 'periodo',
                             attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
-                        }
                     ]
                 },
             ]
@@ -2929,272 +2585,6 @@ const busquedaMatriculasPorAlumnoApoderadoPeriodo = (req, res) => __awaiter(void
     }
 });
 exports.busquedaMatriculasPorAlumnoApoderadoPeriodo = busquedaMatriculasPorAlumnoApoderadoPeriodo;
-const matriculasAlumnoPeriodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { alumnoId, periodoId } = req.params;
-    const desde = Number(req.query.desde) || 0;
-    try {
-        const total = (yield matricula_1.default.findAll({
-            where: {
-                estado: true,
-                alumnoId: alumnoId,
-                '$programacion.periodo.id$': periodoId,
-            },
-            include: [
-                {
-                    model: programacion_1.default,
-                    as: 'programacion',
-                    include: [
-                        {
-                            model: periodo_1.default,
-                            as: 'periodo'
-                        },
-                    ]
-                }
-            ]
-        })).length;
-        const matriculas = yield matricula_1.default.findAll({
-            where: {
-                estado: true,
-                alumnoId: alumnoId,
-                '$programacion.periodo.id$': periodoId,
-            },
-            limit: 5,
-            offset: desde,
-            include: [
-                {
-                    model: alumno_1.default,
-                    as: 'alumno',
-                    required: false,
-                    include: [
-                        {
-                            model: persona_1.default,
-                            as: 'persona'
-                        }
-                    ]
-                },
-                {
-                    model: programacion_1.default,
-                    as: 'programacion',
-                    include: [
-                        {
-                            model: aula_1.default,
-                            as: 'aula',
-                            include: [
-                                {
-                                    model: nivel_1.default,
-                                    as: 'nivel'
-                                },
-                                {
-                                    model: grado_1.default,
-                                    as: 'grado'
-                                },
-                                {
-                                    model: seccion_1.default,
-                                    as: 'seccion'
-                                }
-                            ]
-                        },
-                        {
-                            model: docente_1.default,
-                            as: 'docente',
-                            include: [
-                                {
-                                    model: persona_1.default,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno'],
-                                    required: false,
-                                    include: [
-                                        {
-                                            model: tipodocumento_1.default,
-                                            as: 'tipodocumento'
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            model: periodo_1.default,
-                            as: 'periodo'
-                        },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        });
-        res.json({
-            ok: true,
-            matriculas,
-            desde,
-            total
-        });
-    }
-    catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
-    }
-});
-exports.matriculasAlumnoPeriodo = matriculasAlumnoPeriodo;
-const busquedaMatriculasPorAlumnoPeriodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { alumnoId, periodoId, valor } = req.params;
-    try {
-        let matriculas = yield matricula_1.default.findAll({
-            where: {
-                estado: true,
-                '$alumno.id$': alumnoId,
-                '$programacion.periodo.id$': periodoId,
-                [sequelize_1.Op.or]: [
-                    {
-                        '$alumno.persona.nombres$': {
-                            [sequelize_1.Op.like]: `%${valor}%`
-                        }
-                    },
-                    {
-                        '$alumno.persona.apellidopaterno$': {
-                            [sequelize_1.Op.like]: `%${valor}%`
-                        }
-                    },
-                    {
-                        '$alumno.persona.apellidomaterno$': {
-                            [sequelize_1.Op.like]: `%${valor}%`
-                        }
-                    },
-                    {
-                        '$programacion.aula.nombre$': {
-                            [sequelize_1.Op.like]: `%${valor}%`
-                        }
-                    },
-                    {
-                        '$programacion.docente.persona.nombres$': {
-                            [sequelize_1.Op.like]: `%${valor}%`
-                        }
-                    },
-                    {
-                        '$programacion.subarea.nombre$': {
-                            [sequelize_1.Op.like]: `%${valor}%`
-                        }
-                    },
-                ],
-            },
-            order: [
-                [
-                    { model: programacion_1.default, as: 'programacion' },
-                    { model: subarea_1.default, as: 'subarea' },
-                    'nombre', 'ASC'
-                ]
-            ],
-            attributes: ['id', 'alumnoId', 'programacionId'],
-            include: [
-                {
-                    model: alumno_1.default,
-                    as: 'alumno',
-                    required: false,
-                    attributes: ['id', 'alumnoId', 'personaId', 'apoderadoId'],
-                    include: [
-                        {
-                            model: persona_1.default,
-                            as: 'persona',
-                            attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
-                        },
-                        {
-                            model: apoderado_1.default,
-                            as: 'apoderado',
-                            attributes: ['id', 'apoderadoId', 'personaId'],
-                            include: [
-                                {
-                                    model: persona_1.default,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
-                                }
-                            ]
-                        }
-                    ],
-                },
-                {
-                    model: programacion_1.default,
-                    as: 'programacion',
-                    attributes: ['id', 'numeromat', 'numeromaxmat', 'aulaId', 'docenteId', 'subareaId', 'periodoId'],
-                    include: [
-                        {
-                            model: aula_1.default,
-                            as: 'aula',
-                            attributes: ['id', 'nombre', 'nivelId', 'gradoId', 'seccionId'],
-                            include: [
-                                {
-                                    model: nivel_1.default,
-                                    as: 'nivel',
-                                    attributes: ['id', 'nombre']
-                                },
-                                {
-                                    model: grado_1.default,
-                                    as: 'grado',
-                                    attributes: ['id', 'nombre']
-                                },
-                                {
-                                    model: seccion_1.default,
-                                    as: 'seccion',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
-                        },
-                        {
-                            model: docente_1.default,
-                            as: 'docente',
-                            include: [
-                                {
-                                    model: persona_1.default,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img'],
-                                    required: false
-                                }
-                            ]
-                        },
-                        {
-                            model: periodo_1.default,
-                            as: 'periodo',
-                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
-                        },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
-                        }
-                    ]
-                },
-            ]
-        });
-        res.json({
-            ok: true,
-            total: matriculas.length,
-            busquedas: matriculas
-        });
-    }
-    catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
-    }
-});
-exports.busquedaMatriculasPorAlumnoPeriodo = busquedaMatriculasPorAlumnoPeriodo;
 const matriculasAlumnoReporte = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { alumnoId } = req.params;
     try {
@@ -3256,16 +2646,6 @@ const matriculasAlumnoReporte = (req, res) => __awaiter(void 0, void 0, void 0, 
                             model: periodo_1.default,
                             as: 'periodo'
                         },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area'
-                                }
-                            ]
-                        }
                     ]
                 }
             ]
@@ -3351,18 +2731,6 @@ const getMatriculaAnual = (req, res) => __awaiter(void 0, void 0, void 0, functi
                             as: 'periodo',
                             attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
-                        }
                     ]
                 },
                 {
@@ -3423,16 +2791,6 @@ const matriculasApoderadoPeriodoAula = (req, res) => __awaiter(void 0, void 0, v
                             model: persona_1.default,
                             as: 'persona'
                         },
-                        {
-                            model: apoderado_1.default,
-                            as: 'apoderado',
-                            include: [
-                                {
-                                    model: persona_1.default,
-                                    as: 'persona'
-                                }
-                            ]
-                        }
                     ]
                 },
                 {
@@ -3471,16 +2829,6 @@ const matriculasApoderadoPeriodoAula = (req, res) => __awaiter(void 0, void 0, v
                             model: periodo_1.default,
                             as: 'periodo'
                         },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area'
-                                }
-                            ]
-                        }
                     ]
                 },
             ]
@@ -3507,35 +2855,35 @@ const getMatriculasPeriodoAulaArea = (req, res) => __awaiter(void 0, void 0, voi
                 estado: true,
                 '$programacion.periodo.id$': periodoId,
                 '$programacion.aula.id$': aulaId,
-                '$programacion.subarea.area.id$': areaId
+                '$programacion.area.id$': areaId
             },
             order: [
                 [{ model: alumno_1.default, as: 'alumno' }, { model: persona_1.default, as: 'persona' }, 'apellidopaterno', 'ASC']
             ],
-            attributes: ['id', 'alumnoId', 'programacionId'],
+            attributes: ['id'],
             include: [
                 {
                     model: alumno_1.default,
                     as: 'alumno',
                     required: false,
-                    attributes: ['id', 'alumnoId', 'personaId', 'apoderadoId'],
+                    attributes: ['id'],
                     include: [
                         {
                             model: persona_1.default,
                             as: 'persona',
-                            attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                         },
                     ],
                 },
                 {
                     model: programacion_1.default,
                     as: 'programacion',
-                    attributes: ['id', 'numeromat', 'numeromaxmat', 'aulaId', 'docenteId', 'subareaId', 'periodoId'],
+                    attributes: ['id', 'numeromat', 'numeromaxmat'],
                     include: [
                         {
                             model: aula_1.default,
                             as: 'aula',
-                            attributes: ['id', 'nombre', 'nivelId', 'gradoId', 'seccionId'],
+                            attributes: ['id', 'nombre'],
                             include: [
                                 {
                                     model: nivel_1.default,
@@ -3560,27 +2908,20 @@ const getMatriculasPeriodoAulaArea = (req, res) => __awaiter(void 0, void 0, voi
                             attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
                         {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
-                        },
-                        {
                             model: docente_1.default,
                             as: 'docente',
                             include: [
                                 {
                                     model: persona_1.default,
                                     as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno']
+                                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                                 }
                             ]
+                        },
+                        {
+                            model: area_1.default,
+                            as: 'area',
+                            attributes: ['id', 'nombre']
                         }
                     ]
                 }
@@ -3593,6 +2934,7 @@ const getMatriculasPeriodoAulaArea = (req, res) => __awaiter(void 0, void 0, voi
         });
     }
     catch (error) {
+        console.log(error);
         res.status(500).json({
             ok: false,
             msg: 'Se produjo un error. Hable con el administrador'
@@ -3627,18 +2969,6 @@ const getMatriculasPeriodoAulaAreaApoderado = (req, res) => __awaiter(void 0, vo
                             as: 'persona',
                             attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
                         },
-                        {
-                            model: apoderado_1.default,
-                            as: 'apoderado',
-                            attributes: ['id'],
-                            include: [
-                                {
-                                    model: persona_1.default,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
-                                }
-                            ]
-                        }
                     ],
                 },
                 {
@@ -3672,18 +3002,6 @@ const getMatriculasPeriodoAulaAreaApoderado = (req, res) => __awaiter(void 0, vo
                             model: periodo_1.default,
                             as: 'periodo',
                             attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
-                        },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
                         },
                         {
                             model: docente_1.default,
@@ -3780,4 +3098,61 @@ const getMatriculasPeriodoAula = (req, res) => __awaiter(void 0, void 0, void 0,
     }
 });
 exports.getMatriculasPeriodoAula = getMatriculasPeriodoAula;
+const aprobadoAlumno = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { alumnoId } = req.params;
+    try {
+        const matriculas = yield matricula_1.default.findAll({
+            where: {
+                estado: true,
+                aprobado: true,
+                alumnoId: alumnoId
+            }
+        });
+        if (matriculas.length > 0) {
+            return res.json({
+                ok: true,
+                msg: "Alumno aprobado"
+            });
+        }
+        res.json({
+            ok: false,
+            msg: "El alumno no está aprobado"
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.aprobadoAlumno = aprobadoAlumno;
+const listarmatriculasanterior = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { alumnoId } = req.params;
+    try {
+        const matriculas = yield matricula_1.default.findAll({
+            where: {
+                estado: true,
+                alumnoId: alumnoId
+            }
+        });
+        if (matriculas.length > 0) {
+            return res.json({
+                ok: true,
+            });
+        }
+        res.json({
+            ok: false,
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.listarmatriculasanterior = listarmatriculasanterior;
 //# sourceMappingURL=matricula.js.map

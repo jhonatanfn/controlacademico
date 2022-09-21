@@ -71,6 +71,39 @@ export const getPeriodo = async (req: Request, res: Response) => {
     }
 }
 
+export const getPeriodoNombre = async (req: Request, res: Response) => {
+    const { nombre } = req.params;
+
+    try {
+        const periodo = await Periodo.findOne({
+           where:{
+            estado: true,
+            nombre: nombre
+           },
+           attributes:['id','nombre','fechainicial','fechafinal']
+        });
+
+        if (!periodo) {
+            return res.status(400).json({
+                ok: false,
+                msg: `No existe un periodo con el nombre: ${nombre}`
+            });
+        }
+
+        res.json({
+            ok: true,
+            periodo
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+
 export const postPeriodo = async (req: Request, res: Response) => {
     const { body } = req;
     try {

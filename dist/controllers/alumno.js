@@ -12,16 +12,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.busquedaAlumnosNombres = exports.busquedaAlumnosDocumento = exports.tieneMatricula = exports.busquedaAlumnosApellido = exports.alumnoPorPersona = exports.busquedaAlumnos = exports.deleteAlumno = exports.putAlumno = exports.postAlumno = exports.getAlumno = exports.getAlumnoNumero = exports.getAlumnosTodos = exports.getAlumnos = void 0;
+exports.busquedaAlumnosNombres = exports.busquedaAlumnosDocumento = exports.tieneMatricula = exports.busquedaAlumnosApellido = exports.alumnoPorPersona = exports.searchDNI = exports.busquedaAlumnos = exports.deleteAlumno = exports.putAlumno = exports.postAlumno = exports.getAlumno = exports.getAlumnoDNI = exports.getAlumnosMadre = exports.getAlumnosPadre = exports.getAlumnosTodos = exports.getAlumnos = void 0;
 const sequelize_1 = require("sequelize");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const alumno_1 = __importDefault(require("../models/alumno"));
 const persona_1 = __importDefault(require("../models/persona"));
-const apoderado_1 = __importDefault(require("../models/apoderado"));
 const tipodocumento_1 = __importDefault(require("../models/tipodocumento"));
 const matricula_1 = __importDefault(require("../models/matricula"));
 const role_1 = __importDefault(require("../models/role"));
 const usuario_1 = __importDefault(require("../models/usuario"));
+const padre_1 = __importDefault(require("../models/padre"));
+const madre_1 = __importDefault(require("../models/madre"));
 const getAlumnos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const desde = Number(req.query.desde) || 0;
     try {
@@ -39,34 +40,36 @@ const getAlumnos = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 {
                     model: persona_1.default,
                     as: 'persona',
-                    required: false,
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                     include: [
                         {
                             model: tipodocumento_1.default,
                             as: 'tipodocumento',
-                            attributes: ['id', 'nombre'],
-                            required: false
+                            attributes: ['id', 'nombre']
                         }
                     ]
                 },
                 {
-                    model: apoderado_1.default,
-                    as: 'apoderado',
-                    attributes: ['personaId'],
-                    required: false,
+                    model: padre_1.default,
+                    as: 'padre',
+                    attributes: ['id'],
                     include: [
                         {
                             model: persona_1.default,
                             as: 'persona',
-                            required: false,
-                            include: [
-                                {
-                                    model: tipodocumento_1.default,
-                                    as: 'tipodocumento',
-                                    attributes: ['id', 'nombre'],
-                                    required: false
-                                }
-                            ]
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                        }
+                    ]
+                },
+                {
+                    model: madre_1.default,
+                    as: 'madre',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: persona_1.default,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                         }
                     ]
                 }
@@ -102,34 +105,36 @@ const getAlumnosTodos = (req, res) => __awaiter(void 0, void 0, void 0, function
                 {
                     model: persona_1.default,
                     as: 'persona',
-                    required: false,
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                     include: [
                         {
                             model: tipodocumento_1.default,
                             as: 'tipodocumento',
-                            attributes: ['id', 'nombre'],
-                            required: false
+                            attributes: ['id', 'nombre']
                         }
                     ]
                 },
                 {
-                    model: apoderado_1.default,
-                    as: 'apoderado',
-                    attributes: ['personaId'],
-                    required: false,
+                    model: padre_1.default,
+                    as: 'padre',
+                    attributes: ['id'],
                     include: [
                         {
                             model: persona_1.default,
                             as: 'persona',
-                            required: false,
-                            include: [
-                                {
-                                    model: tipodocumento_1.default,
-                                    as: 'tipodocumento',
-                                    attributes: ['id', 'nombre'],
-                                    required: false
-                                }
-                            ]
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                        }
+                    ]
+                },
+                {
+                    model: madre_1.default,
+                    as: 'madre',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: persona_1.default,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                         }
                     ]
                 }
@@ -149,8 +154,126 @@ const getAlumnosTodos = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.getAlumnosTodos = getAlumnosTodos;
-const getAlumnoNumero = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { numero } = req.params;
+const getAlumnosPadre = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const alumnos = yield alumno_1.default.findAll({
+            where: {
+                estado: true,
+                padreId: req.params.padreId
+            },
+            order: [
+                [
+                    { model: persona_1.default, as: 'persona' },
+                    'nombres', 'ASC'
+                ]
+            ],
+            include: [
+                {
+                    model: persona_1.default,
+                    as: 'persona',
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                },
+                {
+                    model: padre_1.default,
+                    as: 'padre',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: persona_1.default,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                        }
+                    ]
+                },
+                {
+                    model: madre_1.default,
+                    as: 'madre',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: persona_1.default,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                        }
+                    ]
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            alumnos
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.getAlumnosPadre = getAlumnosPadre;
+const getAlumnosMadre = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const alumnos = yield alumno_1.default.findAll({
+            where: {
+                estado: true,
+                madreId: req.params.madreId
+            },
+            order: [
+                [
+                    { model: persona_1.default, as: 'persona' },
+                    'nombres', 'ASC'
+                ]
+            ],
+            include: [
+                {
+                    model: persona_1.default,
+                    as: 'persona',
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                },
+                {
+                    model: padre_1.default,
+                    as: 'padre',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: persona_1.default,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                        }
+                    ]
+                },
+                {
+                    model: madre_1.default,
+                    as: 'madre',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: persona_1.default,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                        }
+                    ]
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            alumnos
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.getAlumnosMadre = getAlumnosMadre;
+const getAlumnoDNI = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { dni } = req.params;
     try {
         const alumno = yield alumno_1.default.findOne({
             where: { estado: true },
@@ -158,20 +281,24 @@ const getAlumnoNumero = (req, res) => __awaiter(void 0, void 0, void 0, function
                 {
                     model: persona_1.default,
                     as: 'persona',
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                     where: {
-                        numero: numero
-                    }
-                },
-                {
-                    model: apoderado_1.default,
-                    as: 'apoderado'
+                        dni: dni
+                    },
+                    include: [
+                        {
+                            model: tipodocumento_1.default,
+                            as: 'tipodocumento',
+                            attributes: ['id', 'nombre']
+                        }
+                    ]
                 }
             ]
         });
         if (!alumno) {
             return res.status(400).json({
                 ok: false,
-                msg: `No existe un alumno con el numero: ${numero}`
+                msg: `No existe un alumno con el dni: ${dni}`
             });
         }
         res.json({
@@ -187,7 +314,7 @@ const getAlumnoNumero = (req, res) => __awaiter(void 0, void 0, void 0, function
         });
     }
 });
-exports.getAlumnoNumero = getAlumnoNumero;
+exports.getAlumnoDNI = getAlumnoDNI;
 const getAlumno = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
@@ -196,33 +323,36 @@ const getAlumno = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 {
                     model: persona_1.default,
                     as: 'persona',
-                    required: false,
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                     include: [
                         {
                             model: tipodocumento_1.default,
                             as: 'tipodocumento',
-                            attributes: ['id', 'nombre'],
-                            required: false
+                            attributes: ['id', 'nombre']
                         }
                     ]
                 },
                 {
-                    model: apoderado_1.default,
-                    as: 'apoderado',
-                    required: false,
+                    model: padre_1.default,
+                    as: 'padre',
+                    attributes: ['id'],
                     include: [
                         {
                             model: persona_1.default,
                             as: 'persona',
-                            required: false,
-                            include: [
-                                {
-                                    model: tipodocumento_1.default,
-                                    as: 'tipodocumento',
-                                    attributes: ['id', 'nombre'],
-                                    required: false
-                                }
-                            ]
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                        }
+                    ]
+                },
+                {
+                    model: madre_1.default,
+                    as: 'madre',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: persona_1.default,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                         }
                     ]
                 }
@@ -258,15 +388,21 @@ const postAlumno = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         let numeroUsuario = maxValor + 1;
         const alumno = alumno_1.default.build({
             personaId: body.personaId,
-            apoderadoId: body.apoderadoId
+            padreId: body.padreId,
+            madreId: body.madreId,
+            vivecon: body.vivecon,
+            tienediscapacidad: body.tienediscapacidad,
+            cualdiscapacidad: body.cualdiscapacidad,
+            certificadiscapacidad: body.certificadiscapacidad,
+            observacion: body.observacion
         });
         yield alumno.save();
         yield usuario_1.default.create({
             nombre: arr[0],
             numero: numeroUsuario,
-            email: arr[0] + '' + numeroUsuario + '@gutemberg.com',
+            email: arr[0] + '' + numeroUsuario + '@mail.com',
             password: bcryptjs_1.default.hashSync('123456', salt),
-            roleId: roles[3].id,
+            roleId: roles[5].id,
             personaId: body.personaId
         });
         res.json({
@@ -329,7 +465,8 @@ const deleteAlumno = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             include: [
                 {
                     model: alumno_1.default,
-                    as: 'alumno'
+                    as: 'alumno',
+                    attributes: ['id']
                 }
             ]
         });
@@ -369,17 +506,76 @@ const busquedaAlumnos = (req, res) => __awaiter(void 0, void 0, void 0, function
     try {
         const data = yield alumno_1.default.findAll({
             where: {
-                estado: true
+                estado: true,
+                [sequelize_1.Op.or]: [
+                    {
+                        '$persona.dni$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$persona.nombres$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$persona.apellidopaterno$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$persona.apellidomaterno$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$padre.persona.nombres$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$madre.persona.nombres$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    }
+                ]
             },
             include: [
                 {
                     model: persona_1.default,
                     as: 'persona',
-                    where: {
-                        nombres: {
-                            [sequelize_1.Op.like]: `%${valor}%`
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
+                    include: [
+                        {
+                            model: tipodocumento_1.default,
+                            as: 'tipodocumento',
+                            attributes: ['id', 'nombre']
                         }
-                    }
+                    ]
+                },
+                {
+                    model: padre_1.default,
+                    as: 'padre',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: persona_1.default,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                        }
+                    ]
+                },
+                {
+                    model: madre_1.default,
+                    as: 'madre',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: persona_1.default,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                        }
+                    ]
                 }
             ]
         });
@@ -397,6 +593,41 @@ const busquedaAlumnos = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.busquedaAlumnos = busquedaAlumnos;
+const searchDNI = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { dni } = req.params;
+    try {
+        const alumno = yield alumno_1.default.findOne({
+            where: {
+                estado: true,
+                '$persona.dni$': dni,
+            },
+            include: [
+                {
+                    model: persona_1.default,
+                    as: 'persona',
+                    attributes: ['id', 'dni'],
+                }
+            ]
+        });
+        if (alumno) {
+            return res.json({
+                ok: true,
+                msg: "El DNI ya se encuentra registrado"
+            });
+        }
+        res.json({
+            ok: false,
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.searchDNI = searchDNI;
 const alumnoPorPersona = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
@@ -409,6 +640,7 @@ const alumnoPorPersona = (req, res) => __awaiter(void 0, void 0, void 0, functio
                 {
                     model: persona_1.default,
                     as: 'persona',
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                     include: [{
                             model: tipodocumento_1.default,
                             as: 'tipodocumento'
@@ -452,16 +684,6 @@ const busquedaAlumnosApellido = (req, res) => __awaiter(void 0, void 0, void 0, 
                             [sequelize_1.Op.like]: `%${valor}%`
                         }
                     }
-                },
-                {
-                    model: apoderado_1.default,
-                    as: 'apoderado',
-                    include: [
-                        {
-                            model: persona_1.default,
-                            as: 'persona'
-                        }
-                    ]
                 }
             ]
         });
@@ -522,16 +744,6 @@ const busquedaAlumnosDocumento = (req, res) => __awaiter(void 0, void 0, void 0,
                             [sequelize_1.Op.like]: `%${valor}%`
                         }
                     }
-                },
-                {
-                    model: apoderado_1.default,
-                    as: 'apoderado',
-                    include: [
-                        {
-                            model: persona_1.default,
-                            as: 'persona'
-                        }
-                    ]
                 }
             ]
         });
@@ -583,16 +795,6 @@ const busquedaAlumnosNombres = (req, res) => __awaiter(void 0, void 0, void 0, f
                     model: persona_1.default,
                     as: 'persona',
                     attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
-                },
-                {
-                    model: apoderado_1.default,
-                    as: 'apoderado',
-                    include: [
-                        {
-                            model: persona_1.default,
-                            as: 'persona'
-                        }
-                    ]
                 }
             ]
         });

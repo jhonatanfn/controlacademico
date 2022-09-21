@@ -205,5 +205,64 @@ export const tieneAulas = async (req:Request,res:Response)=>{
             msg:'Se produjo un error. Hable con el administrador'
         });
     }
+}
 
+export const nombreRepetido = async (req: Request, res: Response) => {
+    const { nivelNombre } = req.params;
+    try {
+        const nivel = await Nivel.findOne({
+            where: {
+                estado: true,
+                nombre: {
+                    [Op.like]: `%${nivelNombre}%`
+                }
+            },
+            attributes: ['id']
+        });
+        if(nivel){
+            return res.json({
+                ok: true
+            });
+        }
+        res.json({
+            ok: false
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+export const nombreRepetidoEditar = async (req: Request, res: Response) => {
+    const { nivelId,nivelNombre } = req.params;
+    try {
+        const nivel = await Nivel.findOne({
+            where: {
+                estado: true,
+                nombre: {
+                    [Op.like]: `%${nivelNombre}%`
+                },
+                id:{
+                    [Op.ne]: nivelId
+                }
+            },
+            attributes: ['id']
+        });
+        if(nivel){
+            return res.json({
+                ok: true
+            });
+        }
+        res.json({
+            ok: false
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
 }

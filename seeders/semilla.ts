@@ -3,11 +3,9 @@ import bcrypt from 'bcryptjs';
 import Area from '../models/area';
 import Persona from '../models/persona';
 import Role from '../models/role';
-import Subarea from '../models/subarea';
 import Tipodocumento from '../models/tipodocumento';
 import Usuario from '../models/usuario';
 import Docente from '../models/docente';
-import Apoderado from '../models/apoderado';
 import Alumno from '../models/alumno';
 import Nivel from '../models/nivel';
 import Grado from '../models/grado';
@@ -26,6 +24,13 @@ import Institucion from '../models/institucion';
 import Hora from '../models/hora';
 import Rango from '../models/rango';
 import Mensajeria from '../models/mensajeria';
+import Director from '../models/director';
+import Competencia from '../models/competencia';
+import Responsable from '../models/padre';
+import Padre from '../models/padre';
+import Madre from '../models/madre';
+import Matriculadetalle from '../models/matriculadetalle';
+import Auxiliar from '../models/auxiliar';
 
 export const dbSeed = () => {
 
@@ -40,8 +45,14 @@ export const dbSeed = () => {
         seed_local.roles.forEach(rol => {
             Role.create(rol)
         });
+        seed_local.situaciones.forEach(situacion => {
+            Situacion.create(situacion);
+        });
         seed_local.areas.forEach(area => {
             Area.create(area);
+        });
+        seed_local.competencias.forEach(competencia => {
+            Competencia.create(competencia);
         });
         seed_local.tipodocumentos.forEach(tipodocumento => {
             Tipodocumento.create(tipodocumento);
@@ -51,9 +62,6 @@ export const dbSeed = () => {
         });
         seed_local.grados.forEach(grado => {
             Grado.create(grado);
-        });
-        seed_local.situaciones.forEach(situacion => {
-            Situacion.create(situacion);
         });
         seed_local.secciones.forEach(seccion => {
             Seccion.create(seccion);
@@ -73,9 +81,6 @@ export const dbSeed = () => {
         seed_local.rangos.forEach(rango => {
             Rango.create(rango);
         });
-        seed_local.subareas.forEach(subarea => {
-            Subarea.create(subarea);
-        });
         seed_local.personas.forEach(persona => {
             Persona.create(persona);
         });
@@ -86,11 +91,20 @@ export const dbSeed = () => {
         seed_local.docentes.forEach(docente => {
             Docente.create(docente);
         });
-        seed_local.apoderados.forEach(apoderado => {
-            Apoderado.create(apoderado);
+        seed_local.padres.forEach(padre => {
+            Padre.create(padre);
+        });
+        seed_local.madres.forEach(madre => {
+            Madre.create(madre);
         });
         seed_local.alumnos.forEach(alumno => {
             Alumno.create(alumno);
+        });
+        seed_local.auxiliares.forEach(auxiliar=>{
+            Auxiliar.create(auxiliar);
+        });
+        seed_local.directores.forEach(director=>{
+            Director.create(director);
         });
         seed_local.aulas.forEach(aula => {
             Aula.create(aula);
@@ -101,10 +115,13 @@ export const dbSeed = () => {
         seed_local.matriculas.forEach(matricula => {
             Matricula.create(matricula);
         });
+        seed_local.matriculadetalles.forEach(matriculadetalle => {
+            Matriculadetalle.create(matriculadetalle);
+        });
         seed_local.materiales.forEach(material => {
             Material.create(material);
         });
-        seed_local.mensajerias.forEach(mensajeria=>{
+        seed_local.mensajerias.forEach(mensajeria => {
             Mensajeria.create(mensajeria);
         });
 
@@ -115,8 +132,14 @@ export const dbSeed = () => {
         seed_heroku.roles.forEach(rol => {
             Role.create(rol)
         });
+        seed_heroku.situaciones.forEach(situacion => {
+            Situacion.create(situacion);
+        });
         seed_heroku.areas.forEach(area => {
             Area.create(area);
+        });
+        seed_heroku.competencias.forEach(competencia => {
+            Competencia.create(competencia);
         });
         seed_heroku.tipodocumentos.forEach(tipodocumento => {
             Tipodocumento.create(tipodocumento);
@@ -126,9 +149,6 @@ export const dbSeed = () => {
         });
         seed_heroku.grados.forEach(grado => {
             Grado.create(grado);
-        });
-        seed_heroku.situaciones.forEach(situacion => {
-            Situacion.create(situacion);
         });
         seed_heroku.secciones.forEach(seccion => {
             Seccion.create(seccion);
@@ -148,9 +168,6 @@ export const dbSeed = () => {
         seed_heroku.rangos.forEach(rango => {
             Rango.create(rango);
         });
-        seed_heroku.subareas.forEach(subarea => {
-            Subarea.create(subarea);
-        });
         seed_heroku.personas.forEach(persona => {
             Persona.create(persona);
         });
@@ -161,11 +178,20 @@ export const dbSeed = () => {
         seed_heroku.docentes.forEach(docente => {
             Docente.create(docente);
         });
-        seed_heroku.apoderados.forEach(apoderado => {
-            Apoderado.create(apoderado);
+        seed_heroku.padres.forEach(padre => {
+            Padre.create(padre);
+        });
+        seed_heroku.madres.forEach(madre => {
+            Madre.create(madre);
         });
         seed_heroku.alumnos.forEach(alumno => {
             Alumno.create(alumno);
+        });
+        seed_heroku.auxiliares.forEach(auxiliar=>{
+            Auxiliar.create(auxiliar);
+        });
+        seed_heroku.directores.forEach(director=>{
+            Director.create(director);
         });
         seed_heroku.aulas.forEach(aula => {
             Aula.create(aula);
@@ -176,10 +202,13 @@ export const dbSeed = () => {
         seed_heroku.matriculas.forEach(matricula => {
             Matricula.create(matricula);
         });
+        seed_heroku.matriculadetalles.forEach(matriculadetalle => {
+            Matriculadetalle.create(matriculadetalle);
+        });
         seed_heroku.materiales.forEach(material => {
             Material.create(material);
         });
-        seed_heroku.mensajerias.forEach(mensajeria=>{
+        seed_heroku.mensajerias.forEach(mensajeria => {
             Mensajeria.create(mensajeria);
         });
     }

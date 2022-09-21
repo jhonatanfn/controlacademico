@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.busquedaAulasTotal = exports.tieneProgramaciones = exports.busquedaAulas = exports.deleteAula = exports.putAula = exports.postAula = exports.getAula = exports.getAulaPorNivelGradoSeccion = exports.getAulas = exports.getTodo = void 0;
+exports.existeAulaEditar = exports.existeAula = exports.busquedaAulasTotal = exports.tieneProgramaciones = exports.busquedaAulas = exports.deleteAula = exports.putAula = exports.postAula = exports.getAula = exports.getAulaPorNivelGradoSeccion = exports.getAulas = exports.getTodo = void 0;
 const sequelize_1 = require("sequelize");
 const aula_1 = __importDefault(require("../models/aula"));
 const grado_1 = __importDefault(require("../models/grado"));
@@ -23,24 +23,22 @@ const getTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const aulas = yield aula_1.default.findAll({
             where: { estado: true },
+            attributes: ['id', 'nombre', 'tipovalor'],
             include: [
                 {
                     model: nivel_1.default,
                     as: 'nivel',
                     attributes: ['id', 'nombre'],
-                    required: false
                 },
                 {
                     model: grado_1.default,
                     as: 'grado',
                     attributes: ['id', 'nombre'],
-                    required: false
                 },
                 {
                     model: seccion_1.default,
                     as: 'seccion',
                     attributes: ['id', 'nombre'],
-                    required: false
                 }
             ]
         });
@@ -73,6 +71,7 @@ const getAulas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             ],
             limit: 5,
             offset: desde,
+            attributes: ['id', 'nombre', 'tipovalor'],
             include: [
                 {
                     model: nivel_1.default,
@@ -124,7 +123,7 @@ const getAulaPorNivelGradoSeccion = (req, res) => __awaiter(void 0, void 0, void
                 {
                     model: nivel_1.default,
                     as: 'nivel',
-                    attributes: ['id', 'nombre'],
+                    attributes: ['id', 'nombre', 'tipovalor'],
                     required: false
                 },
                 {
@@ -165,7 +164,7 @@ const getAula = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
         const aula = yield aula_1.default.findByPk(id, {
-            attributes: ['id', 'nombre'],
+            attributes: ['id', 'nombre', 'tipovalor'],
             include: [
                 {
                     model: nivel_1.default,
@@ -412,4 +411,65 @@ const busquedaAulasTotal = (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.busquedaAulasTotal = busquedaAulasTotal;
+const existeAula = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const aula = yield aula_1.default.findOne({
+            where: {
+                nivelId: req.params.nivelId,
+                gradoId: req.params.gradoId,
+                seccionId: req.params.seccionId,
+            },
+            attributes: ['id'],
+        });
+        if (aula) {
+            return res.json({
+                ok: true,
+                msg: `Ya existe el aula`
+            });
+        }
+        res.json({
+            ok: false
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.existeAula = existeAula;
+const existeAulaEditar = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const aula = yield aula_1.default.findOne({
+            where: {
+                nivelId: req.params.nivelId,
+                gradoId: req.params.gradoId,
+                seccionId: req.params.seccionId,
+                id: {
+                    [sequelize_1.Op.ne]: req.params.idAula
+                }
+            },
+            attributes: ['id'],
+        });
+        if (aula) {
+            return res.json({
+                ok: true,
+                msg: `Ya existe el aula`
+            });
+        }
+        res.json({
+            ok: false
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.existeAulaEditar = existeAulaEditar;
 //# sourceMappingURL=aula.js.map

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getProgramacionesAdministrador = exports.getProgramacionesAdministradorPeriodo = exports.busquedaProgramacionesSubareaPorDocentePeriodo = exports.getProgramacionesDocentePeriodoPaginado = exports.busquedaProgramacionesPorDocente = exports.programacionPeriodoPaginado = exports.busquedaProgramacionesSubareaPorDocente = exports.busquedaProgramacionesSubarea = exports.programacionPeriodo = exports.perteneceProgramacionDocente = exports.existeProgramacion = exports.busquedaProgramaciones = exports.deleteProgramacion = exports.putProgramacion = exports.postProgramacion = exports.getProgramacionesPeriodoAula = exports.getProgramacion = exports.getProgramaciones = exports.getProgramacionesDocentePeriodo = exports.getProgramacionesDocente = void 0;
+exports.getProgramacionesAdministrador = exports.getProgramacionesAdministradorPeriodo = exports.busquedaProgramacionesPorDocente = exports.programacionPeriodoPaginado = exports.busquedaProgramacionesSubarea = exports.programacionPeriodo = exports.perteneceAulaDocente = exports.perteneceProgramacionDocente = exports.getProgramacionesDocentePeriodoPaginadoTodo = exports.getProgramacionesDocentePeriodoPaginado = exports.busquedaProgramacionesSubareaPorDocente = exports.busquedaProgramacionesSubareaPorDocentePeriodo = exports.existeProgramacionEditar = exports.existeProgramacion = exports.busquedaProgramaciones = exports.deleteProgramacion = exports.putProgramacion = exports.postProgramacion = exports.getProgramacionesPeriodoAula = exports.getProgramacion = exports.getProgramaciones = exports.getProgramacionesDocentePeriodo = exports.getProgramacionesDocenteTodo = exports.getProgramacionesDocente = void 0;
 const sequelize_1 = require("sequelize");
 const area_1 = __importDefault(require("../models/area"));
 const aula_1 = __importDefault(require("../models/aula"));
@@ -23,7 +23,6 @@ const periodo_1 = __importDefault(require("../models/periodo"));
 const persona_1 = __importDefault(require("../models/persona"));
 const programacion_1 = __importDefault(require("../models/programacion"));
 const seccion_1 = __importDefault(require("../models/seccion"));
-const subarea_1 = __importDefault(require("../models/subarea"));
 const getProgramacionesDocente = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { docente } = req.params;
     const desde = Number(req.query.desde) || 0;
@@ -45,7 +44,7 @@ const getProgramacionesDocente = (req, res) => __awaiter(void 0, void 0, void 0,
                 {
                     model: aula_1.default,
                     as: 'aula',
-                    required: false,
+                    attributes: ['id', 'nombre', 'tipovalor'],
                     include: [
                         {
                             model: nivel_1.default,
@@ -73,19 +72,6 @@ const getProgramacionesDocente = (req, res) => __awaiter(void 0, void 0, void 0,
                     attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                 },
                 {
-                    model: subarea_1.default,
-                    as: 'subarea',
-                    attributes: ['id', 'nombre'],
-                    required: false,
-                    include: [
-                        {
-                            model: area_1.default,
-                            as: 'area',
-                            attributes: ['id', 'nombre']
-                        }
-                    ]
-                },
-                {
                     model: docente_1.default,
                     as: 'docente',
                     required: false,
@@ -93,8 +79,14 @@ const getProgramacionesDocente = (req, res) => __awaiter(void 0, void 0, void 0,
                         {
                             model: persona_1.default,
                             as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
                         }
                     ]
+                },
+                {
+                    model: area_1.default,
+                    as: 'area',
+                    attributes: ['id', 'nombre']
                 }
             ]
         });
@@ -114,20 +106,20 @@ const getProgramacionesDocente = (req, res) => __awaiter(void 0, void 0, void 0,
     }
 });
 exports.getProgramacionesDocente = getProgramacionesDocente;
-const getProgramacionesDocentePeriodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { docente, periodo } = req.params;
+const getProgramacionesDocenteTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { docente } = req.params;
+    const desde = Number(req.query.desde) || 0;
     try {
         const programaciones = yield programacion_1.default.findAll({
             where: {
                 estado: true,
-                docenteId: docente,
-                periodoId: periodo
+                docenteId: docente
             },
             include: [
                 {
                     model: aula_1.default,
                     as: 'aula',
-                    required: false,
+                    attributes: ['id', 'nombre', 'tipovalor'],
                     include: [
                         {
                             model: nivel_1.default,
@@ -155,19 +147,6 @@ const getProgramacionesDocentePeriodo = (req, res) => __awaiter(void 0, void 0, 
                     attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                 },
                 {
-                    model: subarea_1.default,
-                    as: 'subarea',
-                    attributes: ['id', 'nombre'],
-                    required: false,
-                    include: [
-                        {
-                            model: area_1.default,
-                            as: 'area',
-                            attributes: ['id', 'nombre']
-                        }
-                    ]
-                },
-                {
                     model: docente_1.default,
                     as: 'docente',
                     required: false,
@@ -175,8 +154,86 @@ const getProgramacionesDocentePeriodo = (req, res) => __awaiter(void 0, void 0, 
                         {
                             model: persona_1.default,
                             as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
                         }
                     ]
+                },
+                {
+                    model: area_1.default,
+                    as: 'area',
+                    attributes: ['id', 'nombre']
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            programaciones
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.getProgramacionesDocenteTodo = getProgramacionesDocenteTodo;
+const getProgramacionesDocentePeriodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { docente, periodo } = req.params;
+    try {
+        const programaciones = yield programacion_1.default.findAll({
+            where: {
+                estado: true,
+                docenteId: docente,
+                periodoId: periodo
+            },
+            include: [
+                {
+                    model: aula_1.default,
+                    as: 'aula',
+                    attributes: ['id', 'nombre', 'tipovalor'],
+                    include: [
+                        {
+                            model: nivel_1.default,
+                            as: 'nivel',
+                            attributes: ['id', 'nombre'],
+                            required: false
+                        },
+                        {
+                            model: grado_1.default,
+                            as: 'grado',
+                            attributes: ['id', 'nombre'],
+                            required: false
+                        },
+                        {
+                            model: seccion_1.default,
+                            as: 'seccion',
+                            attributes: ['id', 'nombre'],
+                            required: false
+                        }
+                    ]
+                },
+                {
+                    model: periodo_1.default,
+                    as: 'periodo',
+                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
+                },
+                {
+                    model: docente_1.default,
+                    as: 'docente',
+                    include: [
+                        {
+                            model: persona_1.default,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
+                        }
+                    ]
+                },
+                {
+                    model: area_1.default,
+                    as: 'area',
+                    attributes: ['id', 'nombre']
                 }
             ]
         });
@@ -211,7 +268,7 @@ const getProgramaciones = (req, res) => __awaiter(void 0, void 0, void 0, functi
                 {
                     model: aula_1.default,
                     as: 'aula',
-                    required: false,
+                    attributes: ['id', 'nombre', 'tipovalor'],
                     include: [
                         {
                             model: nivel_1.default,
@@ -239,28 +296,20 @@ const getProgramaciones = (req, res) => __awaiter(void 0, void 0, void 0, functi
                     attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                 },
                 {
-                    model: subarea_1.default,
-                    as: 'subarea',
-                    attributes: ['id', 'nombre'],
-                    required: false,
-                    include: [
-                        {
-                            model: area_1.default,
-                            as: 'area',
-                            attributes: ['id', 'nombre']
-                        }
-                    ]
-                },
-                {
                     model: docente_1.default,
                     as: 'docente',
-                    required: false,
                     include: [
                         {
                             model: persona_1.default,
                             as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
                         }
                     ]
+                },
+                {
+                    model: area_1.default,
+                    as: 'area',
+                    attributes: ['id', 'nombre']
                 }
             ]
         });
@@ -288,26 +337,22 @@ const getProgramacion = (req, res) => __awaiter(void 0, void 0, void 0, function
                 {
                     model: aula_1.default,
                     as: 'aula',
-                    attributes: ['id', 'nombre'],
-                    required: false,
+                    attributes: ['id', 'nombre', 'tipovalor'],
                     include: [
                         {
                             model: nivel_1.default,
                             as: 'nivel',
                             attributes: ['id', 'nombre'],
-                            required: false
                         },
                         {
                             model: grado_1.default,
                             as: 'grado',
                             attributes: ['id', 'nombre'],
-                            required: false
                         },
                         {
                             model: seccion_1.default,
                             as: 'seccion',
                             attributes: ['id', 'nombre'],
-                            required: false
                         }
                     ]
                 },
@@ -317,35 +362,27 @@ const getProgramacion = (req, res) => __awaiter(void 0, void 0, void 0, function
                     attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                 },
                 {
-                    model: subarea_1.default,
-                    as: 'subarea',
-                    attributes: ['id', 'nombre'],
-                    required: false,
-                    include: [
-                        {
-                            model: area_1.default,
-                            as: 'area',
-                            attributes: ['id', 'nombre']
-                        }
-                    ]
-                },
-                {
                     model: docente_1.default,
                     as: 'docente',
-                    required: false,
                     include: [
                         {
                             model: persona_1.default,
                             as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
                         }
                     ]
+                },
+                {
+                    model: area_1.default,
+                    as: 'area',
+                    attributes: ['id', 'nombre']
                 }
             ]
         });
         if (!programacion || programacion.estado == false) {
             return res.status(400).json({
                 ok: false,
-                msg: `No existe una programacion con el id: ${id}`
+                msg: `No existe una asignación con el id: ${id}`
             });
         }
         res.json({
@@ -380,50 +417,35 @@ const getProgramacionesPeriodoAula = (req, res) => __awaiter(void 0, void 0, voi
             });
         }
         const programaciones = yield programacion_1.default.findAll({
+            where: {
+                estado: true,
+                periodoId: periodoid,
+                aulaId: aulaid
+            },
             include: [
                 {
                     model: periodo_1.default,
                     as: 'periodo',
-                    where: {
-                        id: periodoid
-                    }
+                    attributes: ['id', 'nombre']
                 },
                 {
                     model: aula_1.default,
                     as: 'aula',
-                    where: {
-                        id: aulaid
-                    },
+                    attributes: ['id', 'nombre', 'tipovalor'],
                     include: [
                         {
                             model: nivel_1.default,
                             as: 'nivel',
-                            attributes: ['id', 'nombre'],
-                            required: false
+                            attributes: ['id', 'nombre']
                         },
                         {
                             model: grado_1.default,
                             as: 'grado',
-                            attributes: ['id', 'nombre'],
-                            required: false
+                            attributes: ['id', 'nombre']
                         },
                         {
                             model: seccion_1.default,
                             as: 'seccion',
-                            attributes: ['id', 'nombre'],
-                            required: false
-                        }
-                    ]
-                },
-                {
-                    model: subarea_1.default,
-                    as: 'subarea',
-                    attributes: ['id', 'nombre'],
-                    required: false,
-                    include: [
-                        {
-                            model: area_1.default,
-                            as: 'area',
                             attributes: ['id', 'nombre']
                         }
                     ]
@@ -431,13 +453,19 @@ const getProgramacionesPeriodoAula = (req, res) => __awaiter(void 0, void 0, voi
                 {
                     model: docente_1.default,
                     as: 'docente',
-                    required: false,
+                    attributes: ['id'],
                     include: [
                         {
                             model: persona_1.default,
                             as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
                         }
                     ]
+                },
+                {
+                    model: area_1.default,
+                    as: 'area',
+                    attributes: ['id', 'nombre']
                 }
             ]
         });
@@ -462,7 +490,7 @@ const postProgramacion = (req, res) => __awaiter(void 0, void 0, void 0, functio
         yield programacion.save();
         res.json({
             ok: true,
-            msg: 'Programacion creada exitosamente',
+            msg: 'Asignación creada exitosamente',
             programacion
         });
     }
@@ -483,13 +511,13 @@ const putProgramacion = (req, res) => __awaiter(void 0, void 0, void 0, function
         if (!programacion) {
             return res.status(400).json({
                 ok: false,
-                msg: `No existe una programacion con el id: ${id}`
+                msg: `No existe una asignación con el id: ${id}`
             });
         }
         yield (programacion === null || programacion === void 0 ? void 0 : programacion.update(body));
         res.json({
             ok: true,
-            msg: 'Programacion actualizado exitosamente',
+            msg: 'Asignación actualizada exitosamente',
             programacion
         });
     }
@@ -509,13 +537,13 @@ const deleteProgramacion = (req, res) => __awaiter(void 0, void 0, void 0, funct
         if (!programacion) {
             return res.status(400).json({
                 ok: false,
-                msg: `No existe una programacion con el id: ${id}`
+                msg: `No existe una asignación con el id: ${id}`
             });
         }
         yield (programacion === null || programacion === void 0 ? void 0 : programacion.update({ estado: false }));
         res.json({
             ok: true,
-            msg: 'Programacion eliminada exitosamente',
+            msg: 'Asignación eliminada exitosamente',
             programacion
         });
     }
@@ -533,10 +561,24 @@ const busquedaProgramaciones = (req, res) => __awaiter(void 0, void 0, void 0, f
     try {
         const data = yield programacion_1.default.findAll({
             where: {
-                '$aula.nombre$': {
-                    [sequelize_1.Op.like]: `%${valor}%`
-                },
-                estado: true
+                estado: true,
+                [sequelize_1.Op.or]: [
+                    {
+                        '$aula.nombre$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        },
+                    },
+                    {
+                        '$area.nombre$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$docente.persona.nombres$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    }
+                ]
             },
             include: [
                 {
@@ -544,13 +586,9 @@ const busquedaProgramaciones = (req, res) => __awaiter(void 0, void 0, void 0, f
                     as: 'periodo'
                 },
                 {
-                    model: subarea_1.default,
-                    as: 'subarea'
-                },
-                {
                     model: aula_1.default,
                     as: 'aula',
-                    required: true,
+                    attributes: ['id', 'nombre', 'tipovalor'],
                     include: [
                         {
                             model: nivel_1.default,
@@ -580,8 +618,14 @@ const busquedaProgramaciones = (req, res) => __awaiter(void 0, void 0, void 0, f
                         {
                             model: persona_1.default,
                             as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
                         }
                     ]
+                },
+                {
+                    model: area_1.default,
+                    as: 'area',
+                    attributes: ['id', 'nombre']
                 }
             ]
         });
@@ -601,20 +645,20 @@ const busquedaProgramaciones = (req, res) => __awaiter(void 0, void 0, void 0, f
 });
 exports.busquedaProgramaciones = busquedaProgramaciones;
 const existeProgramacion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { periodo, aula, subarea } = req.params;
+    const { periodo, aula, area } = req.params;
     try {
         const programacion = yield programacion_1.default.findOne({
             where: {
                 periodoId: periodo,
                 aulaId: aula,
-                subareaId: subarea,
+                areaId: area,
                 estado: true
             }
         });
         if (programacion) {
             return res.json({
                 ok: true,
-                msg: 'Ya existe una programación con esos parametros'
+                msg: 'La asignación ya esta registrada.'
             });
         }
         res.json({
@@ -630,6 +674,394 @@ const existeProgramacion = (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.existeProgramacion = existeProgramacion;
+const existeProgramacionEditar = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { periodoId, aulaId, areaId, programacionId } = req.params;
+    try {
+        const programacion = yield programacion_1.default.findOne({
+            where: {
+                periodoId: periodoId,
+                aulaId: aulaId,
+                areaId: areaId,
+                estado: true,
+                id: {
+                    [sequelize_1.Op.ne]: programacionId,
+                }
+            }
+        });
+        if (programacion) {
+            return res.json({
+                ok: true,
+                msg: 'La asignación ya está registrada.'
+            });
+        }
+        res.json({
+            ok: false
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.existeProgramacionEditar = existeProgramacionEditar;
+const busquedaProgramacionesSubareaPorDocentePeriodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { valor, docenteId, periodoId } = req.params;
+    try {
+        const data = yield programacion_1.default.findAll({
+            where: {
+                [sequelize_1.Op.or]: [
+                    {
+                        '$area.nombre$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$aula.nombre$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$aula.nivel.nombre$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$aula.grado.nombre$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$aula.seccion.nombre$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    }
+                ],
+                '$docente.id$': docenteId,
+                periodoId: periodoId,
+                estado: true
+            },
+            attributes: ['id', 'numeromat', 'numeromaxmat'],
+            include: [
+                {
+                    model: periodo_1.default,
+                    as: 'periodo',
+                    attributes: ['id', 'nombre']
+                },
+                {
+                    model: aula_1.default,
+                    as: 'aula',
+                    attributes: ['id', 'nombre', 'tipovalor'],
+                    include: [
+                        {
+                            model: nivel_1.default,
+                            as: 'nivel',
+                            attributes: ['id', 'nombre'],
+                        },
+                        {
+                            model: grado_1.default,
+                            as: 'grado',
+                            attributes: ['id', 'nombre'],
+                        },
+                        {
+                            model: seccion_1.default,
+                            as: 'seccion',
+                            attributes: ['id', 'nombre'],
+                        }
+                    ]
+                },
+                {
+                    model: docente_1.default,
+                    as: 'docente',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: persona_1.default,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
+                        }
+                    ]
+                },
+                {
+                    model: area_1.default,
+                    as: 'area',
+                    attributes: ['id', 'nombre']
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            total: data.length,
+            busquedas: data
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.busquedaProgramacionesSubareaPorDocentePeriodo = busquedaProgramacionesSubareaPorDocentePeriodo;
+const busquedaProgramacionesSubareaPorDocente = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { valor, docenteId } = req.params;
+    try {
+        const data = yield programacion_1.default.findAll({
+            where: {
+                [sequelize_1.Op.or]: [
+                    {
+                        '$area.nombre$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$aula.nombre$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$aula.nivel.nombre$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$aula.grado.nombre$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$aula.seccion.nombre$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    }
+                ],
+                '$docente.id$': docenteId,
+                estado: true
+            },
+            attributes: ['id', 'numeromat', 'numeromaxmat'],
+            include: [
+                {
+                    model: periodo_1.default,
+                    as: 'periodo',
+                    attributes: ['id', 'nombre']
+                },
+                {
+                    model: aula_1.default,
+                    as: 'aula',
+                    attributes: ['id', 'nombre', 'tipovalor'],
+                    include: [
+                        {
+                            model: nivel_1.default,
+                            as: 'nivel',
+                            attributes: ['id', 'nombre'],
+                        },
+                        {
+                            model: grado_1.default,
+                            as: 'grado',
+                            attributes: ['id', 'nombre'],
+                        },
+                        {
+                            model: seccion_1.default,
+                            as: 'seccion',
+                            attributes: ['id', 'nombre'],
+                        }
+                    ]
+                },
+                {
+                    model: docente_1.default,
+                    as: 'docente',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: persona_1.default,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
+                        }
+                    ]
+                },
+                {
+                    model: area_1.default,
+                    as: 'area',
+                    attributes: ['id', 'nombre']
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            total: data.length,
+            busquedas: data
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.busquedaProgramacionesSubareaPorDocente = busquedaProgramacionesSubareaPorDocente;
+const getProgramacionesDocentePeriodoPaginado = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { docente, periodo } = req.params;
+    const desde = Number(req.query.desde) || 0;
+    try {
+        const total = (yield programacion_1.default.findAll({
+            where: {
+                estado: true,
+                docenteId: docente,
+                periodoId: periodo
+            },
+        })).length;
+        const programaciones = yield programacion_1.default.findAll({
+            where: {
+                estado: true,
+                docenteId: docente,
+                periodoId: periodo
+            },
+            limit: 5,
+            offset: desde,
+            include: [
+                {
+                    model: aula_1.default,
+                    as: 'aula',
+                    attributes: ['id', 'nombre', 'tipovalor'],
+                    include: [
+                        {
+                            model: nivel_1.default,
+                            as: 'nivel',
+                            attributes: ['id', 'nombre'],
+                            required: false
+                        },
+                        {
+                            model: grado_1.default,
+                            as: 'grado',
+                            attributes: ['id', 'nombre'],
+                            required: false
+                        },
+                        {
+                            model: seccion_1.default,
+                            as: 'seccion',
+                            attributes: ['id', 'nombre'],
+                            required: false
+                        }
+                    ]
+                },
+                {
+                    model: periodo_1.default,
+                    as: 'periodo',
+                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
+                },
+                {
+                    model: docente_1.default,
+                    as: 'docente',
+                    required: false,
+                    include: [
+                        {
+                            model: persona_1.default,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
+                        }
+                    ]
+                },
+                {
+                    model: area_1.default,
+                    as: 'area',
+                    attributes: ['id', 'nombre']
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            programaciones,
+            desde,
+            total
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.getProgramacionesDocentePeriodoPaginado = getProgramacionesDocentePeriodoPaginado;
+const getProgramacionesDocentePeriodoPaginadoTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { docente, periodo } = req.params;
+    try {
+        const programaciones = yield programacion_1.default.findAll({
+            where: {
+                estado: true,
+                docenteId: docente,
+                periodoId: periodo
+            },
+            include: [
+                {
+                    model: aula_1.default,
+                    as: 'aula',
+                    attributes: ['id', 'nombre', 'tipovalor'],
+                    include: [
+                        {
+                            model: nivel_1.default,
+                            as: 'nivel',
+                            attributes: ['id', 'nombre'],
+                            required: false
+                        },
+                        {
+                            model: grado_1.default,
+                            as: 'grado',
+                            attributes: ['id', 'nombre'],
+                            required: false
+                        },
+                        {
+                            model: seccion_1.default,
+                            as: 'seccion',
+                            attributes: ['id', 'nombre'],
+                            required: false
+                        }
+                    ]
+                },
+                {
+                    model: periodo_1.default,
+                    as: 'periodo',
+                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
+                },
+                {
+                    model: docente_1.default,
+                    as: 'docente',
+                    required: false,
+                    include: [
+                        {
+                            model: persona_1.default,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
+                        }
+                    ]
+                },
+                {
+                    model: area_1.default,
+                    as: 'area',
+                    attributes: ['id', 'nombre']
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            programaciones
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.getProgramacionesDocentePeriodoPaginadoTodo = getProgramacionesDocentePeriodoPaginadoTodo;
 const perteneceProgramacionDocente = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { programacionId, docenteId } = req.params;
     try {
@@ -658,6 +1090,34 @@ const perteneceProgramacionDocente = (req, res) => __awaiter(void 0, void 0, voi
     }
 });
 exports.perteneceProgramacionDocente = perteneceProgramacionDocente;
+const perteneceAulaDocente = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { aulaId, docenteId } = req.params;
+    try {
+        const programacion = yield programacion_1.default.findOne({
+            where: {
+                estado: true,
+                aulaId: aulaId,
+                docenteId: docenteId
+            }
+        });
+        if (programacion) {
+            return res.json({
+                ok: true
+            });
+        }
+        res.json({
+            ok: false
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.perteneceAulaDocente = perteneceAulaDocente;
 const programacionPeriodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
@@ -696,19 +1156,6 @@ const programacionPeriodo = (req, res) => __awaiter(void 0, void 0, void 0, func
                     model: periodo_1.default,
                     as: 'periodo',
                     attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
-                },
-                {
-                    model: subarea_1.default,
-                    as: 'subarea',
-                    attributes: ['id', 'nombre'],
-                    required: false,
-                    include: [
-                        {
-                            model: area_1.default,
-                            as: 'area',
-                            attributes: ['id', 'nombre']
-                        }
-                    ]
                 },
                 {
                     model: docente_1.default,
@@ -751,10 +1198,6 @@ const busquedaProgramacionesSubarea = (req, res) => __awaiter(void 0, void 0, vo
                 {
                     model: periodo_1.default,
                     as: 'periodo'
-                },
-                {
-                    model: subarea_1.default,
-                    as: 'subarea'
                 },
                 {
                     model: aula_1.default,
@@ -809,88 +1252,6 @@ const busquedaProgramacionesSubarea = (req, res) => __awaiter(void 0, void 0, vo
     }
 });
 exports.busquedaProgramacionesSubarea = busquedaProgramacionesSubarea;
-const busquedaProgramacionesSubareaPorDocente = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { valor, docenteId } = req.params;
-    try {
-        const data = yield programacion_1.default.findAll({
-            where: {
-                [sequelize_1.Op.or]: [
-                    {
-                        '$subarea.nombre$': {
-                            [sequelize_1.Op.like]: `%${valor}%`
-                        }
-                    },
-                    {
-                        '$aula.nombre$': {
-                            [sequelize_1.Op.like]: `%${valor}%`
-                        }
-                    }
-                ],
-                '$docente.id$': docenteId,
-                estado: true
-            },
-            include: [
-                {
-                    model: periodo_1.default,
-                    as: 'periodo'
-                },
-                {
-                    model: subarea_1.default,
-                    as: 'subarea'
-                },
-                {
-                    model: aula_1.default,
-                    as: 'aula',
-                    required: true,
-                    include: [
-                        {
-                            model: nivel_1.default,
-                            as: 'nivel',
-                            attributes: ['id', 'nombre'],
-                            required: false
-                        },
-                        {
-                            model: grado_1.default,
-                            as: 'grado',
-                            attributes: ['id', 'nombre'],
-                            required: false
-                        },
-                        {
-                            model: seccion_1.default,
-                            as: 'seccion',
-                            attributes: ['id', 'nombre'],
-                            required: false
-                        }
-                    ]
-                },
-                {
-                    model: docente_1.default,
-                    as: 'docente',
-                    required: false,
-                    include: [
-                        {
-                            model: persona_1.default,
-                            as: 'persona',
-                        }
-                    ]
-                }
-            ]
-        });
-        res.json({
-            ok: true,
-            total: data.length,
-            busquedas: data
-        });
-    }
-    catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
-    }
-});
-exports.busquedaProgramacionesSubareaPorDocente = busquedaProgramacionesSubareaPorDocente;
 const programacionPeriodoPaginado = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const desde = Number(req.query.desde) || 0;
@@ -900,13 +1261,16 @@ const programacionPeriodoPaginado = (req, res) => __awaiter(void 0, void 0, void
                 estado: true,
                 periodoId: id
             },
+            order: [
+                ['id', 'DESC']
+            ],
             limit: 5,
             offset: desde,
             include: [
                 {
                     model: aula_1.default,
                     as: 'aula',
-                    required: false,
+                    attributes: ['id', 'nombre', 'tipovalor'],
                     include: [
                         {
                             model: nivel_1.default,
@@ -934,19 +1298,6 @@ const programacionPeriodoPaginado = (req, res) => __awaiter(void 0, void 0, void
                     attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                 },
                 {
-                    model: subarea_1.default,
-                    as: 'subarea',
-                    attributes: ['id', 'nombre'],
-                    required: false,
-                    include: [
-                        {
-                            model: area_1.default,
-                            as: 'area',
-                            attributes: ['id', 'nombre']
-                        }
-                    ]
-                },
-                {
                     model: docente_1.default,
                     as: 'docente',
                     required: false,
@@ -954,8 +1305,14 @@ const programacionPeriodoPaginado = (req, res) => __awaiter(void 0, void 0, void
                         {
                             model: persona_1.default,
                             as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
                         }
                     ]
+                },
+                {
+                    model: area_1.default,
+                    as: 'area',
+                    attributes: ['id', 'nombre']
                 }
             ]
         });
@@ -1015,15 +1372,10 @@ const busquedaProgramacionesPorDocente = (req, res) => __awaiter(void 0, void 0,
                     as: 'periodo'
                 },
                 {
-                    model: subarea_1.default,
-                    as: 'subarea',
-                    attributes: ['id', 'nombre']
-                },
-                {
                     model: aula_1.default,
                     as: 'aula',
                     required: true,
-                    attributes: ['id', 'nombre'],
+                    attributes: ['id', 'nombre', 'tipovalor'],
                     include: [
                         {
                             model: nivel_1.default,
@@ -1073,181 +1425,6 @@ const busquedaProgramacionesPorDocente = (req, res) => __awaiter(void 0, void 0,
     }
 });
 exports.busquedaProgramacionesPorDocente = busquedaProgramacionesPorDocente;
-const getProgramacionesDocentePeriodoPaginado = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { docente, periodo } = req.params;
-    const desde = Number(req.query.desde) || 0;
-    try {
-        const total = (yield programacion_1.default.findAll({
-            where: {
-                estado: true,
-                docenteId: docente,
-                periodoId: periodo
-            },
-        })).length;
-        const programaciones = yield programacion_1.default.findAll({
-            where: {
-                estado: true,
-                docenteId: docente,
-                periodoId: periodo
-            },
-            limit: 5,
-            offset: desde,
-            include: [
-                {
-                    model: aula_1.default,
-                    as: 'aula',
-                    required: false,
-                    include: [
-                        {
-                            model: nivel_1.default,
-                            as: 'nivel',
-                            attributes: ['id', 'nombre'],
-                            required: false
-                        },
-                        {
-                            model: grado_1.default,
-                            as: 'grado',
-                            attributes: ['id', 'nombre'],
-                            required: false
-                        },
-                        {
-                            model: seccion_1.default,
-                            as: 'seccion',
-                            attributes: ['id', 'nombre'],
-                            required: false
-                        }
-                    ]
-                },
-                {
-                    model: periodo_1.default,
-                    as: 'periodo',
-                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
-                },
-                {
-                    model: subarea_1.default,
-                    as: 'subarea',
-                    attributes: ['id', 'nombre'],
-                    required: false,
-                    include: [
-                        {
-                            model: area_1.default,
-                            as: 'area',
-                            attributes: ['id', 'nombre']
-                        }
-                    ]
-                },
-                {
-                    model: docente_1.default,
-                    as: 'docente',
-                    required: false,
-                    include: [
-                        {
-                            model: persona_1.default,
-                            as: 'persona',
-                        }
-                    ]
-                }
-            ]
-        });
-        res.json({
-            ok: true,
-            programaciones,
-            desde,
-            total
-        });
-    }
-    catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
-    }
-});
-exports.getProgramacionesDocentePeriodoPaginado = getProgramacionesDocentePeriodoPaginado;
-const busquedaProgramacionesSubareaPorDocentePeriodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { valor, docenteId, periodoId } = req.params;
-    try {
-        const data = yield programacion_1.default.findAll({
-            where: {
-                [sequelize_1.Op.or]: [
-                    {
-                        '$subarea.nombre$': {
-                            [sequelize_1.Op.like]: `%${valor}%`
-                        }
-                    },
-                    {
-                        '$aula.nombre$': {
-                            [sequelize_1.Op.like]: `%${valor}%`
-                        }
-                    }
-                ],
-                '$docente.id$': docenteId,
-                periodoId: periodoId,
-                estado: true
-            },
-            include: [
-                {
-                    model: periodo_1.default,
-                    as: 'periodo'
-                },
-                {
-                    model: subarea_1.default,
-                    as: 'subarea'
-                },
-                {
-                    model: aula_1.default,
-                    as: 'aula',
-                    required: true,
-                    include: [
-                        {
-                            model: nivel_1.default,
-                            as: 'nivel',
-                            attributes: ['id', 'nombre'],
-                            required: false
-                        },
-                        {
-                            model: grado_1.default,
-                            as: 'grado',
-                            attributes: ['id', 'nombre'],
-                            required: false
-                        },
-                        {
-                            model: seccion_1.default,
-                            as: 'seccion',
-                            attributes: ['id', 'nombre'],
-                            required: false
-                        }
-                    ]
-                },
-                {
-                    model: docente_1.default,
-                    as: 'docente',
-                    required: false,
-                    include: [
-                        {
-                            model: persona_1.default,
-                            as: 'persona',
-                        }
-                    ]
-                }
-            ]
-        });
-        res.json({
-            ok: true,
-            total: data.length,
-            busquedas: data
-        });
-    }
-    catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
-    }
-});
-exports.busquedaProgramacionesSubareaPorDocentePeriodo = busquedaProgramacionesSubareaPorDocentePeriodo;
 const getProgramacionesAdministradorPeriodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { periodoId, valor } = req.params;
     try {
@@ -1287,11 +1464,6 @@ const getProgramacionesAdministradorPeriodo = (req, res) => __awaiter(void 0, vo
                 {
                     model: periodo_1.default,
                     as: 'periodo'
-                },
-                {
-                    model: subarea_1.default,
-                    as: 'subarea',
-                    attributes: ['id', 'nombre']
                 },
                 {
                     model: aula_1.default,
@@ -1386,11 +1558,6 @@ const getProgramacionesAdministrador = (req, res) => __awaiter(void 0, void 0, v
                 {
                     model: periodo_1.default,
                     as: 'periodo'
-                },
-                {
-                    model: subarea_1.default,
-                    as: 'subarea',
-                    attributes: ['id', 'nombre']
                 },
                 {
                     model: aula_1.default,

@@ -269,7 +269,7 @@ const retornaImagenInstitucion = (req, res) => {
         res.sendFile(pathImg);
     }
     else {
-        const pathDefault = path_1.default.join(__dirname, `../../uploads/no-colegio.png`);
+        const pathDefault = path_1.default.join(__dirname, `../../uploads/victorraulsullana.jpg`);
         res.sendFile(pathDefault);
     }
 };
@@ -293,7 +293,7 @@ const fileUploadCloudinaryInstitucion = (req, res) => __awaiter(void 0, void 0, 
         const file = req.files.imagen;
         const nombreCortado = file.name.split('.');
         const extensionArchivo = nombreCortado[nombreCortado.length - 1];
-        const extencionesValidas = ['png', 'jpg', 'jpeg', 'gif'];
+        const extencionesValidas = ['pdf', 'png', 'jpg', 'jpeg', 'gif', 'JPG', 'JPEG', 'PNG'];
         if (!extencionesValidas.includes(extensionArchivo)) {
             return res.status(400).json({
                 ok: false,

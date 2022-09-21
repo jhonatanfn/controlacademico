@@ -8,6 +8,24 @@ const connection_1 = __importDefault(require("../db/connection"));
 class Alumno extends sequelize_1.Model {
 }
 Alumno.init({
+    vivecon: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false
+    },
+    tienediscapacidad: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false
+    },
+    cualdiscapacidad: {
+        type: sequelize_1.DataTypes.STRING
+    },
+    certificadiscapacidad: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false
+    },
+    observacion: {
+        type: sequelize_1.DataTypes.STRING
+    },
     estado: {
         type: sequelize_1.DataTypes.BOOLEAN,
         defaultValue: true

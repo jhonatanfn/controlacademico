@@ -12,6 +12,7 @@ const router = (0, express_1.Router)();
 router.get('/todo', validar_jwt_1.validarJWT, periodo_1.getTodo);
 router.get('/', validar_jwt_1.validarJWT, periodo_1.getPeriodos);
 router.get('/:id', validar_jwt_1.validarJWT, periodo_1.getPeriodo);
+router.get('/consulta/:nombre', validar_jwt_1.validarJWT, periodo_1.getPeriodoNombre);
 router.get('/busqueda/:valor', validar_jwt_1.validarJWT, periodo_1.busquedaPeriodos);
 router.get('/tieneprogramaciones/:periodoId', validar_jwt_1.validarJWT, periodo_1.tieneProgramaciones);
 router.post('/', [

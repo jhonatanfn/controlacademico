@@ -209,5 +209,63 @@ export const tieneAulas = async (req:Request,res:Response)=>{
             msg:'Se produjo un error. Hable con el administrador'
         });
     }
-
+}
+export const nombreRepetido = async (req: Request, res: Response) => {
+    const { seccionNombre } = req.params;
+    try {
+        const seccion = await Seccion.findOne({
+            where: {
+                estado: true,
+                nombre: {
+                    [Op.like]: `%${seccionNombre}%`
+                }
+            },
+            attributes: ['id']
+        });
+        if (seccion) {
+            return res.json({
+                ok: true
+            });
+        }
+        res.json({
+            ok: false
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+export const nombreRepetidoEditar = async (req: Request, res: Response) => {
+    const { seccionId, seccionNombre } = req.params;
+    try {
+        const seccion = await Seccion.findOne({
+            where: {
+                estado: true,
+                nombre: {
+                    [Op.like]: `%${seccionNombre}%`
+                },
+                id: {
+                    [Op.ne]: seccionId
+                }
+            },
+            attributes: ['id']
+        });
+        if (seccion) {
+            return res.json({
+                ok: true
+            });
+        }
+        res.json({
+            ok: false
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
 }

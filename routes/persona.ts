@@ -2,38 +2,40 @@
     path: /api/personas
 */
 
-import  { Router } from 'express';
+import { Router } from 'express';
 import { check } from 'express-validator';
 import { deletePersona, getPersona, getPersonas, postPersona, putPersona } from '../controllers/persona';
 import { validarCampos } from '../middlewares/validar-campos';
 import { validarJWT } from '../middlewares/validar-jwt';
 
-const router= Router();
+const router = Router();
 
-router.get('/',validarJWT,getPersonas);
+router.get('/', validarJWT, getPersonas);
 
-router.get('/:id',validarJWT,getPersona);
+router.get('/:id', validarJWT, getPersona);
 
-router.post('/',[
+router.post('/', [
     validarJWT,
-    check('numero','El numero del documento es obligatorio').not().isEmpty(),
-    check('nombres','El nombre es obligatorio').not().isEmpty(),
-    check('apellidopaterno','El apellido paterno es obligatorio').not().isEmpty(),
-    check('apellidomaterno','El apellido materno es obligatorio').not().isEmpty(),
-    check('tipodocumentoId','El tipo documento es obligatorio').not().isEmpty(),
+    check('dni', 'El dni del documento es obligatorio').not().isEmpty(),
+    check('nombres', 'El nombre es obligatorio').not().isEmpty(),
+    check('apellidopaterno', 'El apellido paterno es obligatorio').not().isEmpty(),
+    check('apellidomaterno', 'El apellido materno es obligatorio').not().isEmpty(),
+    check('tipodocumentoId', 'El tipo documento es obligatorio').not().isEmpty(),
+    check('sexo', 'El sexo es obligatorio').not().isEmpty(),
     validarCampos
-],postPersona);
+], postPersona);
 
- router.put('/:id',[
+router.put('/:id', [
     validarJWT,
-    check('numero','El numero del documento es obligatorio').not().isEmpty(),
-    check('nombres','El nombre es obligatorio').not().isEmpty(),
-    check('apellidopaterno','El apellido paterno es obligatorio').not().isEmpty(),
-    check('apellidomaterno','El apellido materno es obligatorio').not().isEmpty(),
-    check('tipodocumentoId','El tipo documento es obligatorio').not().isEmpty(),
+    check('dni', 'El dni del documento es obligatorio').not().isEmpty(),
+    check('nombres', 'El nombre es obligatorio').not().isEmpty(),
+    check('apellidopaterno', 'El apellido paterno es obligatorio').not().isEmpty(),
+    check('apellidomaterno', 'El apellido materno es obligatorio').not().isEmpty(),
+    check('tipodocumentoId', 'El tipo documento es obligatorio').not().isEmpty(),
+    check('sexo', 'El sexo es obligatorio').not().isEmpty(),
     validarCampos
- ],putPersona);
+], putPersona);
 
-router.delete('/:id',validarJWT,deletePersona);
+router.delete('/:id', validarJWT, deletePersona);
 
 export default router;

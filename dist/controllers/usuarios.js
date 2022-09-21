@@ -63,7 +63,7 @@ const getUsuariosPorRol = (req, res) => __awaiter(void 0, void 0, void 0, functi
             include: [{
                     model: role_1.default,
                     as: 'role',
-                    attributes: ['id', 'nombre'],
+                    attributes: ['id', 'nombre', 'bgcolor'],
                     required: false,
                 }, {
                     model: persona_1.default,
@@ -71,7 +71,8 @@ const getUsuariosPorRol = (req, res) => __awaiter(void 0, void 0, void 0, functi
                     include: [
                         {
                             model: tipodocumento_1.default,
-                            as: 'tipodocumento'
+                            as: 'tipodocumento',
+                            attributes: ['id', 'nombre']
                         }
                     ]
                 }],
@@ -123,7 +124,7 @@ const getUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             include: [{
                     model: role_1.default,
                     as: 'role',
-                    attributes: ['id', 'nombre'],
+                    attributes: ['id', 'nombre', 'bgcolor'],
                     required: false,
                 }, {
                     model: persona_1.default,
@@ -131,7 +132,8 @@ const getUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                     include: [
                         {
                             model: tipodocumento_1.default,
-                            as: 'tipodocumento'
+                            as: 'tipodocumento',
+                            attributes: ['id', 'nombre']
                         }
                     ]
                 }],
@@ -174,15 +176,17 @@ const getUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             include: [{
                     model: role_1.default,
                     as: 'role',
-                    attributes: ['id', 'nombre'],
+                    attributes: ['id', 'nombre', 'bgcolor'],
                     required: false,
                 }, {
                     model: persona_1.default,
                     as: 'persona',
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                     include: [
                         {
                             model: tipodocumento_1.default,
-                            as: 'tipodocumento'
+                            as: 'tipodocumento',
+                            attributes: ['id', 'nombre']
                         }
                     ]
                 }],
@@ -373,7 +377,7 @@ const busquedaUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, functio
                         }
                     },
                     {
-                        '$persona.numero$': {
+                        '$persona.dni$': {
                             [sequelize_1.Op.like]: `%${valor}%`
                         }
                     },
@@ -401,12 +405,12 @@ const busquedaUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, functio
                 {
                     model: role_1.default,
                     as: 'role',
-                    attributes: ['id', 'nombre']
+                    attributes: ['id', 'nombre', 'bgcolor']
                 },
                 {
                     model: persona_1.default,
                     as: 'persona',
-                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                 }
             ],
             attributes: { exclude: ['password'] },
@@ -496,7 +500,7 @@ const busquedaUsuariosPorRol = (req, res) => __awaiter(void 0, void 0, void 0, f
                         }
                     },
                     {
-                        '$persona.numero$': {
+                        '$persona.dni$': {
                             [sequelize_1.Op.like]: `%${valor}%`
                         }
                     },
@@ -524,11 +528,11 @@ const busquedaUsuariosPorRol = (req, res) => __awaiter(void 0, void 0, void 0, f
             include: [{
                     model: role_1.default,
                     as: 'role',
-                    attributes: ['id', 'nombre']
+                    attributes: ['id', 'nombre', 'bgcolor']
                 }, {
                     model: persona_1.default,
                     as: 'persona',
-                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                 }],
             attributes: { exclude: ['password'] },
         });
@@ -558,11 +562,11 @@ const obtenerUsuarioEmail = (req, res) => __awaiter(void 0, void 0, void 0, func
                 {
                     model: role_1.default,
                     as: 'role',
-                    attributes: ['id', 'nombre']
+                    attributes: ['id', 'nombre', 'bgcolor']
                 }, {
                     model: persona_1.default,
                     as: 'persona',
-                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                 }
             ]
         });

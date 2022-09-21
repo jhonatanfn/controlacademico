@@ -3,7 +3,7 @@
 */
 import  { Router } from 'express';
 import { check } from 'express-validator';
-import { busquedaAulas, busquedaAulasTotal, deleteAula, getAula, getAulaPorNivelGradoSeccion, 
+import { busquedaAulas, busquedaAulasTotal, deleteAula, existeAula, existeAulaEditar, getAula, getAulaPorNivelGradoSeccion, 
     getAulas, getTodo, postAula, putAula, tieneProgramaciones } from '../controllers/aula';
 import { validarCampos } from '../middlewares/validar-campos';
 import { validarJWT } from '../middlewares/validar-jwt';
@@ -15,9 +15,11 @@ router.get('/todo',validarJWT,getTodo);
 router.get('/aula/:nivel/:grado/:seccion',validarJWT,getAulaPorNivelGradoSeccion);
 router.get('/busqueda/:valor',validarJWT,busquedaAulas);
 router.get('/:id',validarJWT,getAula);
-
 router.get('/busquedatotal/:valor',validarJWT,busquedaAulasTotal);
 router.get('/tieneprogramaciones/:aulaId',validarJWT,tieneProgramaciones);
+
+router.get('/existeaula/:nivelId/:gradoId/:seccionId',validarJWT,existeAula);
+router.get('/existeaulaeditar/:nivelId/:gradoId/:seccionId/:idAula',validarJWT,existeAulaEditar);
 
 router.post('/',[
     validarJWT,

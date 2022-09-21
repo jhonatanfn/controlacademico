@@ -1,18 +1,17 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../db/connection';
 
-class Apoderado extends Model{}
-Apoderado.init({
-   
+class Madre extends Model{}
+Madre.init({
     estado:{
         type: DataTypes.BOOLEAN,
         defaultValue: true
-    },
+    }
 },{
     sequelize,
-    modelName:'apoderado',
+    modelName:'madre',
     timestamps: true,
 });
 
-export default Apoderado;
+export default Madre;
 

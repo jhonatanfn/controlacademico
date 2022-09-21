@@ -136,6 +136,9 @@ export const busquedaMensajerias = async (req: Request, res: Response) => {
     }
 }
 
+
+
+
 export const deleteMensajeriaEmisor = async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
@@ -527,7 +530,6 @@ export const busquedaMensajeriasRecibidos = async (req: Request, res: Response) 
         });
     }
 }
-
 export const busquedaMensajeriasEnviados = async (req: Request, res: Response) => {
     const { valor, email } = req.params;
     try {
@@ -554,7 +556,6 @@ export const busquedaMensajeriasEnviados = async (req: Request, res: Response) =
         });
     }
 }
-
 export const busquedaMensajeriasEliminados = async (req: Request, res: Response) => {
     const { valor, email } = req.params;
     try {

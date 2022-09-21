@@ -15,7 +15,7 @@ router.get('/:id', validar_jwt_1.validarJWT, matricula_1.getMatricula);
 router.get('/busqueda/:valor', validar_jwt_1.validarJWT, matricula_1.busquedaMatriculas);
 router.get('/busqueda/subarea/:subareaId/:valor', validar_jwt_1.validarJWT, matricula_1.busquedaMatriculasSubarea);
 router.get('/existe/:periodo/:aula/:alumno', validar_jwt_1.validarJWT, matricula_1.existeMatricula);
-router.get('/programacion/:programacion', validar_jwt_1.validarJWT, matricula_1.getMatriculasProgramacion);
+router.get('/programacion/alumnos/:programacionId', validar_jwt_1.validarJWT, matricula_1.getMatriculasProgramacion);
 router.get('/alumno/:id', validar_jwt_1.validarJWT, matricula_1.matriculasAlumno);
 router.get('/alumnoreporte/:alumnoId', validar_jwt_1.validarJWT, matricula_1.matriculasAlumnoReporte);
 router.get('/pertenece/:matriculaId/:alumnoId', validar_jwt_1.validarJWT, matricula_1.perteneceMatriculaAlumno);
@@ -43,16 +43,16 @@ router.get('/anualapoderado/:periodoId/:aulaId/:subareaId/:apoderadoId', validar
 router.get('/alumno/apoderado/reporte/:apoderadoId', validar_jwt_1.validarJWT, matricula_1.matriculasApoderado);
 router.get('/apoderado/parahorario/:apoderadoId/:periodoId/:aulaId', validar_jwt_1.validarJWT, matricula_1.matriculasApoderadoPeriodoAula);
 router.get('/periodoaula/:periodoId/:aulaId', validar_jwt_1.validarJWT, matricula_1.getMatriculasPeriodoAula);
+router.get('/aprobado/:alumnoId', validar_jwt_1.validarJWT, matricula_1.aprobadoAlumno);
+router.get('/periodoanterior/:alumnoId', validar_jwt_1.validarJWT, matricula_1.listarmatriculasanterior);
 router.post('/', [
     validar_jwt_1.validarJWT,
     (0, express_validator_1.check)('alumnoId', 'El alumno es obligatorio').not().isEmpty(),
-    (0, express_validator_1.check)('programacionId', 'La programacion es obligatoria').not().isEmpty(),
     validar_campos_1.validarCampos
 ], matricula_1.postMatricula);
 router.put('/:id', [
     validar_jwt_1.validarJWT,
     (0, express_validator_1.check)('alumnoId', 'El alumno es obligatorio').not().isEmpty(),
-    (0, express_validator_1.check)('programacionId', 'La programacion es obligatoria').not().isEmpty(),
     validar_campos_1.validarCampos
 ], matricula_1.putMatricula);
 router.delete('/:id', validar_jwt_1.validarJWT, matricula_1.deleteMatricula);

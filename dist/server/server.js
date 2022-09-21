@@ -21,7 +21,6 @@ const usuario_1 = __importDefault(require("../routes/usuario"));
 const auth_1 = __importDefault(require("../routes/auth"));
 const area_1 = __importDefault(require("../routes/area"));
 const role_1 = __importDefault(require("../routes/role"));
-const subarea_1 = __importDefault(require("../routes/subarea"));
 const upload_1 = __importDefault(require("../routes/upload"));
 const docente_1 = __importDefault(require("../routes/docente"));
 const tipodocumento_1 = __importDefault(require("../routes/tipodocumento"));
@@ -30,7 +29,6 @@ const grado_1 = __importDefault(require("../routes/grado"));
 const seccion_1 = __importDefault(require("../routes/seccion"));
 const persona_1 = __importDefault(require("../routes/persona"));
 const alumno_1 = __importDefault(require("../routes/alumno"));
-const apoderado_1 = __importDefault(require("../routes/apoderado"));
 const aula_1 = __importDefault(require("../routes/aula"));
 const periodo_1 = __importDefault(require("../routes/periodo"));
 const programacion_1 = __importDefault(require("../routes/programacion"));
@@ -48,6 +46,13 @@ const rango_1 = __importDefault(require("../routes/rango"));
 const semilla_1 = require("../seeders/semilla");
 const pdf_1 = __importDefault(require("../routes/pdf"));
 const mensajeria_1 = __importDefault(require("../routes/mensajeria"));
+const padre_1 = __importDefault(require("../routes/padre"));
+const madre_1 = __importDefault(require("../routes/madre"));
+const competencia_1 = __importDefault(require("../routes/competencia"));
+const matriculadetalle_1 = __importDefault(require("../routes/matriculadetalle"));
+const auxiliar_1 = __importDefault(require("../routes/auxiliar"));
+const director_1 = __importDefault(require("../routes/director"));
+const apreciacion_1 = __importDefault(require("../routes/apreciacion"));
 class Server {
     constructor() {
         this.llave = false;
@@ -81,7 +86,14 @@ class Server {
             horas: '/api/horas',
             horarios: '/api/horarios',
             rangos: '/api/rangos',
-            mensajerias: '/api/mensajerias'
+            mensajerias: '/api/mensajerias',
+            padres: '/api/padres',
+            madres: '/api/madres',
+            competencias: '/api/competencias',
+            matriculadetalles: '/api/matriculadetalles',
+            auxiliares: '/api/auxiliares',
+            directores: '/api/directores',
+            apreciaciones: '/api/apreciaciones'
         };
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || environments_1.environment.PORT;
@@ -120,7 +132,6 @@ class Server {
         this.app.use(this.apiPaths.auth, auth_1.default);
         this.app.use(this.apiPaths.areas, area_1.default);
         this.app.use(this.apiPaths.roles, role_1.default);
-        this.app.use(this.apiPaths.subareas, subarea_1.default);
         this.app.use(this.apiPaths.uploads, upload_1.default);
         this.app.use(this.apiPaths.docentes, docente_1.default);
         this.app.use(this.apiPaths.tipodocumentos, tipodocumento_1.default);
@@ -129,7 +140,6 @@ class Server {
         this.app.use(this.apiPaths.secciones, seccion_1.default);
         this.app.use(this.apiPaths.personas, persona_1.default);
         this.app.use(this.apiPaths.alumnos, alumno_1.default);
-        this.app.use(this.apiPaths.apoderados, apoderado_1.default);
         this.app.use(this.apiPaths.aulas, aula_1.default);
         this.app.use(this.apiPaths.periodos, periodo_1.default);
         this.app.use(this.apiPaths.programaciones, programacion_1.default);
@@ -146,6 +156,13 @@ class Server {
         this.app.use(this.apiPaths.horarios, horario_1.default);
         this.app.use(this.apiPaths.rangos, rango_1.default);
         this.app.use(this.apiPaths.mensajerias, mensajeria_1.default);
+        this.app.use(this.apiPaths.padres, padre_1.default);
+        this.app.use(this.apiPaths.madres, madre_1.default);
+        this.app.use(this.apiPaths.competencias, competencia_1.default);
+        this.app.use(this.apiPaths.matriculadetalles, matriculadetalle_1.default);
+        this.app.use(this.apiPaths.auxiliares, auxiliar_1.default);
+        this.app.use(this.apiPaths.directores, director_1.default);
+        this.app.use(this.apiPaths.apreciaciones, apreciacion_1.default);
         this.app.get('*', (req, res) => {
             res.sendFile(path_1.default.resolve(__dirname, '../../public/index.html'));
         });

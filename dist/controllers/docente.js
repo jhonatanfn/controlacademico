@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.busquedaDocentePorNombres = exports.busquedaDocentePorDocumento = exports.tieneProgramaciones = exports.busquedaDocentePorApellido = exports.maxDocenteNumero = exports.busquedaDocentes = exports.deleteDocente = exports.putDocente = exports.postDocente = exports.getDocentePersona = exports.getDocente = exports.getDocentes = exports.getTodo = void 0;
+exports.busquedaDocentePorNombres = exports.busquedaDocentePorDocumento = exports.tieneProgramaciones = exports.busquedaDocentePorApellido = exports.maxDocenteNumero = exports.searchDNI = exports.busquedaDocentes = exports.deleteDocente = exports.putDocente = exports.postDocente = exports.getDocentePersona = exports.getDocente = exports.getDocentes = exports.getTodo = void 0;
 const sequelize_1 = require("sequelize");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const persona_1 = __importDefault(require("../models/persona"));
@@ -28,13 +28,12 @@ const getTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             include: [{
                     model: persona_1.default,
                     as: 'persona',
-                    required: false,
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                     include: [
                         {
                             model: tipodocumento_1.default,
                             as: 'tipodocumento',
-                            attributes: ['id', 'nombre'],
-                            required: false
+                            attributes: ['id', 'nombre']
                         }
                     ]
                 }]
@@ -72,19 +71,20 @@ const getDocentes = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             ],
             limit: 5,
             offset: desde,
-            include: [{
+            include: [
+                {
                     model: persona_1.default,
                     as: 'persona',
-                    required: false,
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                     include: [
                         {
                             model: tipodocumento_1.default,
                             as: 'tipodocumento',
-                            attributes: ['id', 'nombre'],
-                            required: false
+                            attributes: ['id', 'nombre']
                         }
                     ]
-                }]
+                }
+            ]
         });
         res.json({
             ok: true,
@@ -109,12 +109,12 @@ const getDocente = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             include: [{
                     model: persona_1.default,
                     as: 'persona',
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                     include: [
                         {
                             model: tipodocumento_1.default,
                             as: 'tipodocumento',
-                            attributes: ['id', 'nombre'],
-                            required: false
+                            attributes: ['id', 'nombre']
                         }
                     ]
                 }]
@@ -152,9 +152,11 @@ const getDocentePersona = (req, res) => __awaiter(void 0, void 0, void 0, functi
                 {
                     model: persona_1.default,
                     as: 'persona',
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                     include: [{
                             model: tipodocumento_1.default,
-                            as: 'tipodocumento'
+                            as: 'tipodocumento',
+                            attributes: ['id', 'nombre']
                         }]
                 }
             ]
@@ -194,7 +196,7 @@ const postDocente = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         yield usuario_1.default.create({
             nombre: arr[0],
             numero: numeroUsuario,
-            email: arr[0] + '' + numeroUsuario + '@gutemberg.com',
+            email: arr[0] + '' + numeroUsuario + '@mail.com',
             password: bcryptjs_1.default.hashSync('123456', salt),
             roleId: roles[1].id,
             personaId: body.personaId
@@ -299,17 +301,35 @@ const busquedaDocentes = (req, res) => __awaiter(void 0, void 0, void 0, functio
     try {
         const data = yield docente_1.default.findAll({
             where: {
-                estado: true
+                estado: true,
+                [sequelize_1.Op.or]: [
+                    {
+                        '$persona.dni$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$persona.nombres$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$persona.apellidopaterno$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$persona.apellidomaterno$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    }
+                ]
             },
             include: [
                 {
                     model: persona_1.default,
                     as: 'persona',
-                    where: {
-                        nombres: {
-                            [sequelize_1.Op.like]: `%${valor}%`
-                        }
-                    }
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                 }
             ]
         });
@@ -328,6 +348,41 @@ const busquedaDocentes = (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.busquedaDocentes = busquedaDocentes;
+const searchDNI = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { dni } = req.params;
+    try {
+        const docente = yield docente_1.default.findOne({
+            where: {
+                estado: true,
+                '$persona.dni$': dni,
+            },
+            include: [
+                {
+                    model: persona_1.default,
+                    as: 'persona',
+                    attributes: ['id', 'dni'],
+                }
+            ]
+        });
+        if (docente) {
+            return res.json({
+                ok: true,
+                msg: "El DNI ya se encuentra registrado"
+            });
+        }
+        res.json({
+            ok: false,
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.searchDNI = searchDNI;
 const maxDocenteNumero = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const max_valor = yield docente_1.default.max('numero');

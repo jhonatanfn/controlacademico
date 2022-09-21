@@ -23,9 +23,24 @@ const getMenu = (role) => {
                         icono: 'bi bi-mortarboard'
                     },
                     {
-                        titulo: 'Apoderados',
-                        url: 'apoderados',
-                        icono: 'bi bi-file-ppt'
+                        titulo: 'Padres',
+                        url: 'padres',
+                        icono: 'bi bi-gender-male'
+                    },
+                    {
+                        titulo: 'Madres',
+                        url: 'madres',
+                        icono: 'bi bi-gender-female'
+                    },
+                    {
+                        titulo: 'Auxiliares',
+                        url: 'auxiliares',
+                        icono: 'bi bi-person-video'
+                    },
+                    {
+                        titulo: 'Directores',
+                        url: 'directores',
+                        icono: 'bi bi-award'
                     },
                     {
                         titulo: 'Usuarios',
@@ -52,25 +67,25 @@ const getMenu = (role) => {
                         icono: 'bi bi-folder2-open',
                     },
                     {
-                        titulo: 'Subareas',
-                        url: 'subareas',
-                        icono: 'bi bi-collection',
+                        titulo: 'Competencias',
+                        url: 'competencias',
+                        icono: 'bi bi-lightbulb'
                     },
                     {
                         titulo: 'Niveles',
                         url: 'niveles',
-                        icono: 'bi bi-receipt',
+                        icono: 'bi bi-view-stacked',
                     },
                     {
                         titulo: 'Grados',
                         url: 'grados',
-                        icono: 'bi bi-layout-text-sidebar',
+                        icono: 'bi bi-layout-three-columns',
                     },
                     {
                         titulo: 'Secciones',
                         url: 'secciones',
-                        icono: 'bi bi-layout-text-sidebar-reverse',
-                    },
+                        icono: 'bi bi-columns-gap',
+                    }
                 ]
             },
             {
@@ -104,6 +119,16 @@ const getMenu = (role) => {
                         titulo: 'Horarios',
                         url: 'horarios',
                         icono: 'bi bi-calendar3',
+                    },
+                    {
+                        titulo: 'Apreciaciones',
+                        url: 'apreciaciones',
+                        icono: 'bi bi-chat-text',
+                    },
+                    {
+                        titulo: 'Informes',
+                        url: 'informes',
+                        icono: 'bi bi-file-earmark-post',
                     }
                 ]
             },
@@ -123,18 +148,13 @@ const getMenu = (role) => {
                 bandera: 0,
                 submenu: [
                     {
-                        titulo: 'Notas por Areas',
+                        titulo: 'Notas Areas',
                         url: 'reportes/notasareatotal',
                         icono: 'bi bi-stickies',
                     },
                     {
-                        titulo: 'Notas por Periodo',
+                        titulo: 'Notas Alumno',
                         url: 'reportes/anual',
-                        icono: 'bi bi-stickies',
-                    },
-                    {
-                        titulo: 'Notas por Evaluaciones',
-                        url: 'reportes/notaseva',
                         icono: 'bi bi-stickies',
                     },
                     {
@@ -143,17 +163,12 @@ const getMenu = (role) => {
                         icono: 'bi bi-stickies',
                     },
                     {
-                        titulo: 'Asistencias por Fecha',
-                        url: 'reportes/asistencias',
-                        icono: 'bi bi-megaphone',
-                    },
-                    {
-                        titulo: 'Asistencias por Alumno',
+                        titulo: 'Asistencias Alumno',
                         url: 'reportes/asistenciasalumno',
                         icono: 'bi bi-megaphone',
                     },
                     {
-                        titulo: 'Asistencias por Rangos',
+                        titulo: 'Asistencias Fechas',
                         icono: 'bi bi-megaphone',
                         url: 'reportes/rango',
                     },
@@ -200,6 +215,16 @@ const getMenu = (role) => {
                         url: 'materiales/docente',
                         icono: 'bi bi-folder2',
                     },
+                    {
+                        titulo: 'Apreciaciones',
+                        url: 'apreciaciones',
+                        icono: 'bi bi-chat-text',
+                    },
+                    {
+                        titulo: 'Informes',
+                        url: 'informes',
+                        icono: 'bi bi-file-earmark-post',
+                    }
                 ]
             },
             {
@@ -218,18 +243,13 @@ const getMenu = (role) => {
                 bandera: 0,
                 submenu: [
                     {
-                        titulo: 'Notas por Areas',
+                        titulo: 'Notas Areas',
                         url: 'reportes/notasareatotal',
                         icono: 'bi bi-stickies',
                     },
                     {
-                        titulo: 'Notas por Periodo',
+                        titulo: 'Notas Alumno',
                         url: 'reportes/anual',
-                        icono: 'bi bi-stickies',
-                    },
-                    {
-                        titulo: 'Notas por Evaluaciones',
-                        url: 'reportes/notaseva',
                         icono: 'bi bi-stickies',
                     },
                     {
@@ -238,17 +258,12 @@ const getMenu = (role) => {
                         icono: 'bi bi-stickies',
                     },
                     {
-                        titulo: 'Asistencias por Fecha',
-                        url: 'reportes/asistencias',
-                        icono: 'bi bi-megaphone',
-                    },
-                    {
-                        titulo: 'Asistencias por Alumno',
+                        titulo: 'Asistencias Alumno',
                         url: 'reportes/asistenciasalumno',
                         icono: 'bi bi-megaphone',
                     },
                     {
-                        titulo: 'Asistencias por Rangos',
+                        titulo: 'Asistencias Fechas',
                         icono: 'bi bi-megaphone',
                         url: 'reportes/rango',
                     },
@@ -264,10 +279,18 @@ const getMenu = (role) => {
     if (role === 'ALUMNO') {
         return menu = [
             {
-                titulo: 'Matriculas',
+                titulo: 'Notas',
                 url: 'matriculas/alumno',
                 toggle: '',
-                icono: 'bi bi-file-earmark-ruled',
+                icono: 'bi bi-stickies',
+                submenu: [],
+                bandera: 1,
+            },
+            {
+                titulo: 'Asistencias',
+                url: 'asistencias/alumno/ver',
+                toggle: '',
+                icono: 'bi bi-megaphone',
                 submenu: [],
                 bandera: 1,
             },
@@ -328,60 +351,126 @@ const getMenu = (role) => {
             */
         ];
     }
-    if (role === 'APODERADO') {
+    if (role === 'PADRE') {
         return menu = [
             {
-                titulo: 'Matriculas',
-                url: 'matriculas/apoderado',
+                titulo: 'Notas',
+                url: 'matriculas/padre',
                 toggle: '',
-                icono: 'bi bi-file-earmark-ruled',
+                icono: 'bi bi-stickies',
+                submenu: [],
+                bandera: 1,
+            },
+            {
+                titulo: 'Asistencias',
+                url: 'asistencias/padre/ver',
+                toggle: '',
+                icono: 'bi bi-megaphone',
                 submenu: [],
                 bandera: 1,
             },
             {
                 titulo: 'Horarios',
-                url: 'horarios/apoderado',
+                url: 'horarios/padre',
                 toggle: '',
                 icono: 'bi bi-calendar3',
                 submenu: [],
                 bandera: 1,
             },
+            /*
+                  {
+                    titulo: 'Reportes',
+                    url: 'reportes',
+                    toggle: '',
+                    icono: 'bi bi-printer-fill',
+                    submenu: [],
+                    bandera: 1,
+                  },
+                  {
+                    titulo: 'Opciones',
+                    url: '',
+                    icono: 'bi bi-clipboard-data',
+                    toggle: 'dropdown-toggle',
+                    bandera: 0,
+                    submenu: [
+                      {
+                        titulo: 'Notas por Evaluaciones',
+                        url: 'reportes/notaseva',
+                        icono: 'bi bi-stickies',
+                      },
+                      {
+                        titulo: 'Notas por Periodo',
+                        url: 'reportes/anual',
+                        icono: 'bi bi-stickies',
+                      },
+                      {
+                        titulo: 'Asistencias por Fecha',
+                        url: 'reportes/asistencias',
+                        icono: 'bi bi-megaphone',
+                      },
+                      {
+                        titulo: 'Asistencias por Alumno',
+                        url: 'reportes/asistenciasalumno',
+                        icono: 'bi bi-megaphone',
+                      }
+                    ]
+                  }
+            */
+        ];
+    }
+    if (role === 'AUXILIAR') {
+        return menu = [
             {
-                titulo: 'Reportes',
-                url: 'reportes',
+                titulo: 'Operaciones',
+                url: '',
+                icono: 'bi bi-gear-fill',
+                toggle: 'dropdown-toggle',
+                bandera: 1,
+                submenu: [
+                    {
+                        titulo: 'Docentes',
+                        url: 'docentes/horarios',
+                        icono: 'bi bi-person-video3',
+                    },
+                    {
+                        titulo: 'Asistencias',
+                        url: 'asistencias/auxiliar',
+                        icono: 'bi bi-megaphone',
+                    },
+                    {
+                        titulo: 'Horarios',
+                        url: 'horarios/auxiliar',
+                        icono: 'bi bi-calendar3',
+                    },
+                ]
+            }
+        ];
+    }
+    if (role === 'MADRE') {
+        return menu = [
+            {
+                titulo: 'Notas',
+                url: 'matriculas/madre',
                 toggle: '',
-                icono: 'bi bi-printer-fill',
+                icono: 'bi bi-stickies',
                 submenu: [],
                 bandera: 1,
             },
             {
-                titulo: 'Opciones',
-                url: '',
-                icono: 'bi bi-clipboard-data',
-                toggle: 'dropdown-toggle',
-                bandera: 0,
-                submenu: [
-                    {
-                        titulo: 'Notas por Evaluaciones',
-                        url: 'reportes/notaseva',
-                        icono: 'bi bi-stickies',
-                    },
-                    {
-                        titulo: 'Notas por Periodo',
-                        url: 'reportes/anual',
-                        icono: 'bi bi-stickies',
-                    },
-                    {
-                        titulo: 'Asistencias por Fecha',
-                        url: 'reportes/asistencias',
-                        icono: 'bi bi-megaphone',
-                    },
-                    {
-                        titulo: 'Asistencias por Alumno',
-                        url: 'reportes/asistenciasalumno',
-                        icono: 'bi bi-megaphone',
-                    }
-                ]
+                titulo: 'Asistencias',
+                url: 'asistencias/madre/ver',
+                toggle: '',
+                icono: 'bi bi-megaphone',
+                submenu: [],
+                bandera: 1,
+            },
+            {
+                titulo: 'Horarios',
+                url: 'horarios/madre',
+                toggle: '',
+                icono: 'bi bi-calendar3',
+                submenu: [],
+                bandera: 1,
             }
         ];
     }

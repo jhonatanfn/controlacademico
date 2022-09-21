@@ -1,14 +1,18 @@
+import moment from 'moment';
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../db/connection';
 
 class Asistencia extends Model { }
 Asistencia.init({
-    
-    fecha:{
+    fecha: {
         type: DataTypes.STRING,
-        allowNull: false
+        defaultValue: moment().format('YYYY-MM-DD'),
     },
-    hora:{
+    hora: {
+        type: DataTypes.STRING,
+        defaultValue: moment().format('LTS')
+    },
+    observacion:{
         type: DataTypes.STRING
     },
     estado: {

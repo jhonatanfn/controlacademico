@@ -52,7 +52,7 @@ export const getUsuariosPorRol = async (req: any, res: Response) => {
             include: [{
                 model: Role,
                 as: 'role',
-                attributes: ['id', 'nombre'],
+                attributes: ['id', 'nombre','bgcolor'],
                 required: false,
             }, {
                 model: Persona,
@@ -60,7 +60,8 @@ export const getUsuariosPorRol = async (req: any, res: Response) => {
                 include: [
                     {
                         model: Tipodocumento,
-                        as: 'tipodocumento'
+                        as: 'tipodocumento',
+                        attributes:['id','nombre']
                     }
                 ]
             }],
@@ -118,7 +119,7 @@ export const getUsuarios = async (req: any, res: Response) => {
             include: [{
                 model: Role,
                 as: 'role',
-                attributes: ['id', 'nombre'],
+                attributes: ['id', 'nombre','bgcolor'],
                 required: false,
             }, {
                 model: Persona,
@@ -126,7 +127,8 @@ export const getUsuarios = async (req: any, res: Response) => {
                 include: [
                     {
                         model: Tipodocumento,
-                        as: 'tipodocumento'
+                        as: 'tipodocumento',
+                        attributes:['id','nombre']
                     }
                 ]
             }],
@@ -171,15 +173,17 @@ export const getUsuario = async (req: Request, res: Response) => {
             include: [{
                 model: Role,
                 as: 'role',
-                attributes: ['id', 'nombre'],
+                attributes: ['id', 'nombre','bgcolor'],
                 required: false,
             }, {
                 model: Persona,
                 as: 'persona',
+                attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                 include: [
                     {
                         model: Tipodocumento,
-                        as: 'tipodocumento'
+                        as: 'tipodocumento',
+                        attributes: ['id','nombre']
                     }
                 ]
             }],
@@ -373,7 +377,7 @@ export const busquedaUsuarios = async (req: any, res: Response) => {
                         }
                     },
                     {
-                        '$persona.numero$': {
+                        '$persona.dni$': {
                             [Op.like]: `%${valor}%`
                         }
                     },
@@ -401,12 +405,12 @@ export const busquedaUsuarios = async (req: any, res: Response) => {
                 {
                     model: Role,
                     as: 'role',
-                    attributes: ['id', 'nombre']
+                    attributes: ['id', 'nombre','bgcolor']
                 },
                 {
                     model: Persona,
                     as: 'persona',
-                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                 }
             ],
             attributes: { exclude: ['password'] },
@@ -498,7 +502,7 @@ export const busquedaUsuariosPorRol = async (req: any, res: Response) => {
                         }
                     },
                     {
-                        '$persona.numero$': {
+                        '$persona.dni$': {
                             [Op.like]: `%${valor}%`
                         }
                     },
@@ -526,11 +530,11 @@ export const busquedaUsuariosPorRol = async (req: any, res: Response) => {
             include: [{
                 model: Role,
                 as: 'role',
-                attributes: ['id', 'nombre']
+                attributes: ['id', 'nombre','bgcolor']
             }, {
                 model: Persona,
                 as: 'persona',
-                attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
+                attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
             }],
             attributes: { exclude: ['password'] },
         });
@@ -560,11 +564,11 @@ export const obtenerUsuarioEmail = async (req: Request, res: Response) => {
                 {
                     model: Role,
                     as: 'role',
-                    attributes: ['id', 'nombre']
+                    attributes: ['id', 'nombre','bgcolor']
                 }, {
                     model: Persona,
                     as: 'persona',
-                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                 }
             ]
         });

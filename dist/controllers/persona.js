@@ -18,7 +18,9 @@ const tipodocumento_1 = __importDefault(require("../models/tipodocumento"));
 const getPersonas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const personas = yield persona_1.default.findAll({
-            where: { estado: true },
+            where: {
+                estado: true
+            },
             include: {
                 model: tipodocumento_1.default,
                 as: 'tipodocumento',
@@ -72,15 +74,15 @@ exports.getPersona = getPersona;
 const postPersona = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     try {
-        const numero = yield persona_1.default.findOne({
+        const dni = yield persona_1.default.findOne({
             where: {
-                numero: body.numero
+                dni: body.dni
             }
         });
-        if (numero) {
+        if (dni) {
             return res.status(400).json({
                 ok: false,
-                msg: `Ya existe una persona con el numero de documento: ${body.numero}`
+                msg: `Ya existe una persona con el dni: ${body.dni}`
             });
         }
         const persona = persona_1.default.build(body);
@@ -116,19 +118,19 @@ const putPersona = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 msg: `No existe una persona con el id: ${id}`
             });
         }
-        if (persona.numero === body.numero) {
+        if (persona.dni === body.dni) {
             delete body.numero;
         }
         else {
-            const numero = yield persona_1.default.findOne({
+            const dni = yield persona_1.default.findOne({
                 where: {
-                    numero: body.numero
+                    dni: body.dni
                 }
             });
-            if (numero) {
+            if (dni) {
                 return res.status(400).json({
                     ok: false,
-                    msg: `Ya existe una persona con el dni: ${body.numero}`
+                    msg: `Ya existe una persona con el dni: ${body.dni}`
                 });
             }
         }

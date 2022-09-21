@@ -5,17 +5,20 @@
 import  { Router } from 'express';
 import { check } from 'express-validator';
 import { busquedaAreas, deleteArea, getArea, 
-getAreas, getTodo, postArea, putArea, tieneSubareas } from '../controllers/area';
+getAreas, getTodo, getTodoCompetencias, nombreRepetido, 
+nombreRepetidoEditar, postArea, putArea } from '../controllers/area';
 import { validarCampos } from '../middlewares/validar-campos';
 import { validarJWT } from '../middlewares/validar-jwt';
 
 const router= Router();
 
 router.get('/todo',validarJWT,getTodo);
+router.get('/competencias',validarJWT,getTodoCompetencias);
 router.get('/',validarJWT,getAreas);
 router.get('/:id',validarJWT,getArea);
 router.get('/busqueda/:valor',validarJWT,busquedaAreas);
-router.get('/tienesubareas/:areaId',validarJWT,tieneSubareas);
+router.get('/nombrerepetido/:areaNombre',validarJWT,nombreRepetido)
+router.get('/nombrerepetidoeditar/:areaId/:areaNombre',validarJWT,nombreRepetidoEditar)
 
 router.post('/',[
     validarJWT,

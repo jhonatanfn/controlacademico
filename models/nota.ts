@@ -1,23 +1,28 @@
+import moment from 'moment';
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../db/connection';
 
-class Nota extends Model{}
+class Nota extends Model { }
 Nota.init({
-    
-    valor:{
-        type: DataTypes.DOUBLE,
-        defaultValue:0
+    valor: {
+        type: DataTypes.STRING,
+        allowNull: false
     },
-    fecha:{
-        type: DataTypes.STRING
+    fecha: {
+        type: DataTypes.STRING,
+        defaultValue: moment().format('YYYY-MM-DD'),
     },
-    estado:{
+    hora: {
+        type: DataTypes.STRING,
+        defaultValue: moment().format('LTS')
+    },
+    estado: {
         type: DataTypes.BOOLEAN,
         defaultValue: true
-    },
-},{
+    }
+}, {
     sequelize,
-    modelName:'nota',
+    modelName: 'nota',
     timestamps: true,
 });
 

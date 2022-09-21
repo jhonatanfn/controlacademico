@@ -4,6 +4,7 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
 import {
+    aprobadoAlumno,
     busquedaMatriculas, busquedaMatriculasPorAlumno, busquedaMatriculasPorAlumnoApoderado,
     busquedaMatriculasPorAlumnoApoderadoPeriodo,
     busquedaMatriculasPorAlumnoPeriodo,
@@ -13,7 +14,7 @@ import {
     getMatriculaCiclo,
     getMatriculas, getMatriculasAnual, getMatriculasAnualApoderado, getMatriculasPeriodoAula, getMatriculasPeriodoAulaArea, getMatriculasPeriodoAulaAreaApoderado, getMatriculasPeriodoAulaSubarea, getMatriculasPeriodoAulaSubareaaApoderado, getMatriculasPeriodoAulaSubareaCiclo,
     getMatriculasPeriodoAulaSubareaCicloApoderado,
-    getMatriculasProgramacion, getMatriculasProgramacionRangoFechas, getMatriculasSubarea, matriculasAlumno,
+    getMatriculasProgramacion, getMatriculasProgramacionRangoFechas, getMatriculasSubarea, listarmatriculasanterior, matriculasAlumno,
     matriculasAlumnoPeriodo,
     matriculasAlumnoPorApoderado,
     matriculasAlumnoPorApoderadoPeriodo,
@@ -32,12 +33,13 @@ import { validarJWT } from '../middlewares/validar-jwt';
 const router = Router();
 
 router.get('/', validarJWT, getMatriculas);
+
 router.get('/subarea/:subareaId', validarJWT, getMatriculasSubarea);
 router.get('/:id', validarJWT, getMatricula);
 router.get('/busqueda/:valor', validarJWT, busquedaMatriculas);
 router.get('/busqueda/subarea/:subareaId/:valor', validarJWT, busquedaMatriculasSubarea);
 router.get('/existe/:periodo/:aula/:alumno', validarJWT, existeMatricula);
-router.get('/programacion/:programacion', validarJWT, getMatriculasProgramacion);
+router.get('/programacion/alumnos/:programacionId', validarJWT, getMatriculasProgramacion);
 router.get('/alumno/:id', validarJWT, matriculasAlumno);
 router.get('/alumnoreporte/:alumnoId', validarJWT, matriculasAlumnoReporte);
 router.get('/pertenece/:matriculaId/:alumnoId', validarJWT, perteneceMatriculaAlumno);
@@ -80,20 +82,19 @@ router.get('/alumno/apoderado/reporte/:apoderadoId', validarJWT,
     matriculasApoderado);
 router.get('/apoderado/parahorario/:apoderadoId/:periodoId/:aulaId', validarJWT,
     matriculasApoderadoPeriodoAula);
-
 router.get('/periodoaula/:periodoId/:aulaId', validarJWT,
     getMatriculasPeriodoAula);
+router.get('/aprobado/:alumnoId',validarJWT,aprobadoAlumno);
+router.get('/periodoanterior/:alumnoId',validarJWT,listarmatriculasanterior);
 
 router.post('/', [
     validarJWT,
     check('alumnoId', 'El alumno es obligatorio').not().isEmpty(),
-    check('programacionId', 'La programacion es obligatoria').not().isEmpty(),
     validarCampos
 ], postMatricula);
 router.put('/:id', [
     validarJWT,
     check('alumnoId', 'El alumno es obligatorio').not().isEmpty(),
-    check('programacionId', 'La programacion es obligatoria').not().isEmpty(),
     validarCampos
 ], putMatricula);
 router.delete('/:id', validarJWT, deleteMatricula);

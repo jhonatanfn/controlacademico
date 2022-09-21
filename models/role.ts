@@ -4,7 +4,12 @@ import sequelize from '../db/connection';
 class Role extends Model{}
 Role.init({
     nombre:{
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    bgcolor:{
+        type: DataTypes.STRING,
+        allowNull: false
     },
     estado:{
         type: DataTypes.BOOLEAN,

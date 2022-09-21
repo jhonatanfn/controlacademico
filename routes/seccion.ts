@@ -4,7 +4,7 @@
 
 import  { Router } from 'express';
 import { check } from 'express-validator';
-import { busquedaSecciones, deleteSeccion, getSeccion, getSecciones, getTodo, postSeccion, putSeccion, tieneAulas } from '../controllers/seccion';
+import { busquedaSecciones, deleteSeccion, getSeccion, getSecciones, getTodo, nombreRepetido, nombreRepetidoEditar, postSeccion, putSeccion, tieneAulas } from '../controllers/seccion';
 import { validarCampos } from '../middlewares/validar-campos';
 import { validarJWT } from '../middlewares/validar-jwt';
 
@@ -15,6 +15,9 @@ router.get('/',validarJWT,getSecciones);
 router.get('/:id',validarJWT,getSeccion);
 router.get('/busqueda/:valor',validarJWT,busquedaSecciones);
 router.get('/tieneaulas/:seccionId',validarJWT,tieneAulas);
+router.get('/nombrerepetido/:seccionNombre',validarJWT,nombreRepetido)
+router.get('/nombrerepetidoeditar/:seccionId/:seccionNombre',validarJWT,nombreRepetidoEditar)
+
 router.post('/',[
     validarJWT,
     check('nombre','El nombre es obligatorio').not().isEmpty(),

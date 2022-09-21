@@ -1,13 +1,10 @@
-
 import Usuario from '../models/usuario';
 import Area from '../models/area';
 import Role from '../models/role';
-import Subarea from '../models/subarea';
 import Tipodocumento from '../models/tipodocumento';
 import Persona from '../models/persona';
 import Docente from '../models/docente';
 import Alumno from '../models/alumno';
-import Apoderado from '../models/apoderado';
 import Grado from '../models/grado';
 import Seccion from '../models/seccion';
 import Nivel from '../models/nivel';
@@ -23,182 +20,209 @@ import Asistencia from '../models/asistencia';
 import Situacion from '../models/situacion';
 import Hora from '../models/hora';
 import Horario from '../models/horario';
+import Competencia from '../models/competencia';
+import Padre from '../models/padre';
+import Madre from '../models/madre';
+import Matriculadetalle from '../models/matriculadetalle';
+import Auxiliar from '../models/auxiliar';
+import Director from '../models/director';
+import Apreciacion from '../models/apreciacion';
 
-Role.hasOne(Usuario, {
+Role.hasMany(Usuario, {
   as: 'usuario',
 });
 Usuario.belongsTo(Role, {
   as: 'role'
 });
-
-Area.hasMany(Subarea, {
-  as: 'subareas'
+Area.hasMany(Competencia, {
+  as: 'competencia'
 });
-Subarea.belongsTo(Area, {
+Competencia.belongsTo(Area, {
   as: 'area'
 });
-
 Tipodocumento.hasMany(Persona, {
   as: 'persona'
 });
 Persona.belongsTo(Tipodocumento, {
   as: 'tipodocumento'
 });
-
 Persona.hasOne(Docente, {
   as: 'docente'
 });
 Docente.belongsTo(Persona, {
   as: 'persona'
 });
-
 Persona.hasOne(Alumno, {
   as: 'alumno'
 });
 Alumno.belongsTo(Persona, {
   as: 'persona'
 });
-
-Persona.hasOne(Apoderado, {
-  as: 'apoderado'
-});
-Apoderado.belongsTo(Persona, {
-  as: 'persona'
-});
-
-Apoderado.hasMany(Alumno, {
-  as: 'alumno'
-});
-Alumno.belongsTo(Apoderado, {
-  as: 'apoderado'
-});
-
-Persona.hasMany(Usuario,{
+Persona.hasMany(Usuario, {
   as: 'usuario'
 });
-
-Usuario.belongsTo(Persona,{
+Usuario.belongsTo(Persona, {
   as: 'persona'
 });
-
-Nivel.hasMany(Aula,{
+Persona.hasOne(Padre, {
+  as: 'padre'
+});
+Padre.belongsTo(Persona, {
+  as: 'persona'
+});
+Persona.hasOne(Madre, {
+  as: 'madre'
+});
+Madre.belongsTo(Persona, {
+  as: 'persona'
+});
+Padre.hasMany(Alumno, {
+  as: 'alumno'
+});
+Alumno.belongsTo(Padre, {
+  as: 'padre'
+});
+Madre.hasMany(Alumno, {
+  as: 'alumno'
+});
+Alumno.belongsTo(Madre, {
+  as: 'madre'
+});
+Nivel.hasMany(Aula, {
   as: 'aula'
 });
-Aula.belongsTo(Nivel,{
+Aula.belongsTo(Nivel, {
   as: 'nivel'
 });
-
-Grado.hasMany(Aula,{
+Grado.hasMany(Aula, {
   as: 'aula'
 });
-Aula.belongsTo(Grado,{
+Aula.belongsTo(Grado, {
   as: 'grado'
 });
-
-Seccion.hasMany(Aula,{
+Seccion.hasMany(Aula, {
   as: 'aula'
 });
-Aula.belongsTo(Seccion,{
+Aula.belongsTo(Seccion, {
   as: 'seccion'
 });
-
-Aula.hasMany(Programacion,{
+Aula.hasMany(Programacion, {
   as: 'programacion'
 });
-Programacion.belongsTo(Aula,{
+Programacion.belongsTo(Aula, {
   as: 'aula'
 });
-
-Docente.hasMany(Programacion,{
+Docente.hasMany(Programacion, {
   as: 'programacion'
 });
-Programacion.belongsTo(Docente,{
+Programacion.belongsTo(Docente, {
   as: 'docente'
 });
-
-Subarea.hasMany(Programacion,{
+Periodo.hasMany(Programacion, {
   as: 'programacion'
 });
-Programacion.belongsTo(Subarea,{
-  as: 'subarea'
+Programacion.belongsTo(Periodo, {
+  as: 'periodo'
 });
-
-Periodo.hasMany(Programacion,{
+Area.hasMany(Programacion, {
   as: 'programacion'
 });
-
-Programacion.belongsTo(Periodo,{
-  as : 'periodo'
+Programacion.belongsTo(Area, {
+  as: 'area'
 });
-
-Alumno.hasMany(Matricula,{
-  as:'matricula'
-});
-Matricula.belongsTo(Alumno,{
-  as:'alumno'
-});
-
-Programacion.hasMany(Matricula,{
-  as:'matricula'
-});
-Matricula.belongsTo(Programacion,{
-  as:'programacion'
-});
-
-Matricula.hasMany(Nota,{
-  as: 'nota'
-});
-Nota.belongsTo(Matricula,{
-  as:'matricula'
-});
-
-Evaluacion.hasMany(Nota,{
-  as:'nota'
-});
-Nota.belongsTo(Evaluacion,{
-  as:'evaluacion'
-});
-
-Ciclo.hasMany(Nota,{
-  as:'nota'
-});
-Nota.belongsTo(Ciclo,{
-  as: 'ciclo'
-});
-
-Programacion.hasMany(Material,{
-  as: 'material'
-});
-Material.belongsTo(Programacion,{
-  as: 'programacion'
-});
-
-
-Matricula.hasMany(Asistencia,{
-  as: 'asistencia'
-});
-Asistencia.belongsTo(Matricula,{
+Alumno.hasMany(Matricula, {
   as: 'matricula'
 });
-
-
-Situacion.hasMany(Asistencia,{
+Matricula.belongsTo(Alumno, {
+  as: 'alumno'
+});
+Matricula.hasMany(Matriculadetalle, {
+  as: 'matriculadetalle'
+});
+Matriculadetalle.belongsTo(Matricula, {
+  as: 'matricula'
+});
+Programacion.hasMany(Matriculadetalle, {
+  as: 'matriculadetalle'
+});
+Matriculadetalle.belongsTo(Programacion, {
+  as: 'programacion'
+});
+Matriculadetalle.hasMany(Nota, {
+  as: 'nota'
+});
+Nota.belongsTo(Matriculadetalle, {
+  as: 'matriculadetalle'
+});
+Evaluacion.hasMany(Nota, {
+  as: 'nota'
+});
+Nota.belongsTo(Evaluacion, {
+  as: 'evaluacion'
+});
+Ciclo.hasMany(Nota, {
+  as: 'nota'
+});
+Nota.belongsTo(Ciclo, {
+  as: 'ciclo'
+});
+Competencia.hasMany(Nota, {
+  as: 'nota'
+});
+Nota.belongsTo(Competencia, {
+  as: 'competencia'
+});
+Matriculadetalle.hasMany(Asistencia, {
   as: 'asistencia'
 });
-Asistencia.belongsTo(Situacion,{
+Asistencia.belongsTo(Matriculadetalle, {
+  as: 'matriculadetalle'
+});
+Situacion.hasMany(Asistencia, {
+  as: 'asistencia'
+});
+Asistencia.belongsTo(Situacion, {
   as: 'situacion'
 });
-
-
-Hora.hasMany(Horario,{
+Hora.hasMany(Horario, {
   as: 'horario'
 });
-Horario.belongsTo(Hora,{
+Horario.belongsTo(Hora, {
   as: 'hora'
 });
-Programacion.hasMany(Horario,{
+Programacion.hasMany(Horario, {
   as: 'horario'
 });
-Horario.belongsTo(Programacion,{
+Horario.belongsTo(Programacion, {
   as: 'programacion'
+});
+Programacion.hasMany(Material, {
+  as: 'material'
+});
+Material.belongsTo(Programacion, {
+  as: 'programacion'
+});
+Persona.hasOne(Auxiliar, {
+  as: 'auxiliar'
+});
+Auxiliar.belongsTo(Persona, {
+  as: 'persona'
+});
+Persona.hasOne(Director, {
+  as: 'director'
+});
+Director.belongsTo(Persona, {
+  as: 'persona'
+});
+Periodo.hasMany(Apreciacion, {
+  as: 'apreciacion'
+});
+Apreciacion.belongsTo(Periodo, {
+  as: 'periodo'
+});
+Alumno.hasMany(Apreciacion,{
+  as: 'apreciacion'
+});
+Apreciacion.belongsTo(Alumno,{
+  as: 'alumno'
 });

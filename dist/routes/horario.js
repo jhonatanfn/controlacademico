@@ -11,11 +11,13 @@ const validar_jwt_1 = require("../middlewares/validar-jwt");
 const router = (0, express_1.Router)();
 router.get('/todo', validar_jwt_1.validarJWT, horario_1.getTodo);
 router.get('/', validar_jwt_1.validarJWT, horario_1.getHorarios);
+router.get('/pordia/:diaNombre', validar_jwt_1.validarJWT, horario_1.getHorariosPorDia);
 router.get('/:id', validar_jwt_1.validarJWT, horario_1.getHorario);
 router.get('/busqueda/:valor', validar_jwt_1.validarJWT, horario_1.busquedaHorarios);
+router.get('/busqueda/pordia/:diaNombre/:valor', validar_jwt_1.validarJWT, horario_1.busquedaHorariosPorDia);
 router.get('/existehorario/:periodoId/:aulaId/:diaNombre/:horaId', validar_jwt_1.validarJWT, horario_1.existeHorario);
 router.get('/hayhorario/:periodoId/:aulaId', validar_jwt_1.validarJWT, horario_1.horarioregistrado);
-router.get('/horarioduplicado/:periodoId/:aulaId/:subareaId/:dia/:horaId', validar_jwt_1.validarJWT, horario_1.horarioduplicado);
+router.get('/horarioduplicado/:periodoId/:aulaId/:areaId/:dia/:horaId', validar_jwt_1.validarJWT, horario_1.horarioduplicado);
 router.get('/periodoaula/:periodoId/:aulaId', validar_jwt_1.validarJWT, horario_1.horariosPeriodoAula);
 router.get('/periododocente/:periodoId/:docenteId', validar_jwt_1.validarJWT, horario_1.horariosPeriodoDocente);
 router.post('/', [

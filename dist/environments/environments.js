@@ -14,7 +14,7 @@ exports.environment = {
       USUARIO: 'bae8a3a2fca2e7',
       PASSWORD: '00e80c7d',
     */
-    /** HEROKU VICTOR RAUL SULLANA   */
+    /** HEROKU VICTOR RAUL SULLANA  */
     HOST: 'us-cdbr-east-06.cleardb.net',
     BASE_DATOS: 'heroku_75dbd138d47aecb',
     USUARIO: 'ba30a4de6ccac4',

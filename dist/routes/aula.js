@@ -16,6 +16,8 @@ router.get('/busqueda/:valor', validar_jwt_1.validarJWT, aula_1.busquedaAulas);
 router.get('/:id', validar_jwt_1.validarJWT, aula_1.getAula);
 router.get('/busquedatotal/:valor', validar_jwt_1.validarJWT, aula_1.busquedaAulasTotal);
 router.get('/tieneprogramaciones/:aulaId', validar_jwt_1.validarJWT, aula_1.tieneProgramaciones);
+router.get('/existeaula/:nivelId/:gradoId/:seccionId', validar_jwt_1.validarJWT, aula_1.existeAula);
+router.get('/existeaulaeditar/:nivelId/:gradoId/:seccionId/:idAula', validar_jwt_1.validarJWT, aula_1.existeAulaEditar);
 router.post('/', [
     validar_jwt_1.validarJWT,
     (0, express_validator_1.check)('nombre', 'El nombre es obligatorio').not().isEmpty(),

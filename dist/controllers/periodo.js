@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.tieneProgramaciones = exports.busquedaPeriodos = exports.deletePeriodo = exports.putPeriodo = exports.postPeriodo = exports.getPeriodo = exports.getPeriodos = exports.getTodo = void 0;
+exports.tieneProgramaciones = exports.busquedaPeriodos = exports.deletePeriodo = exports.putPeriodo = exports.postPeriodo = exports.getPeriodoNombre = exports.getPeriodo = exports.getPeriodos = exports.getTodo = void 0;
 const periodo_1 = __importDefault(require("../models/periodo"));
 const sequelize_1 = require("sequelize");
 const programacion_1 = __importDefault(require("../models/programacion"));
@@ -79,6 +79,36 @@ const getPeriodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.getPeriodo = getPeriodo;
+const getPeriodoNombre = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { nombre } = req.params;
+    try {
+        const periodo = yield periodo_1.default.findOne({
+            where: {
+                estado: true,
+                nombre: nombre
+            },
+            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal']
+        });
+        if (!periodo) {
+            return res.status(400).json({
+                ok: false,
+                msg: `No existe un periodo con el nombre: ${nombre}`
+            });
+        }
+        res.json({
+            ok: true,
+            periodo
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.getPeriodoNombre = getPeriodoNombre;
 const postPeriodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     try {

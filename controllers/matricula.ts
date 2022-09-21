@@ -1,3 +1,4 @@
+
 import { Request, Response } from "express";
 import { Op, Sequelize } from 'sequelize';
 import Alumno from '../models/alumno';
@@ -11,209 +12,37 @@ import Grado from "../models/grado";
 import Seccion from "../models/seccion";
 import Docente from "../models/docente";
 import Periodo from "../models/periodo";
-import Subarea from "../models/subarea";
 import Area from "../models/area";
 import Evaluacion from '../models/evaluacion';
 import Ciclo from '../models/ciclo';
 import Nota from "../models/nota";
 import Asistencia from "../models/asistencia";
-import Apoderado from "../models/apoderado";
+import Matriculadetalle from "../models/matriculadetalle";
 
-export const getMatriculasProgramacion = async (req: Request, res: Response) => {
-    const { programacion } = req.params;
-    try {
-
-        const matriculas = await Matricula.findAll({
-            where: {
-                estado: true,
-                programacionId: programacion
-            },
-            order: [
-                [{ model: Alumno, as: 'alumno' }, { model: Persona, as: 'persona' }, 'apellidopaterno', 'ASC']
-            ],
-            include: [
-                {
-                    model: Alumno,
-                    as: 'alumno',
-                    required: false,
-
-                    include: [
-                        {
-                            model: Persona,
-                            as: 'persona'
-                        },
-
-                    ],
-
-                },
-
-                {
-                    model: Programacion,
-                    as: 'programacion',
-                    include: [
-                        {
-                            model: Aula,
-                            as: 'aula',
-                            include: [
-                                {
-                                    model: Nivel,
-                                    as: 'nivel'
-                                },
-                                {
-                                    model: Grado,
-                                    as: 'grado'
-                                },
-                                {
-                                    model: Seccion,
-                                    as: 'seccion'
-                                }
-                            ]
-                        },
-                        {
-                            model: Docente,
-                            as: 'docente',
-                            include: [
-                                {
-                                    model: Persona,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno'],
-                                    required: false,
-                                    include: [
-                                        {
-                                            model: Tipodocumento,
-                                            as: 'tipodocumento'
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            model: Periodo,
-                            as: 'periodo'
-                        },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area'
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    model: Asistencia,
-                    as: 'asistencia'
-                }
-            ]
-        });
-
-        if (matriculas.length > 0) {
-            return res.json({
-                ok: true,
-                matriculas,
-                total: matriculas.length
-            });
-        } else {
-            res.json({
-                ok: false,
-                msg: "No hay registros"
-            });
-        }
-    } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
-    }
-}
 export const getMatriculas = async (req: Request, res: Response) => {
-
     const desde = Number(req.query.desde) || 0;
     try {
         const total = (await Matricula.findAll({
             where: { estado: true }
         })).length;
-
         const matriculas = await Matricula.findAll({
             where: { estado: true },
+            order: [
+                ['id', 'DESC']
+            ],
             limit: 5,
             offset: desde,
+            attributes: ['id', 'fecha', 'hora'],
             include: [
                 {
                     model: Alumno,
                     as: 'alumno',
-                    required: false,
+                    attributes: ['id'],
                     include: [
                         {
                             model: Persona,
                             as: 'persona',
-                            attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno'],
-                            required: false,
-                            include: [
-                                {
-                                    model: Tipodocumento,
-                                    as: 'tipodocumento'
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    model: Programacion,
-                    as: 'programacion',
-                    include: [
-                        {
-                            model: Aula,
-                            as: 'aula',
-                            include: [
-                                {
-                                    model: Nivel,
-                                    as: 'nivel'
-                                },
-                                {
-                                    model: Grado,
-                                    as: 'grado'
-                                },
-                                {
-                                    model: Seccion,
-                                    as: 'seccion'
-                                }
-                            ]
-                        },
-                        {
-                            model: Docente,
-                            as: 'docente',
-                            include: [
-                                {
-                                    model: Persona,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno'],
-                                    required: false,
-                                    include: [
-                                        {
-                                            model: Tipodocumento,
-                                            as: 'tipodocumento'
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            model: Periodo,
-                            as: 'periodo'
-                        },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area'
-                                }
-                            ]
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
                         }
                     ]
                 }
@@ -233,214 +62,26 @@ export const getMatriculas = async (req: Request, res: Response) => {
         });
     }
 }
-export const getMatriculasSubarea = async (req: Request, res: Response) => {
 
-    const desde = Number(req.query.desde) || 0;
-    const { subareaId } = req.params;
-    try {
-        const total = (await Matricula.findAll({
-            where: {
-                estado: true,
-                '$programacion.subarea.id$': subareaId,
-            },
-            include: [
-                {
-                    model: Programacion,
-                    as: 'programacion',
-                    include: [
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        })).length;
-
-        const matriculas = await Matricula.findAll({
-            where: {
-                estado: true,
-                '$programacion.subarea.id$': subareaId,
-            },
-            limit: 5,
-            offset: desde,
-            include: [
-                {
-                    model: Alumno,
-                    as: 'alumno',
-                    required: false,
-                    include: [
-                        {
-                            model: Persona,
-                            as: 'persona',
-                            attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno'],
-                            required: false,
-                            include: [
-                                {
-                                    model: Tipodocumento,
-                                    as: 'tipodocumento'
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    model: Programacion,
-                    as: 'programacion',
-                    include: [
-                        {
-                            model: Aula,
-                            as: 'aula',
-                            include: [
-                                {
-                                    model: Nivel,
-                                    as: 'nivel'
-                                },
-                                {
-                                    model: Grado,
-                                    as: 'grado'
-                                },
-                                {
-                                    model: Seccion,
-                                    as: 'seccion'
-                                }
-                            ]
-                        },
-                        {
-                            model: Docente,
-                            as: 'docente',
-                            include: [
-                                {
-                                    model: Persona,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno'],
-                                    required: false,
-                                    include: [
-                                        {
-                                            model: Tipodocumento,
-                                            as: 'tipodocumento'
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            model: Periodo,
-                            as: 'periodo'
-                        },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        });
-        res.json({
-            ok: true,
-            matriculas,
-            desde,
-            total
-        });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
-    }
-}
 export const getMatricula = async (req: Request, res: Response) => {
     const { id } = req.params;
-
     try {
-        const matricula: any = await Matricula.findByPk(id, {
-
+        const matricula: any = await Matricula.findOne({
+            where: {
+                estado: true,
+                id: id
+            },
+            attributes: ['id', 'fecha', 'hora'],
             include: [
                 {
                     model: Alumno,
                     as: 'alumno',
-                    required: false,
+                    attributes: ['id'],
                     include: [
                         {
                             model: Persona,
                             as: 'persona',
-                            attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno'],
-                            required: false,
-                            include: [
-                                {
-                                    model: Tipodocumento,
-                                    as: 'tipodocumento'
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    model: Programacion,
-                    as: 'programacion',
-                    include: [
-                        {
-                            model: Aula,
-                            as: 'aula',
-                            include: [
-                                {
-                                    model: Nivel,
-                                    as: 'nivel'
-                                },
-                                {
-                                    model: Grado,
-                                    as: 'grado'
-                                },
-                                {
-                                    model: Seccion,
-                                    as: 'seccion'
-                                }
-                            ]
-                        },
-                        {
-                            model: Docente,
-                            as: 'docente',
-                            include: [
-                                {
-                                    model: Persona,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno'],
-                                    required: false,
-                                    include: [
-                                        {
-                                            model: Tipodocumento,
-                                            as: 'tipodocumento'
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            model: Periodo,
-                            as: 'periodo'
-                        },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area'
-                                }
-                            ]
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
                         }
                     ]
                 }
@@ -472,15 +113,6 @@ export const postMatricula = async (req: Request, res: Response) => {
     try {
         const matricula = Matricula.build(body);
         await matricula.save();
-
-        const programacion: any = await Programacion.findOne({
-            where: {
-                id: body.programacionId
-            }
-        });
-        programacion.numeromat = programacion.numeromat + 1;
-        programacion.save();
-
         res.json({
             ok: true,
             msg: 'Matricula guardada exitosamente',
@@ -497,9 +129,7 @@ export const postMatricula = async (req: Request, res: Response) => {
 export const putMatricula = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { body } = req;
-
     try {
-
         const matricula: any = await Matricula.findByPk(id);
         if (!matricula) {
             return res.status(400).json({
@@ -534,14 +164,6 @@ export const deleteMatricula = async (req: Request, res: Response) => {
         }
         await matricula?.update({ estado: false });
 
-        const programacion: any = await Programacion.findOne({
-            where: {
-                id: matricula.programacionId
-            }
-        });
-        programacion.numeromat += 1;
-        programacion.save();
-
         res.json({
             ok: true,
             msg: 'Matricula eliminada exitosamente',
@@ -556,35 +178,115 @@ export const deleteMatricula = async (req: Request, res: Response) => {
     }
 }
 export const busquedaMatriculas = async (req: Request, res: Response) => {
-
     const { valor } = req.params;
     try {
-
         let data = await Matricula.findAll({
-
             where: {
-                '$alumno.persona.nombres$': {
-                    [Op.like]: `%${valor}%`
-                },
-                estado: true
+
+                estado: true,
+                [Op.or]: [
+                    {
+                        '$alumno.persona.dni$': {
+                            [Op.like]: `%${valor}%`
+                        },
+                    },
+                    {
+                        '$alumno.persona.nombres$': {
+                            [Op.like]: `%${valor}%`
+                        },
+                    },
+                    {
+                        '$alumno.persona.apellidopaterno$': {
+                            [Op.like]: `%${valor}%`
+                        },
+                    },
+                    {
+                        '$alumno.persona.apellidomaterno$': {
+                            [Op.like]: `%${valor}%`
+                        },
+                    }
+                ],
             },
+            attributes: ['id', 'fecha', 'hora'],
             include: [
                 {
                     model: Alumno,
                     as: 'alumno',
-                    required: true,
+                    attributes: ['id'],
                     include: [
                         {
                             model: Persona,
                             as: 'persona',
-                            required: true
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
+                        }
+                    ]
+                }
+            ]
+        });
+
+        res.json({
+            ok: true,
+            total: data.length,
+            busquedas: data
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+
+}
+export const matriculasAlumnoPeriodo = async (req: Request, res: Response) => {
+
+    const { alumnoId, periodoId } = req.params;
+    const desde = Number(req.query.desde) || 0;
+    try {
+        const total = (await Matricula.findAll({
+            where: {
+                estado: true,
+                alumnoId: alumnoId,
+                '$programacion.periodo.id$': periodoId,
+            },
+            include: [
+                {
+                    model: Programacion,
+                    as: 'programacion',
+                    include: [
+                        {
+                            model: Periodo,
+                            as: 'periodo',
+                        },
+                    ]
+                }
+            ]
+        })).length;
+
+        const matriculas = await Matricula.findAll({
+            where: {
+                estado: true,
+                alumnoId: alumnoId,
+                '$programacion.periodo.id$': periodoId,
+            },
+            limit: 5,
+            offset: desde,
+            include: [
+                {
+                    model: Alumno,
+                    as: 'alumno',
+                    include: [
+                        {
+                            model: Persona,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                         }
                     ]
                 },
                 {
                     model: Programacion,
                     as: 'programacion',
-                    required: false,
                     include: [
                         {
                             model: Aula,
@@ -611,7 +313,14 @@ export const busquedaMatriculas = async (req: Request, res: Response) => {
                                 {
                                     model: Persona,
                                     as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno']
+                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno'],
+                                    required: false,
+                                    include: [
+                                        {
+                                            model: Tipodocumento,
+                                            as: 'tipodocumento'
+                                        }
+                                    ]
                                 }
                             ]
                         },
@@ -620,26 +329,20 @@ export const busquedaMatriculas = async (req: Request, res: Response) => {
                             as: 'periodo'
                         },
                         {
-                            model: Subarea,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area'
-                                }
-                            ]
+                            model: Area,
+                            as: 'area',
+                            attributes: ['id', 'nombre']
                         }
                     ]
                 }
             ]
         });
-
         res.json({
             ok: true,
-            total: data.length,
-            busquedas: data
+            matriculas,
+            desde,
+            total
         });
-
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -648,6 +351,405 @@ export const busquedaMatriculas = async (req: Request, res: Response) => {
         });
     }
 
+}
+export const matriculasAlumno = async (req: Request, res: Response) => {
+
+    const { id } = req.params;
+    const desde = Number(req.query.desde) || 0;
+    try {
+        const total = (await Matricula.findAll({
+            where: { estado: true, alumnoId: id },
+        })).length;
+
+        const matriculas = await Matricula.findAll({
+            where: { estado: true, alumnoId: id },
+            limit: 5,
+            offset: desde,
+            include: [
+                {
+                    model: Alumno,
+                    as: 'alumno',
+                    include: [
+                        {
+                            model: Persona,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                        }
+                    ]
+                },
+                {
+                    model: Programacion,
+                    as: 'programacion',
+                    include: [
+                        {
+                            model: Aula,
+                            as: 'aula',
+                            include: [
+                                {
+                                    model: Nivel,
+                                    as: 'nivel'
+                                },
+                                {
+                                    model: Grado,
+                                    as: 'grado'
+                                },
+                                {
+                                    model: Seccion,
+                                    as: 'seccion'
+                                }
+                            ]
+                        },
+                        {
+                            model: Docente,
+                            as: 'docente',
+                            include: [
+                                {
+                                    model: Persona,
+                                    as: 'persona',
+                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno'],
+                                    required: false,
+                                    include: [
+                                        {
+                                            model: Tipodocumento,
+                                            as: 'tipodocumento'
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            model: Periodo,
+                            as: 'periodo'
+                        },
+                        {
+                            model: Area,
+                            as: 'area',
+                            attributes: ['id', 'nombre']
+                        }
+                    ]
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            matriculas,
+            desde,
+            total
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+
+}
+export const busquedaMatriculasPorAlumnoPeriodo = async (req: Request, res: Response) => {
+
+    const { alumnoId, periodoId, valor } = req.params;
+    try {
+        let matriculas = await Matricula.findAll({
+            where: {
+                estado: true,
+                '$alumno.id$': alumnoId,
+                '$programacion.periodo.id$': periodoId,
+                [Op.or]: [
+                    {
+                        '$alumno.persona.nombres$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$alumno.persona.apellidopaterno$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$alumno.persona.apellidomaterno$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$programacion.aula.nombre$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$programacion.docente.persona.nombres$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$programacion.subarea.nombre$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    },
+                ],
+            },
+
+            attributes: ['id', 'alumnoId', 'programacionId'],
+            include: [
+
+                {
+                    model: Alumno,
+                    as: 'alumno',
+                    required: false,
+                    attributes: ['id', 'alumnoId', 'personaId', 'apoderadoId'],
+                    include: [
+                        {
+                            model: Persona,
+                            as: 'persona',
+                            attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
+                        },
+
+
+                    ],
+
+                },
+                {
+                    model: Programacion,
+                    as: 'programacion',
+                    attributes: ['id', 'numeromat', 'numeromaxmat', 'aulaId', 'docenteId', 'subareaId', 'periodoId'],
+                    include: [
+                        {
+                            model: Aula,
+                            as: 'aula',
+                            attributes: ['id', 'nombre', 'nivelId', 'gradoId', 'seccionId'],
+                            include: [
+                                {
+                                    model: Nivel,
+                                    as: 'nivel',
+                                    attributes: ['id', 'nombre']
+                                },
+                                {
+                                    model: Grado,
+                                    as: 'grado',
+                                    attributes: ['id', 'nombre']
+                                },
+                                {
+                                    model: Seccion,
+                                    as: 'seccion',
+                                    attributes: ['id', 'nombre']
+                                }
+                            ]
+                        },
+                        {
+                            model: Docente,
+                            as: 'docente',
+                            include: [
+                                {
+                                    model: Persona,
+                                    as: 'persona',
+                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img'],
+                                    required: false
+                                }
+                            ]
+                        },
+                        {
+                            model: Periodo,
+                            as: 'periodo',
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
+                        },
+
+                    ]
+                },
+            ]
+        });
+
+        res.json({
+            ok: true,
+            total: matriculas.length,
+            busquedas: matriculas
+        });
+
+
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+
+
+
+
+
+
+export const getMatriculasProgramacion = async (req: Request, res: Response) => {
+    const { programacionId } = req.params;
+    try {
+        const matriculadetalles = await Matriculadetalle.findAll({
+            where: {
+                estado: true,
+                programacionId: programacionId
+            },
+            attributes: ['id', 'aprobado', 'programacionId'],
+            order: [
+                [
+                    { model: Matricula, as: 'matricula' },
+                    { model: Alumno, as: 'alumno' },
+                    { model: Persona, as: 'persona' },
+                    'apellidopaterno', 'ASC'
+                ]
+            ],
+            include: [
+                {
+                    model: Matricula,
+                    as: 'matricula',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: Alumno,
+                            as: 'alumno',
+                            attributes: ['id'],
+                            include: [
+                                {
+                                    model: Persona,
+                                    as: 'persona',
+                                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                                },
+                            ],
+                        },
+                    ]
+                },
+                {
+                    model: Programacion,
+                    as: 'programacion',
+                    attributes: ['id'],
+                }
+            ]
+        });
+
+        if (matriculadetalles.length > 0) {
+            return res.json({
+                ok: true,
+                matriculadetalles,
+                total: matriculadetalles.length
+            });
+        } else {
+            res.json({
+                ok: false,
+                msg: "No hay registros"
+            });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+export const getMatriculasSubarea = async (req: Request, res: Response) => {
+
+    const desde = Number(req.query.desde) || 0;
+    const { subareaId } = req.params;
+    try {
+        const total = (await Matricula.findAll({
+            where: {
+                estado: true,
+                '$programacion.subarea.id$': subareaId,
+            },
+            include: [
+                {
+                    model: Programacion,
+                    as: 'programacion',
+
+                }
+            ]
+        })).length;
+
+        const matriculas = await Matricula.findAll({
+            where: {
+                estado: true,
+                '$programacion.subarea.id$': subareaId,
+            },
+            limit: 5,
+            offset: desde,
+            include: [
+                {
+                    model: Alumno,
+                    as: 'alumno',
+                    required: false,
+                    include: [
+                        {
+                            model: Persona,
+                            as: 'persona',
+                            attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno'],
+                            required: false,
+                            include: [
+                                {
+                                    model: Tipodocumento,
+                                    as: 'tipodocumento'
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    model: Programacion,
+                    as: 'programacion',
+                    include: [
+                        {
+                            model: Aula,
+                            as: 'aula',
+                            include: [
+                                {
+                                    model: Nivel,
+                                    as: 'nivel'
+                                },
+                                {
+                                    model: Grado,
+                                    as: 'grado'
+                                },
+                                {
+                                    model: Seccion,
+                                    as: 'seccion'
+                                }
+                            ]
+                        },
+                        {
+                            model: Docente,
+                            as: 'docente',
+                            include: [
+                                {
+                                    model: Persona,
+                                    as: 'persona',
+                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno'],
+                                    required: false,
+                                    include: [
+                                        {
+                                            model: Tipodocumento,
+                                            as: 'tipodocumento'
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            model: Periodo,
+                            as: 'periodo'
+                        },
+
+                    ]
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            matriculas,
+            desde,
+            total
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
 }
 export const existeMatricula = async (req: Request, res: Response) => {
 
@@ -692,104 +794,7 @@ export const existeMatricula = async (req: Request, res: Response) => {
 
 
 }
-export const matriculasAlumno = async (req: Request, res: Response) => {
 
-    const { id } = req.params;
-    const desde = Number(req.query.desde) || 0;
-    try {
-        const total = (await Matricula.findAll({
-            where: { estado: true, alumnoId: id },
-        })).length;
-
-        const matriculas = await Matricula.findAll({
-            where: { estado: true, alumnoId: id },
-            limit: 5,
-            offset: desde,
-            include: [
-                {
-                    model: Alumno,
-                    as: 'alumno',
-                    required: false,
-                    include: [
-                        {
-                            model: Persona,
-                            as: 'persona'
-                        }
-                    ]
-                },
-                {
-                    model: Programacion,
-                    as: 'programacion',
-                    include: [
-                        {
-                            model: Aula,
-                            as: 'aula',
-                            include: [
-                                {
-                                    model: Nivel,
-                                    as: 'nivel'
-                                },
-                                {
-                                    model: Grado,
-                                    as: 'grado'
-                                },
-                                {
-                                    model: Seccion,
-                                    as: 'seccion'
-                                }
-                            ]
-                        },
-                        {
-                            model: Docente,
-                            as: 'docente',
-                            include: [
-                                {
-                                    model: Persona,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno'],
-                                    required: false,
-                                    include: [
-                                        {
-                                            model: Tipodocumento,
-                                            as: 'tipodocumento'
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            model: Periodo,
-                            as: 'periodo'
-                        },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        });
-        res.json({
-            ok: true,
-            matriculas,
-            desde,
-            total
-        });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
-    }
-
-}
 export const perteneceMatriculaAlumno = async (req: Request, res: Response) => {
 
     const { matriculaId, alumnoId } = req.params;
@@ -913,16 +918,7 @@ export const matriculasProgramacionCiclo = async (req: Request, res: Response) =
                             model: Periodo,
                             as: 'periodo'
                         },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area'
-                                }
-                            ]
-                        }
+
                     ]
                 },
                 {
@@ -1032,16 +1028,7 @@ export const getMatriculasProgramacionRangoFechas = async (req: Request, res: Re
                             model: Periodo,
                             as: 'periodo'
                         },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area'
-                                }
-                            ]
-                        }
+
                     ]
                 },
                 {
@@ -1086,16 +1073,7 @@ export const matriculasAlumnoPorApoderado = async (req: Request, res: Response) 
                             model: Persona,
                             as: 'persona'
                         },
-                        {
-                            model: Apoderado,
-                            as: 'apoderado',
-                            include: [
-                                {
-                                    model: Persona,
-                                    as: 'persona'
-                                }
-                            ]
-                        }
+
                     ]
                 },
                 {
@@ -1134,16 +1112,7 @@ export const matriculasAlumnoPorApoderado = async (req: Request, res: Response) 
                             model: Periodo,
                             as: 'periodo'
                         },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area'
-                                }
-                            ]
-                        }
+
                     ]
                 },
             ]
@@ -1172,16 +1141,7 @@ export const matriculasAlumnoPorApoderado = async (req: Request, res: Response) 
                             model: Persona,
                             as: 'persona'
                         },
-                        {
-                            model: Apoderado,
-                            as: 'apoderado',
-                            include: [
-                                {
-                                    model: Persona,
-                                    as: 'persona'
-                                }
-                            ]
-                        }
+
                     ]
                 },
                 {
@@ -1220,16 +1180,7 @@ export const matriculasAlumnoPorApoderado = async (req: Request, res: Response) 
                             model: Periodo,
                             as: 'periodo'
                         },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area'
-                                }
-                            ]
-                        }
+
                     ]
                 },
             ]
@@ -1267,12 +1218,7 @@ export const perteneceMatriculaApoderado = async (req: Request, res: Response) =
                 {
                     model: Alumno,
                     as: 'alumno',
-                    include: [
-                        {
-                            model: Apoderado,
-                            as: 'apoderado'
-                        }
-                    ]
+
                 }
             ]
         });
@@ -1367,20 +1313,9 @@ export const getMatriculasPeriodoAulaSubareaCiclo = async (req: Request, res: Re
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
-                        }
+
                     ]
                 },
                 {
@@ -1479,18 +1414,6 @@ export const busquedaMatriculasPorAlumnoApoderado = async (req: Request, res: Re
                             as: 'persona',
                             attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
                         },
-                        {
-                            model: Apoderado,
-                            as: 'apoderado',
-                            attributes: ['id', 'apoderadoId', 'personaId'],
-                            include: [
-                                {
-                                    model: Persona,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
-                                }
-                            ]
-                        }
 
                     ],
 
@@ -1537,20 +1460,9 @@ export const busquedaMatriculasPorAlumnoApoderado = async (req: Request, res: Re
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
-                        }
+
                     ]
                 },
             ]
@@ -1611,13 +1523,7 @@ export const busquedaMatriculasPorAlumno = async (req: Request, res: Response) =
                     },
                 ],
             },
-            order: [
-                [
-                    { model: Programacion, as: 'programacion' },
-                    { model: Subarea, as: 'subarea' },
-                    'nombre', 'ASC'
-                ]
-            ],
+
             attributes: ['id', 'alumnoId', 'programacionId'],
             include: [
 
@@ -1632,18 +1538,7 @@ export const busquedaMatriculasPorAlumno = async (req: Request, res: Response) =
                             as: 'persona',
                             attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
                         },
-                        {
-                            model: Apoderado,
-                            as: 'apoderado',
-                            attributes: ['id', 'apoderadoId', 'personaId'],
-                            include: [
-                                {
-                                    model: Persona,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
-                                }
-                            ]
-                        }
+
 
                     ],
 
@@ -1690,20 +1585,9 @@ export const busquedaMatriculasPorAlumno = async (req: Request, res: Response) =
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
-                        }
+
                     ]
                 },
             ]
@@ -1796,20 +1680,9 @@ export const getMatriculasAnual = async (req: Request, res: Response) => {
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
-                        }
+
                     ]
                 },
                 {
@@ -1908,16 +1781,7 @@ export const busquedaMatriculasSubarea = async (req: Request, res: Response) => 
                             model: Periodo,
                             as: 'periodo'
                         },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area'
-                                }
-                            ]
-                        }
+
                     ]
                 }
             ]
@@ -1999,28 +1863,17 @@ export const getMatriculasPeriodoAulaSubarea = async (req: Request, res: Respons
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
-                        },
+
                         {
                             model: Docente,
                             as: 'docente',
-                            include:[
+                            include: [
                                 {
                                     model: Persona,
                                     as: 'persona',
-                                    attributes:['id','numero','nombres','apellidopaterno','apellidomaterno']
+                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno']
                                 }
                             ]
                         }
@@ -2110,20 +1963,9 @@ export const getMatriculaCiclo = async (req: Request, res: Response) => {
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
-                        }
+
                     ]
                 },
                 {
@@ -2185,16 +2027,7 @@ export const matriculasApoderado = async (req: Request, res: Response) => {
                             model: Persona,
                             as: 'persona'
                         },
-                        {
-                            model: Apoderado,
-                            as: 'apoderado',
-                            include: [
-                                {
-                                    model: Persona,
-                                    as: 'persona'
-                                }
-                            ]
-                        }
+
                     ]
                 },
                 {
@@ -2233,16 +2066,7 @@ export const matriculasApoderado = async (req: Request, res: Response) => {
                             model: Periodo,
                             as: 'periodo'
                         },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area'
-                                }
-                            ]
-                        }
+
                     ]
                 },
             ]
@@ -2290,18 +2114,7 @@ export const getMatriculasPeriodoAulaSubareaCicloApoderado = async (req: Request
                             as: 'persona',
                             attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
                         },
-                        {
-                            model: Apoderado,
-                            as: 'apoderado',
-                            attributes: ['id'],
-                            include: [
-                                {
-                                    model: Persona,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
-                                }
-                            ]
-                        }
+
                     ],
                 },
                 {
@@ -2346,20 +2159,9 @@ export const getMatriculasPeriodoAulaSubareaCicloApoderado = async (req: Request
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
-                        }
+
                     ]
                 },
                 {
@@ -2425,18 +2227,7 @@ export const getMatriculasPeriodoAulaSubareaaApoderado = async (req: Request, re
                             as: 'persona',
                             attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
                         },
-                        {
-                            model: Apoderado,
-                            as: 'apoderado',
-                            attributes: ['id'],
-                            include: [
-                                {
-                                    model: Persona,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
-                                }
-                            ]
-                        }
+
 
                     ],
 
@@ -2471,28 +2262,17 @@ export const getMatriculasPeriodoAulaSubareaaApoderado = async (req: Request, re
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
-                        },
+
                         {
                             model: Docente,
                             as: 'docente',
-                            include:[
+                            include: [
                                 {
                                     model: Persona,
                                     as: 'persona',
-                                    attributes:['id','numero','nombres','apellidopaterno','apellidomaterno']
+                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno']
                                 }
                             ]
                         }
@@ -2540,18 +2320,7 @@ export const getMatriculasAnualApoderado = async (req: Request, res: Response) =
                             as: 'persona',
                             attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
                         },
-                        {
-                            model: Apoderado,
-                            as: 'apoderado',
-                            attributes: ['id'],
-                            include: [
-                                {
-                                    model: Persona,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
-                                }
-                            ]
-                        }
+
                     ],
                 },
                 {
@@ -2596,20 +2365,9 @@ export const getMatriculasAnualApoderado = async (req: Request, res: Response) =
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
-                        }
+
                     ]
                 },
                 {
@@ -2663,16 +2421,7 @@ export const matriculasAlumnoPorApoderadoPeriodo = async (req: Request, res: Res
                             model: Persona,
                             as: 'persona'
                         },
-                        {
-                            model: Apoderado,
-                            as: 'apoderado',
-                            include: [
-                                {
-                                    model: Persona,
-                                    as: 'persona'
-                                }
-                            ]
-                        }
+
                     ]
                 },
                 {
@@ -2711,16 +2460,7 @@ export const matriculasAlumnoPorApoderadoPeriodo = async (req: Request, res: Res
                             model: Periodo,
                             as: 'periodo'
                         },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area'
-                                }
-                            ]
-                        }
+
                     ]
                 },
             ]
@@ -2742,26 +2482,7 @@ export const matriculasAlumnoPorApoderadoPeriodo = async (req: Request, res: Res
             limit: 5,
             offset: desde,
             include: [
-                {
-                    model: Alumno,
-                    as: 'alumno',
-                    include: [
-                        {
-                            model: Persona,
-                            as: 'persona'
-                        },
-                        {
-                            model: Apoderado,
-                            as: 'apoderado',
-                            include: [
-                                {
-                                    model: Persona,
-                                    as: 'persona'
-                                }
-                            ]
-                        }
-                    ]
-                },
+
                 {
                     model: Programacion,
                     as: 'programacion',
@@ -2798,16 +2519,7 @@ export const matriculasAlumnoPorApoderadoPeriodo = async (req: Request, res: Res
                             model: Periodo,
                             as: 'periodo'
                         },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area'
-                                }
-                            ]
-                        }
+
                     ]
                 },
             ]
@@ -2893,18 +2605,7 @@ export const busquedaMatriculasPorAlumnoApoderadoPeriodo = async (req: Request, 
                             as: 'persona',
                             attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
                         },
-                        {
-                            model: Apoderado,
-                            as: 'apoderado',
-                            attributes: ['id', 'apoderadoId', 'personaId'],
-                            include: [
-                                {
-                                    model: Persona,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
-                                }
-                            ]
-                        }
+
 
                     ],
 
@@ -2951,20 +2652,9 @@ export const busquedaMatriculasPorAlumnoApoderadoPeriodo = async (req: Request, 
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
-                        }
+
                     ]
                 },
             ]
@@ -2984,278 +2674,8 @@ export const busquedaMatriculasPorAlumnoApoderadoPeriodo = async (req: Request, 
         });
     }
 }
-export const matriculasAlumnoPeriodo = async (req: Request, res: Response) => {
-
-    const { alumnoId, periodoId } = req.params;
-    const desde = Number(req.query.desde) || 0;
-    try {
-        const total = (await Matricula.findAll({
-            where: {
-                estado: true,
-                alumnoId: alumnoId,
-                '$programacion.periodo.id$': periodoId,
-            },
-            include: [
-                {
-                    model: Programacion,
-                    as: 'programacion',
-                    include: [
-                        {
-                            model: Periodo,
-                            as: 'periodo'
-                        },
-                    ]
-                }
-            ]
-        })).length;
-
-        const matriculas = await Matricula.findAll({
-            where: {
-                estado: true,
-                alumnoId: alumnoId,
-                '$programacion.periodo.id$': periodoId,
-            },
-            limit: 5,
-            offset: desde,
-            include: [
-                {
-                    model: Alumno,
-                    as: 'alumno',
-                    required: false,
-                    include: [
-                        {
-                            model: Persona,
-                            as: 'persona'
-                        }
-                    ]
-                },
-                {
-                    model: Programacion,
-                    as: 'programacion',
-                    include: [
-                        {
-                            model: Aula,
-                            as: 'aula',
-                            include: [
-                                {
-                                    model: Nivel,
-                                    as: 'nivel'
-                                },
-                                {
-                                    model: Grado,
-                                    as: 'grado'
-                                },
-                                {
-                                    model: Seccion,
-                                    as: 'seccion'
-                                }
-                            ]
-                        },
-                        {
-                            model: Docente,
-                            as: 'docente',
-                            include: [
-                                {
-                                    model: Persona,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno'],
-                                    required: false,
-                                    include: [
-                                        {
-                                            model: Tipodocumento,
-                                            as: 'tipodocumento'
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            model: Periodo,
-                            as: 'periodo'
-                        },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        });
-        res.json({
-            ok: true,
-            matriculas,
-            desde,
-            total
-        });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
-    }
-
-}
-export const busquedaMatriculasPorAlumnoPeriodo = async (req: Request, res: Response) => {
-
-    const { alumnoId, periodoId, valor } = req.params;
-    try {
-        let matriculas = await Matricula.findAll({
-            where: {
-                estado: true,
-                '$alumno.id$': alumnoId,
-                '$programacion.periodo.id$': periodoId,
-                [Op.or]: [
-                    {
-                        '$alumno.persona.nombres$': {
-                            [Op.like]: `%${valor}%`
-                        }
-                    },
-                    {
-                        '$alumno.persona.apellidopaterno$': {
-                            [Op.like]: `%${valor}%`
-                        }
-                    },
-                    {
-                        '$alumno.persona.apellidomaterno$': {
-                            [Op.like]: `%${valor}%`
-                        }
-                    },
-                    {
-                        '$programacion.aula.nombre$': {
-                            [Op.like]: `%${valor}%`
-                        }
-                    },
-                    {
-                        '$programacion.docente.persona.nombres$': {
-                            [Op.like]: `%${valor}%`
-                        }
-                    },
-                    {
-                        '$programacion.subarea.nombre$': {
-                            [Op.like]: `%${valor}%`
-                        }
-                    },
-                ],
-            },
-            order: [
-                [
-                    { model: Programacion, as: 'programacion' },
-                    { model: Subarea, as: 'subarea' },
-                    'nombre', 'ASC'
-                ]
-            ],
-            attributes: ['id', 'alumnoId', 'programacionId'],
-            include: [
-
-                {
-                    model: Alumno,
-                    as: 'alumno',
-                    required: false,
-                    attributes: ['id', 'alumnoId', 'personaId', 'apoderadoId'],
-                    include: [
-                        {
-                            model: Persona,
-                            as: 'persona',
-                            attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
-                        },
-                        {
-                            model: Apoderado,
-                            as: 'apoderado',
-                            attributes: ['id', 'apoderadoId', 'personaId'],
-                            include: [
-                                {
-                                    model: Persona,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
-                                }
-                            ]
-                        }
-
-                    ],
-
-                },
-                {
-                    model: Programacion,
-                    as: 'programacion',
-                    attributes: ['id', 'numeromat', 'numeromaxmat', 'aulaId', 'docenteId', 'subareaId', 'periodoId'],
-                    include: [
-                        {
-                            model: Aula,
-                            as: 'aula',
-                            attributes: ['id', 'nombre', 'nivelId', 'gradoId', 'seccionId'],
-                            include: [
-                                {
-                                    model: Nivel,
-                                    as: 'nivel',
-                                    attributes: ['id', 'nombre']
-                                },
-                                {
-                                    model: Grado,
-                                    as: 'grado',
-                                    attributes: ['id', 'nombre']
-                                },
-                                {
-                                    model: Seccion,
-                                    as: 'seccion',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
-                        },
-                        {
-                            model: Docente,
-                            as: 'docente',
-                            include: [
-                                {
-                                    model: Persona,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img'],
-                                    required: false
-                                }
-                            ]
-                        },
-                        {
-                            model: Periodo,
-                            as: 'periodo',
-                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
-                        },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
-                        }
-                    ]
-                },
-            ]
-        });
-
-        res.json({
-            ok: true,
-            total: matriculas.length,
-            busquedas: matriculas
-        });
 
 
-    } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
-    }
-}
 export const matriculasAlumnoReporte = async (req: Request, res: Response) => {
 
     const { alumnoId } = req.params;
@@ -3318,16 +2738,7 @@ export const matriculasAlumnoReporte = async (req: Request, res: Response) => {
                             model: Periodo,
                             as: 'periodo'
                         },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area'
-                                }
-                            ]
-                        }
+
                     ]
                 }
             ]
@@ -3415,20 +2826,9 @@ export const getMatriculaAnual = async (req: Request, res: Response) => {
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
-                        }
+
                     ]
                 },
                 {
@@ -3489,16 +2889,7 @@ export const matriculasApoderadoPeriodoAula = async (req: Request, res: Response
                             model: Persona,
                             as: 'persona'
                         },
-                        {
-                            model: Apoderado,
-                            as: 'apoderado',
-                            include: [
-                                {
-                                    model: Persona,
-                                    as: 'persona'
-                                }
-                            ]
-                        }
+
                     ]
                 },
                 {
@@ -3537,16 +2928,7 @@ export const matriculasApoderadoPeriodoAula = async (req: Request, res: Response
                             model: Periodo,
                             as: 'periodo'
                         },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area'
-                                }
-                            ]
-                        }
+
                     ]
                 },
             ]
@@ -3569,29 +2951,28 @@ export const matriculasApoderadoPeriodoAula = async (req: Request, res: Response
 export const getMatriculasPeriodoAulaArea = async (req: Request, res: Response) => {
     const { periodoId, aulaId, areaId } = req.params;
     try {
-
         const matriculas = await Matricula.findAll({
             where: {
                 estado: true,
                 '$programacion.periodo.id$': periodoId,
                 '$programacion.aula.id$': aulaId,
-                '$programacion.subarea.area.id$': areaId
+                '$programacion.area.id$': areaId
             },
             order: [
                 [{ model: Alumno, as: 'alumno' }, { model: Persona, as: 'persona' }, 'apellidopaterno', 'ASC']
             ],
-            attributes: ['id', 'alumnoId', 'programacionId'],
+            attributes: ['id'],
             include: [
                 {
                     model: Alumno,
                     as: 'alumno',
                     required: false,
-                    attributes: ['id', 'alumnoId', 'personaId', 'apoderadoId'],
+                    attributes: ['id'],
                     include: [
                         {
                             model: Persona,
                             as: 'persona',
-                            attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                         },
 
                     ],
@@ -3600,12 +2981,12 @@ export const getMatriculasPeriodoAulaArea = async (req: Request, res: Response) 
                 {
                     model: Programacion,
                     as: 'programacion',
-                    attributes: ['id', 'numeromat', 'numeromaxmat', 'aulaId', 'docenteId', 'subareaId', 'periodoId'],
+                    attributes: ['id', 'numeromat', 'numeromaxmat'],
                     include: [
                         {
                             model: Aula,
                             as: 'aula',
-                            attributes: ['id', 'nombre', 'nivelId', 'gradoId', 'seccionId'],
+                            attributes: ['id', 'nombre'],
                             include: [
                                 {
                                     model: Nivel,
@@ -3627,30 +3008,24 @@ export const getMatriculasPeriodoAulaArea = async (req: Request, res: Response) 
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
-                        },
+
                         {
                             model: Docente,
                             as: 'docente',
-                            include:[
+                            include: [
                                 {
                                     model: Persona,
                                     as: 'persona',
-                                    attributes:['id','numero','nombres','apellidopaterno','apellidomaterno']
+                                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                                 }
                             ]
+                        },
+                        {
+                            model: Area,
+                            as: 'area',
+                            attributes: ['id', 'nombre']
                         }
                     ]
                 }
@@ -3662,6 +3037,7 @@ export const getMatriculasPeriodoAulaArea = async (req: Request, res: Response) 
             total: matriculas.length
         });
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             ok: false,
             msg: 'Se produjo un error. Hable con el administrador'
@@ -3696,19 +3072,6 @@ export const getMatriculasPeriodoAulaAreaApoderado = async (req: Request, res: R
                             as: 'persona',
                             attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
                         },
-                        {
-                            model: Apoderado,
-                            as: 'apoderado',
-                            attributes: ['id'],
-                            include: [
-                                {
-                                    model: Persona,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
-                                }
-                            ]
-                        }
-
                     ],
 
                 },
@@ -3742,28 +3105,17 @@ export const getMatriculasPeriodoAulaAreaApoderado = async (req: Request, res: R
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
-                        },
+
                         {
                             model: Docente,
                             as: 'docente',
-                            include:[
+                            include: [
                                 {
                                     model: Persona,
                                     as: 'persona',
-                                    attributes:['id','numero','nombres','apellidopaterno','apellidomaterno']
+                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno']
                                 }
                             ]
                         }
@@ -3783,7 +3135,7 @@ export const getMatriculasPeriodoAulaAreaApoderado = async (req: Request, res: R
         });
     }
 }
-export const getMatriculasPeriodoAula= async (req: Request, res: Response)=>{
+export const getMatriculasPeriodoAula = async (req: Request, res: Response) => {
     const { periodoId, aulaId } = req.params;
     try {
         const matriculas = await Matricula.findAll({
@@ -3796,8 +3148,8 @@ export const getMatriculasPeriodoAula= async (req: Request, res: Response)=>{
                 [{ model: Alumno, as: 'alumno' }, { model: Persona, as: 'persona' }, 'apellidopaterno', 'ASC']
             ],
             attributes: [
-                'id', 
-                'alumnoId', 
+                'id',
+                'alumnoId',
                 'programacionId',
             ],
             group: ['alumnoId'],
@@ -3818,7 +3170,7 @@ export const getMatriculasPeriodoAula= async (req: Request, res: Response)=>{
                 {
                     model: Programacion,
                     as: 'programacion',
-                    attributes: ['id', 'aulaId','periodoId'],
+                    attributes: ['id', 'aulaId', 'periodoId'],
                     include: [
                         {
                             model: Aula,
@@ -3828,7 +3180,7 @@ export const getMatriculasPeriodoAula= async (req: Request, res: Response)=>{
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         }
                     ]
                 }
@@ -3840,6 +3192,59 @@ export const getMatriculasPeriodoAula= async (req: Request, res: Response)=>{
             total: matriculas.length
         });
 
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+export const aprobadoAlumno = async (req: Request, res: Response) => {
+    const { alumnoId } = req.params;
+    try {
+        const matriculas = await Matricula.findAll({
+            where: {
+                estado: true,
+                aprobado: true,
+                alumnoId: alumnoId
+            }
+        });
+        if (matriculas.length > 0) {
+            return res.json({
+                ok: true,
+                msg: "Alumno aprobado"
+            });
+        }
+        res.json({
+            ok: false,
+            msg: "El alumno no está aprobado"
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+export const listarmatriculasanterior = async (req: Request, res: Response) => {
+    const { alumnoId } = req.params;
+    try {
+        const matriculas = await Matricula.findAll({
+            where: {
+                estado: true,
+                alumnoId: alumnoId
+            }
+        });
+        if (matriculas.length > 0) {
+            return res.json({
+                ok: true,
+            });
+        }
+        res.json({
+            ok: false,
+        });
     } catch (error) {
         console.log(error);
         res.status(500).json({

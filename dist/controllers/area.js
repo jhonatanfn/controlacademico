@@ -12,14 +12,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.tieneSubareas = exports.busquedaAreas = exports.deleteArea = exports.putArea = exports.postArea = exports.getArea = exports.getAreas = exports.getTodo = void 0;
+exports.nombreRepetidoEditar = exports.nombreRepetido = exports.getCompetenciasArea = exports.busquedaAreas = exports.deleteArea = exports.putArea = exports.postArea = exports.getArea = exports.getAreas = exports.getTodoCompetencias = exports.getTodo = void 0;
 const sequelize_1 = require("sequelize");
 const area_1 = __importDefault(require("../models/area"));
-const subarea_1 = __importDefault(require("../models/subarea"));
+const competencia_1 = __importDefault(require("../models/competencia"));
 const getTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const areas = yield area_1.default.findAll({
-            where: { estado: true }
+            where: {
+                estado: true
+            },
+            attributes: ['id', 'nombre', 'estado']
         });
         res.json({
             ok: true,
@@ -35,25 +38,59 @@ const getTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getTodo = getTodo;
+const getTodoCompetencias = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const areas = yield area_1.default.findAll({
+            where: {
+                estado: true
+            },
+            attributes: ['id', 'nombre'],
+            include: [
+                {
+                    model: competencia_1.default,
+                    as: 'competencia',
+                    attributes: ['id', 'descripcion']
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            areas
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.getTodoCompetencias = getTodoCompetencias;
 const getAreas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const desde = Number(req.query.desde) || 0;
     try {
         const total = (yield area_1.default.findAll({
-            where: { estado: true }
+            where: { estado: true },
+            attributes: ['id', 'nombre', 'estado']
         })).length;
         const areas = yield area_1.default.findAll({
             where: { estado: true },
             order: [
                 [
-                    'nombre', 'ASC'
+                    'id', 'DESC'
                 ]
             ],
             limit: 5,
             offset: desde,
-            include: [{
-                    model: subarea_1.default,
-                    as: 'subareas'
-                }],
+            attributes: ['id', 'nombre', 'estado'],
+            include: [
+                {
+                    model: competencia_1.default,
+                    as: 'competencia',
+                    attributes: ['id', 'descripcion']
+                }
+            ],
         });
         res.json({
             ok: true,
@@ -75,11 +112,13 @@ const getArea = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
         const area = yield area_1.default.findByPk(id, {
-            include: [{
-                    model: subarea_1.default,
-                    as: 'subareas',
-                    attributes: ['id', 'nombre']
-                }],
+            include: [
+                {
+                    model: competencia_1.default,
+                    as: 'competencia',
+                    attributes: ['id', 'descripcion']
+                }
+            ],
         });
         if (!area) {
             return res.status(400).json({
@@ -200,19 +239,50 @@ const busquedaAreas = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.busquedaAreas = busquedaAreas;
-const tieneSubareas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getCompetenciasArea = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { areaId } = req.params;
     try {
-        const subareas = yield subarea_1.default.findAll({
+        const competencias = yield competencia_1.default.findAll({
             where: {
                 estado: true,
                 areaId: areaId
-            }
+            },
+            attributes: ['id']
         });
-        if (subareas.length > 0) {
+        if (competencias.length > 0) {
             return res.json({
                 ok: true,
-                msg: "No se puede eliminar el area"
+                msg: 'No se puede eliminar el area.'
+            });
+        }
+        res.json({
+            ok: false,
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.getCompetenciasArea = getCompetenciasArea;
+const nombreRepetido = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { areaNombre } = req.params;
+    try {
+        const area = yield area_1.default.findOne({
+            where: {
+                estado: true,
+                nombre: {
+                    [sequelize_1.Op.like]: `%${areaNombre}%`
+                }
+            },
+            attributes: ['id']
+        });
+        if (area) {
+            return res.json({
+                ok: true
             });
         }
         res.json({
@@ -220,11 +290,45 @@ const tieneSubareas = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
+        console.log(error);
         res.status(500).json({
             ok: false,
             msg: 'Se produjo un error. Hable con el administrador'
         });
     }
 });
-exports.tieneSubareas = tieneSubareas;
+exports.nombreRepetido = nombreRepetido;
+const nombreRepetidoEditar = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { areaId, areaNombre } = req.params;
+    try {
+        const area = yield area_1.default.findOne({
+            where: {
+                estado: true,
+                nombre: {
+                    [sequelize_1.Op.like]: `%${areaNombre}%`
+                },
+                id: {
+                    [sequelize_1.Op.ne]: areaId
+                }
+            },
+            attributes: ['id']
+        });
+        if (area) {
+            return res.json({
+                ok: true
+            });
+        }
+        res.json({
+            ok: false
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.nombreRepetidoEditar = nombreRepetidoEditar;
 //# sourceMappingURL=area.js.map

@@ -23,7 +23,7 @@ const getRoles = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 as: 'usuario',
                 attributes: ['id', 'nombre', 'email']
             },
-            attributes: ['id', 'nombre']
+            attributes: ['id', 'nombre', 'bgcolor']
         });
         res.json({
             ok: true,

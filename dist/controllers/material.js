@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.busquedaMaterialesProgramacion = exports.materialesProgramacion = exports.busquedaMateriales = exports.getMaterialesProgramacion = exports.deleteMaterial = exports.putMaterial = exports.postMaterial = exports.getMaterial = exports.getMateriales = exports.getTodo = void 0;
 const sequelize_1 = require("sequelize");
-const area_1 = __importDefault(require("../models/area"));
 const aula_1 = __importDefault(require("../models/aula"));
 const docente_1 = __importDefault(require("../models/docente"));
 const grado_1 = __importDefault(require("../models/grado"));
@@ -24,7 +23,6 @@ const periodo_1 = __importDefault(require("../models/periodo"));
 const persona_1 = __importDefault(require("../models/persona"));
 const programacion_1 = __importDefault(require("../models/programacion"));
 const seccion_1 = __importDefault(require("../models/seccion"));
-const subarea_1 = __importDefault(require("../models/subarea"));
 const getTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const materiales = yield material_1.default.findAll({
@@ -61,16 +59,6 @@ const getMateriales = (req, res) => __awaiter(void 0, void 0, void 0, function* 
                         {
                             model: periodo_1.default,
                             as: 'periodo'
-                        },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area'
-                                }
-                            ]
                         },
                         {
                             model: aula_1.default,
@@ -130,16 +118,6 @@ const getMaterial = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                         {
                             model: periodo_1.default,
                             as: 'periodo'
-                        },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area'
-                                }
-                            ]
                         },
                         {
                             model: aula_1.default,
@@ -291,16 +269,6 @@ const getMaterialesProgramacion = (req, res) => __awaiter(void 0, void 0, void 0
                             as: 'periodo'
                         },
                         {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area'
-                                }
-                            ]
-                        },
-                        {
                             model: aula_1.default,
                             as: 'aula',
                             include: [
@@ -364,16 +332,6 @@ const busquedaMateriales = (req, res) => __awaiter(void 0, void 0, void 0, funct
                         {
                             model: periodo_1.default,
                             as: 'periodo'
-                        },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area'
-                                }
-                            ]
                         },
                         {
                             model: aula_1.default,
@@ -441,16 +399,6 @@ const materialesProgramacion = (req, res) => __awaiter(void 0, void 0, void 0, f
                             as: 'periodo'
                         },
                         {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area'
-                                }
-                            ]
-                        },
-                        {
                             model: aula_1.default,
                             as: 'aula',
                             include: [
@@ -515,16 +463,6 @@ const busquedaMaterialesProgramacion = (req, res) => __awaiter(void 0, void 0, v
                         {
                             model: periodo_1.default,
                             as: 'periodo'
-                        },
-                        {
-                            model: subarea_1.default,
-                            as: 'subarea',
-                            include: [
-                                {
-                                    model: area_1.default,
-                                    as: 'area'
-                                }
-                            ]
                         },
                         {
                             model: aula_1.default,

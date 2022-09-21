@@ -3,7 +3,7 @@
 */
 import { Router } from 'express';
 import { check } from 'express-validator';
-import { busquedaMensajerias, busquedaMensajeriasEliminados, busquedaMensajeriasEnviados, busquedaMensajeriasRecibidos, deleteMensajeriaEmisor, deleteMensajeriaReceptor, getMensajeria, 
+import {busquedaMensajeriasEliminados, busquedaMensajeriasEnviados, busquedaMensajeriasRecibidos, deleteMensajeriaEmisor, deleteMensajeriaReceptor, getMensajeria, 
     getMensajerias, getMensajeriasEliminados, getMensajeriasEnviados, 
     getMensajeriasRecibidos, getTodo, leidoMensajeriaEmisor, leidoMensajeriaReceptor, 
     noleidoMensajeriaEmisor, noleidoMensajeriaReceptor, postMensajeria, putMensajeria, restaurarEmisor, restaurarReceptor } 
@@ -29,9 +29,6 @@ router.post('/noleidoreceptor/marcarnoleido/:id', validarJWT, noleidoMensajeriaR
 
 router.get('/emisor/restauraremisor/paraemisor/:id', validarJWT, restaurarEmisor);
 router.get('/receptor/restaurarreceptor/parareceptor/:id', validarJWT, restaurarReceptor);
-
-
-
 
 router.post('/recibidos',[
     validarJWT,

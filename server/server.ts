@@ -7,7 +7,6 @@ import usuarioRoutes from '../routes/usuario';
 import authRoutes from '../routes/auth';
 import areaRoutes from '../routes/area';
 import rolRoutes from '../routes/role';
-import subareaRoutes from '../routes/subarea';
 import uploadRoutes from '../routes/upload';
 import docenteRoutes from '../routes/docente';
 import tipodocumentoRoutes from '../routes/tipodocumento';
@@ -16,7 +15,6 @@ import gradoRoutes from '../routes/grado';
 import seccionRoutes from '../routes/seccion';
 import personaRoutes from '../routes/persona';
 import alumnoRoutes from '../routes/alumno';
-import apoderadoRoutes from '../routes/apoderado';
 import aulaRoutes from '../routes/aula';
 import periodoRoutes from '../routes/periodo';
 import programacionRoutes from '../routes/programacion';
@@ -34,6 +32,13 @@ import rangosRoutes from '../routes/rango';
 import { dbSeed } from '../seeders/semilla';
 import pdfRoutes from '../routes/pdf';
 import mensajeriaRoutes from '../routes/mensajeria';
+import padreRoutes from '../routes/padre';
+import madreRoutes from '../routes/madre';
+import competenciaRoutes from '../routes/competencia';
+import matriculadetalleRoutes from '../routes/matriculadetalle';
+import auxiliarRoutes from '../routes/auxiliar';
+import directorRoutes from '../routes/director';
+import apreciacionRoutes from '../routes/apreciacion';
 
 class Server {
     private app: Application;
@@ -69,7 +74,14 @@ class Server {
         horas: '/api/horas',
         horarios: '/api/horarios',
         rangos: '/api/rangos',
-        mensajerias: '/api/mensajerias'
+        mensajerias: '/api/mensajerias',
+        padres: '/api/padres',
+        madres: '/api/madres',
+        competencias: '/api/competencias',
+        matriculadetalles: '/api/matriculadetalles',
+        auxiliares: '/api/auxiliares',
+        directores: '/api/directores',
+        apreciaciones: '/api/apreciaciones'
     };
 
     constructor() {
@@ -109,7 +121,6 @@ class Server {
         this.app.use(this.apiPaths.auth, authRoutes);
         this.app.use(this.apiPaths.areas, areaRoutes);
         this.app.use(this.apiPaths.roles, rolRoutes);
-        this.app.use(this.apiPaths.subareas, subareaRoutes);
         this.app.use(this.apiPaths.uploads, uploadRoutes);
         this.app.use(this.apiPaths.docentes, docenteRoutes);
         this.app.use(this.apiPaths.tipodocumentos, tipodocumentoRoutes);
@@ -118,7 +129,6 @@ class Server {
         this.app.use(this.apiPaths.secciones, seccionRoutes);
         this.app.use(this.apiPaths.personas, personaRoutes);
         this.app.use(this.apiPaths.alumnos, alumnoRoutes);
-        this.app.use(this.apiPaths.apoderados, apoderadoRoutes);
         this.app.use(this.apiPaths.aulas, aulaRoutes);
         this.app.use(this.apiPaths.periodos, periodoRoutes);
         this.app.use(this.apiPaths.programaciones, programacionRoutes);
@@ -135,6 +145,13 @@ class Server {
         this.app.use(this.apiPaths.horarios, horariosRoutes);
         this.app.use(this.apiPaths.rangos, rangosRoutes);
         this.app.use(this.apiPaths.mensajerias, mensajeriaRoutes);
+        this.app.use(this.apiPaths.padres, padreRoutes);
+        this.app.use(this.apiPaths.madres, madreRoutes);
+        this.app.use(this.apiPaths.competencias, competenciaRoutes);
+        this.app.use(this.apiPaths.matriculadetalles, matriculadetalleRoutes);
+        this.app.use(this.apiPaths.auxiliares, auxiliarRoutes);
+        this.app.use(this.apiPaths.directores, directorRoutes);
+        this.app.use(this.apiPaths.apreciaciones, apreciacionRoutes);
 
         this.app.get('*', (req, res) => {
             res.sendFile(path.resolve(__dirname, '../../public/index.html'));

@@ -12,6 +12,9 @@ Aula.init({
         type: sequelize_1.DataTypes.STRING,
         allowNull: false
     },
+    tipovalor: {
+        type: sequelize_1.DataTypes.INTEGER,
+    },
     estado: {
         type: sequelize_1.DataTypes.BOOLEAN,
         defaultValue: true

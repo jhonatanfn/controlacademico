@@ -9,7 +9,6 @@ import Seccion from "../models/seccion";
 import Docente from "../models/docente";
 import Persona from "../models/persona";
 import Periodo from "../models/periodo";
-import Subarea from "../models/subarea";
 import Area from "../models/area";
 import Hora from "../models/hora";
 
@@ -41,7 +40,7 @@ export const getHorarios = async (req: Request, res: Response) => {
             where: { estado: true },
             order: [
                 [
-                    'id', 'ASC'
+                    'id', 'DESC'
                 ]
             ],
             limit: 5,
@@ -57,7 +56,7 @@ export const getHorarios = async (req: Request, res: Response) => {
                 {
                     model: Programacion,
                     as: 'programacion',
-                    attributes: ['id', 'numeromat', 'numeromaxmat', 'aulaId', 'docenteId', 'subareaId', 'periodoId'],
+                    attributes: ['id', 'numeromat', 'numeromaxmat', 'aulaId', 'docenteId', 'areaId', 'periodoId'],
                     include: [
                         {
                             model: Aula,
@@ -88,7 +87,7 @@ export const getHorarios = async (req: Request, res: Response) => {
                                 {
                                     model: Persona,
                                     as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img'],
+                                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                                     required: false
                                 }
                             ]
@@ -96,19 +95,12 @@ export const getHorarios = async (req: Request, res: Response) => {
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
                         {
-                            model: Subarea,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
+                            model: Area,
+                            as: 'area',
+                            attributes: ['id','nombre']
                         }
                     ]
                 },
@@ -137,13 +129,7 @@ export const getHorario = async (req: Request, res: Response) => {
                     model: Programacion,
                     as: 'programacion',
                     attributes: ['id', 'subareaId', 'docenteId'],
-                    include: [
-                        {
-                            model: Subarea,
-                            as: 'subarea',
-                            attributes: ['id'],
-                        }
-                    ]
+
                 }
             ]
         });
@@ -240,7 +226,6 @@ export const busquedaHorarios = async (req: Request, res: Response) => {
     try {
         const data = await Horario.findAll({
             where: {
-
                 [Op.or]: [
                     {
                         '$programacion.aula.nombre$': {
@@ -248,7 +233,22 @@ export const busquedaHorarios = async (req: Request, res: Response) => {
                         }
                     },
                     {
-                        '$programacion.subarea.nombre$': {
+                        '$programacion.area.nombre$': {
+                            [Op.like]: `%${valor}%`
+                        },
+                    },
+                    {
+                        '$programacion.docente.persona.nombres$': {
+                            [Op.like]: `%${valor}%`
+                        },
+                    },
+                    {
+                        '$programacion.docente.persona.apellidopaterno$': {
+                            [Op.like]: `%${valor}%`
+                        },
+                    },
+                    {
+                        '$programacion.docente.persona.apellidomaterno$': {
                             [Op.like]: `%${valor}%`
                         },
                     },
@@ -277,11 +277,10 @@ export const busquedaHorarios = async (req: Request, res: Response) => {
                     as: 'hora',
                     attributes: ['id', 'nombre', 'inicio', 'fin', 'tipo']
                 },
-
                 {
                     model: Programacion,
                     as: 'programacion',
-                    attributes: ['id', 'numeromat', 'numeromaxmat', 'aulaId', 'docenteId', 'subareaId', 'periodoId'],
+                    attributes: ['id', 'numeromat', 'numeromaxmat', 'aulaId', 'docenteId', 'areaId', 'periodoId'],
                     include: [
                         {
                             model: Aula,
@@ -312,7 +311,7 @@ export const busquedaHorarios = async (req: Request, res: Response) => {
                                 {
                                     model: Persona,
                                     as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img'],
+                                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                                     required: false
                                 }
                             ]
@@ -320,19 +319,12 @@ export const busquedaHorarios = async (req: Request, res: Response) => {
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
                         {
-                            model: Subarea,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
+                            model: Area,
+                            as: 'area',
+                            attributes: ['id','nombre']
                         }
                     ]
                 },
@@ -352,6 +344,135 @@ export const busquedaHorarios = async (req: Request, res: Response) => {
     }
 
 }
+
+export const busquedaHorariosPorDia = async (req: Request, res: Response) => {
+
+    const { valor } = req.params;
+    try {
+        const data = await Horario.findAll({
+            where: {
+                [Op.or]: [
+                    {
+                        '$programacion.aula.nombre$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$programacion.area.nombre$': {
+                            [Op.like]: `%${valor}%`
+                        },
+                    },
+                    {
+                        '$programacion.docente.persona.nombres$': {
+                            [Op.like]: `%${valor}%`
+                        },
+                    },
+                    {
+                        '$programacion.docente.persona.apellidopaterno$': {
+                            [Op.like]: `%${valor}%`
+                        },
+                    },
+                    {
+                        '$programacion.docente.persona.apellidomaterno$': {
+                            [Op.like]: `%${valor}%`
+                        },
+                    },
+                    {
+                        '$hora.inicio$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$hora.fin$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        dia: {
+                            [Op.like]: `%${valor}%`
+                        },
+                    }
+                ],
+                dia: req.params.diaNombre,
+                estado: true
+            },
+            attributes: ['id', 'dia', 'programacionId', 'horaId', 'estado'],
+            include: [
+                {
+                    model: Hora,
+                    as: 'hora',
+                    attributes: ['id', 'nombre', 'inicio', 'fin', 'tipo']
+                },
+                {
+                    model: Programacion,
+                    as: 'programacion',
+                    attributes: ['id', 'numeromat', 'numeromaxmat', 'aulaId', 'docenteId', 'areaId', 'periodoId'],
+                    include: [
+                        {
+                            model: Aula,
+                            as: 'aula',
+                            attributes: ['id', 'nombre', 'nivelId', 'gradoId', 'seccionId'],
+                            include: [
+                                {
+                                    model: Nivel,
+                                    as: 'nivel',
+                                    attributes: ['id', 'nombre']
+                                },
+                                {
+                                    model: Grado,
+                                    as: 'grado',
+                                    attributes: ['id', 'nombre']
+                                },
+                                {
+                                    model: Seccion,
+                                    as: 'seccion',
+                                    attributes: ['id', 'nombre']
+                                }
+                            ]
+                        },
+                        {
+                            model: Docente,
+                            as: 'docente',
+                            include: [
+                                {
+                                    model: Persona,
+                                    as: 'persona',
+                                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                                    required: false
+                                }
+                            ]
+                        },
+                        {
+                            model: Periodo,
+                            as: 'periodo',
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
+                        },
+                        {
+                            model: Area,
+                            as: 'area',
+                            attributes: ['id','nombre']
+                        }
+                    ]
+                },
+            ]
+        });
+        res.json({
+            ok: true,
+            total: data.length,
+            busquedas: data
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+
+}
+
+
+
 export const existeHorario = async (req: Request, res: Response) => {
 
     const { periodoId, aulaId, diaNombre, horaId } = req.params;
@@ -379,7 +500,7 @@ export const existeHorario = async (req: Request, res: Response) => {
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         }
                     ]
                 },
@@ -457,7 +578,7 @@ export const horarioregistrado = async (req: Request, res: Response) => {
 }
 export const horarioduplicado = async (req: Request, res: Response) => {
 
-    const { periodoId, aulaId, subareaId, dia, horaId } = req.params;
+    const { periodoId, aulaId, areaId, dia, horaId } = req.params;
 
     try {
 
@@ -466,7 +587,7 @@ export const horarioduplicado = async (req: Request, res: Response) => {
                 estado: true,
                 periodoId: periodoId,
                 aulaId: aulaId,
-                subareaId: subareaId
+                areaId: areaId
             },
             include: [
                 {
@@ -480,7 +601,7 @@ export const horarioduplicado = async (req: Request, res: Response) => {
         if (programacion) {
             const horario = await Horario.findOne({
                 where: {
-                    '$programacion.subarea.id$': subareaId,
+                    '$programacion.area.id$': areaId,
                     '$programacion.docente.id$': programacion.docenteId,
                     dia: dia,
                     horaId: horaId,
@@ -490,16 +611,16 @@ export const horarioduplicado = async (req: Request, res: Response) => {
                     {
                         model: Programacion,
                         as: 'programacion',
-                        attributes: ['id', 'subareaId', 'docenteId'],
+                        attributes: ['id', 'areaId', 'docenteId'],
                         include: [
-                            {
-                                model: Subarea,
-                                as: 'subarea',
-                                attributes: ['id'],
-                            },
                             {
                                 model: Docente,
                                 as: 'docente',
+                                attributes: ['id']
+                            },
+                            {
+                                model: Area,
+                                as: 'area',
                                 attributes: ['id']
                             }
                         ]
@@ -555,7 +676,7 @@ export const horariosPeriodoAula = async (req: Request, res: Response) => {
                 {
                     model: Programacion,
                     as: 'programacion',
-                    attributes: ['id', 'numeromat', 'numeromaxmat', 'aulaId', 'docenteId', 'subareaId', 'periodoId'],
+                    attributes: ['id', 'numeromat', 'numeromaxmat', 'aulaId', 'docenteId', 'areaId', 'periodoId'],
                     include: [
                         {
                             model: Aula,
@@ -586,7 +707,7 @@ export const horariosPeriodoAula = async (req: Request, res: Response) => {
                                 {
                                     model: Persona,
                                     as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img'],
+                                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                                     required: false
                                 }
                             ]
@@ -594,20 +715,14 @@ export const horariosPeriodoAula = async (req: Request, res: Response) => {
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
                         {
-                            model: Subarea,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
+                            model: Area,
+                            as: 'area',
+                            attributes: ['id', 'nombre']
                         }
+
                     ]
                 },
             ]
@@ -650,7 +765,102 @@ export const horariosPeriodoDocente = async (req: Request, res: Response) => {
                 {
                     model: Programacion,
                     as: 'programacion',
-                    attributes: ['id', 'numeromat', 'numeromaxmat', 'aulaId', 'docenteId', 'subareaId', 'periodoId'],
+                    attributes: ['id', 'numeromat', 'numeromaxmat', 'aulaId', 'docenteId', 'areaId', 'periodoId'],
+                    include: [
+                        {
+                            model: Aula,
+                            as: 'aula',
+                            attributes: ['id', 'nombre', 'nivelId', 'gradoId', 'seccionId', 'tipovalor'],
+                            include: [
+                                {
+                                    model: Nivel,
+                                    as: 'nivel',
+                                    attributes: ['id', 'nombre']
+                                },
+                                {
+                                    model: Grado,
+                                    as: 'grado',
+                                    attributes: ['id', 'nombre']
+                                },
+                                {
+                                    model: Seccion,
+                                    as: 'seccion',
+                                    attributes: ['id', 'nombre']
+                                }
+                            ]
+                        },
+                        {
+                            model: Docente,
+                            as: 'docente',
+                            include: [
+                                {
+                                    model: Persona,
+                                    as: 'persona',
+                                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                                    required: false
+                                }
+                            ]
+                        },
+                        {
+                            model: Periodo,
+                            as: 'periodo',
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
+                        },
+                        {
+                            model: Area,
+                            as: 'area',
+                            attributes: ['id', 'nombre']
+                        }
+                    ]
+                },
+            ]
+        });
+        res.json({
+            ok: true,
+            horarios
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+
+export const getHorariosPorDia = async (req: Request, res: Response) => {
+    const desde = Number(req.query.desde) || 0;
+    try {
+        const total = (await Horario.findAll({
+            where: { 
+                estado: true,
+                dia: req.params.diaNombre  
+            }
+        })).length;
+        const horarios = await Horario.findAll({
+            where: { 
+                estado: true,
+                dia: req.params.diaNombre 
+            },
+            order: [
+                [
+                    'id', 'DESC'
+                ]
+            ],
+            limit: 5,
+            offset: desde,
+            attributes: ['id', 'dia', 'programacionId', 'horaId', 'estado'],
+            include: [
+                {
+                    model: Hora,
+                    as: 'hora',
+                    attributes: ['id', 'nombre', 'inicio', 'fin', 'tipo']
+                },
+
+                {
+                    model: Programacion,
+                    as: 'programacion',
+                    attributes: ['id', 'numeromat', 'numeromaxmat', 'aulaId', 'docenteId', 'areaId', 'periodoId'],
                     include: [
                         {
                             model: Aula,
@@ -681,7 +891,7 @@ export const horariosPeriodoDocente = async (req: Request, res: Response) => {
                                 {
                                     model: Persona,
                                     as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img'],
+                                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
                                     required: false
                                 }
                             ]
@@ -689,19 +899,12 @@ export const horariosPeriodoDocente = async (req: Request, res: Response) => {
                         {
                             model: Periodo,
                             as: 'periodo',
-                            attributes: ['id', 'nombre','fechainicial','fechafinal'],
+                            attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                         },
                         {
-                            model: Subarea,
-                            as: 'subarea',
-                            attributes: ['id', 'nombre', 'areaId'],
-                            include: [
-                                {
-                                    model: Area,
-                                    as: 'area',
-                                    attributes: ['id', 'nombre']
-                                }
-                            ]
+                            model: Area,
+                            as: 'area',
+                            attributes: ['id','nombre']
                         }
                     ]
                 },
@@ -709,7 +912,9 @@ export const horariosPeriodoDocente = async (req: Request, res: Response) => {
         });
         res.json({
             ok: true,
-            horarios
+            horarios,
+            desde,
+            total
         });
     } catch (error) {
         console.log(error);

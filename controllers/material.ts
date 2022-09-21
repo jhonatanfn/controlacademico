@@ -10,7 +10,6 @@ import Periodo from "../models/periodo";
 import Persona from "../models/persona";
 import Programacion from "../models/programacion";
 import Seccion from "../models/seccion";
-import Subarea from "../models/subarea";
 
 export const getTodo = async (req: Request, res: Response) => {
 
@@ -50,16 +49,7 @@ export const getMateriales = async (req: Request, res: Response) => {
                         model: Periodo,
                         as: 'periodo'
                     },
-                    {
-                        model: Subarea,
-                        as: 'subarea',
-                        include: [
-                            {
-                                model: Area,
-                                as: 'area'
-                            }
-                        ]
-                    },
+                    
                     {
                         model: Aula,
                         as: 'aula',
@@ -117,16 +107,7 @@ export const getMaterial = async (req: Request, res: Response) => {
                         model: Periodo,
                         as: 'periodo'
                     },
-                    {
-                        model: Subarea,
-                        as: 'subarea',
-                        include: [
-                            {
-                                model: Area,
-                                as: 'area'
-                            }
-                        ]
-                    },
+                    
                     {
                         model: Aula,
                         as: 'aula',
@@ -272,16 +253,7 @@ export const getMaterialesProgramacion= async (req: Request, res: Response)=>{
                         model: Periodo,
                         as: 'periodo'
                     },
-                    {
-                        model: Subarea,
-                        as: 'subarea',
-                        include: [
-                            {
-                                model: Area,
-                                as: 'area'
-                            }
-                        ]
-                    },
+                    
                     {
                         model: Aula,
                         as: 'aula',
@@ -347,16 +319,7 @@ export const busquedaMateriales = async (req: Request, res: Response) => {
                         model: Periodo,
                         as: 'periodo'
                     },
-                    {
-                        model: Subarea,
-                        as: 'subarea',
-                        include: [
-                            {
-                                model: Area,
-                                as: 'area'
-                            }
-                        ]
-                    },
+                    
                     {
                         model: Aula,
                         as: 'aula',
@@ -424,16 +387,7 @@ export const materialesProgramacion= async (req: Request, res: Response)=>{
                         model: Periodo,
                         as: 'periodo'
                     },
-                    {
-                        model: Subarea,
-                        as: 'subarea',
-                        include: [
-                            {
-                                model: Area,
-                                as: 'area'
-                            }
-                        ]
-                    },
+                    
                     {
                         model: Aula,
                         as: 'aula',
@@ -501,16 +455,7 @@ export const busquedaMaterialesProgramacion = async (req: Request, res: Response
                         model: Periodo,
                         as: 'periodo'
                     },
-                    {
-                        model: Subarea,
-                        as: 'subarea',
-                        include: [
-                            {
-                                model: Area,
-                                as: 'area'
-                            }
-                        ]
-                    },
+                   
                     {
                         model: Aula,
                         as: 'aula',

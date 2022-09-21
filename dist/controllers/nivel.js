@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.tieneAulas = exports.busquedaNiveles = exports.deleteNivel = exports.putNivel = exports.postNivel = exports.getNivel = exports.getNiveles = exports.getTodo = void 0;
+exports.nombreRepetidoEditar = exports.nombreRepetido = exports.tieneAulas = exports.busquedaNiveles = exports.deleteNivel = exports.putNivel = exports.postNivel = exports.getNivel = exports.getNiveles = exports.getTodo = void 0;
 const nivel_1 = __importDefault(require("../models/nivel"));
 const aula_1 = __importDefault(require("../models/aula"));
 const sequelize_1 = require("sequelize");
@@ -217,4 +217,67 @@ const tieneAulas = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.tieneAulas = tieneAulas;
+const nombreRepetido = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { nivelNombre } = req.params;
+    try {
+        const nivel = yield nivel_1.default.findOne({
+            where: {
+                estado: true,
+                nombre: {
+                    [sequelize_1.Op.like]: `%${nivelNombre}%`
+                }
+            },
+            attributes: ['id']
+        });
+        if (nivel) {
+            return res.json({
+                ok: true
+            });
+        }
+        res.json({
+            ok: false
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.nombreRepetido = nombreRepetido;
+const nombreRepetidoEditar = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { nivelId, nivelNombre } = req.params;
+    try {
+        const nivel = yield nivel_1.default.findOne({
+            where: {
+                estado: true,
+                nombre: {
+                    [sequelize_1.Op.like]: `%${nivelNombre}%`
+                },
+                id: {
+                    [sequelize_1.Op.ne]: nivelId
+                }
+            },
+            attributes: ['id']
+        });
+        if (nivel) {
+            return res.json({
+                ok: true
+            });
+        }
+        res.json({
+            ok: false
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.nombreRepetidoEditar = nombreRepetidoEditar;
 //# sourceMappingURL=nivel.js.map

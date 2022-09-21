@@ -9,7 +9,12 @@ class Role extends sequelize_1.Model {
 }
 Role.init({
     nombre: {
-        type: sequelize_1.DataTypes.STRING
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false
+    },
+    bgcolor: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false
     },
     estado: {
         type: sequelize_1.DataTypes.BOOLEAN,

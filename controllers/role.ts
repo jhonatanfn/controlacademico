@@ -11,7 +11,7 @@ export const getRoles= async (req:Request, res:Response)=>{
                 as:'usuario',
                 attributes:['id','nombre','email']
             },
-            attributes:['id','nombre']
+            attributes:['id','nombre','bgcolor']
         });
         res.json({
             ok: true,

@@ -1,7 +1,7 @@
+
 import { Request, Response } from "express";
 import Alumno from "../models/alumno";
 import { Op } from 'sequelize';
-import Area from "../models/area";
 import Asistencia from "../models/asistencia";
 import Aula from "../models/aula";
 import Docente from "../models/docente";
@@ -13,9 +13,8 @@ import Persona from "../models/persona";
 import Programacion from "../models/programacion";
 import Seccion from "../models/seccion";
 import Situacion from "../models/situacion";
-import Subarea from "../models/subarea";
-import Apoderado from "../models/apoderado";
-import Ciclo from "../models/ciclo";
+import Matriculadetalle from "../models/matriculadetalle";
+import Area from "../models/area";
 
 export const getTodo = async (req: Request, res: Response) => {
 
@@ -40,71 +39,77 @@ export const getAsistencias = async (req: Request, res: Response) => {
     const desde = Number(req.query.desde) || 0;
     try {
         const total = (await Asistencia.findAll({
-            where: { estado: true }
+            where: {
+                estado: true
+            }
         })).length;
-
         const asistencias = await Asistencia.findAll({
-            where: { estado: true },
+            where: {
+                estado: true
+            },
             limit: 5,
             offset: desde,
-            include: [{
-                model: Matricula,
-                as: 'matricula',
-                include: [
-                    {
-                        model: Alumno,
-                        as: 'alumno',
-                        include: [
-                            {
-                                model: Persona,
-                                as: 'persona'
-                            }
-                        ]
-                    },
-                    {
-                        model: Programacion,
-                        as: 'programacion',
-                        include: [
-                            {
-                                model: Periodo,
-                                as: 'periodo'
-                            },
-                            {
-                                model: Aula,
-                                as: 'aula',
-                                include: [
-                                    {
-                                        model: Nivel,
-                                        as: 'nivel'
-                                    },
-                                    {
-                                        model: Grado,
-                                        as: 'grado'
-                                    },
-                                    {
-                                        model: Seccion,
-                                        as: 'seccion'
-                                    }
-                                ]
-                            },
-                            {
-                                model: Subarea,
-                                as: 'subarea',
-                                include: [
-                                    {
-                                        model: Area,
-                                        as: 'area'
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                model: Situacion,
-                as: 'situacion',
-            }
+            include: [
+                {
+                    model: Matriculadetalle,
+                    as: 'matriculadetalle',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: Matricula,
+                            as: 'matricula',
+                            attributes: ['id'],
+                            include: [
+                                {
+                                    model: Alumno,
+                                    as: 'alumno',
+                                    attributes: ['id'],
+                                    include: [
+                                        {
+                                            model: Persona,
+                                            as: 'persona',
+                                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            model: Programacion,
+                            as: 'programacion',
+                            attributes: ['id'],
+                            include: [
+                                {
+                                    model: Aula,
+                                    as: 'aula',
+                                    attributes: ['id', 'nombre'],
+                                    include: [
+                                        {
+                                            model: Nivel,
+                                            as: 'nivel',
+                                            attributes: ['id', 'nombre'],
+                                        },
+                                        {
+                                            model: Grado,
+                                            as: 'grado',
+                                            attributes: ['id', 'nombre'],
+                                        },
+                                        {
+                                            model: Seccion,
+                                            as: 'seccion',
+                                            attributes: ['id', 'nombre'],
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    model: Situacion,
+                    as: 'situacion',
+                    attributes: ['id', 'nombre', 'abreviatura', 'color']
+                }
             ],
         });
         res.json({
@@ -124,69 +129,75 @@ export const getAsistencias = async (req: Request, res: Response) => {
 export const getAsistencia = async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
-        const asistencia: any = await Asistencia.findByPk(id, {
-            include: [{
-                model: Matricula,
-                as: 'matricula',
-                include: [
-                    {
-                        model: Alumno,
-                        as: 'alumno',
-                        include: [
-                            {
-                                model: Persona,
-                                as: 'persona'
-                            }
-                        ]
-                    },
-                    {
-                        model: Programacion,
-                        as: 'programacion',
-                        include: [
-                            {
-                                model: Periodo,
-                                as: 'periodo'
-                            },
-                            {
-                                model: Aula,
-                                as: 'aula',
-                                include: [
-                                    {
-                                        model: Nivel,
-                                        as: 'nivel'
-                                    },
-                                    {
-                                        model: Grado,
-                                        as: 'grado'
-                                    },
-                                    {
-                                        model: Seccion,
-                                        as: 'seccion'
-                                    }
-                                ]
-                            },
-                            {
-                                model: Subarea,
-                                as: 'subarea',
-                                include: [
-                                    {
-                                        model: Area,
-                                        as: 'area'
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
+        const asistencia: any = await Asistencia.findOne({
+            where: {
+                estado: true
             },
-            {
-                model: Situacion,
-                as: 'situacion',
-            }
-            ],
+            include: [
+                {
+                    model: Matriculadetalle,
+                    as: 'matriculadetalle',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: Matricula,
+                            as: 'matricula',
+                            attributes: ['id'],
+                            include: [
+                                {
+                                    model: Alumno,
+                                    as: 'alumno',
+                                    attributes: ['id'],
+                                    include: [
+                                        {
+                                            model: Persona,
+                                            as: 'persona',
+                                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            model: Programacion,
+                            as: 'programacion',
+                            attributes: ['id'],
+                            include: [
+                                {
+                                    model: Aula,
+                                    as: 'aula',
+                                    attributes: ['id', 'nombre'],
+                                    include: [
+                                        {
+                                            model: Nivel,
+                                            as: 'nivel',
+                                            attributes: ['id', 'nombre'],
+                                        },
+                                        {
+                                            model: Grado,
+                                            as: 'grado',
+                                            attributes: ['id', 'nombre'],
+                                        },
+                                        {
+                                            model: Seccion,
+                                            as: 'seccion',
+                                            attributes: ['id', 'nombre'],
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    model: Situacion,
+                    as: 'situacion',
+                    attributes: ['id', 'nombre', 'abreviatura', 'color']
+                }
+            ]
         });
 
-        if (!asistencia || asistencia.estado == false) {
+        if (!asistencia) {
             return res.status(400).json({
                 ok: false,
                 msg: `No existe una asistencia con el id: ${id}`
@@ -272,6 +283,631 @@ export const deleteAsistencia = async (req: Request, res: Response) => {
         });
     }
 }
+export const existeAsistencia = async (req: Request, res: Response) => {
+    const { periodoId, aulaId, fecha } = req.params;
+    try {
+        const asistencias = await Asistencia.findAll({
+            where: {
+                estado: true,
+                fecha: fecha,
+                '$matriculadetalle.programacion.periodo.id$': periodoId,
+                '$matriculadetalle.programacion.aula.id$': aulaId,
+            },
+            include: [
+                {
+                    model: Matriculadetalle,
+                    as: 'matriculadetalle',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: Programacion,
+                            as: 'programacion',
+                            attributes: ['id'],
+                            include: [
+                                {
+                                    model: Aula,
+                                    as: 'aula',
+                                    attributes: ['id']
+                                },
+                                {
+                                    model: Periodo,
+                                    as: 'periodo',
+                                    attributes: ['id']
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        });
+        if (asistencias.length > 0) {
+            return res.json({
+                ok: true,
+                msg: 'Ya existe asistencia registrada para esta fecha'
+            });
+        }
+        res.json({
+            ok: false,
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+
+export const listadoAsistencias = async (req: Request, res: Response) => {
+    const { periodoId, aulaId, fecha } = req.params;
+    try {
+        const asistencias = await Asistencia.findAll({
+            where: {
+                estado: true,
+                fecha: fecha,
+                '$matriculadetalle.programacion.periodo.id$': periodoId,
+                '$matriculadetalle.programacion.aula.id$': aulaId,
+            },
+            attributes: ['id', 'matriculadetalleId', 'situacionId', 'fecha', 'hora', 'observacion'],
+            order: [
+                [
+                    { model: Matriculadetalle, as: 'matriculadetalle' },
+                    { model: Matricula, as: 'matricula' },
+                    { model: Alumno, as: 'alumno' },
+                    { model: Persona, as: 'persona' },
+                    'apellidopaterno', 'ASC'
+                ]
+            ],
+            include: [
+                {
+                    model: Matriculadetalle,
+                    as: 'matriculadetalle',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: Matricula,
+                            as: 'matricula',
+                            attributes: ['id'],
+                            include: [
+                                {
+                                    model: Alumno,
+                                    as: 'alumno',
+                                    attributes: ['id'],
+                                    include: [
+                                        {
+                                            model: Persona,
+                                            as: 'persona',
+                                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            model: Programacion,
+                            as: 'programacion',
+                            attributes: ['id'],
+                            include: [
+                                {
+                                    model: Aula,
+                                    as: 'aula',
+                                    attributes: ['id']
+                                },
+                                {
+                                    model: Periodo,
+                                    as: 'periodo',
+                                    attributes: ['id']
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    model: Situacion,
+                    as: 'situacion',
+                    attributes: ['id', 'nombre', 'abreviatura', 'color']
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            asistencias
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+export const getAsistenciasHoy = async (req: Request, res: Response) => {
+    const { periodoId, fecha } = req.params;
+    try {
+        const asistencias = await Asistencia.findAll({
+            where: {
+                estado: true,
+                '$matriculadetalle.programacion.periodo.id$': periodoId,
+                fecha: fecha
+            },
+            attributes: ['id', 'fecha'],
+            include: [
+                {
+                    model: Situacion,
+                    as: 'situacion',
+                    attributes: ['id', 'nombre', 'abreviatura']
+                },
+                {
+                    model: Matriculadetalle,
+                    as: 'matriculadetalle',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: Programacion,
+                            as: 'programacion',
+                            attributes: ['id'],
+                            include: [
+                                {
+                                    model: Periodo,
+                                    as: 'periodo',
+                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal']
+                                },
+                            ]
+                        }
+
+                    ]
+                },
+            ]
+        });
+        res.json({
+            ok: true,
+            asistencias
+        });
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+export const getAsistenciasAlumno = async (req: Request, res: Response) => {
+
+    const { periodoId, aulaId, alumnoId, fechainicial, fechafinal } = req.params;
+    try {
+        const asistencias = await Asistencia.findAll({
+            where: {
+                estado: true,
+                '$matriculadetalle.programacion.periodo.id$': periodoId,
+                '$matriculadetalle.programacion.aula.id$': aulaId,
+                '$matriculadetalle.matricula.alumno.id$': alumnoId,
+                fecha: {
+                    [Op.between]: [fechainicial, fechafinal]
+                }
+            },
+            attributes: ['id', 'fecha', 'hora', 'observacion'],
+            include: [
+                {
+                    model: Situacion,
+                    as: 'situacion',
+                    attributes: ['id', 'nombre', 'abreviatura', 'color']
+                },
+                {
+                    model: Matriculadetalle,
+                    as: 'matriculadetalle',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: Programacion,
+                            as: 'programacion',
+                            attributes: ['id'],
+                            include: [
+                                {
+                                    model: Periodo,
+                                    as: 'periodo',
+                                    attributes: ['id']
+                                },
+                                {
+                                    model: Aula,
+                                    as: 'aula',
+                                    attributes: ['id', 'nombre', 'tipovalor']
+                                }
+                            ]
+                        },
+                        {
+                            model: Matricula,
+                            as: 'matricula',
+                            attributes: ['id'],
+                            include: [
+                                {
+                                    model: Alumno,
+                                    as: 'alumno',
+                                    attributes: ['id']
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            asistencias,
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+export const getAsistenciasPeriodo = async (req: Request, res: Response) => {
+    const { periodoId } = req.params;
+    try {
+        const asistencias = await Asistencia.findAll({
+            where: {
+                estado: true,
+                '$matriculadetalle.programacion.periodo.id$': periodoId,
+            },
+            attributes: ['id', 'fecha', 'hora'],
+            include: [
+                {
+                    model: Situacion,
+                    as: 'situacion',
+                    attributes: ['id', 'nombre', 'abreviatura', 'color']
+                },
+                {
+                    model: Matriculadetalle,
+                    as: 'matriculadetalle',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: Programacion,
+                            as: 'programacion',
+                            attributes: ['id'],
+                            include: [
+                                {
+                                    model: Periodo,
+                                    as: 'periodo',
+                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        });
+
+        res.json({
+            ok: true,
+            asistencias
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+export const getAsistenciasPeriodoAula = async (req: Request, res: Response) => {
+    const { periodoId, aulaId } = req.params;
+    try {
+        const asistencias = await Asistencia.findAll({
+            where: {
+                estado: true,
+                '$matriculadetalle.programacion.periodo.id$': periodoId,
+                '$matriculadetalle.programacion.aula.id$': aulaId,
+            },
+            attributes: ['id', 'fecha', 'hora'],
+            include: [
+                {
+                    model: Situacion,
+                    as: 'situacion',
+                    attributes: ['id', 'nombre', 'abreviatura', 'color']
+                },
+                {
+                    model: Matriculadetalle,
+                    as: 'matriculadetalle',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: Programacion,
+                            as: 'programacion',
+                            attributes: ['id'],
+                            include: [
+                                {
+                                    model: Periodo,
+                                    as: 'periodo',
+                                    attributes: ['id', 'nombre']
+                                },
+                                {
+                                    model: Aula,
+                                    as: 'aula',
+                                    attributes: ['id', 'nombre'],
+                                },
+                            ]
+                        }
+                    ]
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            asistencias
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+
+export const getAsistenciasPeriodoAulaRango = async (req: Request, res: Response) => {
+    const { periodoId, aulaId, fechainicial, fechafinal } = req.params;
+    try {
+        const asistencias = await Asistencia.findAll({
+            where: {
+                estado: true,
+                '$matriculadetalle.programacion.periodo.id$': periodoId,
+                '$matriculadetalle.programacion.aula.id$': aulaId,
+                fecha: {
+                    [Op.between]: [fechainicial, fechafinal]
+                }
+            },
+            attributes: ['id', 'fecha', 'hora'],
+            include: [
+                {
+                    model: Situacion,
+                    as: 'situacion',
+                    attributes: ['id', 'nombre', 'abreviatura', 'color']
+                },
+                {
+                    model: Matriculadetalle,
+                    as: 'matriculadetalle',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: Programacion,
+                            as: 'programacion',
+                            attributes: ['id', 'periodoId'],
+                            include: [
+                                {
+                                    model: Periodo,
+                                    as: 'periodo',
+                                    attributes: ['id', 'nombre']
+                                },
+                                {
+                                    model: Aula,
+                                    as: 'aula',
+                                    attributes: ['id', 'nombre']
+                                },
+                            ]
+                        }
+                    ]
+                }
+            ]
+        });
+
+        res.json({
+            ok: true,
+            asistencias
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+
+export const getAsistenciasPeriodoAulaRangoAlumno = async (req: Request, res: Response) => {
+    const { periodoId, aulaId, fechainicial, fechafinal, alumnoId } = req.params;
+    try {
+        const asistencias = await Asistencia.findAll({
+            where: {
+                estado: true,
+                '$matriculadetalle.programacion.periodo.id$': periodoId,
+                '$matriculadetalle.programacion.aula.id$': aulaId,
+                '$matriculadetalle.matricula.alumno.id$': alumnoId,
+                fecha: {
+                    [Op.between]: [fechainicial, fechafinal]
+                }
+            },
+            attributes: ['id', 'fecha', 'hora'],
+            include: [
+                {
+                    model: Situacion,
+                    as: 'situacion',
+                    attributes: ['id', 'nombre', 'abreviatura', 'color']
+                },
+                {
+                    model: Matriculadetalle,
+                    as: 'matriculadetalle',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: Matricula,
+                            as: 'matricula',
+                            attributes: ['id'],
+                            include: [
+                                {
+                                    model: Alumno,
+                                    as: 'alumno',
+                                    attributes: ['id'],
+                                    include: [
+                                        {
+                                            model: Persona,
+                                            as: 'persona',
+                                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            model: Programacion,
+                            as: 'programacion',
+                            attributes: ['id'],
+                            include: [
+                                {
+                                    model: Periodo,
+                                    as: 'periodo',
+                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
+                                },
+                                {
+                                    model: Aula,
+                                    as: 'aula',
+                                    attributes: ['id', 'nombre']
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            asistencias
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+export const getAsistenciasRango = async (req: Request, res: Response) => {
+    const { periodoId, aulaId, fechainicial, fechafinal } = req.params;
+    try {
+        const asistencias = await Asistencia.findAll({
+            where: {
+                estado: true,
+                '$matriculadetalle.programacion.periodo.id$': periodoId,
+                '$matriculadetalle.programacion.aula.id$': aulaId,
+                fecha: {
+                    [Op.between]: [fechainicial, fechafinal]
+                }
+            },
+            order: [
+                [
+                    { model: Matriculadetalle, as: 'matriculadetalle' },
+                    { model: Matricula, as: 'matricula' },
+                    { model: Alumno, as: 'alumno' },
+                    { model: Persona, as: 'persona' },
+                    'apellidopaterno', 'ASC'
+                ]
+            ],
+            include: [
+                {
+                    model: Situacion,
+                    as: 'situacion',
+                    attributes: ['id', 'nombre', 'abreviatura','color']
+                },
+                {
+                    model: Matriculadetalle,
+                    as: 'matriculadetalle',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: Matricula,
+                            as: 'matricula',
+                            attributes: ['id'],
+                            include: [
+                                {
+                                    model: Alumno,
+                                    as: 'alumno',
+                                    attributes: ['id'],
+                                    include: [
+                                        {
+                                            model: Persona,
+                                            as: 'persona',
+                                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            model: Programacion,
+                            as: 'programacion',
+                            attributes: ['id', 'numeromat', 'numeromaxmat'],
+                            include: [
+                                {
+                                    model: Aula,
+                                    as: 'aula',
+                                    attributes: ['id', 'nombre', 'tipovalor'],
+                                    include: [
+                                        {
+                                            model: Nivel,
+                                            as: 'nivel',
+                                            attributes: ['id', 'nombre']
+                                        },
+                                        {
+                                            model: Grado,
+                                            as: 'grado',
+                                            attributes: ['id', 'nombre']
+                                        },
+                                        {
+                                            model: Seccion,
+                                            as: 'seccion',
+                                            attributes: ['id', 'nombre']
+                                        }
+                                    ]
+                                },
+                                {
+                                    model: Docente,
+                                    as: 'docente',
+                                    attributes: ['id'],
+                                    include: [
+                                        {
+                                            model: Persona,
+                                            as: 'persona',
+                                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                                        }
+                                    ]
+                                },
+                                {
+                                    model: Periodo,
+                                    as: 'periodo',
+                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            total: asistencias.length,
+            asistencias
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
 export const getAsistenciasProgramacionFecha = async (req: Request, res: Response) => {
 
     const { programacionId, fecha } = req.params;
@@ -343,16 +979,7 @@ export const getAsistenciasProgramacionFecha = async (req: Request, res: Respons
                                     model: Periodo,
                                     as: 'periodo'
                                 },
-                                {
-                                    model: Subarea,
-                                    as: 'subarea',
-                                    include: [
-                                        {
-                                            model: Area,
-                                            as: 'area'
-                                        }
-                                    ]
-                                }
+
                             ]
                         }
 
@@ -443,16 +1070,7 @@ export const asistenciasPorMatricula = async (req: Request, res: Response) => {
                                     model: Periodo,
                                     as: 'periodo'
                                 },
-                                {
-                                    model: Subarea,
-                                    as: 'subarea',
-                                    include: [
-                                        {
-                                            model: Area,
-                                            as: 'area'
-                                        }
-                                    ]
-                                }
+
                             ]
                         }
 
@@ -608,18 +1226,7 @@ export const getAsistenciasPeriodoAulaSubareaFecha = async (req: Request, res: R
                                     as: 'periodo',
                                     attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                                 },
-                                {
-                                    model: Subarea,
-                                    as: 'subarea',
-                                    attributes: ['id', 'nombre', 'areaId'],
-                                    include: [
-                                        {
-                                            model: Area,
-                                            as: 'area',
-                                            attributes: ['id', 'nombre']
-                                        }
-                                    ]
-                                }
+
                             ]
                         }
 
@@ -725,18 +1332,7 @@ export const asistenciasPorMatriculaRango = async (req: Request, res: Response) 
                                     as: 'periodo',
                                     attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                                 },
-                                {
-                                    model: Subarea,
-                                    as: 'subarea',
-                                    attributes: ['id', 'nombre', 'areaId'],
-                                    include: [
-                                        {
-                                            model: Area,
-                                            as: 'area',
-                                            attributes: ['id', 'nombre']
-                                        }
-                                    ]
-                                }
+
                             ]
                         }
 
@@ -764,129 +1360,7 @@ export const asistenciasPorMatriculaRango = async (req: Request, res: Response) 
     }
 
 }
-export const getAsistenciasRango = async (req: Request, res: Response) => {
 
-    const { periodoId, aulaId, subareaId, fechainicial, fechafinal } = req.params;
-    try {
-
-        const asistencias = await Asistencia.findAll({
-            where: {
-                estado: true,
-                '$matricula.programacion.periodo.id$': periodoId,
-                '$matricula.programacion.aula.id$': aulaId,
-                '$matricula.programacion.subarea.id$': subareaId,
-                fecha: {
-                    [Op.between]: [fechainicial, fechafinal]
-                }
-            },
-            order: [
-                [
-                    { model: Matricula, as: 'matricula' },
-                    { model: Alumno, as: 'alumno' },
-                    { model: Persona, as: 'persona' },
-                    'apellidopaterno', 'ASC'
-                ]
-            ],
-            include: [
-                {
-                    model: Matricula,
-                    as: 'matricula',
-                    attributes: ['id', 'alumnoId', 'programacionId'],
-                    include: [
-                        {
-                            model: Alumno,
-                            as: 'alumno',
-                            attributes: ['id', 'alumnoId', 'personaId', 'apoderadoId'],
-                            include: [
-                                {
-                                    model: Persona,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
-                                }
-                            ]
-                        },
-                        {
-                            model: Programacion,
-                            as: 'programacion',
-                            attributes: ['id', 'numeromat', 'numeromaxmat', 'aulaId', 'docenteId', 'subareaId', 'periodoId'],
-                            include: [
-                                {
-                                    model: Aula,
-                                    as: 'aula',
-                                    attributes: ['id', 'nombre', 'nivelId', 'gradoId', 'seccionId'],
-                                    include: [
-                                        {
-                                            model: Nivel,
-                                            as: 'nivel',
-                                            attributes: ['id', 'nombre']
-                                        },
-                                        {
-                                            model: Grado,
-                                            as: 'grado',
-                                            attributes: ['id', 'nombre']
-                                        },
-                                        {
-                                            model: Seccion,
-                                            as: 'seccion',
-                                            attributes: ['id', 'nombre']
-                                        }
-                                    ]
-                                },
-                                {
-                                    model: Docente,
-                                    as: 'docente',
-                                    include: [
-                                        {
-                                            model: Persona,
-                                            as: 'persona',
-                                            attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img'],
-                                        }
-                                    ]
-                                },
-                                {
-                                    model: Periodo,
-                                    as: 'periodo',
-                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
-                                },
-                                {
-                                    model: Subarea,
-                                    as: 'subarea',
-                                    attributes: ['id', 'nombre', 'areaId'],
-                                    include: [
-                                        {
-                                            model: Area,
-                                            as: 'area',
-                                            attributes: ['id', 'nombre']
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-
-                    ]
-                },
-                {
-                    model: Situacion,
-                    as: 'situacion',
-                    attributes: ['id', 'nombre', 'abreviatura']
-                }
-
-            ]
-        });
-        res.json({
-            ok: true,
-            total: asistencias.length,
-            asistencias
-        });
-
-    } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
-    }
-
-}
 export const getAsistenciasRangoMatricula = async (req: Request, res: Response) => {
 
     const { periodoId, aulaId, subareaId, matriculaId, fechainicial, fechafinal } = req.params;
@@ -972,18 +1446,7 @@ export const getAsistenciasRangoMatricula = async (req: Request, res: Response) 
                                     as: 'periodo',
                                     attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                                 },
-                                {
-                                    model: Subarea,
-                                    as: 'subarea',
-                                    attributes: ['id', 'nombre', 'areaId'],
-                                    include: [
-                                        {
-                                            model: Area,
-                                            as: 'area',
-                                            attributes: ['id', 'nombre']
-                                        }
-                                    ]
-                                }
+
                             ]
                         }
 
@@ -1049,11 +1512,7 @@ export const getAsistenciasPeriodoAulaSubareaFechaApoderado = async (req: Reques
                                     as: 'persona',
                                     attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
                                 },
-                                {
-                                    model: Apoderado,
-                                    as: 'apoderado',
-                                    attributes: ['id']
-                                }
+
                             ]
                         },
                         {
@@ -1099,18 +1558,7 @@ export const getAsistenciasPeriodoAulaSubareaFechaApoderado = async (req: Reques
                                     as: 'periodo',
                                     attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                                 },
-                                {
-                                    model: Subarea,
-                                    as: 'subarea',
-                                    attributes: ['id', 'nombre', 'areaId'],
-                                    include: [
-                                        {
-                                            model: Area,
-                                            as: 'area',
-                                            attributes: ['id', 'nombre']
-                                        }
-                                    ]
-                                }
+
                             ]
                         }
 
@@ -1178,11 +1626,7 @@ export const getAsistenciasRangoApoderado = async (req: Request, res: Response) 
                                     as: 'persona',
                                     attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno', 'direccion', 'telefono', 'img']
                                 },
-                                {
-                                    model: Apoderado,
-                                    as: 'apoderado',
-                                    attributes: ['id']
-                                }
+
                             ]
                         },
                         {
@@ -1228,18 +1672,7 @@ export const getAsistenciasRangoApoderado = async (req: Request, res: Response) 
                                     as: 'periodo',
                                     attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
                                 },
-                                {
-                                    model: Subarea,
-                                    as: 'subarea',
-                                    attributes: ['id', 'nombre', 'areaId'],
-                                    include: [
-                                        {
-                                            model: Area,
-                                            as: 'area',
-                                            attributes: ['id', 'nombre']
-                                        }
-                                    ]
-                                }
+
                             ]
                         }
 
@@ -1267,446 +1700,6 @@ export const getAsistenciasRangoApoderado = async (req: Request, res: Response) 
     }
 
 }
-export const getAsistenciasPeriodo = async (req: Request, res: Response) => {
-    const { periodoId } = req.params;
-    try {
-        const asistencias = await Asistencia.findAll({
-            where: {
-                estado: true,
-                '$matricula.programacion.periodo.id$': periodoId,
-            },
-            attributes: ['id', 'fecha', 'hora'],
-            include: [
-                {
-                    model: Situacion,
-                    as: 'situacion',
-                    attributes: ['id', 'nombre', 'abreviatura', 'color']
-                },
-                {
-                    model: Matricula,
-                    as: 'matricula',
-                    attributes: ['id', 'programacionId'],
-                    include: [
-                        {
-                            model: Programacion,
-                            as: 'programacion',
-                            attributes: ['id', 'periodoId'],
-                            include: [
-                                {
-                                    model: Periodo,
-                                    as: 'periodo',
-                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
-                                },
-                            ]
-                        }
-                    ]
-                }
-            ]
-        });
-
-        res.json({
-            ok: true,
-            asistencias
-        });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
-    }
-}
-export const getAsistenciasPeriodoAula = async (req: Request, res: Response) => {
-    const { periodoId, aulaId } = req.params;
-    try {
-        const asistencias = await Asistencia.findAll({
-            where: {
-                estado: true,
-                '$matricula.programacion.periodo.id$': periodoId,
-                '$matricula.programacion.aula.id$': aulaId,
-            },
-            attributes: ['id', 'fecha', 'hora'],
-            include: [
-                {
-                    model: Situacion,
-                    as: 'situacion',
-                    attributes: ['id', 'nombre', 'abreviatura', 'color']
-                },
-                {
-                    model: Matricula,
-                    as: 'matricula',
-                    attributes: ['id', 'programacionId'],
-                    include: [
-                        {
-                            model: Programacion,
-                            as: 'programacion',
-                            attributes: ['id', 'periodoId'],
-                            include: [
-                                {
-                                    model: Periodo,
-                                    as: 'periodo',
-                                    attributes: ['id', 'nombre']
-                                },
-                                {
-                                    model: Aula,
-                                    as: 'aula',
-                                    attributes: ['id', 'nombre'],
-                                    include: [
-                                        {
-                                            model: Nivel,
-                                            as: 'nivel',
-                                            attributes: ['id', 'nombre']
-                                        },
-                                        {
-                                            model: Grado,
-                                            as: 'grado',
-                                            attributes: ['id', 'nombre']
-                                        },
-                                        {
-                                            model: Seccion,
-                                            as: 'seccion',
-                                            attributes: ['id', 'nombre']
-                                        }
-                                    ]
-                                },
-                            ]
-                        }
-                    ]
-                }
-            ]
-        });
-
-        res.json({
-            ok: true,
-            asistencias
-        });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
-    }
-}
-export const getAsistenciasPeriodoAulaArea = async (req: Request, res: Response) => {
-    const { periodoId, aulaId, areaId } = req.params;
-    try {
-        const asistencias = await Asistencia.findAll({
-            where: {
-                estado: true,
-                '$matricula.programacion.periodo.id$': periodoId,
-                '$matricula.programacion.aula.id$': aulaId,
-                '$matricula.programacion.subarea.area.id$': areaId,
-            },
-            attributes: ['id', 'fecha', 'hora'],
-            include: [
-                {
-                    model: Situacion,
-                    as: 'situacion',
-                    attributes: ['id', 'nombre', 'abreviatura', 'color']
-                },
-                {
-                    model: Matricula,
-                    as: 'matricula',
-                    attributes: ['id', 'programacionId'],
-                    include: [
-                        {
-                            model: Programacion,
-                            as: 'programacion',
-                            attributes: ['id', 'periodoId'],
-                            include: [
-                                {
-                                    model: Periodo,
-                                    as: 'periodo',
-                                    attributes: ['id', 'nombre']
-                                },
-                                {
-                                    model: Aula,
-                                    as: 'aula',
-                                    attributes: ['id', 'nombre'],
-                                    include: [
-                                        {
-                                            model: Nivel,
-                                            as: 'nivel',
-                                            attributes: ['id', 'nombre']
-                                        },
-                                        {
-                                            model: Grado,
-                                            as: 'grado',
-                                            attributes: ['id', 'nombre']
-                                        },
-                                        {
-                                            model: Seccion,
-                                            as: 'seccion',
-                                            attributes: ['id', 'nombre']
-                                        }
-                                    ]
-                                },
-                                {
-                                    model: Subarea,
-                                    as: 'subarea',
-                                    attributes: ['id', 'nombre', 'areaId'],
-                                    include: [
-                                        {
-                                            model: Area,
-                                            as: 'area',
-                                            attributes: ['id', 'nombre']
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        });
-
-        res.json({
-            ok: true,
-            asistencias
-        });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
-    }
-}
-export const getAsistenciasPeriodoAulaAreaSubarea = async (req: Request, res: Response) => {
-    const { periodoId, aulaId, areaId, subareaId } = req.params;
-    try {
-        const asistencias = await Asistencia.findAll({
-            where: {
-                estado: true,
-                '$matricula.programacion.periodo.id$': periodoId,
-                '$matricula.programacion.aula.id$': aulaId,
-                '$matricula.programacion.subarea.area.id$': areaId,
-                '$matricula.programacion.subarea.id$': subareaId,
-            },
-            attributes: ['id', 'fecha', 'hora'],
-            include: [
-                {
-                    model: Situacion,
-                    as: 'situacion',
-                    attributes: ['id', 'nombre', 'abreviatura', 'color']
-                },
-                {
-                    model: Matricula,
-                    as: 'matricula',
-                    attributes: ['id', 'programacionId'],
-                    include: [
-                        {
-                            model: Programacion,
-                            as: 'programacion',
-                            attributes: ['id', 'periodoId'],
-                            include: [
-                                {
-                                    model: Periodo,
-                                    as: 'periodo',
-                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
-                                },
-                                {
-                                    model: Aula,
-                                    as: 'aula',
-                                    attributes: ['id', 'nombre'],
-                                    include: [
-                                        {
-                                            model: Nivel,
-                                            as: 'nivel',
-                                            attributes: ['id', 'nombre']
-                                        },
-                                        {
-                                            model: Grado,
-                                            as: 'grado',
-                                            attributes: ['id', 'nombre']
-                                        },
-                                        {
-                                            model: Seccion,
-                                            as: 'seccion',
-                                            attributes: ['id', 'nombre']
-                                        }
-                                    ]
-                                },
-                                {
-                                    model: Subarea,
-                                    as: 'subarea',
-                                    attributes: ['id', 'nombre', 'areaId'],
-                                    include: [
-                                        {
-                                            model: Area,
-                                            as: 'area',
-                                            attributes: ['id', 'nombre']
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        });
-
-        res.json({
-            ok: true,
-            asistencias
-        });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
-    }
-}
-export const getAsistenciasPeriodoAulaAreaSubareaCicloAlumno = async (req: Request, res: Response) => {
-    const { periodoId, aulaId, areaId, subareaId, alumnoId } = req.params;
-    try {
-        const asistencias = await Asistencia.findAll({
-            where: {
-                estado: true,
-                '$matricula.programacion.periodo.id$': periodoId,
-                '$matricula.programacion.aula.id$': aulaId,
-                '$matricula.programacion.subarea.area.id$': areaId,
-                '$matricula.programacion.subarea.id$': subareaId,
-                matriculaId: alumnoId,
-            },
-            attributes: ['id', 'fecha', 'hora'],
-            include: [
-                {
-                    model: Situacion,
-                    as: 'situacion',
-                    attributes: ['id', 'nombre', 'abreviatura', 'color']
-                },
-                {
-                    model: Matricula,
-                    as: 'matricula',
-                    attributes: ['id', 'programacionId'],
-                    include: [
-                        {
-                            model: Alumno,
-                            as: 'alumno',
-                            attributes: ['id', 'personaId'],
-                            include: [
-                                {
-                                    model: Persona,
-                                    as: 'persona',
-                                    attributes: ['id', 'numero', 'nombres', 'apellidopaterno', 'apellidomaterno']
-                                }
-                            ]
-                        },
-                        {
-                            model: Programacion,
-                            as: 'programacion',
-                            attributes: ['id', 'periodoId'],
-                            include: [
-                                {
-                                    model: Periodo,
-                                    as: 'periodo',
-                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal'],
-                                },
-                                {
-                                    model: Aula,
-                                    as: 'aula',
-                                    attributes: ['id', 'nombre'],
-                                    include: [
-                                        {
-                                            model: Nivel,
-                                            as: 'nivel',
-                                            attributes: ['id', 'nombre']
-                                        },
-                                        {
-                                            model: Grado,
-                                            as: 'grado',
-                                            attributes: ['id', 'nombre']
-                                        },
-                                        {
-                                            model: Seccion,
-                                            as: 'seccion',
-                                            attributes: ['id', 'nombre']
-                                        }
-                                    ]
-                                },
-                                {
-                                    model: Subarea,
-                                    as: 'subarea',
-                                    attributes: ['id', 'nombre', 'areaId'],
-                                    include: [
-                                        {
-                                            model: Area,
-                                            as: 'area',
-                                            attributes: ['id', 'nombre']
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        });
-
-        res.json({
-            ok: true,
-            asistencias
-        });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
-    }
-}
 
 
-export const getAsistenciasHoy = async (req: Request, res: Response) => {
-    const { periodoId, fecha } = req.params;
-    try {
-        const asistencias = await Asistencia.findAll({
-            where: {
-                estado: true,
-                '$matricula.programacion.periodo.id$': periodoId,
-                fecha: fecha
-            },
-            attributes: ['id', 'fecha'],
-            include: [
-                {
-                    model: Situacion,
-                    as: 'situacion',
-                    attributes: ['id', 'nombre', 'abreviatura']
-                },
-                {
-                    model: Matricula,
-                    as: 'matricula',
-                    attributes: ['id', 'programacionId'],
-                    include: [
-                        {
-                            model: Programacion,
-                            as: 'programacion',
-                            attributes: ['id', 'periodoId'],
-                            include: [
-                                {
-                                    model: Periodo,
-                                    as: 'periodo',
-                                    attributes: ['id', 'nombre', 'fechainicial', 'fechafinal']
-                                },
-                            ]
-                        }
 
-                    ]
-                },
-            ]
-        });
-        res.json({
-            ok: true,
-            asistencias
-        });
-    } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
-    }
-
-}

@@ -8,7 +8,7 @@ const connection_1 = __importDefault(require("../db/connection"));
 class Persona extends sequelize_1.Model {
 }
 Persona.init({
-    numero: {
+    dni: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false
     },
@@ -24,10 +24,26 @@ Persona.init({
         type: sequelize_1.DataTypes.STRING,
         allowNull: false
     },
-    direccion: {
+    domicilio: {
         type: sequelize_1.DataTypes.STRING
     },
     telefono: {
+        type: sequelize_1.DataTypes.STRING
+    },
+    nacionalidad: {
+        type: sequelize_1.DataTypes.STRING
+    },
+    distrito: {
+        type: sequelize_1.DataTypes.STRING
+    },
+    fechanacimiento: {
+        type: sequelize_1.DataTypes.STRING
+    },
+    sexo: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false
+    },
+    correo: {
         type: sequelize_1.DataTypes.STRING
     },
     img: {
@@ -36,7 +52,7 @@ Persona.init({
     estado: {
         type: sequelize_1.DataTypes.BOOLEAN,
         defaultValue: true
-    },
+    }
 }, {
     sequelize: connection_1.default,
     modelName: 'persona',
