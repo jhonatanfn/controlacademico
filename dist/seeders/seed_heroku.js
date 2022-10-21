@@ -282,6 +282,7 @@ exports.padres = [
     { id: 64, personaId: 164 },
     { id: 74, personaId: 174 },
     { id: 84, personaId: 184 },
+    { id: 94, personaId: 494 },
 ];
 exports.madres = [
     { id: 4, personaId: 194 },
@@ -293,7 +294,8 @@ exports.madres = [
     { id: 64, personaId: 254 },
     { id: 74, personaId: 264 },
     { id: 84, personaId: 274 },
-    { id: 94, personaId: 284 }
+    { id: 94, personaId: 284 },
+    { id: 104, personaId: 494 },
 ];
 exports.auxiliares = [
     { id: 4, personaId: 504 },

@@ -380,6 +380,7 @@ export const postAlumno = async (req: Request, res: Response) => {
             observacion: body.observacion
         });
         await alumno.save();
+        
         await Usuario.create({
             nombre: arr[0],
             numero: numeroUsuario,
