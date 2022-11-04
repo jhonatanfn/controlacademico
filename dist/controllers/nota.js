@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNotasArea = exports.getNotasMatricula = exports.getNotasProgramacionFechaEvaluacionCiclo = exports.getNotasPeriodoAulaAlumno = exports.getNotasPeriodoAulaCicloAlumno = exports.getNotasPeriodoAulaAreaCicloAlumno = exports.getNotasPeriodoAulaAreaCiclo = exports.getNotasPeriodoAulaArea = exports.getNotasPeriodoAula = exports.getNotasPeriodo = exports.getNotasMatriculaCicloEvaluacion = exports.getNotasHoyVigesimal = exports.getNotasHoyLiteral = exports.getNotasProgramacionFechaEvaluacionCicloCompetencia = exports.deleteNota = exports.putNota = exports.postNota = exports.getNota = exports.getNotas = exports.busquedaNotas = void 0;
+exports.getNotasArea = exports.getNotasMatricula = exports.getNotasProgramacionFechaEvaluacionCiclo = exports.getNotasCicloMatriculadetalle = exports.getNotasPeriodoAulaAlumno = exports.getNotasPeriodoAulaCicloAlumno = exports.getNotasPeriodoAulaAreaCicloAlumno = exports.getNotasPeriodoAulaAreaCiclo = exports.getNotasPeriodoAulaArea = exports.getNotasPeriodoAula = exports.getNotasPeriodo = exports.getNotasMatriculaCicloEvaluacion = exports.getNotasHoyVigesimal = exports.getNotasHoyLiteral = exports.getNotasProgramacionFechaEvaluacionCicloCompetencia = exports.cambiarEstadoNota = exports.deleteNota = exports.putNota = exports.postNota = exports.getNota = exports.getNotas = exports.busquedaNotas = void 0;
 const alumno_1 = __importDefault(require("../models/alumno"));
 const persona_1 = __importDefault(require("../models/persona"));
 const sequelize_1 = require("sequelize");
@@ -411,6 +411,41 @@ const deleteNota = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.deleteNota = deleteNota;
+const cambiarEstadoNota = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const { body } = req;
+    try {
+        let msg = "";
+        const nota = yield nota_1.default.findByPk(id);
+        if (!nota) {
+            return res.status(400).json({
+                ok: false,
+                msg: `No existe un Nota con el id: ${id}`
+            });
+        }
+        if (body.estado) {
+            yield (nota === null || nota === void 0 ? void 0 : nota.update({ estado: false }));
+            msg = "Registro eliminado con exito.";
+        }
+        else {
+            yield (nota === null || nota === void 0 ? void 0 : nota.update({ estado: true }));
+            msg = "Registro recuperado con exito.";
+        }
+        res.json({
+            ok: true,
+            msg: msg,
+            nota
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.cambiarEstadoNota = cambiarEstadoNota;
 const getNotasProgramacionFechaEvaluacionCicloCompetencia = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { programacionId, fecha, evaluacionId, cicloId, competenciaId } = req.params;
     try {
@@ -879,7 +914,7 @@ const getNotasPeriodoAulaAreaCicloAlumno = (req, res) => __awaiter(void 0, void 
                 '$matriculadetalle.matricula.alumno.id$': alumnoId,
                 cicloId: cicloId,
             },
-            attributes: ['id', 'valor'],
+            attributes: ['id', 'valor', 'fecha'],
             include: [
                 {
                     model: competencia_1.default,
@@ -971,7 +1006,7 @@ const getNotasPeriodoAulaCicloAlumno = (req, res) => __awaiter(void 0, void 0, v
                 '$matriculadetalle.matricula.alumno.id$': alumnoId,
                 cicloId: cicloId,
             },
-            attributes: ['id', 'valor'],
+            attributes: ['id', 'valor', 'fecha', 'hora'],
             include: [
                 {
                     model: competencia_1.default,
@@ -1138,6 +1173,50 @@ const getNotasPeriodoAulaAlumno = (req, res) => __awaiter(void 0, void 0, void 0
     }
 });
 exports.getNotasPeriodoAulaAlumno = getNotasPeriodoAulaAlumno;
+const getNotasCicloMatriculadetalle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { cicloId, matriculadetalleId } = req.params;
+    try {
+        const notas = yield nota_1.default.findAll({
+            where: {
+                '$matriculadetalle.id$': matriculadetalleId,
+                '$ciclo.id$': cicloId
+            },
+            order: [
+                ['id', 'DESC']
+            ],
+            attributes: ['id', 'valor', 'fecha', 'hora', 'estado'],
+            include: [
+                {
+                    model: competencia_1.default,
+                    as: 'competencia',
+                    attributes: ['id', 'descripcion']
+                },
+                {
+                    model: ciclo_1.default,
+                    as: 'ciclo',
+                    attributes: ['id', 'nombre']
+                },
+                {
+                    model: matriculadetalle_1.default,
+                    as: 'matriculadetalle',
+                    attributes: ['id']
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            notas
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.getNotasCicloMatriculadetalle = getNotasCicloMatriculadetalle;
 const getNotasProgramacionFechaEvaluacionCiclo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { programacionId, fecha, evaluacionId, cicloId } = req.params;
     try {

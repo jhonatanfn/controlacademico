@@ -409,6 +409,42 @@ export const deleteNota = async (req: Request, res: Response) => {
         });
     }
 }
+
+export const cambiarEstadoNota = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { body } = req;
+    try {
+        let msg = "";
+        const nota: any = await Nota.findByPk(id);
+        if (!nota) {
+            return res.status(400).json({
+                ok: false,
+                msg: `No existe un Nota con el id: ${id}`
+            });
+        }
+        if (body.estado) {
+            await nota?.update({ estado: false });
+            msg = "Registro eliminado con exito.";
+        } else {
+            await nota?.update({ estado: true });
+            msg = "Registro recuperado con exito.";
+        }
+        res.json({
+            ok: true,
+            msg: msg,
+            nota
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+
+
+
 export const getNotasProgramacionFechaEvaluacionCicloCompetencia = async (req: Request, res: Response) => {
     const { programacionId, fecha, evaluacionId, cicloId, competenciaId } = req.params;
     try {
@@ -868,7 +904,7 @@ export const getNotasPeriodoAulaAreaCicloAlumno = async (req: Request, res: Resp
                 '$matriculadetalle.matricula.alumno.id$': alumnoId,
                 cicloId: cicloId,
             },
-            attributes: ['id', 'valor'],
+            attributes: ['id', 'valor','fecha'],
             include: [
                 {
                     model: Competencia,
@@ -959,7 +995,7 @@ export const getNotasPeriodoAulaCicloAlumno = async (req: Request, res: Response
                 '$matriculadetalle.matricula.alumno.id$': alumnoId,
                 cicloId: cicloId,
             },
-            attributes: ['id', 'valor'],
+            attributes: ['id', 'valor','fecha','hora'],
             include: [
                 {
                     model: Competencia,
@@ -1125,7 +1161,49 @@ export const getNotasPeriodoAulaAlumno = async (req: Request, res: Response) => 
     }
 }
 
+export const getNotasCicloMatriculadetalle = async (req: Request, res: Response) => {
+    const { cicloId, matriculadetalleId } = req.params;
+    try {
+        const notas = await Nota.findAll({
+            where: {
+                '$matriculadetalle.id$': matriculadetalleId,
+                '$ciclo.id$': cicloId
+            },
+            order: [
+                ['id', 'DESC']
+            ],
+            attributes: ['id', 'valor', 'fecha', 'hora', 'estado'],
+            include: [
+                {
+                    model: Competencia,
+                    as: 'competencia',
+                    attributes: ['id', 'descripcion']
+                },
+                {
+                    model: Ciclo,
+                    as: 'ciclo',
+                    attributes: ['id', 'nombre']
+                },
+                {
+                    model: Matriculadetalle,
+                    as: 'matriculadetalle',
+                    attributes: ['id']
+                }
+            ]
+        });
 
+        res.json({
+            ok: true,
+            notas
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
 
 
 

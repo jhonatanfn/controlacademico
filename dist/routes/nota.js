@@ -26,6 +26,7 @@ router.get('/porperiodoaulaareaciclo/:periodoId/:aulaId/:areaId/:cicloId', valid
 router.get('/porperiodoaulaareacicloalumno/:periodoId/:aulaId/:areaId/:cicloId/:alumnoId', validar_jwt_1.validarJWT, nota_1.getNotasPeriodoAulaAreaCicloAlumno);
 router.get('/reportealumno/:periodoId/:aulaId/:cicloId/:alumnoId', validar_jwt_1.validarJWT, nota_1.getNotasPeriodoAulaCicloAlumno);
 router.get('/notasperiodoaulaalumno/:periodoId/:aulaId/:alumnoId', validar_jwt_1.validarJWT, nota_1.getNotasPeriodoAulaAlumno);
+router.get('/ciclo/matriculadetalle/:cicloId/:matriculadetalleId', validar_jwt_1.validarJWT, nota_1.getNotasCicloMatriculadetalle);
 router.post('/', [
     validar_jwt_1.validarJWT,
     (0, express_validator_1.check)('matriculadetalleId', 'La Matricula es obligatoria').not().isEmpty(),
@@ -45,5 +46,6 @@ router.put('/:id', [
     validar_campos_1.validarCampos
 ], nota_1.putNota);
 router.delete('/:id', validar_jwt_1.validarJWT, nota_1.deleteNota);
+router.put('/cambiarestado/:id', validar_jwt_1.validarJWT, nota_1.cambiarEstadoNota);
 exports.default = router;
 //# sourceMappingURL=nota.js.map

@@ -4,8 +4,9 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
 import {
-    busquedaNotas, deleteNota, getNota, getNotas,
+    busquedaNotas, cambiarEstadoNota, deleteNota, getNota, getNotas,
     getNotasArea,
+    getNotasCicloMatriculadetalle,
     getNotasHoyLiteral,
     getNotasHoyVigesimal,
     getNotasMatricula, getNotasMatriculaCicloEvaluacion, getNotasPeriodo,
@@ -43,8 +44,9 @@ router.get('/porperiodoaulaareacicloalumno/:periodoId/:aulaId/:areaId/:cicloId/:
 router.get('/reportealumno/:periodoId/:aulaId/:cicloId/:alumnoId', validarJWT,
     getNotasPeriodoAulaCicloAlumno);
 router.get('/notasperiodoaulaalumno/:periodoId/:aulaId/:alumnoId', validarJWT,
-getNotasPeriodoAulaAlumno);
+    getNotasPeriodoAulaAlumno);
 
+router.get('/ciclo/matriculadetalle/:cicloId/:matriculadetalleId', validarJWT, getNotasCicloMatriculadetalle);
 
 router.post('/', [
     validarJWT,
@@ -67,5 +69,7 @@ router.put('/:id', [
 ], putNota);
 
 router.delete('/:id', validarJWT, deleteNota);
+
+router.put('/cambiarestado/:id', validarJWT, cambiarEstadoNota);
 
 export default router;
