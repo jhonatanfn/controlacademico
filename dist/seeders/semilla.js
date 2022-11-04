@@ -40,7 +40,6 @@ const periodo_1 = __importDefault(require("../models/periodo"));
 const evaluacion_1 = __importDefault(require("../models/evaluacion"));
 const ciclo_1 = __importDefault(require("../models/ciclo"));
 const matricula_1 = __importDefault(require("../models/matricula"));
-const material_1 = __importDefault(require("../models/material"));
 const seed_local = __importStar(require("./seed_local"));
 const seed_heroku = __importStar(require("./seed_heroku"));
 const situacion_1 = __importDefault(require("../models/situacion"));
@@ -50,12 +49,13 @@ const rango_1 = __importDefault(require("../models/rango"));
 const mensajeria_1 = __importDefault(require("../models/mensajeria"));
 const director_1 = __importDefault(require("../models/director"));
 const competencia_1 = __importDefault(require("../models/competencia"));
+const responsable_1 = __importDefault(require("../models/responsable"));
 const padre_1 = __importDefault(require("../models/padre"));
 const madre_1 = __importDefault(require("../models/madre"));
 const matriculadetalle_1 = __importDefault(require("../models/matriculadetalle"));
 const auxiliar_1 = __importDefault(require("../models/auxiliar"));
 const dbSeed = () => {
-    const llave = true;
+    const llave = false;
     const salt = bcryptjs_1.default.genSaltSync();
     if (llave) {
         seed_local.instituciones.forEach(institucion => {
@@ -116,6 +116,9 @@ const dbSeed = () => {
         seed_local.madres.forEach(madre => {
             madre_1.default.create(madre);
         });
+        seed_local.responsables.forEach(reponsable => {
+            responsable_1.default.create(reponsable);
+        });
         seed_local.alumnos.forEach(alumno => {
             alumno_1.default.create(alumno);
         });
@@ -136,9 +139,6 @@ const dbSeed = () => {
         });
         seed_local.matriculadetalles.forEach(matriculadetalle => {
             matriculadetalle_1.default.create(matriculadetalle);
-        });
-        seed_local.materiales.forEach(material => {
-            material_1.default.create(material);
         });
         seed_local.mensajerias.forEach(mensajeria => {
             mensajeria_1.default.create(mensajeria);
@@ -203,6 +203,9 @@ const dbSeed = () => {
         seed_heroku.madres.forEach(madre => {
             madre_1.default.create(madre);
         });
+        seed_heroku.responsables.forEach(reponsable => {
+            responsable_1.default.create(reponsable);
+        });
         seed_heroku.alumnos.forEach(alumno => {
             alumno_1.default.create(alumno);
         });
@@ -223,9 +226,6 @@ const dbSeed = () => {
         });
         seed_heroku.matriculadetalles.forEach(matriculadetalle => {
             matriculadetalle_1.default.create(matriculadetalle);
-        });
-        seed_heroku.materiales.forEach(material => {
-            material_1.default.create(material);
         });
         seed_heroku.mensajerias.forEach(mensajeria => {
             mensajeria_1.default.create(mensajeria);

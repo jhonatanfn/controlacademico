@@ -4,7 +4,8 @@
 
 import { Router } from 'express';
 import { check } from 'express-validator';
-import { busquedaApreciaciones, deleteApreciacion, getApreciacion, getApreciaciones, getApreciacionesPeriodoAlumno, getTodo, postApreciacion, putApreciacion } from '../controllers/apreciacion';
+import { busquedaApreciaciones, deleteApreciacion, getApreciacion, getApreciaciones, 
+getApreciacionesPeriodoAlumno, getTodo, postApreciacion, putApreciacion } from '../controllers/apreciacion';
 import { validarCampos } from '../middlewares/validar-campos';
 import { validarJWT } from '../middlewares/validar-jwt';
 
@@ -18,15 +19,15 @@ router.get('/alumno/:periodoId/:alumnoId',validarJWT,getApreciacionesPeriodoAlum
 
 router.post('/', [
     validarJWT,
-    check('nombre', 'El nombre es obligatorio').not().isEmpty(),
-    check('descripcion', 'La descripcion es obligatorio').not().isEmpty(),
+    check('periodoId', 'El periodo es obligatorio').not().isEmpty(),
+    check('alumnoId', 'El alumno es obligatorio').not().isEmpty(),
     validarCampos
 ], postApreciacion);
 
 router.put('/:id', [
     validarJWT,
-    check('nombre', 'El nombre es obligatorio').not().isEmpty(),
-    check('descripcion', 'La descripcion es obligatorio').not().isEmpty(),
+    check('periodoId', 'El periodo es obligatorio').not().isEmpty(),
+    check('alumnoId', 'El alumno es obligatorio').not().isEmpty(),
     validarCampos
 ], putApreciacion);
 

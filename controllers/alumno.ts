@@ -1,14 +1,15 @@
 import { Request, Response } from "express";
 import { Op } from 'sequelize';
-import bcrypt from 'bcryptjs';
 import Alumno from '../models/alumno';
 import Persona from '../models/persona';
 import Tipodocumento from '../models/tipodocumento';
 import Matricula from "../models/matricula";
-import Role from "../models/role";
 import Usuario from "../models/usuario";
 import Padre from "../models/padre";
 import Madre from "../models/madre";
+import Responsable from "../models/responsable";
+import Role from "../models/role";
+import bcrypt from 'bcryptjs';
 
 export const getAlumnos = async (req: Request, res: Response) => {
 
@@ -29,7 +30,7 @@ export const getAlumnos = async (req: Request, res: Response) => {
                     model: Persona,
                     as: 'persona',
                     attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
-                    include:[
+                    include: [
                         {
                             model: Tipodocumento,
                             as: 'tipodocumento',
@@ -40,7 +41,7 @@ export const getAlumnos = async (req: Request, res: Response) => {
                 {
                     model: Padre,
                     as: 'padre',
-                    attributes: ['id'],
+                    attributes: ['id', 'vive'],
                     include: [
                         {
                             model: Persona,
@@ -52,6 +53,18 @@ export const getAlumnos = async (req: Request, res: Response) => {
                 {
                     model: Madre,
                     as: 'madre',
+                    attributes: ['id', 'vive'],
+                    include: [
+                        {
+                            model: Persona,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                        }
+                    ]
+                },
+                {
+                    model: Responsable,
+                    as: 'responsable',
                     attributes: ['id'],
                     include: [
                         {
@@ -93,7 +106,7 @@ export const getAlumnosTodos = async (req: Request, res: Response) => {
                     model: Persona,
                     as: 'persona',
                     attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
-                    include:[
+                    include: [
                         {
                             model: Tipodocumento,
                             as: 'tipodocumento',
@@ -104,7 +117,7 @@ export const getAlumnosTodos = async (req: Request, res: Response) => {
                 {
                     model: Padre,
                     as: 'padre',
-                    attributes: ['id'],
+                    attributes: ['id', 'vive'],
                     include: [
                         {
                             model: Persona,
@@ -116,6 +129,18 @@ export const getAlumnosTodos = async (req: Request, res: Response) => {
                 {
                     model: Madre,
                     as: 'madre',
+                    attributes: ['id', 'vive'],
+                    include: [
+                        {
+                            model: Persona,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                        }
+                    ]
+                },
+                {
+                    model: Responsable,
+                    as: 'responsable',
                     attributes: ['id'],
                     include: [
                         {
@@ -139,13 +164,12 @@ export const getAlumnosTodos = async (req: Request, res: Response) => {
         });
     }
 }
-
 export const getAlumnosPadre = async (req: Request, res: Response) => {
     try {
         const alumnos = await Alumno.findAll({
-            where: { 
+            where: {
                 estado: true,
-                padreId: req.params.padreId 
+                padreId: req.params.padreId
             },
             order: [
                 [
@@ -162,7 +186,7 @@ export const getAlumnosPadre = async (req: Request, res: Response) => {
                 {
                     model: Padre,
                     as: 'padre',
-                    attributes: ['id'],
+                    attributes: ['id', 'vive'],
                     include: [
                         {
                             model: Persona,
@@ -174,6 +198,18 @@ export const getAlumnosPadre = async (req: Request, res: Response) => {
                 {
                     model: Madre,
                     as: 'madre',
+                    attributes: ['id', 'vive'],
+                    include: [
+                        {
+                            model: Persona,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                        }
+                    ]
+                },
+                {
+                    model: Responsable,
+                    as: 'responsable',
                     attributes: ['id'],
                     include: [
                         {
@@ -197,13 +233,12 @@ export const getAlumnosPadre = async (req: Request, res: Response) => {
         });
     }
 }
-
 export const getAlumnosMadre = async (req: Request, res: Response) => {
     try {
         const alumnos = await Alumno.findAll({
-            where: { 
+            where: {
                 estado: true,
-                madreId: req.params.madreId 
+                madreId: req.params.madreId
             },
             order: [
                 [
@@ -220,7 +255,7 @@ export const getAlumnosMadre = async (req: Request, res: Response) => {
                 {
                     model: Padre,
                     as: 'padre',
-                    attributes: ['id'],
+                    attributes: ['id', 'vive'],
                     include: [
                         {
                             model: Persona,
@@ -232,6 +267,18 @@ export const getAlumnosMadre = async (req: Request, res: Response) => {
                 {
                     model: Madre,
                     as: 'madre',
+                    attributes: ['id', 'vive'],
+                    include: [
+                        {
+                            model: Persona,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                        }
+                    ]
+                },
+                {
+                    model: Responsable,
+                    as: 'responsable',
                     attributes: ['id'],
                     include: [
                         {
@@ -255,7 +302,6 @@ export const getAlumnosMadre = async (req: Request, res: Response) => {
         });
     }
 }
-
 export const getAlumnoDNI = async (req: Request, res: Response) => {
     const { dni } = req.params;
     try {
@@ -269,7 +315,7 @@ export const getAlumnoDNI = async (req: Request, res: Response) => {
                     where: {
                         dni: dni
                     },
-                    include:[
+                    include: [
                         {
                             model: Tipodocumento,
                             as: 'tipodocumento',
@@ -306,7 +352,7 @@ export const getAlumno = async (req: Request, res: Response) => {
                     model: Persona,
                     as: 'persona',
                     attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
-                    include:[
+                    include: [
                         {
                             model: Tipodocumento,
                             as: 'tipodocumento',
@@ -317,24 +363,57 @@ export const getAlumno = async (req: Request, res: Response) => {
                 {
                     model: Padre,
                     as: 'padre',
-                    attributes: ['id'],
+                    attributes: ['id', 'vive'],
                     include: [
                         {
                             model: Persona,
                             as: 'persona',
                             attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                            include: [
+                                {
+                                    model: Tipodocumento,
+                                    as: 'tipodocumento',
+                                    attributes: ['id', 'nombre']
+                                }
+                            ]
                         }
                     ]
                 },
                 {
                     model: Madre,
                     as: 'madre',
+                    attributes: ['id', 'vive'],
+                    include: [
+                        {
+                            model: Persona,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                            include: [
+                                {
+                                    model: Tipodocumento,
+                                    as: 'tipodocumento',
+                                    attributes: ['id', 'nombre']
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    model: Responsable,
+                    as: 'responsable',
                     attributes: ['id'],
                     include: [
                         {
                             model: Persona,
                             as: 'persona',
                             attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                            include: [
+                                {
+                                    model: Tipodocumento,
+                                    as: 'tipodocumento',
+                                    attributes: ['id', 'nombre']
+                                }
+                            ]
                         }
                     ]
                 }
@@ -364,36 +443,139 @@ export const getAlumno = async (req: Request, res: Response) => {
 export const postAlumno = async (req: Request, res: Response) => {
     const { body } = req;
     try {
+
         const roles: any = await Role.findAll({ where: { estado: true } });
         const salt = bcrypt.genSaltSync();
-        let maxValor: any = await Usuario.max('numero', { where: { estado: true } });
-        let arr = body.nombreusuario.split(' ');
-        let numeroUsuario = maxValor + 1;
-        const alumno = Alumno.build({
-            personaId: body.personaId,
-            padreId: body.padreId,
-            madreId: body.madreId,
-            vivecon: body.vivecon,
-            tienediscapacidad: body.tienediscapacidad,
-            cualdiscapacidad: body.cualdiscapacidad,
-            certificadiscapacidad: body.certificadiscapacidad,
-            observacion: body.observacion
-        });
-        await alumno.save();
-        
-        await Usuario.create({
-            nombre: arr[0],
-            numero: numeroUsuario,
-            email: arr[0] + '' + numeroUsuario + '@mail.com',
-            password: bcrypt.hashSync('123456', salt),
-            roleId: roles[5].id,
-            personaId: body.personaId
-        });
+
+        /** registro padre */
+        if (!body.padreId) {
+            let personaIdUsuario1;
+            const persona1: any = await Persona.findOne({
+                where: {
+                    estado: true,
+                    dni: body.padredni
+                },
+                attributes: ['id']
+            });
+            if (persona1) {
+                const padre1: any = Padre.build({
+                    personaId: persona1.id,
+                    vivo: body.padrevive
+                });
+                await padre1.save();
+                body.padreId = padre1.id;
+                personaIdUsuario1= persona1.id
+            } else {
+                const persona2: any = Persona.build({
+                    dni: body.padredni,
+                    nombres: body.padrenombres,
+                    apellidopaterno: body.padreapellidopaterno,
+                    apellidomaterno: body.padreapellidomaterno,
+                    sexo: body.padresexo,
+                    fechanacimiento: body.padrefechanacimiento,
+                    tipodocumentoId: body.padretipodocumentoId
+                });
+                await persona2.save();
+                const padre2:any = Padre.build({
+                    personaId: persona2.id,
+                    vive: body.padrevive
+                });
+                await padre2.save();
+                body.padreId = padre2.id;
+                personaIdUsuario1= persona2.id
+            }
+            if (body.padrevive && body.padredni !="00000000") {
+                let maxValorpadre: any = await Usuario.max('numero', { where: { estado: true } });
+                let arrpadre = body.padrenombreusuario.split(' ');
+                let numeroUsuariopadre = maxValorpadre + 1;
+                await Usuario.create({
+                    nombre: arrpadre[0],
+                    numero: numeroUsuariopadre,
+                    email: arrpadre[0] + '' + numeroUsuariopadre + '@mail.com',
+                    password: bcrypt.hashSync(body.padredniusuario, salt),
+                    roleId: roles[2].id,
+                    personaId: personaIdUsuario1
+                });
+            }
+        }
+        /** registro madre */
+        if (!body.madreId) {
+            let personaIdUsuario2;
+            const persona3: any = await Persona.findOne({
+                where: {
+                    estado: true,
+                    dni: body.madredni
+                },
+                attributes: ['id']
+            });
+            if (persona3) {
+                const madre1: any = Madre.build({
+                    personaId: persona3.id,
+                    vivo: body.madrevive
+                });
+                await madre1.save();
+                body.madreId = madre1.id;
+                personaIdUsuario2= persona3.id
+            } else {
+                const persona4: any = Persona.build({
+                    dni: body.madredni,
+                    nombres: body.madrenombres,
+                    apellidopaterno: body.madreapellidopaterno,
+                    apellidomaterno: body.madreapellidomaterno,
+                    sexo: body.madresexo,
+                    fechanacimiento: body.madrefechanacimiento,
+                    tipodocumentoId: body.madretipodocumentoId
+                });
+                await persona4.save();
+                const madre2:any = Madre.build({
+                    personaId: persona4.id,
+                    vive: body.madrevive
+                });
+                await madre2.save();
+                body.madreId = madre2.id;
+                personaIdUsuario2= persona4.id
+            }
+            if (body.madrevive && body.padredni !="00000000") {
+                let maxValormadre: any = await Usuario.max('numero', { where: { estado: true } });
+                let arrmadre = body.madrenombreusuario.split(' ');
+                let numeroUsuariomadre = maxValormadre + 1;
+                await Usuario.create({
+                    nombre: arrmadre[0],
+                    numero: numeroUsuariomadre,
+                    email: arrmadre[0] + '' + numeroUsuariomadre + '@mail.com',
+                    password: bcrypt.hashSync(body.madredniusuario, salt),
+                    roleId: roles[3].id,
+                    personaId: personaIdUsuario2
+                });
+            }
+        }
+
+        if(body.padreId && body.madreId && body.responsableId){
+            const alumno = Alumno.build({
+                personaId: body.personaId,
+                padreId: body.padreId,
+                madreId: body.madreId,
+                responsableId: body.responsableId,
+                vivecon: body.vivecon,
+                tienediscapacidad: body.tienediscapacidad,
+                cualdiscapacidad: body.cualdiscapacidad,
+                certificadiscapacidad: body.certificadiscapacidad,
+                observacion: body.observacion,
+                inicialprocede: body.inicialprocede,
+                colegioprocede: body.colegioprocede
+            });
+            await alumno.save();
+            return res.json({
+                ok: true,
+                msg: 'Alumno creado exitosamente.',
+                alumno
+            });
+        }
         res.json({
-            ok: true,
-            msg: 'Alumno creado exitosamente',
-            alumno
+            ok: false,
+            msg: "No se pudo crear el alumno."
         });
+       
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -406,6 +588,113 @@ export const putAlumno = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { body } = req;
     try {
+
+        const roles: any = await Role.findAll({ where: { estado: true } });
+        const salt = bcrypt.genSaltSync();
+
+        /** registro padre */
+        if (!body.padreId) {
+            let personaIdUsuario1;
+            const persona1: any = await Persona.findOne({
+                where: {
+                    estado: true,
+                    dni: body.padredni
+                },
+                attributes: ['id']
+            });
+            if (persona1) {
+                const padre1: any = Padre.build({
+                    personaId: persona1.id,
+                    vivo: body.padrevive
+                });
+                await padre1.save();
+                body.padreId = padre1.id;
+                personaIdUsuario1= persona1.id
+            } else {
+                const persona2: any = Persona.build({
+                    dni: body.padredni,
+                    nombres: body.padrenombres,
+                    apellidopaterno: body.padreapellidopaterno,
+                    apellidomaterno: body.padreapellidomaterno,
+                    sexo: body.padresexo,
+                    fechanacimiento: body.padrefechanacimiento,
+                    tipodocumentoId: body.padretipodocumentoId
+                });
+                await persona2.save();
+                const padre2:any = Padre.build({
+                    personaId: persona2.id,
+                    vive: body.padrevive
+                });
+                await padre2.save();
+                body.padreId = padre2.id;
+                personaIdUsuario1= persona2.id
+            }
+            if (body.padrevive && body.padredni !="00000000") {
+                let maxValorpadre: any = await Usuario.max('numero', { where: { estado: true } });
+                let arrpadre = body.padrenombreusuario.split(' ');
+                let numeroUsuariopadre = maxValorpadre + 1;
+                await Usuario.create({
+                    nombre: arrpadre[0],
+                    numero: numeroUsuariopadre,
+                    email: arrpadre[0] + '' + numeroUsuariopadre + '@mail.com',
+                    password: bcrypt.hashSync(body.padredniusuario, salt),
+                    roleId: roles[2].id,
+                    personaId: personaIdUsuario1
+                });
+            }
+        }
+        /** registro madre */
+        if (!body.madreId) {
+            let personaIdUsuario2;
+            const persona3: any = await Persona.findOne({
+                where: {
+                    estado: true,
+                    dni: body.madredni
+                },
+                attributes: ['id']
+            });
+            if (persona3) {
+                const madre1: any = Madre.build({
+                    personaId: persona3.id,
+                    vivo: body.madrevive
+                });
+                await madre1.save();
+                body.madreId = madre1.id;
+                personaIdUsuario2= persona3.id
+            } else {
+                const persona4: any = Persona.build({
+                    dni: body.madredni,
+                    nombres: body.madrenombres,
+                    apellidopaterno: body.madreapellidopaterno,
+                    apellidomaterno: body.madreapellidomaterno,
+                    sexo: body.madresexo,
+                    fechanacimiento: body.madrefechanacimiento,
+                    tipodocumentoId: body.madretipodocumentoId
+                });
+                await persona4.save();
+                const madre2:any = Madre.build({
+                    personaId: persona4.id,
+                    vive: body.madrevive
+                });
+                await madre2.save();
+                body.madreId = madre2.id;
+                personaIdUsuario2= persona4.id
+            }
+            if (body.madrevive && body.padredni !="00000000") {
+                let maxValormadre: any = await Usuario.max('numero', { where: { estado: true } });
+                let arrmadre = body.madrenombreusuario.split(' ');
+                let numeroUsuariomadre = maxValormadre + 1;
+                await Usuario.create({
+                    nombre: arrmadre[0],
+                    numero: numeroUsuariomadre,
+                    email: arrmadre[0] + '' + numeroUsuariomadre + '@mail.com',
+                    password: bcrypt.hashSync(body.madredniusuario, salt),
+                    roleId: roles[3].id,
+                    personaId: personaIdUsuario2
+                });
+            }
+        }
+
         const alumno: any = await Alumno.findByPk(id);
         if (!alumno) {
             return res.status(400).json({
@@ -413,11 +702,17 @@ export const putAlumno = async (req: Request, res: Response) => {
                 msg: `No existe un alumno con el id: ${id}`
             });
         }
-        await alumno?.update(body);
+        if(body.padreId && body.madreId && body.responsableId){
+            await alumno?.update(body);
+            return res.json({
+                ok: true,
+                msg: 'Alumno actualizado exitosamente',
+                alumno
+            });
+        }
         res.json({
-            ok: true,
-            msg: 'Alumno actualizado exitosamente',
-            alumno
+            ok: false,
+            msg: "No se pudo actualizar el alumno"
         });
 
     } catch (error) {
@@ -527,7 +822,7 @@ export const busquedaAlumnos = async (req: Request, res: Response) => {
                     model: Persona,
                     as: 'persona',
                     attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
-                    include:[
+                    include: [
                         {
                             model: Tipodocumento,
                             as: 'tipodocumento',
@@ -538,7 +833,7 @@ export const busquedaAlumnos = async (req: Request, res: Response) => {
                 {
                     model: Padre,
                     as: 'padre',
-                    attributes: ['id'],
+                    attributes: ['id', 'vive'],
                     include: [
                         {
                             model: Persona,
@@ -550,6 +845,18 @@ export const busquedaAlumnos = async (req: Request, res: Response) => {
                 {
                     model: Madre,
                     as: 'madre',
+                    attributes: ['id', 'vive'],
+                    include: [
+                        {
+                            model: Persona,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                        }
+                    ]
+                },
+                {
+                    model: Responsable,
+                    as: 'responsable',
                     attributes: ['id'],
                     include: [
                         {
@@ -573,11 +880,9 @@ export const busquedaAlumnos = async (req: Request, res: Response) => {
         });
     }
 }
-
 export const searchDNI = async (req: Request, res: Response) => {
     const { dni } = req.params;
     try {
-
         const alumno = await Alumno.findOne({
             where: {
                 estado: true,
@@ -650,8 +955,6 @@ export const alumnoPorPersona = async (req: Request, res: Response) => {
         });
     }
 }
-
-
 export const busquedaAlumnosApellido = async (req: Request, res: Response) => {
 
     const { valor } = req.params;

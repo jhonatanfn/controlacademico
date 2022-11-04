@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.busquedaMensajeriasEliminados = exports.busquedaMensajeriasEnviados = exports.busquedaMensajeriasRecibidos = exports.restaurarReceptor = exports.restaurarEmisor = exports.getMensajeriasEliminados = exports.getMensajeriasEnviados = exports.getMensajeriasRecibidos = exports.noleidoMensajeriaReceptor = exports.noleidoMensajeriaEmisor = exports.leidoMensajeriaReceptor = exports.leidoMensajeriaEmisor = exports.deleteMensajeriaReceptor = exports.deleteMensajeriaEmisor = exports.busquedaMensajerias = exports.putMensajeria = exports.postMensajeria = exports.getMensajeria = exports.getMensajerias = exports.getTodo = void 0;
+exports.actualizarMensajesNuevos = exports.existenMensajesNuevos = exports.busquedaMensajeriasEliminados = exports.busquedaMensajeriasEnviados = exports.busquedaMensajeriasRecibidos = exports.restaurarReceptor = exports.restaurarEmisor = exports.getMensajeriasEliminados = exports.getMensajeriasEnviados = exports.getMensajeriasRecibidos = exports.noleidoMensajeriaReceptor = exports.noleidoMensajeriaEmisor = exports.leidoMensajeriaReceptor = exports.leidoMensajeriaEmisor = exports.deleteMensajeriaReceptor = exports.deleteMensajeriaEmisor = exports.busquedaMensajerias = exports.putMensajeria = exports.postMensajeria = exports.getMensajeria = exports.getMensajerias = exports.getTodo = void 0;
 const mensajeria_1 = __importDefault(require("../models/mensajeria"));
 const sequelize_1 = require("sequelize");
 const getTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -635,4 +635,62 @@ const busquedaMensajeriasEliminados = (req, res) => __awaiter(void 0, void 0, vo
     }
 });
 exports.busquedaMensajeriasEliminados = busquedaMensajeriasEliminados;
+const existenMensajesNuevos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email } = req.params;
+    try {
+        const total = (yield mensajeria_1.default.findAll({
+            where: {
+                estado: true,
+                receptor: email,
+                nuevo: true
+            }
+        })).length;
+        res.json({
+            ok: true,
+            total
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.existenMensajesNuevos = existenMensajesNuevos;
+const actualizarMensajesNuevos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email } = req.params;
+    try {
+        const mensajerias = yield mensajeria_1.default.findAll({
+            where: {
+                estado: true,
+                receptor: email,
+                nuevo: true
+            },
+        });
+        if (mensajerias.length > 0) {
+            mensajerias.forEach(mensajeria => {
+                mensajeria === null || mensajeria === void 0 ? void 0 : mensajeria.update({
+                    nuevo: false
+                });
+            });
+            return res.json({
+                ok: true,
+                msg: "Mensajes actualizados con exito"
+            });
+        }
+        res.json({
+            ok: true,
+            msg: "No hay mensajes nuevos"
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.actualizarMensajesNuevos = actualizarMensajesNuevos;
 //# sourceMappingURL=mensajeria.js.map

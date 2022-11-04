@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deletePersona = exports.putPersona = exports.postPersona = exports.getPersona = exports.getPersonas = void 0;
+exports.getPersonaDNI = exports.deletePersona = exports.putPersona = exports.postPersona = exports.getPersona = exports.getPersonas = void 0;
 const persona_1 = __importDefault(require("../models/persona"));
 const tipodocumento_1 = __importDefault(require("../models/tipodocumento"));
 const getPersonas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -176,4 +176,33 @@ const deletePersona = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.deletePersona = deletePersona;
+const getPersonaDNI = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { dni } = req.params;
+    try {
+        const persona = yield persona_1.default.findOne({
+            where: {
+                estado: true,
+                dni: dni
+            },
+            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+            include: {
+                model: tipodocumento_1.default,
+                as: 'tipodocumento',
+                attributes: ['id', 'nombre']
+            },
+        });
+        res.json({
+            ok: true,
+            persona
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.getPersonaDNI = getPersonaDNI;
 //# sourceMappingURL=persona.js.map

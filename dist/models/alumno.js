@@ -23,6 +23,12 @@ Alumno.init({
         type: sequelize_1.DataTypes.INTEGER,
         allowNull: false
     },
+    inicialprocede: {
+        type: sequelize_1.DataTypes.STRING,
+    },
+    colegioprocede: {
+        type: sequelize_1.DataTypes.STRING,
+    },
     observacion: {
         type: sequelize_1.DataTypes.STRING
     },

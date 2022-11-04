@@ -53,6 +53,8 @@ const matriculadetalle_1 = __importDefault(require("../routes/matriculadetalle")
 const auxiliar_1 = __importDefault(require("../routes/auxiliar"));
 const director_1 = __importDefault(require("../routes/director"));
 const apreciacion_1 = __importDefault(require("../routes/apreciacion"));
+const responsable_1 = __importDefault(require("../routes/responsable"));
+const apreciaciondetalle_1 = __importDefault(require("../routes/apreciaciondetalle"));
 class Server {
     constructor() {
         this.llave = false;
@@ -93,7 +95,9 @@ class Server {
             matriculadetalles: '/api/matriculadetalles',
             auxiliares: '/api/auxiliares',
             directores: '/api/directores',
-            apreciaciones: '/api/apreciaciones'
+            apreciaciones: '/api/apreciaciones',
+            responsables: '/api/responsables',
+            apreciaciondetalles: '/api/apreciaciondetalles'
         };
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || environments_1.environment.PORT;
@@ -163,6 +167,8 @@ class Server {
         this.app.use(this.apiPaths.auxiliares, auxiliar_1.default);
         this.app.use(this.apiPaths.directores, director_1.default);
         this.app.use(this.apiPaths.apreciaciones, apreciacion_1.default);
+        this.app.use(this.apiPaths.responsables, responsable_1.default);
+        this.app.use(this.apiPaths.apreciaciondetalles, apreciaciondetalle_1.default);
         this.app.get('*', (req, res) => {
             res.sendFile(path_1.default.resolve(__dirname, '../../public/index.html'));
         });

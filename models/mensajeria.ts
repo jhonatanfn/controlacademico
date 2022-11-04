@@ -55,6 +55,10 @@ Mensajeria.init({
     archivo:{
         type: DataTypes.STRING,
     },
+    nuevo:{
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+    },
     estado:{
         type: DataTypes.BOOLEAN,
         defaultValue: true

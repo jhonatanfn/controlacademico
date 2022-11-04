@@ -24,7 +24,7 @@ const getTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             where: {
                 estado: true
             },
-            attributes: ['id', 'nombre', 'descripcion', 'responsabilidad', 'estado'],
+            attributes: ['id'],
             include: [
                 {
                     model: periodo_1.default,
@@ -75,7 +75,7 @@ const getApreciaciones = (req, res) => __awaiter(void 0, void 0, void 0, functio
             ],
             limit: 5,
             offset: desde,
-            attributes: ['id', 'nombre', 'descripcion', 'responsabilidad', 'estado'],
+            attributes: ['id'],
             include: [
                 {
                     model: periodo_1.default,
@@ -234,11 +234,39 @@ const busquedaApreciaciones = (req, res) => __awaiter(void 0, void 0, void 0, fu
     try {
         const data = yield apreciacion_1.default.findAll({
             where: {
-                nombre: {
-                    [sequelize_1.Op.like]: `%${valor}%`
-                },
-                estado: true
-            }
+                estado: true,
+                [sequelize_1.Op.or]: [
+                    {
+                        '$alumno.persona.nombres$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$alumno.persona.apellidopaterno$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$alumno.persona.apellidomaterno$': {
+                            [sequelize_1.Op.like]: `%${valor}%`
+                        }
+                    }
+                ],
+            },
+            include: [
+                {
+                    model: alumno_1.default,
+                    as: 'alumno',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: persona_1.default,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'img'],
+                        }
+                    ]
+                }
+            ]
         });
         res.json({
             ok: true,
@@ -264,7 +292,7 @@ const getApreciacionesPeriodoAlumno = (req, res) => __awaiter(void 0, void 0, vo
                 periodoId: periodoId,
                 alumnoId: alumnoId
             },
-            attributes: ['id', 'nombre', 'descripcion', 'responsabilidad', 'estado'],
+            attributes: ['id'],
         });
         res.json({
             ok: true,

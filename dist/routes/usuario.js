@@ -12,6 +12,7 @@ const router = (0, express_1.Router)();
 router.get('/', validar_jwt_1.validarJWT, usuarios_1.getUsuarios);
 router.get('/porrol/:rolId', validar_jwt_1.validarJWT, usuarios_1.getUsuariosPorRol);
 router.get('/filtrado/todo', validar_jwt_1.validarJWT, usuarios_1.getUsuariosTodos);
+router.get('/limitado', validar_jwt_1.validarJWT, usuarios_1.getUsuariosLimitado);
 router.get('/:id', validar_jwt_1.validarJWT, usuarios_1.getUsuario);
 router.get('/:id/areas', validar_jwt_1.validarJWT, usuarios_1.getUsuarioAreas);
 router.post('/consultaporemail', [

@@ -20,14 +20,9 @@ export const getMenu = (role: string) => {
             icono: 'bi bi-mortarboard'
           },
           {
-            titulo: 'Padres',
-            url: 'padres',
-            icono: 'bi bi-gender-male'
-          },
-          {
-            titulo: 'Madres',
-            url: 'madres',
-            icono: 'bi bi-gender-female'
+            titulo: 'Familiares',
+            url: 'familiares',
+            icono: 'bi bi-incognito'
           },
           {
             titulo: 'Auxiliares',
@@ -212,11 +207,6 @@ export const getMenu = (role: string) => {
             icono: 'bi bi-calendar3',
           },
           {
-            titulo: 'Materiales',
-            url: 'materiales/docente',
-            icono: 'bi bi-folder2',
-          },
-          {
             titulo: 'Apreciaciones',
             url: 'apreciaciones',
             icono: 'bi bi-chat-text',
@@ -280,6 +270,7 @@ export const getMenu = (role: string) => {
   }
 
   if (role === 'ALUMNO') {
+    /*
     return menu = [
       {
         titulo: 'Notas',
@@ -314,7 +305,7 @@ export const getMenu = (role: string) => {
         bandera: 1,
       },
 
-      /*
+      
       {
         titulo: 'Reportes',
         url: 'reportes',
@@ -352,9 +343,8 @@ export const getMenu = (role: string) => {
           }
         ]
       }
-      */
-
     ];
+    */
   }
 
   if (role === 'PADRE') {

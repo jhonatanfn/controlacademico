@@ -39,6 +39,8 @@ import matriculadetalleRoutes from '../routes/matriculadetalle';
 import auxiliarRoutes from '../routes/auxiliar';
 import directorRoutes from '../routes/director';
 import apreciacionRoutes from '../routes/apreciacion';
+import responsableRoutes from '../routes/responsable';
+import apreciaciondetalleRoutes from '../routes/apreciaciondetalle';
 
 class Server {
     private app: Application;
@@ -81,7 +83,9 @@ class Server {
         matriculadetalles: '/api/matriculadetalles',
         auxiliares: '/api/auxiliares',
         directores: '/api/directores',
-        apreciaciones: '/api/apreciaciones'
+        apreciaciones: '/api/apreciaciones',
+        responsables: '/api/responsables',
+        apreciaciondetalles: '/api/apreciaciondetalles'
     };
 
     constructor() {
@@ -152,6 +156,8 @@ class Server {
         this.app.use(this.apiPaths.auxiliares, auxiliarRoutes);
         this.app.use(this.apiPaths.directores, directorRoutes);
         this.app.use(this.apiPaths.apreciaciones, apreciacionRoutes);
+        this.app.use(this.apiPaths.responsables, responsableRoutes);
+        this.app.use(this.apiPaths.apreciaciondetalles, apreciaciondetalleRoutes);
 
         this.app.get('*', (req, res) => {
             res.sendFile(path.resolve(__dirname, '../../public/index.html'));

@@ -8,18 +8,6 @@ const connection_1 = __importDefault(require("../db/connection"));
 class Apreciacion extends sequelize_1.Model {
 }
 Apreciacion.init({
-    nombre: {
-        type: sequelize_1.DataTypes.STRING,
-        allowNull: false
-    },
-    descripcion: {
-        type: sequelize_1.DataTypes.STRING,
-        allowNull: false
-    },
-    responsabilidad: {
-        type: sequelize_1.DataTypes.STRING,
-        defaultValue: "-"
-    },
     estado: {
         type: sequelize_1.DataTypes.BOOLEAN,
         defaultValue: true

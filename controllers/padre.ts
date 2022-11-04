@@ -3,7 +3,6 @@ import { Op } from 'sequelize';
 import bcrypt from 'bcryptjs';
 import Padre from '../models/padre';
 import Persona from '../models/persona';
-import Matricula from "../models/matricula";
 import Role from "../models/role";
 import Usuario from "../models/usuario";
 import Tipodocumento from "../models/tipodocumento";
@@ -27,13 +26,13 @@ export const getPadres = async (req: Request, res: Response) => {
                 {
                     model: Persona,
                     as: 'persona',
-                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img','correo'],
-                    include:[
-                       {
-                        model: Tipodocumento,
-                        as: 'tipodocumento',
-                        attributes: ['id', 'nombre']
-                       }
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                    include: [
+                        {
+                            model: Tipodocumento,
+                            as: 'tipodocumento',
+                            attributes: ['id', 'nombre']
+                        }
                     ]
                 }
             ]
@@ -66,14 +65,14 @@ export const getPadresTodos = async (req: Request, res: Response) => {
                 {
                     model: Persona,
                     as: 'persona',
-                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img','correo'],
-                    include:[
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                    include: [
                         {
-                         model: Tipodocumento,
-                         as: 'tipodocumento',
-                         attributes: ['id', 'nombre']
+                            model: Tipodocumento,
+                            as: 'tipodocumento',
+                            attributes: ['id', 'nombre']
                         }
-                     ]
+                    ]
                 }
             ]
         });
@@ -99,14 +98,14 @@ export const getPadre = async (req: Request, res: Response) => {
                 {
                     model: Persona,
                     as: 'persona',
-                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img','correo'],
-                    include:[
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                    include: [
                         {
-                         model: Tipodocumento,
-                         as: 'tipodocumento',
-                         attributes: ['id', 'nombre']
+                            model: Tipodocumento,
+                            as: 'tipodocumento',
+                            attributes: ['id', 'nombre']
                         }
-                     ]
+                    ]
                 }
             ]
         });
@@ -140,17 +139,19 @@ export const postPadre = async (req: Request, res: Response) => {
         let arr = body.nombreusuario.split(' ');
         let numeroUsuario = maxValor + 1;
         const padre = Padre.build({
-            personaId: body.personaId
+            personaId: body.personaId,
         });
         await padre.save();
-        await Usuario.create({
-            nombre: arr[0],
-            numero: numeroUsuario,
-            email: arr[0] + '' + numeroUsuario + '@mail.com',
-            password: bcrypt.hashSync('123456', salt),
-            roleId: roles[2].id,
-            personaId: body.personaId
-        });
+        if (body.vive) {
+            await Usuario.create({
+                nombre: arr[0],
+                numero: numeroUsuario,
+                email: arr[0] + '' + numeroUsuario + '@mail.com',
+                password: bcrypt.hashSync(body.dniusuario, salt),
+                roleId: roles[2].id,
+                personaId: body.personaId
+            });
+        }
         res.json({
             ok: true,
             msg: 'Padre creado exitosamente.',
@@ -271,14 +272,14 @@ export const busquedaPadres = async (req: Request, res: Response) => {
                 {
                     model: Persona,
                     as: 'persona',
-                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img','correo'],
-                    include:[
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                    include: [
                         {
-                         model: Tipodocumento,
-                         as: 'tipodocumento',
-                         attributes: ['id', 'nombre']
+                            model: Tipodocumento,
+                            as: 'tipodocumento',
+                            attributes: ['id', 'nombre']
                         }
-                     ]
+                    ]
                 }
             ]
         });
@@ -347,7 +348,7 @@ export const padrePorPersona = async (req: Request, res: Response) => {
                     include: [{
                         model: Tipodocumento,
                         as: 'tipodocumento',
-                        attributes:['id','nombre']
+                        attributes: ['id', 'nombre']
                     }]
                 }
             ]
@@ -361,6 +362,43 @@ export const padrePorPersona = async (req: Request, res: Response) => {
         res.json({
             ok: false,
             msg: 'No existe un padre con el persona id:' + id
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+
+export const getPadreDNI = async (req: Request, res: Response) => {
+    const { dni } = req.params;
+
+    try {
+        const padre = await Padre.findOne({
+            where: {
+                estado: true,
+                '$persona.dni$': dni
+            },
+            attributes: ['id', 'vive'],
+            include: [
+                {
+                    model: Persona,
+                    as: 'persona',
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                    include: [{
+                        model: Tipodocumento,
+                        as: 'tipodocumento',
+                        attributes: ['id', 'nombre']
+                    }]
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            padre
         });
 
     } catch (error) {

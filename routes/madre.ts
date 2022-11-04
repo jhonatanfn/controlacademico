@@ -3,7 +3,8 @@
 */
 import  { Router } from 'express';
 import { check } from 'express-validator';
-import { busquedaMadres, deleteMadre, getMadre, getMadres, getMadresTodos, madrePorPersona, postMadre, putMadre, searchDNI } from '../controllers/madre';
+import { busquedaMadres, deleteMadre, getMadre, getMadreDNI, getMadres, getMadresTodos, 
+    madrePorPersona, postMadre, putMadre, searchDNI } from '../controllers/madre';
 import { validarCampos } from '../middlewares/validar-campos';
 import { validarJWT } from '../middlewares/validar-jwt';
 
@@ -20,6 +21,7 @@ router.post('/',[
     validarJWT,
     check('personaId','El id de la persona es obligatorio').not().isEmpty(),
     check('nombreusuario','El nombre usuario es obligatorio').not().isEmpty(),
+    check('dniusuario','El dni usuario es obligatorio').not().isEmpty(),
     validarCampos
 ],postMadre);
 router.put('/:id',[
@@ -28,5 +30,8 @@ router.put('/:id',[
     validarCampos
 ],putMadre);
 router.delete('/:id',validarJWT,deleteMadre);
+
+router.get('/consultadni/:dni', validarJWT, getMadreDNI);
+
 
 export default router;

@@ -28,6 +28,7 @@ router.post('/',[
     validarJWT,
     check('personaId','El id de la persona es obligatorio').not().isEmpty(),
     check('nombreusuario','El nombre es obligatorio').not().isEmpty(),
+    check('dniusuario','El dni usuario es obligatorio').not().isEmpty(),
     validarCampos
 ],postDocente);
 router.put('/:id',[

@@ -197,7 +197,7 @@ const postDocente = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             nombre: arr[0],
             numero: numeroUsuario,
             email: arr[0] + '' + numeroUsuario + '@mail.com',
-            password: bcryptjs_1.default.hashSync('123456', salt),
+            password: bcryptjs_1.default.hashSync(body.dniusuario, salt),
             roleId: roles[1].id,
             personaId: body.personaId
         });

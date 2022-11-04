@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.obtenerUsuarioEmail = exports.busquedaUsuariosPorRol = exports.habilitarDesabilitarUsuario = exports.emailRepetido = exports.busquedaUsuarios = exports.deleteUsuario = exports.actualizarPassword = exports.putUsuario = exports.postUsuario = exports.getUsuarioAreas = exports.getUsuario = exports.getUsuarios = exports.getUsuariosPorRol = exports.getUsuariosTodos = void 0;
+exports.obtenerUsuarioEmail = exports.busquedaUsuariosPorRol = exports.habilitarDesabilitarUsuario = exports.emailRepetido = exports.busquedaUsuarios = exports.deleteUsuario = exports.actualizarPassword = exports.putUsuario = exports.postUsuario = exports.getUsuarioAreas = exports.getUsuario = exports.getUsuarios = exports.getUsuariosPorRol = exports.getUsuariosLimitado = exports.getUsuariosTodos = void 0;
 const sequelize_1 = require("sequelize");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const usuario_1 = __importDefault(require("../models/usuario"));
@@ -23,7 +23,14 @@ const getUsuariosTodos = (req, res) => __awaiter(void 0, void 0, void 0, functio
     try {
         const usuarios = yield usuario_1.default.findAll({
             attributes: ['id', 'email'],
-            where: { estado: true }
+            where: { estado: true },
+            include: [
+                {
+                    model: persona_1.default,
+                    as: 'persona',
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'img']
+                }
+            ]
         });
         res.json({
             ok: true,
@@ -39,6 +46,45 @@ const getUsuariosTodos = (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.getUsuariosTodos = getUsuariosTodos;
+const getUsuariosLimitado = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const usuarios = yield usuario_1.default.findAll({
+            attributes: ['id', 'email'],
+            where: {
+                estado: true,
+                [sequelize_1.Op.or]: [
+                    { '$role.nombre$': 'ADMINISTRADOR' },
+                    { '$role.nombre$': 'DOCENTE' },
+                    { '$role.nombre$': 'AUXILIAR' },
+                ],
+            },
+            include: [
+                {
+                    model: persona_1.default,
+                    as: 'persona',
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'img']
+                },
+                {
+                    model: role_1.default,
+                    as: 'role',
+                    attributes: ['id', 'nombre']
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            usuarios
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador',
+            error
+        });
+    }
+});
+exports.getUsuariosLimitado = getUsuariosLimitado;
 const getUsuariosPorRol = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const desde = Number(req.query.desde) || 0;
     const { rolId } = req.params;

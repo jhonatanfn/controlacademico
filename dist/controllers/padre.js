@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.padrePorPersona = exports.searchDNI = exports.busquedaPadres = exports.deletePadre = exports.putPadre = exports.postPadre = exports.getPadre = exports.getPadresTodos = exports.getPadres = void 0;
+exports.getPadreDNI = exports.padrePorPersona = exports.searchDNI = exports.busquedaPadres = exports.deletePadre = exports.putPadre = exports.postPadre = exports.getPadre = exports.getPadresTodos = exports.getPadres = void 0;
 const sequelize_1 = require("sequelize");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const padre_1 = __importDefault(require("../models/padre"));
@@ -152,17 +152,19 @@ const postPadre = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         let arr = body.nombreusuario.split(' ');
         let numeroUsuario = maxValor + 1;
         const padre = padre_1.default.build({
-            personaId: body.personaId
+            personaId: body.personaId,
         });
         yield padre.save();
-        yield usuario_1.default.create({
-            nombre: arr[0],
-            numero: numeroUsuario,
-            email: arr[0] + '' + numeroUsuario + '@mail.com',
-            password: bcryptjs_1.default.hashSync('123456', salt),
-            roleId: roles[2].id,
-            personaId: body.personaId
-        });
+        if (body.vive) {
+            yield usuario_1.default.create({
+                nombre: arr[0],
+                numero: numeroUsuario,
+                email: arr[0] + '' + numeroUsuario + '@mail.com',
+                password: bcryptjs_1.default.hashSync(body.dniusuario, salt),
+                roleId: roles[2].id,
+                personaId: body.personaId
+            });
+        }
         res.json({
             ok: true,
             msg: 'Padre creado exitosamente.',
@@ -386,4 +388,40 @@ const padrePorPersona = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.padrePorPersona = padrePorPersona;
+const getPadreDNI = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { dni } = req.params;
+    try {
+        const padre = yield padre_1.default.findOne({
+            where: {
+                estado: true,
+                '$persona.dni$': dni
+            },
+            attributes: ['id', 'vive'],
+            include: [
+                {
+                    model: persona_1.default,
+                    as: 'persona',
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                    include: [{
+                            model: tipodocumento_1.default,
+                            as: 'tipodocumento',
+                            attributes: ['id', 'nombre']
+                        }]
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            padre
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+});
+exports.getPadreDNI = getPadreDNI;
 //# sourceMappingURL=padre.js.map

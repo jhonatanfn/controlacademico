@@ -10,7 +10,52 @@ export const getUsuariosTodos = async (req: any, res: Response) => {
     try {
         const usuarios = await Usuario.findAll({
             attributes: ['id', 'email'],
-            where: { estado: true }
+            where: { estado: true },
+            include:[
+                {
+                    model: Persona,
+                    as: 'persona',
+                    attributes:['id','dni','nombres','apellidopaterno','apellidomaterno','img']
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            usuarios
+        });
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador',
+            error
+        });
+    }
+}
+
+export const getUsuariosLimitado = async (req: any, res: Response) => {
+    try {
+        const usuarios = await Usuario.findAll({
+            attributes: ['id', 'email'],
+            where: { 
+                estado: true,
+                [Op.or]: [
+                    { '$role.nombre$': 'ADMINISTRADOR' }, 
+                    { '$role.nombre$': 'DOCENTE' },
+                    { '$role.nombre$': 'AUXILIAR' },
+                ],    
+            },
+            include:[
+                {
+                    model: Persona,
+                    as: 'persona',
+                    attributes:['id','dni','nombres','apellidopaterno','apellidomaterno','img']
+                },
+                {
+                    model: Role,
+                    as: 'role',
+                    attributes:['id','nombre']
+                }
+            ]
         });
         res.json({
             ok: true,

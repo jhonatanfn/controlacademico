@@ -29,8 +29,6 @@ router.get('/madre/:madreId',validarJWT,getAlumnosMadre);
 router.post('/',[
     validarJWT,
     check('personaId','El id de la persona es obligatorio').not().isEmpty(),
-    check('padreId','El id del padre es obligatorio').not().isEmpty(),
-    check('madreId','El id de la madre es obligatorio').not().isEmpty(),
     check('nombreusuario','El nombre usuario es obligatorio').not().isEmpty(),
     check('vivecon','El vive con es obligatorio').not().isEmpty(),
     check('tienediscapacidad','El tienediscapacidad es obligatorio').not().isEmpty(),
@@ -41,8 +39,6 @@ router.post('/',[
 router.put('/:id',[
     validarJWT,
     check('personaId','El id de la persona es obligatorio').not().isEmpty(),
-    check('padreId','El id del padre es obligatorio').not().isEmpty(),
-    check('madreId','El id de la madre es obligatorio').not().isEmpty(),
     check('vivecon','El vive con es obligatorio').not().isEmpty(),
     check('tienediscapacidad','El tienediscapacidad es obligatorio').not().isEmpty(),
     check('certificadiscapacidad','El certificadodiscapacidad usuario es obligatorio').not().isEmpty(),

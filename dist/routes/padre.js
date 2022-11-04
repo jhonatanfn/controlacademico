@@ -19,6 +19,7 @@ router.post('/', [
     validar_jwt_1.validarJWT,
     (0, express_validator_1.check)('personaId', 'El id de la persona es obligatorio').not().isEmpty(),
     (0, express_validator_1.check)('nombreusuario', 'El nombre usuario es obligatorio').not().isEmpty(),
+    (0, express_validator_1.check)('dniusuario', 'El dni usuario es obligatorio').not().isEmpty(),
     validar_campos_1.validarCampos
 ], padre_1.postPadre);
 router.put('/:id', [
@@ -27,5 +28,6 @@ router.put('/:id', [
     validar_campos_1.validarCampos
 ], padre_1.putPadre);
 router.delete('/:id', validar_jwt_1.validarJWT, padre_1.deletePadre);
+router.get('/consultadni/:dni', validar_jwt_1.validarJWT, padre_1.getPadreDNI);
 exports.default = router;
 //# sourceMappingURL=padre.js.map

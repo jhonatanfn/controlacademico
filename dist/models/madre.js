@@ -8,6 +8,14 @@ const connection_1 = __importDefault(require("../db/connection"));
 class Madre extends sequelize_1.Model {
 }
 Madre.init({
+    vive: {
+        type: sequelize_1.DataTypes.BOOLEAN,
+        defaultValue: true
+    },
+    valor: {
+        type: sequelize_1.DataTypes.STRING,
+        defaultValue: 'm'
+    },
     estado: {
         type: sequelize_1.DataTypes.BOOLEAN,
         defaultValue: true

@@ -21,6 +21,8 @@ router.post('/noleidoemisor/marcarnoleido/:id', validar_jwt_1.validarJWT, mensaj
 router.post('/noleidoreceptor/marcarnoleido/:id', validar_jwt_1.validarJWT, mensajeria_1.noleidoMensajeriaReceptor);
 router.get('/emisor/restauraremisor/paraemisor/:id', validar_jwt_1.validarJWT, mensajeria_1.restaurarEmisor);
 router.get('/receptor/restaurarreceptor/parareceptor/:id', validar_jwt_1.validarJWT, mensajeria_1.restaurarReceptor);
+router.get('/receptor/nuevos/:email', validar_jwt_1.validarJWT, mensajeria_1.existenMensajesNuevos);
+router.get('/receptor/actualizar/nuevos/:email', validar_jwt_1.validarJWT, mensajeria_1.actualizarMensajesNuevos);
 router.post('/recibidos', [
     validar_jwt_1.validarJWT,
     (0, express_validator_1.check)('email', 'El receptor es obligatorio').not().isEmpty(),

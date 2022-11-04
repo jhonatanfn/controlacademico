@@ -8,6 +8,14 @@ const connection_1 = __importDefault(require("../db/connection"));
 class Padre extends sequelize_1.Model {
 }
 Padre.init({
+    vive: {
+        type: sequelize_1.DataTypes.BOOLEAN,
+        defaultValue: true
+    },
+    valor: {
+        type: sequelize_1.DataTypes.STRING,
+        defaultValue: 'p'
+    },
     estado: {
         type: sequelize_1.DataTypes.BOOLEAN,
         defaultValue: true

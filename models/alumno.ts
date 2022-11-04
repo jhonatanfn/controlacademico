@@ -1,33 +1,39 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../db/connection';
 
-class Alumno extends Model{}
+class Alumno extends Model { }
 Alumno.init({
-    vivecon:{
+    vivecon: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    tienediscapacidad:{
+    tienediscapacidad: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    cualdiscapacidad:{
+    cualdiscapacidad: {
         type: DataTypes.STRING
     },
-    certificadiscapacidad:{
+    certificadiscapacidad: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    observacion:{
+    inicialprocede: {
+        type: DataTypes.STRING,
+    },
+    colegioprocede: {
+        type: DataTypes.STRING,
+    },
+    observacion: {
         type: DataTypes.STRING
     },
-    estado:{
+    estado: {
         type: DataTypes.BOOLEAN,
         defaultValue: true
     },
-},{
+}, {
     sequelize,
-    modelName:'alumno',
+    modelName: 'alumno',
     timestamps: true,
 });
 

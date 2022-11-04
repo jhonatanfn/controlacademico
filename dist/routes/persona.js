@@ -32,5 +32,6 @@ router.put('/:id', [
     validar_campos_1.validarCampos
 ], persona_1.putPersona);
 router.delete('/:id', validar_jwt_1.validarJWT, persona_1.deletePersona);
+router.get('/consultadni/:dni', validar_jwt_1.validarJWT, persona_1.getPersonaDNI);
 exports.default = router;
 //# sourceMappingURL=persona.js.map

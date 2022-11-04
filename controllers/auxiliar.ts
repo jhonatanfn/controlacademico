@@ -185,7 +185,7 @@ export const postAuxiliar = async (req: Request, res: Response) => {
             nombre: arr[0],
             numero: numeroUsuario,
             email: arr[0] + '' + numeroUsuario + '@mail.com',
-            password: bcrypt.hashSync('123456', salt),
+            password: bcrypt.hashSync(body.dniusuario, salt),
             roleId: roles[4].id,
             personaId: body.personaId
         });

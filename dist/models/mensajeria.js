@@ -59,6 +59,10 @@ Mensajeria.init({
     archivo: {
         type: sequelize_1.DataTypes.STRING,
     },
+    nuevo: {
+        type: sequelize_1.DataTypes.BOOLEAN,
+        defaultValue: true,
+    },
     estado: {
         type: sequelize_1.DataTypes.BOOLEAN,
         defaultValue: true

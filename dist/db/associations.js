@@ -26,12 +26,14 @@ const situacion_1 = __importDefault(require("../models/situacion"));
 const hora_1 = __importDefault(require("../models/hora"));
 const horario_1 = __importDefault(require("../models/horario"));
 const competencia_1 = __importDefault(require("../models/competencia"));
-const padre_1 = __importDefault(require("../models/padre"));
-const madre_1 = __importDefault(require("../models/madre"));
 const matriculadetalle_1 = __importDefault(require("../models/matriculadetalle"));
 const auxiliar_1 = __importDefault(require("../models/auxiliar"));
 const director_1 = __importDefault(require("../models/director"));
 const apreciacion_1 = __importDefault(require("../models/apreciacion"));
+const responsable_1 = __importDefault(require("../models/responsable"));
+const padre_1 = __importDefault(require("../models/padre"));
+const madre_1 = __importDefault(require("../models/madre"));
+const apreciaciondetalle_1 = __importDefault(require("../models/apreciaciondetalle"));
 role_1.default.hasMany(usuario_1.default, {
     as: 'usuario',
 });
@@ -68,30 +70,18 @@ persona_1.default.hasMany(usuario_1.default, {
 usuario_1.default.belongsTo(persona_1.default, {
     as: 'persona'
 });
-persona_1.default.hasOne(padre_1.default, {
-    as: 'padre'
-});
-padre_1.default.belongsTo(persona_1.default, {
-    as: 'persona'
-});
-persona_1.default.hasOne(madre_1.default, {
-    as: 'madre'
-});
-madre_1.default.belongsTo(persona_1.default, {
-    as: 'persona'
-});
-padre_1.default.hasMany(alumno_1.default, {
-    as: 'alumno'
-});
-alumno_1.default.belongsTo(padre_1.default, {
-    as: 'padre'
-});
-madre_1.default.hasMany(alumno_1.default, {
-    as: 'alumno'
-});
-alumno_1.default.belongsTo(madre_1.default, {
-    as: 'madre'
-});
+padre_1.default.hasMany(alumno_1.default, { as: 'alumno' });
+alumno_1.default.belongsTo(padre_1.default, { as: 'padre' });
+madre_1.default.hasMany(alumno_1.default, { as: 'alumno' });
+alumno_1.default.belongsTo(madre_1.default, { as: 'madre' });
+responsable_1.default.hasMany(alumno_1.default, { as: 'alumno' });
+alumno_1.default.belongsTo(responsable_1.default, { as: 'responsable' });
+persona_1.default.hasOne(padre_1.default, { as: 'padre' });
+padre_1.default.belongsTo(persona_1.default, { as: 'persona' });
+persona_1.default.hasOne(madre_1.default, { as: 'madre' });
+madre_1.default.belongsTo(persona_1.default, { as: 'persona' });
+persona_1.default.hasOne(responsable_1.default, { as: 'responsable' });
+responsable_1.default.belongsTo(persona_1.default, { as: 'persona' });
 nivel_1.default.hasMany(aula_1.default, {
     as: 'aula'
 });
@@ -229,5 +219,11 @@ alumno_1.default.hasMany(apreciacion_1.default, {
 });
 apreciacion_1.default.belongsTo(alumno_1.default, {
     as: 'alumno'
+});
+apreciacion_1.default.hasMany(apreciaciondetalle_1.default, {
+    as: 'apreciaciondetalle'
+});
+apreciaciondetalle_1.default.belongsTo(apreciacion_1.default, {
+    as: 'apreciacion'
 });
 //# sourceMappingURL=associations.js.map

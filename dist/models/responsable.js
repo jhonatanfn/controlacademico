@@ -8,21 +8,10 @@ const connection_1 = __importDefault(require("../db/connection"));
 class Responsable extends sequelize_1.Model {
 }
 Responsable.init({
-    vive: {
-        type: sequelize_1.DataTypes.BOOLEAN,
-        defaultValue: 1
-    },
-    correo: {
-        type: sequelize_1.DataTypes.STRING
-    },
-    tipo: {
-        type: sequelize_1.DataTypes.INTEGER,
-        allowNull: false
-    },
     estado: {
         type: sequelize_1.DataTypes.BOOLEAN,
         defaultValue: true
-    },
+    }
 }, {
     sequelize: connection_1.default,
     modelName: 'responsable',

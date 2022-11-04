@@ -3,7 +3,6 @@ import { Op } from 'sequelize';
 import bcrypt from 'bcryptjs';
 import Madre from '../models/madre';
 import Persona from '../models/persona';
-import Matricula from "../models/matricula";
 import Role from "../models/role";
 import Usuario from "../models/usuario";
 import Tipodocumento from "../models/tipodocumento";
@@ -140,17 +139,19 @@ export const postMadre = async (req: Request, res: Response) => {
         let arr = body.nombreusuario.split(' ');
         let numeroUsuario = maxValor + 1;
         const madre = Madre.build({
-            personaId: body.personaId
+            personaId: body.personaId,
         });
         await madre.save();
-        await Usuario.create({
-            nombre: arr[0],
-            numero: numeroUsuario,
-            email: arr[0] + '' + numeroUsuario + '@mail.com',
-            password: bcrypt.hashSync('123456', salt),
-            roleId: roles[3].id,
-            personaId: body.personaId
-        });
+        if(body.vive){
+            await Usuario.create({
+                nombre: arr[0],
+                numero: numeroUsuario,
+                email: arr[0] + '' + numeroUsuario + '@mail.com',
+                password: bcrypt.hashSync(body.dniusuario, salt),
+                roleId: roles[3].id,
+                personaId: body.personaId
+            });
+        }
         res.json({
             ok: true,
             msg: 'Madre creada exitosamente.',
@@ -371,5 +372,41 @@ export const madrePorPersona = async (req: Request, res: Response) => {
     }
 }
 
+export const getMadreDNI = async (req: Request, res: Response) => {
+    const { dni } = req.params;
+
+    try {
+        const madre = await Madre.findOne({
+            where: {
+                estado: true,
+                '$persona.dni$': dni
+            },
+            attributes: ['id', 'vive'],
+            include: [
+                {
+                    model: Persona,
+                    as: 'persona',
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                    include: [{
+                        model: Tipodocumento,
+                        as: 'tipodocumento',
+                        attributes: ['id', 'nombre']
+                    }]
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            madre
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
 
 

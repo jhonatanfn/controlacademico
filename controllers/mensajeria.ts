@@ -590,3 +590,60 @@ export const busquedaMensajeriasEliminados = async (req: Request, res: Response)
         });
     }
 }
+
+export const existenMensajesNuevos = async (req: Request, res: Response) => {
+    const { email } = req.params;
+    try {
+        const total = (await Mensajeria.findAll({
+            where: {
+                estado: true,
+                receptor: email,
+                nuevo: true
+            }
+        })).length;
+        res.json({
+            ok: true,
+            total
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}
+
+export const actualizarMensajesNuevos = async (req: Request, res: Response) => {
+   
+    const { email } = req.params;
+    try {
+        const mensajerias = await Mensajeria.findAll({
+            where: {
+                estado: true,
+                receptor: email,
+                nuevo: true
+            },
+        });
+        if(mensajerias.length>0){
+            mensajerias.forEach(mensajeria=>{
+                mensajeria?.update({
+                    nuevo: false
+                });
+            });
+            return res.json({
+                ok: true,
+                msg: "Mensajes actualizados con exito"
+            });
+        }
+        res.json({
+            ok: true,
+            msg: "No hay mensajes nuevos"
+        });
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}

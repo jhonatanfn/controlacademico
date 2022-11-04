@@ -19,6 +19,7 @@ router.post('/', [
     validar_jwt_1.validarJWT,
     (0, express_validator_1.check)('personaId', 'El id de la persona es obligatorio').not().isEmpty(),
     (0, express_validator_1.check)('nombreusuario', 'El nombre es obligatorio').not().isEmpty(),
+    (0, express_validator_1.check)('dniusuario', 'El dni usuario es obligatorio').not().isEmpty(),
     validar_campos_1.validarCampos
 ], auxiliar_1.postAuxiliar);
 router.put('/:id', [

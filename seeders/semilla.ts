@@ -1,4 +1,3 @@
-
 import bcrypt from 'bcryptjs';
 import Area from '../models/area';
 import Persona from '../models/persona';
@@ -16,7 +15,6 @@ import Periodo from '../models/periodo';
 import Evaluacion from '../models/evaluacion';
 import Ciclo from '../models/ciclo';
 import Matricula from '../models/matricula';
-import Material from '../models/material';
 import * as seed_local from './seed_local';
 import * as seed_heroku from './seed_heroku';
 import Situacion from '../models/situacion';
@@ -26,7 +24,7 @@ import Rango from '../models/rango';
 import Mensajeria from '../models/mensajeria';
 import Director from '../models/director';
 import Competencia from '../models/competencia';
-import Responsable from '../models/padre';
+import Responsable from '../models/responsable';
 import Padre from '../models/padre';
 import Madre from '../models/madre';
 import Matriculadetalle from '../models/matriculadetalle';
@@ -34,7 +32,7 @@ import Auxiliar from '../models/auxiliar';
 
 export const dbSeed = () => {
 
-    const llave: boolean = true;
+    const llave: boolean = false;
     const salt: any = bcrypt.genSaltSync();
 
     if (llave) {
@@ -97,6 +95,9 @@ export const dbSeed = () => {
         seed_local.madres.forEach(madre => {
             Madre.create(madre);
         });
+        seed_local.responsables.forEach(reponsable => {
+            Responsable.create(reponsable);
+        });
         seed_local.alumnos.forEach(alumno => {
             Alumno.create(alumno);
         });
@@ -118,13 +119,9 @@ export const dbSeed = () => {
         seed_local.matriculadetalles.forEach(matriculadetalle => {
             Matriculadetalle.create(matriculadetalle);
         });
-        seed_local.materiales.forEach(material => {
-            Material.create(material);
-        });
         seed_local.mensajerias.forEach(mensajeria => {
             Mensajeria.create(mensajeria);
         });
-
     } else {
         seed_heroku.instituciones.forEach(institucion => {
             Institucion.create(institucion);
@@ -184,6 +181,9 @@ export const dbSeed = () => {
         seed_heroku.madres.forEach(madre => {
             Madre.create(madre);
         });
+        seed_heroku.responsables.forEach(reponsable => {
+            Responsable.create(reponsable);
+        });
         seed_heroku.alumnos.forEach(alumno => {
             Alumno.create(alumno);
         });
@@ -205,14 +205,10 @@ export const dbSeed = () => {
         seed_heroku.matriculadetalles.forEach(matriculadetalle => {
             Matriculadetalle.create(matriculadetalle);
         });
-        seed_heroku.materiales.forEach(material => {
-            Material.create(material);
-        });
         seed_heroku.mensajerias.forEach(mensajeria => {
             Mensajeria.create(mensajeria);
         });
     }
-
 }
 
 

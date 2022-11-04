@@ -11,7 +11,7 @@ export const getTodo = async (req: Request, res: Response) => {
             where: {
                 estado: true
             },
-            attributes: ['id', 'nombre', 'descripcion', 'responsabilidad', 'estado'],
+            attributes: ['id'],
             include: [
                 {
                     model: Periodo,
@@ -63,7 +63,7 @@ export const getApreciaciones = async (req: Request, res: Response) => {
             ],
             limit: 5,
             offset: desde,
-            attributes: ['id', 'nombre', 'descripcion', 'responsabilidad', 'estado'],
+            attributes: ['id'],
             include: [
                 {
                     model: Periodo,
@@ -214,11 +214,39 @@ export const busquedaApreciaciones = async (req: Request, res: Response) => {
     try {
         const data = await Apreciacion.findAll({
             where: {
-                nombre: {
-                    [Op.like]: `%${valor}%`
-                },
-                estado: true
-            }
+                estado: true,
+                [Op.or]: [
+                    {
+                        '$alumno.persona.nombres$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$alumno.persona.apellidopaterno$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    },
+                    {
+                        '$alumno.persona.apellidomaterno$': {
+                            [Op.like]: `%${valor}%`
+                        }
+                    }
+                ],
+            },
+            include: [
+                {
+                    model: Alumno,
+                    as: 'alumno',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: Persona,
+                            as: 'persona',
+                            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'img'],
+                        }
+                    ]
+                }
+            ]
         });
         res.json({
             ok: true,
@@ -243,7 +271,7 @@ export const getApreciacionesPeriodoAlumno = async (req: Request, res: Response)
                 periodoId: periodoId,
                 alumnoId: alumnoId
             },
-            attributes: ['id', 'nombre', 'descripcion', 'responsabilidad', 'estado'],
+            attributes: ['id'],
         });
         res.json({
             ok: true,

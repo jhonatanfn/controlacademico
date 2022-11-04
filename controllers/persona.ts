@@ -161,3 +161,30 @@ export const deletePersona = async (req: Request, res: Response) => {
         });
     }
 }
+export const getPersonaDNI = async (req: Request, res: Response) => {
+    const { dni } = req.params;
+    try {
+        const persona = await Persona.findOne({
+            where: {
+                estado: true,
+                dni: dni
+            },
+            attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+            include: {
+                model: Tipodocumento,
+                as: 'tipodocumento',
+                attributes: ['id', 'nombre']
+            },
+        });
+        res.json({
+            ok: true,
+            persona
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Se produjo un error. Hable con el administrador'
+        });
+    }
+}

@@ -16,14 +16,14 @@ router.get('/busqueda/:valor', validar_jwt_1.validarJWT, apreciacion_1.busquedaA
 router.get('/alumno/:periodoId/:alumnoId', validar_jwt_1.validarJWT, apreciacion_1.getApreciacionesPeriodoAlumno);
 router.post('/', [
     validar_jwt_1.validarJWT,
-    (0, express_validator_1.check)('nombre', 'El nombre es obligatorio').not().isEmpty(),
-    (0, express_validator_1.check)('descripcion', 'La descripcion es obligatorio').not().isEmpty(),
+    (0, express_validator_1.check)('periodoId', 'El periodo es obligatorio').not().isEmpty(),
+    (0, express_validator_1.check)('alumnoId', 'El alumno es obligatorio').not().isEmpty(),
     validar_campos_1.validarCampos
 ], apreciacion_1.postApreciacion);
 router.put('/:id', [
     validar_jwt_1.validarJWT,
-    (0, express_validator_1.check)('nombre', 'El nombre es obligatorio').not().isEmpty(),
-    (0, express_validator_1.check)('descripcion', 'La descripcion es obligatorio').not().isEmpty(),
+    (0, express_validator_1.check)('periodoId', 'El periodo es obligatorio').not().isEmpty(),
+    (0, express_validator_1.check)('alumnoId', 'El alumno es obligatorio').not().isEmpty(),
     validar_campos_1.validarCampos
 ], apreciacion_1.putApreciacion);
 router.delete('/:id', validar_jwt_1.validarJWT, apreciacion_1.deleteApreciacion);

@@ -4,7 +4,7 @@
 
 import { Router } from 'express';
 import { check } from 'express-validator';
-import { deletePersona, getPersona, getPersonas, postPersona, putPersona } from '../controllers/persona';
+import { deletePersona, getPersona, getPersonaDNI, getPersonas, postPersona, putPersona } from '../controllers/persona';
 import { validarCampos } from '../middlewares/validar-campos';
 import { validarJWT } from '../middlewares/validar-jwt';
 
@@ -37,5 +37,7 @@ router.put('/:id', [
 ], putPersona);
 
 router.delete('/:id', validarJWT, deletePersona);
+
+router.get('/consultadni/:dni', validarJWT, getPersonaDNI);
 
 export default router;

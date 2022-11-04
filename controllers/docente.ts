@@ -186,7 +186,7 @@ export const postDocente = async (req: Request, res: Response) => {
             nombre: arr[0],
             numero: numeroUsuario,
             email: arr[0] + '' + numeroUsuario + '@mail.com',
-            password: bcrypt.hashSync('123456', salt),
+            password: bcrypt.hashSync(body.dniusuario, salt),
             roleId: roles[1].id,
             personaId: body.personaId
         });

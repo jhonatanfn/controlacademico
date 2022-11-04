@@ -25,8 +25,6 @@ router.get('/madre/:madreId', validar_jwt_1.validarJWT, alumno_1.getAlumnosMadre
 router.post('/', [
     validar_jwt_1.validarJWT,
     (0, express_validator_1.check)('personaId', 'El id de la persona es obligatorio').not().isEmpty(),
-    (0, express_validator_1.check)('padreId', 'El id del padre es obligatorio').not().isEmpty(),
-    (0, express_validator_1.check)('madreId', 'El id de la madre es obligatorio').not().isEmpty(),
     (0, express_validator_1.check)('nombreusuario', 'El nombre usuario es obligatorio').not().isEmpty(),
     (0, express_validator_1.check)('vivecon', 'El vive con es obligatorio').not().isEmpty(),
     (0, express_validator_1.check)('tienediscapacidad', 'El tienediscapacidad es obligatorio').not().isEmpty(),
@@ -36,8 +34,6 @@ router.post('/', [
 router.put('/:id', [
     validar_jwt_1.validarJWT,
     (0, express_validator_1.check)('personaId', 'El id de la persona es obligatorio').not().isEmpty(),
-    (0, express_validator_1.check)('padreId', 'El id del padre es obligatorio').not().isEmpty(),
-    (0, express_validator_1.check)('madreId', 'El id de la madre es obligatorio').not().isEmpty(),
     (0, express_validator_1.check)('vivecon', 'El vive con es obligatorio').not().isEmpty(),
     (0, express_validator_1.check)('tienediscapacidad', 'El tienediscapacidad es obligatorio').not().isEmpty(),
     (0, express_validator_1.check)('certificadiscapacidad', 'El certificadodiscapacidad usuario es obligatorio').not().isEmpty(),
