@@ -6,6 +6,7 @@ const db= new Sequelize(
     process.env.USUARIO || environment.USUARIO,
     process.env.PASSWORD || environment.PASSWORD,{
             host: process.env.HOST || environment.HOST,
+            port: Number(process.env.DB_PORT) || environment.DB_PORT,
             dialect:'mysql',
             pool: {
                 max: 10,
