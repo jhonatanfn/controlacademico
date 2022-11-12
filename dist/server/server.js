@@ -57,7 +57,7 @@ const responsable_1 = __importDefault(require("../routes/responsable"));
 const apreciaciondetalle_1 = __importDefault(require("../routes/apreciaciondetalle"));
 class Server {
     constructor() {
-        this.llave = true;
+        this.llave = false;
         this.apiPaths = {
             usuarios: '/api/usuarios',
             auth: '/api/auth',
