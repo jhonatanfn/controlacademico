@@ -115,16 +115,14 @@ export const ciclos = [
     { id: 34, nombre: 'B4' }
 ];
 export const horas = [
-    { id: 1, nombre: "1°", inicio: "8:00 am", fin: "8:45 am", tipo: 1 },
-    { id: 2, nombre: "2°", inicio: "8:45 am", fin: "9:30 am", tipo: 1 },
-    { id: 3, nombre: "3°", inicio: "9:30 am", fin: "10:15 am", tipo: 1 },
-    { id: 4, nombre: "4°", inicio: "10:15 am", fin: "10:45 am", tipo: 0 },
-    { id: 5, nombre: "5°", inicio: "10:45 am", fin: "11:30 am", tipo: 1 },
-    { id: 6, nombre: "6°", inicio: "11:30 am", fin: "12:15 pm", tipo: 1 },
-    { id: 7, nombre: "7°", inicio: "12:15 pm", fin: "1:00 pm", tipo: 1 },
-    { id: 8, nombre: "8°", inicio: "1:00 pm", fin: "1:30 pm", tipo: 0 },
-    { id: 9, nombre: "9°", inicio: "1:30 pm", fin: "2:15 pm", tipo: 1 },
-    { id: 10, nombre: "10°", inicio: "2:15 pm", fin: "3:00 pm", tipo: 1 },
+    { id: 1, nombre: "1°", inicio: "1:00 pm", fin: "1:45 pm", tipo: 1 },
+    { id: 2, nombre: "2°", inicio: "1:45 pm", fin: "2:30 pm", tipo: 1 },
+    { id: 3, nombre: "3°", inicio: "2:30 pm", fin: "3:15 pm", tipo: 1 },
+    { id: 4, nombre: "4°", inicio: "3:15 pm", fin: "4:00 pm", tipo: 1 },
+    { id: 5, nombre: "RECREO", inicio: "4:00 pm", fin: "4:20 pm", tipo: 0 },
+    { id: 6, nombre: "5°", inicio: "4:20 pm", fin: "5:05 pm", tipo: 1 },
+    { id: 7, nombre: "6°", inicio: "5:05 pm", fin: "5:50 pm", tipo: 1 },
+    { id: 8, nombre: "7°", inicio: "5:50 pm", fin: "6:30 pm", tipo: 1 }
 ];
 
 export const rangos = [
