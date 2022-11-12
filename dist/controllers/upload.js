@@ -27,9 +27,9 @@ const institucion_1 = __importDefault(require("../models/institucion"));
 const parser = new parser_1.default();
 var cloudinary = require('cloudinary').v2;
 cloudinary.config({
-    cloud_name: environments_1.environment.CLOUDINARY_CLOUD_NAME,
-    api_key: environments_1.environment.CLOUDINARY_API_KEY,
-    api_secret: environments_1.environment.CLOUDINARY_API_SECRET
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME || environments_1.environment.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY || environments_1.environment.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET || environments_1.environment.CLOUDINARY_API_SECRET
 });
 const fileUpload = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;

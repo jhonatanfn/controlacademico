@@ -19,6 +19,7 @@ export const environment = {
   PASSWORD: 'bf5e0fb2',
   
   PORT: '8000',
+  
   JWT_SECRET: '@#FLORESHAAAXXX54266525',
   CLOUDINARY_URL: 'cloudinary://229177161422146:50CFAia_nxawmNLcdUH7uIACHEU@archivos',
   CLOUDINARY_CLOUD_NAME: 'archivos',

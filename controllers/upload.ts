@@ -14,9 +14,9 @@ import Institucion from '../models/institucion';
 const parser = new DatauriParser();
 var cloudinary = require('cloudinary').v2;
 cloudinary.config({ 
-    cloud_name: environment.CLOUDINARY_CLOUD_NAME, 
-    api_key: environment.CLOUDINARY_API_KEY,
-    api_secret: environment.CLOUDINARY_API_SECRET
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME || environment.CLOUDINARY_CLOUD_NAME, 
+    api_key: process.env.CLOUDINARY_API_KEY || environment.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET || environment.CLOUDINARY_API_SECRET
 });
 
 
