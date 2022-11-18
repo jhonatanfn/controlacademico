@@ -55,7 +55,7 @@ const madre_1 = __importDefault(require("../models/madre"));
 const matriculadetalle_1 = __importDefault(require("../models/matriculadetalle"));
 const auxiliar_1 = __importDefault(require("../models/auxiliar"));
 const dbSeed = () => {
-    const llave = true;
+    const llave = false;
     const salt = bcryptjs_1.default.genSaltSync();
     if (llave) {
         seed_local.instituciones.forEach(institucion => {
