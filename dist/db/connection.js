@@ -7,7 +7,7 @@ const db = new sequelize_1.Sequelize(process.env.BASE_DATOS || environments_1.en
     port: Number(process.env.DB_PORT) || environments_1.environment.DB_PORT,
     dialect: 'mysql',
     pool: {
-        max: 10,
+        max: 5,
         min: 0,
         acquire: 60000,
         idle: 10000

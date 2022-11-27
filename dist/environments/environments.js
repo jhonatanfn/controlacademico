@@ -14,11 +14,17 @@ exports.environment = {
       USUARIO: 'bae8a3a2fca2e7',
       PASSWORD: '00e80c7d',
     */
-    /** HEROKU VICTOR RAUL SULLANA  */
+    /** HEROKU VICTOR RAUL SULLANA
     HOST: 'us-cdbr-east-06.cleardb.net',
     BASE_DATOS: 'heroku_75dbd138d47aecb',
     USUARIO: 'ba30a4de6ccac4',
     PASSWORD: 'bf5e0fb2',
+    */
+    /**CLEVERCLOUD */
+    HOST: 'bwz9w5r5qvtblhvj3fvj-mysql.services.clever-cloud.com',
+    BASE_DATOS: 'bwz9w5r5qvtblhvj3fvj',
+    USUARIO: 'u354a4jbczsjnjxd',
+    PASSWORD: 'QaJkMVf9yXyHGkBpeipw',
     PORT: '8000',
     DB_PORT: 3306,
     JWT_SECRET: '@#FLORESHAAAXXX54266525',
