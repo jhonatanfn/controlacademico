@@ -1,4 +1,4 @@
 # repositorio frontend
-# controlacademico_frontend
+  controlacademico_frontend
 # repositorio backend
-# controlacademico
+  controlacademico
