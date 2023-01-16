@@ -47,5 +47,6 @@ router.put('/:id', [
 ], nota_1.putNota);
 router.delete('/:id', validar_jwt_1.validarJWT, nota_1.deleteNota);
 router.put('/cambiarestado/:id', validar_jwt_1.validarJWT, nota_1.cambiarEstadoNota);
+router.get('/existenotas/:matriculaId', validar_jwt_1.validarJWT, nota_1.existeNotasMatricula);
 exports.default = router;
 //# sourceMappingURL=nota.js.map

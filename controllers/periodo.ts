@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Periodo from "../models/periodo";
 import { Op } from 'sequelize';
 import Programacion from "../models/programacion";
+import { handleHttpError } from "../utils/handleError";
 
 export const getTodo = async (req: Request, res: Response) => {
 
@@ -15,11 +16,7 @@ export const getTodo = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -36,11 +33,7 @@ export const getPeriodos = async (req: Request, res: Response) => {
             periodos
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -63,11 +56,7 @@ export const getPeriodo = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -96,11 +85,7 @@ export const getPeriodoNombre = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -115,11 +100,7 @@ export const postPeriodo = async (req: Request, res: Response) => {
             periodo
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const putPeriodo = async (req: Request, res: Response) => {
@@ -141,11 +122,7 @@ export const putPeriodo = async (req: Request, res: Response) => {
             periodo
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const deletePeriodo = async (req: Request, res: Response) => {
@@ -165,11 +142,7 @@ export const deletePeriodo = async (req: Request, res: Response) => {
             periodo
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -191,11 +164,7 @@ export const busquedaPeriodos = async (req: Request, res: Response) => {
             busquedas: data
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -219,11 +188,7 @@ export const tieneProgramaciones = async (req: Request, res: Response) => {
             ok: false
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }

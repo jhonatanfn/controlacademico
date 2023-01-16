@@ -13,6 +13,8 @@ import {
     getMatriculadetallesPeriodoAula, getMatriculadetallesPeriodoAulaArea, getMatriculadetallesProgramacion, listarmatriculasanterior,
     matriculadetallesAlumno, matriculadetallesAlumnoPeriodo, matriculasAlumnoPorMadre,
     matriculasAlumnoPorMadrePeriodo, matriculasAlumnoPorPadre, matriculasAlumnoPorPadrePeriodo,
+    matriculasMadrePeriodo,
+    matriculasPadrePeriodo,
     perteneceMatriculadetalleAlumno,
     perteneceMatriculaMadre, perteneceMatriculaPadre,
     perteneceProgramacionAlumno, postMatriculadetalle, putMatriculadetalle
@@ -54,12 +56,10 @@ router.get('/busquedamadre/:madreId/:valor', validarJWT,
 router.get('/busquedamadreperiodo/:madreId/:periodoId/:valor', validarJWT,
     busquedaMatriculadetallesPorAlumnoMadrePeriodo);
 router.get('/pertenece/madre/:madreId/:matriculadetalleId', validarJWT, perteneceMatriculaMadre);
-
 router.get('/periodoaula/:periodoId/:aulaId', validarJWT,
     getMatriculadetallesPeriodoAula);
 router.get('/periodoaulaarea/:periodoId/:aulaId/:areaId', validarJWT,
     getMatriculadetallesPeriodoAulaArea);
-
 
 router.post('/', [
     validarJWT,
@@ -76,5 +76,9 @@ router.put('/:id', [
 ], putMatriculadetalle);
 
 router.delete('/:id', validarJWT, deleteMatriculadetalle);
+
+router.get('/alumno/porpadre/:padreId/:periodoId', validarJWT, matriculasPadrePeriodo);
+router.get('/alumno/pormadre/:madreId/:periodoId', validarJWT, matriculasMadrePeriodo);
+
 
 export default router;

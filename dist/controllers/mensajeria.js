@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.actualizarMensajesNuevos = exports.existenMensajesNuevos = exports.busquedaMensajeriasEliminados = exports.busquedaMensajeriasEnviados = exports.busquedaMensajeriasRecibidos = exports.restaurarReceptor = exports.restaurarEmisor = exports.getMensajeriasEliminados = exports.getMensajeriasEnviados = exports.getMensajeriasRecibidos = exports.noleidoMensajeriaReceptor = exports.noleidoMensajeriaEmisor = exports.leidoMensajeriaReceptor = exports.leidoMensajeriaEmisor = exports.deleteMensajeriaReceptor = exports.deleteMensajeriaEmisor = exports.busquedaMensajerias = exports.putMensajeria = exports.postMensajeria = exports.getMensajeria = exports.getMensajerias = exports.getTodo = void 0;
 const mensajeria_1 = __importDefault(require("../models/mensajeria"));
 const sequelize_1 = require("sequelize");
+const handleError_1 = require("../utils/handleError");
 const getTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const mensajerias = yield mensajeria_1.default.findAll({
@@ -26,10 +27,7 @@ const getTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getTodo = getTodo;
@@ -57,10 +55,7 @@ const getMensajerias = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getMensajerias = getMensajerias;
@@ -80,10 +75,7 @@ const getMensajeria = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getMensajeria = getMensajeria;
@@ -99,10 +91,7 @@ const postMensajeria = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.postMensajeria = postMensajeria;
@@ -125,10 +114,7 @@ const putMensajeria = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.putMensajeria = putMensajeria;
@@ -150,10 +136,7 @@ const busquedaMensajerias = (req, res) => __awaiter(void 0, void 0, void 0, func
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaMensajerias = busquedaMensajerias;
@@ -180,10 +163,7 @@ const deleteMensajeriaEmisor = (req, res) => __awaiter(void 0, void 0, void 0, f
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.deleteMensajeriaEmisor = deleteMensajeriaEmisor;
@@ -210,10 +190,7 @@ const deleteMensajeriaReceptor = (req, res) => __awaiter(void 0, void 0, void 0,
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.deleteMensajeriaReceptor = deleteMensajeriaReceptor;
@@ -243,11 +220,7 @@ const leidoMensajeriaEmisor = (req, res) => __awaiter(void 0, void 0, void 0, fu
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.leidoMensajeriaEmisor = leidoMensajeriaEmisor;
@@ -277,11 +250,7 @@ const leidoMensajeriaReceptor = (req, res) => __awaiter(void 0, void 0, void 0, 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.leidoMensajeriaReceptor = leidoMensajeriaReceptor;
@@ -311,11 +280,7 @@ const noleidoMensajeriaEmisor = (req, res) => __awaiter(void 0, void 0, void 0, 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.noleidoMensajeriaEmisor = noleidoMensajeriaEmisor;
@@ -345,11 +310,7 @@ const noleidoMensajeriaReceptor = (req, res) => __awaiter(void 0, void 0, void 0
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.noleidoMensajeriaReceptor = noleidoMensajeriaReceptor;
@@ -386,10 +347,7 @@ const getMensajeriasRecibidos = (req, res) => __awaiter(void 0, void 0, void 0, 
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getMensajeriasRecibidos = getMensajeriasRecibidos;
@@ -426,10 +384,7 @@ const getMensajeriasEnviados = (req, res) => __awaiter(void 0, void 0, void 0, f
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getMensajeriasEnviados = getMensajeriasEnviados;
@@ -482,10 +437,7 @@ const getMensajeriasEliminados = (req, res) => __awaiter(void 0, void 0, void 0,
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getMensajeriasEliminados = getMensajeriasEliminados;
@@ -509,10 +461,7 @@ const restaurarEmisor = (req, res) => __awaiter(void 0, void 0, void 0, function
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.restaurarEmisor = restaurarEmisor;
@@ -536,10 +485,7 @@ const restaurarReceptor = (req, res) => __awaiter(void 0, void 0, void 0, functi
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.restaurarReceptor = restaurarReceptor;
@@ -563,11 +509,7 @@ const busquedaMensajeriasRecibidos = (req, res) => __awaiter(void 0, void 0, voi
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaMensajeriasRecibidos = busquedaMensajeriasRecibidos;
@@ -591,11 +533,7 @@ const busquedaMensajeriasEnviados = (req, res) => __awaiter(void 0, void 0, void
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaMensajeriasEnviados = busquedaMensajeriasEnviados;
@@ -627,11 +565,7 @@ const busquedaMensajeriasEliminados = (req, res) => __awaiter(void 0, void 0, vo
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaMensajeriasEliminados = busquedaMensajeriasEliminados;
@@ -651,11 +585,7 @@ const existenMensajesNuevos = (req, res) => __awaiter(void 0, void 0, void 0, fu
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.existenMensajesNuevos = existenMensajesNuevos;
@@ -686,10 +616,7 @@ const actualizarMensajesNuevos = (req, res) => __awaiter(void 0, void 0, void 0,
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.actualizarMensajesNuevos = actualizarMensajesNuevos;

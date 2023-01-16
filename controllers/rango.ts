@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Rango from "../models/rango";
 import { Op } from 'sequelize';
+import { handleHttpError } from "../utils/handleError";
 
 export const getTodo=  async (req:Request,res:Response)=>{
     try {
@@ -13,11 +14,7 @@ export const getTodo=  async (req:Request,res:Response)=>{
             rangos
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getRangos= async (req:Request,res:Response)=>{
@@ -44,11 +41,7 @@ export const getRangos= async (req:Request,res:Response)=>{
             total
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getRango= async (req:Request,res:Response)=>{
@@ -67,11 +60,7 @@ export const getRango= async (req:Request,res:Response)=>{
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const postRango= async (req:Request,res:Response)=>{
@@ -86,11 +75,7 @@ export const postRango= async (req:Request,res:Response)=>{
             rango
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -112,11 +97,7 @@ export const putRango= async (req:Request,res:Response)=>{
             rango
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const deleteRango= async (req:Request,res:Response)=>{
@@ -136,11 +117,7 @@ export const deleteRango= async (req:Request,res:Response)=>{
             rango
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const busquedaRangos= async (req:Request,res:Response)=>{
@@ -161,11 +138,7 @@ export const busquedaRangos= async (req:Request,res:Response)=>{
             busquedas:data
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }

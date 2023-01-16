@@ -11,7 +11,7 @@ import Persona from "../models/persona";
 import Periodo from "../models/periodo";
 import Area from "../models/area";
 import Hora from "../models/hora";
-
+import { handleHttpError } from "../utils/handleError";
 
 export const getTodo = async (req: Request, res: Response) => {
     try {
@@ -23,11 +23,7 @@ export const getTodo = async (req: Request, res: Response) => {
             horarios
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getHorarios = async (req: Request, res: Response) => {
@@ -113,11 +109,7 @@ export const getHorarios = async (req: Request, res: Response) => {
             total
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getHorario = async (req: Request, res: Response) => {
@@ -144,11 +136,7 @@ export const getHorario = async (req: Request, res: Response) => {
             horario
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const postHorario = async (req: Request, res: Response) => {
@@ -162,11 +150,7 @@ export const postHorario = async (req: Request, res: Response) => {
             horario
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -189,11 +173,7 @@ export const putHorario = async (req: Request, res: Response) => {
             horario
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const deleteHorario = async (req: Request, res: Response) => {
@@ -213,11 +193,7 @@ export const deleteHorario = async (req: Request, res: Response) => {
             horario
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const busquedaHorarios = async (req: Request, res: Response) => {
@@ -336,11 +312,7 @@ export const busquedaHorarios = async (req: Request, res: Response) => {
             busquedas: data
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -462,11 +434,7 @@ export const busquedaHorariosPorDia = async (req: Request, res: Response) => {
             busquedas: data
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -517,11 +485,7 @@ export const existeHorario = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -568,11 +532,7 @@ export const horarioregistrado = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -642,11 +602,7 @@ export const horarioduplicado = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -732,11 +688,7 @@ export const horariosPeriodoAula = async (req: Request, res: Response) => {
             horarios
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -820,11 +772,7 @@ export const horariosPeriodoDocente = async (req: Request, res: Response) => {
             horarios
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -917,10 +865,6 @@ export const getHorariosPorDia = async (req: Request, res: Response) => {
             total
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }

@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteRole = exports.putRole = exports.postRole = exports.getRole = exports.getRoles = void 0;
 const role_1 = __importDefault(require("../models/role"));
 const usuario_1 = __importDefault(require("../models/usuario"));
+const handleError_1 = require("../utils/handleError");
 const getRoles = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const roles = yield role_1.default.findAll({
@@ -32,11 +33,7 @@ const getRoles = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getRoles = getRoles;
@@ -56,11 +53,7 @@ const getRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getRole = getRole;
@@ -76,11 +69,7 @@ const postRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.postRole = postRole;
@@ -103,11 +92,7 @@ const putRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.putRole = putRole;
@@ -129,11 +114,7 @@ const deleteRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.deleteRole = deleteRole;

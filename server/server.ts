@@ -2,7 +2,6 @@ import path from 'path';
 import express, { Application } from 'express';
 import cors from 'cors';
 import db from '../db/connection';
-import { environment } from '../environments/environments';
 import usuarioRoutes from '../routes/usuario';
 import authRoutes from '../routes/auth';
 import areaRoutes from '../routes/area';
@@ -90,7 +89,7 @@ class Server {
 
     constructor() {
         this.app = express();
-        this.port = process.env.PORT || environment.PORT;
+        this.port = process.env.PORT || '8000';
         this.dbConnection();
         this.middlewares();
         this.routes();

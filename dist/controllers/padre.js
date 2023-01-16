@@ -21,6 +21,7 @@ const role_1 = __importDefault(require("../models/role"));
 const usuario_1 = __importDefault(require("../models/usuario"));
 const tipodocumento_1 = __importDefault(require("../models/tipodocumento"));
 const alumno_1 = __importDefault(require("../models/alumno"));
+const handleError_1 = require("../utils/handleError");
 const getPadres = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const desde = Number(req.query.desde) || 0;
     try {
@@ -57,11 +58,7 @@ const getPadres = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getPadres = getPadres;
@@ -96,11 +93,7 @@ const getPadresTodos = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getPadresTodos = getPadresTodos;
@@ -135,11 +128,7 @@ const getPadre = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getPadre = getPadre;
@@ -159,7 +148,7 @@ const postPadre = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             yield usuario_1.default.create({
                 nombre: arr[0],
                 numero: numeroUsuario,
-                email: arr[0] + '' + numeroUsuario + '@mail.com',
+                email: arr[0] + '' + numeroUsuario + '@demo.com',
                 password: bcryptjs_1.default.hashSync(body.dniusuario, salt),
                 roleId: roles[2].id,
                 personaId: body.personaId
@@ -172,11 +161,7 @@ const postPadre = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.postPadre = postPadre;
@@ -199,11 +184,7 @@ const putPadre = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.putPadre = putPadre;
@@ -246,11 +227,7 @@ const deletePadre = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.deletePadre = deletePadre;
@@ -305,10 +282,7 @@ const busquedaPadres = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaPadres = busquedaPadres;
@@ -339,11 +313,7 @@ const searchDNI = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.searchDNI = searchDNI;
@@ -380,11 +350,7 @@ const padrePorPersona = (req, res) => __awaiter(void 0, void 0, void 0, function
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.padrePorPersona = padrePorPersona;
@@ -416,11 +382,7 @@ const getPadreDNI = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getPadreDNI = getPadreDNI;

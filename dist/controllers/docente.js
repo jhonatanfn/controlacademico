@@ -21,6 +21,7 @@ const tipodocumento_1 = __importDefault(require("../models/tipodocumento"));
 const programacion_1 = __importDefault(require("../models/programacion"));
 const usuario_1 = __importDefault(require("../models/usuario"));
 const role_1 = __importDefault(require("../models/role"));
+const handleError_1 = require("../utils/handleError");
 const getTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const docentes = yield docente_1.default.findAll({
@@ -44,11 +45,7 @@ const getTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getTodo = getTodo;
@@ -94,11 +91,7 @@ const getDocentes = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getDocentes = getDocentes;
@@ -132,11 +125,7 @@ const getDocente = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getDocente = getDocente;
@@ -173,11 +162,7 @@ const getDocentePersona = (req, res) => __awaiter(void 0, void 0, void 0, functi
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getDocentePersona = getDocentePersona;
@@ -196,7 +181,7 @@ const postDocente = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         yield usuario_1.default.create({
             nombre: arr[0],
             numero: numeroUsuario,
-            email: arr[0] + '' + numeroUsuario + '@mail.com',
+            email: arr[0] + '' + numeroUsuario + '@demo.com',
             password: bcryptjs_1.default.hashSync(body.dniusuario, salt),
             roleId: roles[1].id,
             personaId: body.personaId
@@ -208,11 +193,7 @@ const postDocente = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.postDocente = postDocente;
@@ -235,11 +216,7 @@ const putDocente = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.putDocente = putDocente;
@@ -288,11 +265,7 @@ const deleteDocente = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.deleteDocente = deleteDocente;
@@ -340,11 +313,7 @@ const busquedaDocentes = (req, res) => __awaiter(void 0, void 0, void 0, functio
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaDocentes = busquedaDocentes;
@@ -375,11 +344,7 @@ const searchDNI = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.searchDNI = searchDNI;
@@ -400,10 +365,7 @@ const maxDocenteNumero = (req, res) => __awaiter(void 0, void 0, void 0, functio
         }
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.maxDocenteNumero = maxDocenteNumero;
@@ -433,10 +395,7 @@ const busquedaDocentePorApellido = (req, res) => __awaiter(void 0, void 0, void 
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaDocentePorApellido = busquedaDocentePorApellido;
@@ -460,10 +419,7 @@ const tieneProgramaciones = (req, res) => __awaiter(void 0, void 0, void 0, func
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.tieneProgramaciones = tieneProgramaciones;
@@ -493,10 +449,7 @@ const busquedaDocentePorDocumento = (req, res) => __awaiter(void 0, void 0, void
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaDocentePorDocumento = busquedaDocentePorDocumento;
@@ -544,11 +497,7 @@ const busquedaDocentePorNombres = (req, res) => __awaiter(void 0, void 0, void 0
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaDocentePorNombres = busquedaDocentePorNombres;

@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCiclos = void 0;
 const ciclo_1 = __importDefault(require("../models/ciclo"));
+const handleError_1 = require("../utils/handleError");
 const getCiclos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const ciclos = yield ciclo_1.default.findAll({
@@ -25,11 +26,7 @@ const getCiclos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getCiclos = getCiclos;

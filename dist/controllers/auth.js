@@ -20,6 +20,7 @@ const role_1 = __importDefault(require("../models/role"));
 const menu_frontend_1 = require("../helpers/menu-frontend");
 const persona_1 = __importDefault(require("../models/persona"));
 const tipodocumento_1 = __importDefault(require("../models/tipodocumento"));
+const handleError_1 = require("../utils/handleError");
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
     try {
@@ -57,43 +58,44 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.login = login;
 const renewToken = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const email = req.email;
-    const token = yield (0, jwt_1.generarJWT)(email);
-    const usuario = yield usuario_1.default.findOne({
-        include: [{
-                model: role_1.default,
-                as: 'role',
-                attributes: ['id', 'nombre']
-            }, {
-                model: persona_1.default,
-                as: 'persona',
-                include: [
-                    {
-                        model: tipodocumento_1.default,
-                        as: 'tipodocumento'
-                    }
-                ]
-            }],
-        where: {
-            email: email,
-            estado: true,
-            habilitado: true
-        },
-    });
-    res.json({
-        ok: true,
-        usuario,
-        token
-    });
+    try {
+        const email = req.email;
+        const token = yield (0, jwt_1.generarJWT)(email);
+        const usuario = yield usuario_1.default.findOne({
+            include: [{
+                    model: role_1.default,
+                    as: 'role',
+                    attributes: ['id', 'nombre']
+                }, {
+                    model: persona_1.default,
+                    as: 'persona',
+                    include: [
+                        {
+                            model: tipodocumento_1.default,
+                            as: 'tipodocumento'
+                        }
+                    ]
+                }],
+            where: {
+                email: email,
+                estado: true,
+                habilitado: true
+            },
+        });
+        res.json({
+            ok: true,
+            usuario,
+            token
+        });
+    }
+    catch (error) {
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
+    }
 });
 exports.renewToken = renewToken;
 //# sourceMappingURL=auth.js.map

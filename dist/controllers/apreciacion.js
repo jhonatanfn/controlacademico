@@ -18,6 +18,7 @@ const alumno_1 = __importDefault(require("../models/alumno"));
 const apreciacion_1 = __importDefault(require("../models/apreciacion"));
 const periodo_1 = __importDefault(require("../models/periodo"));
 const persona_1 = __importDefault(require("../models/persona"));
+const handleError_1 = require("../utils/handleError");
 const getTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const apreciaciones = yield apreciacion_1.default.findAll({
@@ -51,11 +52,7 @@ const getTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getTodo = getTodo;
@@ -104,11 +101,7 @@ const getApreciaciones = (req, res) => __awaiter(void 0, void 0, void 0, functio
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getApreciaciones = getApreciaciones;
@@ -148,11 +141,7 @@ const getApreciacion = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getApreciacion = getApreciacion;
@@ -168,11 +157,7 @@ const postApreciacion = (req, res) => __awaiter(void 0, void 0, void 0, function
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.postApreciacion = postApreciacion;
@@ -195,11 +180,7 @@ const putApreciacion = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.putApreciacion = putApreciacion;
@@ -221,11 +202,7 @@ const deleteApreciacion = (req, res) => __awaiter(void 0, void 0, void 0, functi
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.deleteApreciacion = deleteApreciacion;
@@ -275,11 +252,7 @@ const busquedaApreciaciones = (req, res) => __awaiter(void 0, void 0, void 0, fu
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaApreciaciones = busquedaApreciaciones;
@@ -300,11 +273,7 @@ const getApreciacionesPeriodoAlumno = (req, res) => __awaiter(void 0, void 0, vo
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getApreciacionesPeriodoAlumno = getApreciacionesPeriodoAlumno;

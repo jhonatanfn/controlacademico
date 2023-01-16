@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Role from "../models/role";
 import Usuario from '../models/usuario';
+import { handleHttpError } from "../utils/handleError";
 
 export const getRoles= async (req:Request, res:Response)=>{
 
@@ -19,11 +20,7 @@ export const getRoles= async (req:Request, res:Response)=>{
             roles
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
     
 }
@@ -44,11 +41,7 @@ export const getRole= async (req:Request, res:Response)=>{
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -65,11 +58,7 @@ export const postRole= async (req:Request, res:Response)=>{
             role
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -94,11 +83,7 @@ export const putRole= async (req:Request, res:Response)=>{
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -120,10 +105,6 @@ export const deleteRole= async (req:Request, res:Response)=>{
             role
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }

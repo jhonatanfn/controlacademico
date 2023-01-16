@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.busquedaSituaciones = exports.deleteSituacion = exports.putSituacion = exports.postSituacion = exports.getSituacion = exports.getSituaciones = exports.getTodo = void 0;
 const situacion_1 = __importDefault(require("../models/situacion"));
 const sequelize_1 = require("sequelize");
+const handleError_1 = require("../utils/handleError");
 const getTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const situaciones = yield situacion_1.default.findAll({
@@ -26,10 +27,7 @@ const getTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getTodo = getTodo;
@@ -57,10 +55,7 @@ const getSituaciones = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getSituaciones = getSituaciones;
@@ -80,10 +75,7 @@ const getSituacion = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getSituacion = getSituacion;
@@ -99,10 +91,7 @@ const postSituacion = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.postSituacion = postSituacion;
@@ -125,10 +114,7 @@ const putSituacion = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.putSituacion = putSituacion;
@@ -150,10 +136,7 @@ const deleteSituacion = (req, res) => __awaiter(void 0, void 0, void 0, function
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.deleteSituacion = deleteSituacion;
@@ -175,10 +158,7 @@ const busquedaSituaciones = (req, res) => __awaiter(void 0, void 0, void 0, func
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaSituaciones = busquedaSituaciones;

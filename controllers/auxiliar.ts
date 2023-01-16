@@ -6,6 +6,7 @@ import Tipodocumento from "../models/tipodocumento";
 import Usuario from "../models/usuario";
 import Role from "../models/role";
 import Auxiliar from "../models/auxiliar";
+import { handleHttpError } from "../utils/handleError";
 
 export const getTodo = async (req: Request, res: Response) => {
 
@@ -31,11 +32,7 @@ export const getTodo = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getAuxiliares = async (req: Request, res: Response) => {
@@ -80,11 +77,7 @@ export const getAuxiliares = async (req: Request, res: Response) => {
             total
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getAuxiliar = async (req: Request, res: Response) => {
@@ -121,11 +114,7 @@ export const getAuxiliar = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getAuxiliarPersona = async (req: Request, res: Response) => {
@@ -161,11 +150,7 @@ export const getAuxiliarPersona = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const postAuxiliar = async (req: Request, res: Response) => {
@@ -184,7 +169,7 @@ export const postAuxiliar = async (req: Request, res: Response) => {
         await Usuario.create({
             nombre: arr[0],
             numero: numeroUsuario,
-            email: arr[0] + '' + numeroUsuario + '@mail.com',
+            email: arr[0] + '' + numeroUsuario + '@demo.com',
             password: bcrypt.hashSync(body.dniusuario, salt),
             roleId: roles[4].id,
             personaId: body.personaId
@@ -195,11 +180,7 @@ export const postAuxiliar = async (req: Request, res: Response) => {
             auxiliar
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const putAuxiliar = async (req: Request, res: Response) => {
@@ -224,11 +205,7 @@ export const putAuxiliar = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const deleteAuxiliar = async (req: Request, res: Response) => {
@@ -259,11 +236,7 @@ export const deleteAuxiliar = async (req: Request, res: Response) => {
             auxiliar
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -311,11 +284,7 @@ export const busquedaAuxiliares = async (req: Request, res: Response) => {
             busquedas: data
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const searchDNI = async (req: Request, res: Response) => {
@@ -346,11 +315,7 @@ export const searchDNI = async (req: Request, res: Response) => {
             ok: false,
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -371,10 +336,7 @@ export const maxAuxiliarNumero = async (req: Request, res: Response) => {
         }
 
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 

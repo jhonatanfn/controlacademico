@@ -4,21 +4,20 @@ import { v4 as uuidv4 } from 'uuid';
 import { Request, Response } from "express";
 import { actualizarArchivo } from '../helpers/actualizaArchivo';
 import Usuario from '../models/usuario';
-import { environment } from '../environments/environments';
 import DatauriParser  from 'datauri/parser';
 import Persona from '../models/persona';
 import Area from '../models/area';
 import Material from '../models/material';
 import Institucion from '../models/institucion';
+import { handleHttpError } from '../utils/handleError';
 
 const parser = new DatauriParser();
 var cloudinary = require('cloudinary').v2;
 cloudinary.config({ 
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME || environment.CLOUDINARY_CLOUD_NAME, 
-    api_key: process.env.CLOUDINARY_API_KEY || environment.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET || environment.CLOUDINARY_API_SECRET
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
 });
-
 
 export const fileUpload= async (req:Request,res:Response)=>{
     
@@ -75,11 +74,7 @@ export const fileUpload= async (req:Request,res:Response)=>{
             nombreArchivo
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const retornaImagen=(req:Request,res:Response)=>{
@@ -151,11 +146,7 @@ export const fileUploadCloudinary= async (req:Request,res:Response)=>{
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const fileUploadCloudinaryArea= async (req:Request,res:Response)=>{
@@ -209,11 +200,7 @@ export const fileUploadCloudinaryArea= async (req:Request,res:Response)=>{
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const fileUploadPdf= async (req:Request,res:Response)=>{
@@ -267,11 +254,7 @@ export const fileUploadPdf= async (req:Request,res:Response)=>{
 
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 
@@ -338,9 +321,6 @@ export const fileUploadCloudinaryInstitucion= async (req:Request,res:Response)=>
         });
 
     } catch (error) {
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }

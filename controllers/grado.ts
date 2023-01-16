@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import Grado from "../models/grado";
 import { Op } from 'sequelize';
 import Aula from "../models/aula";
-
+import { handleHttpError } from "../utils/handleError";
 
 export const busquedaGrados = async (req: Request, res: Response) => {
 
@@ -22,11 +22,7 @@ export const busquedaGrados = async (req: Request, res: Response) => {
             busquedas: data
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -43,11 +39,7 @@ export const getTodo = async (req: Request, res: Response) => {
             grados
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -77,11 +69,7 @@ export const getGrados = async (req: Request, res: Response) => {
             total
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -104,11 +92,7 @@ export const getGrado = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -123,11 +107,7 @@ export const postGrado = async (req: Request, res: Response) => {
             grado
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -150,11 +130,7 @@ export const putGrado = async (req: Request, res: Response) => {
             grado
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const deleteGrado = async (req: Request, res: Response) => {
@@ -174,11 +150,7 @@ export const deleteGrado = async (req: Request, res: Response) => {
             grado
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -204,10 +176,7 @@ export const tieneAulas = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -233,11 +202,7 @@ export const nombreRepetido = async (req: Request, res: Response) => {
             ok: false
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const nombreRepetidoEditar = async (req: Request, res: Response) => {
@@ -264,10 +229,6 @@ export const nombreRepetidoEditar = async (req: Request, res: Response) => {
             ok: false
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }

@@ -10,6 +10,7 @@ import Periodo from "../models/periodo";
 import Persona from "../models/persona";
 import Programacion from "../models/programacion";
 import Seccion from "../models/seccion";
+import { handleHttpError } from "../utils/handleError";
 
 export const getTodo = async (req: Request, res: Response) => {
 
@@ -23,11 +24,7 @@ export const getTodo = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getMateriales = async (req: Request, res: Response) => {
@@ -88,11 +85,7 @@ export const getMateriales = async (req: Request, res: Response) => {
             total
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getMaterial = async (req: Request, res: Response) => {
@@ -150,11 +143,7 @@ export const getMaterial = async (req: Request, res: Response) => {
             material
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const postMaterial = async (req: Request, res: Response) => {
@@ -168,11 +157,7 @@ export const postMaterial = async (req: Request, res: Response) => {
             material
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const putMaterial = async (req: Request, res: Response) => {
@@ -197,11 +182,7 @@ export const putMaterial = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const deleteMaterial = async (req: Request, res: Response) => {
@@ -221,11 +202,7 @@ export const deleteMaterial = async (req: Request, res: Response) => {
             material
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getMaterialesProgramacion= async (req: Request, res: Response)=>{
@@ -292,11 +269,7 @@ export const getMaterialesProgramacion= async (req: Request, res: Response)=>{
             total
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -357,11 +330,7 @@ export const busquedaMateriales = async (req: Request, res: Response) => {
             busquedas: data
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -427,11 +396,7 @@ export const materialesProgramacion= async (req: Request, res: Response)=>{
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -493,10 +458,7 @@ export const busquedaMaterialesProgramacion = async (req: Request, res: Response
             busquedas: data
         });
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }

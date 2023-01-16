@@ -3,6 +3,7 @@ import { Op } from 'sequelize';
 import Area from "../models/area";
 import Competencia from "../models/competencia";
 import Nota from "../models/nota";
+import { handleHttpError } from "../utils/handleError";
 
 export const busquedaCompetencias = async (req: Request, res: Response) => {
     const { valor } = req.params;
@@ -37,11 +38,7 @@ export const busquedaCompetencias = async (req: Request, res: Response) => {
             busquedas: data
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getTodo = async (req: Request, res: Response) => {
@@ -61,11 +58,7 @@ export const getTodo = async (req: Request, res: Response) => {
             competencias
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getCompetencias = async (req: Request, res: Response) => {
@@ -98,11 +91,7 @@ export const getCompetencias = async (req: Request, res: Response) => {
             total
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -130,11 +119,7 @@ export const getCompetencia = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -149,11 +134,7 @@ export const postCompetencia = async (req: Request, res: Response) => {
             competencia
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -175,11 +156,7 @@ export const putCompetencia = async (req: Request, res: Response) => {
             competencia
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const deleteCompetencia = async (req: Request, res: Response) => {
@@ -199,11 +176,7 @@ export const deleteCompetencia = async (req: Request, res: Response) => {
             competencia
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -228,11 +201,7 @@ export const getCompetenciasPorArea = async (req: Request, res: Response) => {
             competencias
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -255,10 +224,6 @@ export const getExistenNotas = async (req: Request, res: Response) => {
             ok: false
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }

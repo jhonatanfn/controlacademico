@@ -7,6 +7,7 @@ import Role from "../models/role";
 import Usuario from "../models/usuario";
 import Tipodocumento from "../models/tipodocumento";
 import Alumno from "../models/alumno";
+import { handleHttpError } from "../utils/handleError";
 
 export const getPadres = async (req: Request, res: Response) => {
 
@@ -44,11 +45,7 @@ export const getPadres = async (req: Request, res: Response) => {
             total
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getPadresTodos = async (req: Request, res: Response) => {
@@ -81,11 +78,7 @@ export const getPadresTodos = async (req: Request, res: Response) => {
             padres
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -123,11 +116,7 @@ export const getPadre = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const postPadre = async (req: Request, res: Response) => {
@@ -146,7 +135,7 @@ export const postPadre = async (req: Request, res: Response) => {
             await Usuario.create({
                 nombre: arr[0],
                 numero: numeroUsuario,
-                email: arr[0] + '' + numeroUsuario + '@mail.com',
+                email: arr[0] + '' + numeroUsuario + '@demo.com',
                 password: bcrypt.hashSync(body.dniusuario, salt),
                 roleId: roles[2].id,
                 personaId: body.personaId
@@ -158,11 +147,7 @@ export const postPadre = async (req: Request, res: Response) => {
             padre
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const putPadre = async (req: Request, res: Response) => {
@@ -184,11 +169,7 @@ export const putPadre = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const deletePadre = async (req: Request, res: Response) => {
@@ -231,11 +212,7 @@ export const deletePadre = async (req: Request, res: Response) => {
             padre
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const busquedaPadres = async (req: Request, res: Response) => {
@@ -289,10 +266,7 @@ export const busquedaPadres = async (req: Request, res: Response) => {
             busquedas: data
         });
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -324,11 +298,7 @@ export const searchDNI = async (req: Request, res: Response) => {
             ok: false,
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -365,11 +335,7 @@ export const padrePorPersona = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -402,11 +368,7 @@ export const getPadreDNI = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 

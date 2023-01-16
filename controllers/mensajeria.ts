@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Mensajeria from "../models/mensajeria";
 import { Op } from 'sequelize';
+import { handleHttpError } from "../utils/handleError";
 
 export const getTodo = async (req: Request, res: Response) => {
     try {
@@ -12,10 +13,7 @@ export const getTodo = async (req: Request, res: Response) => {
             mensajerias
         });
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getMensajerias = async (req: Request, res: Response) => {
@@ -41,10 +39,7 @@ export const getMensajerias = async (req: Request, res: Response) => {
             total
         });
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getMensajeria = async (req: Request, res: Response) => {
@@ -63,10 +58,7 @@ export const getMensajeria = async (req: Request, res: Response) => {
             mensajeria
         });
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const postMensajeria = async (req: Request, res: Response) => {
@@ -81,10 +73,7 @@ export const postMensajeria = async (req: Request, res: Response) => {
             mensajeria
         });
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -106,10 +95,7 @@ export const putMensajeria = async (req: Request, res: Response) => {
             mensajeria
         });
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const busquedaMensajerias = async (req: Request, res: Response) => {
@@ -129,15 +115,9 @@ export const busquedaMensajerias = async (req: Request, res: Response) => {
             busquedas: data
         });
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
-
-
-
 
 export const deleteMensajeriaEmisor = async (req: Request, res: Response) => {
     const { id } = req.params;
@@ -161,10 +141,7 @@ export const deleteMensajeriaEmisor = async (req: Request, res: Response) => {
             mensajeria
         });
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const deleteMensajeriaReceptor = async (req: Request, res: Response) => {
@@ -189,10 +166,7 @@ export const deleteMensajeriaReceptor = async (req: Request, res: Response) => {
             mensajeria
         });
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const leidoMensajeriaEmisor = async (req: Request, res: Response) => {
@@ -220,11 +194,7 @@ export const leidoMensajeriaEmisor = async (req: Request, res: Response) => {
             mensajeria
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const leidoMensajeriaReceptor = async (req: Request, res: Response) => {
@@ -252,11 +222,7 @@ export const leidoMensajeriaReceptor = async (req: Request, res: Response) => {
             mensajeria
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const noleidoMensajeriaEmisor = async (req: Request, res: Response) => {
@@ -284,11 +250,7 @@ export const noleidoMensajeriaEmisor = async (req: Request, res: Response) => {
             mensajeria
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const noleidoMensajeriaReceptor = async (req: Request, res: Response) => {
@@ -316,11 +278,7 @@ export const noleidoMensajeriaReceptor = async (req: Request, res: Response) => 
             mensajeria
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getMensajeriasRecibidos = async (req: Request, res: Response) => {
@@ -355,10 +313,7 @@ export const getMensajeriasRecibidos = async (req: Request, res: Response) => {
             total
         });
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getMensajeriasEnviados = async (req: Request, res: Response) => {
@@ -393,10 +348,7 @@ export const getMensajeriasEnviados = async (req: Request, res: Response) => {
             total
         });
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getMensajeriasEliminados = async (req: Request, res: Response) => {
@@ -447,10 +399,7 @@ export const getMensajeriasEliminados = async (req: Request, res: Response) => {
             total
         });
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const restaurarEmisor = async (req: Request, res: Response) => {
@@ -472,10 +421,7 @@ export const restaurarEmisor = async (req: Request, res: Response) => {
             mensajeria
         });
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const restaurarReceptor = async (req: Request, res: Response) => {
@@ -497,10 +443,7 @@ export const restaurarReceptor = async (req: Request, res: Response) => {
             mensajeria
         });
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -523,11 +466,7 @@ export const busquedaMensajeriasRecibidos = async (req: Request, res: Response) 
             busquedas: data
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const busquedaMensajeriasEnviados = async (req: Request, res: Response) => {
@@ -549,11 +488,7 @@ export const busquedaMensajeriasEnviados = async (req: Request, res: Response) =
             busquedas: data
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const busquedaMensajeriasEliminados = async (req: Request, res: Response) => {
@@ -583,11 +518,7 @@ export const busquedaMensajeriasEliminados = async (req: Request, res: Response)
             busquedas: data
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -606,11 +537,7 @@ export const existenMensajesNuevos = async (req: Request, res: Response) => {
             total
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -641,9 +568,6 @@ export const actualizarMensajesNuevos = async (req: Request, res: Response) => {
             msg: "No hay mensajes nuevos"
         });
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }

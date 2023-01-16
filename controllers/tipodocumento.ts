@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Tipodocumento from "../models/tipodocumento";
+import { handleHttpError } from "../utils/handleError";
 
 export const getTipodocumentos= async (req:Request,res:Response)=>{
 
@@ -13,11 +14,7 @@ export const getTipodocumentos= async (req:Request,res:Response)=>{
             tipodocumentos
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -40,11 +37,7 @@ export const getTipodocumento= async (req:Request,res:Response)=>{
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -60,11 +53,7 @@ export const postTipodocumentos= async (req:Request,res:Response)=>{
             tipodocumento
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -87,11 +76,7 @@ export const putTipodocumentos= async (req:Request,res:Response)=>{
             tipodocumento
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
     
 }
@@ -113,10 +98,6 @@ export const deleteTipodocumentos= async (req:Request,res:Response)=>{
             tipodocumento
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }

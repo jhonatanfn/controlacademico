@@ -10,6 +10,7 @@ import Madre from "../models/madre";
 import Responsable from "../models/responsable";
 import Role from "../models/role";
 import bcrypt from 'bcryptjs';
+import { handleHttpError } from "../utils/handleError";
 
 export const getAlumnos = async (req: Request, res: Response) => {
 
@@ -83,11 +84,7 @@ export const getAlumnos = async (req: Request, res: Response) => {
             total
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getAlumnosTodos = async (req: Request, res: Response) => {
@@ -157,11 +154,7 @@ export const getAlumnosTodos = async (req: Request, res: Response) => {
             alumnos
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getAlumnosPadre = async (req: Request, res: Response) => {
@@ -226,11 +219,7 @@ export const getAlumnosPadre = async (req: Request, res: Response) => {
             alumnos
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getAlumnosMadre = async (req: Request, res: Response) => {
@@ -295,11 +284,7 @@ export const getAlumnosMadre = async (req: Request, res: Response) => {
             alumnos
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getAlumnoDNI = async (req: Request, res: Response) => {
@@ -336,11 +321,7 @@ export const getAlumnoDNI = async (req: Request, res: Response) => {
             alumno
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getAlumno = async (req: Request, res: Response) => {
@@ -433,11 +414,7 @@ export const getAlumno = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const postAlumno = async (req: Request, res: Response) => {
@@ -464,7 +441,7 @@ export const postAlumno = async (req: Request, res: Response) => {
                 });
                 await padre1.save();
                 body.padreId = padre1.id;
-                personaIdUsuario1= persona1.id
+                personaIdUsuario1 = persona1.id
             } else {
                 const persona2: any = Persona.build({
                     dni: body.padredni,
@@ -476,22 +453,22 @@ export const postAlumno = async (req: Request, res: Response) => {
                     tipodocumentoId: body.padretipodocumentoId
                 });
                 await persona2.save();
-                const padre2:any = Padre.build({
+                const padre2: any = Padre.build({
                     personaId: persona2.id,
                     vive: body.padrevive
                 });
                 await padre2.save();
                 body.padreId = padre2.id;
-                personaIdUsuario1= persona2.id
+                personaIdUsuario1 = persona2.id
             }
-            if (body.padrevive && body.padredni !="00000000") {
+            if (body.padrevive && body.padredni != "00000000") {
                 let maxValorpadre: any = await Usuario.max('numero', { where: { estado: true } });
                 let arrpadre = body.padrenombreusuario.split(' ');
                 let numeroUsuariopadre = maxValorpadre + 1;
                 await Usuario.create({
                     nombre: arrpadre[0],
                     numero: numeroUsuariopadre,
-                    email: arrpadre[0] + '' + numeroUsuariopadre + '@mail.com',
+                    email: arrpadre[0] + '' + numeroUsuariopadre + '@demo.com',
                     password: bcrypt.hashSync(body.padredniusuario, salt),
                     roleId: roles[2].id,
                     personaId: personaIdUsuario1
@@ -515,7 +492,7 @@ export const postAlumno = async (req: Request, res: Response) => {
                 });
                 await madre1.save();
                 body.madreId = madre1.id;
-                personaIdUsuario2= persona3.id
+                personaIdUsuario2 = persona3.id
             } else {
                 const persona4: any = Persona.build({
                     dni: body.madredni,
@@ -527,22 +504,22 @@ export const postAlumno = async (req: Request, res: Response) => {
                     tipodocumentoId: body.madretipodocumentoId
                 });
                 await persona4.save();
-                const madre2:any = Madre.build({
+                const madre2: any = Madre.build({
                     personaId: persona4.id,
                     vive: body.madrevive
                 });
                 await madre2.save();
                 body.madreId = madre2.id;
-                personaIdUsuario2= persona4.id
+                personaIdUsuario2 = persona4.id
             }
-            if (body.madrevive && body.padredni !="00000000") {
+            if (body.madrevive && body.padredni != "00000000") {
                 let maxValormadre: any = await Usuario.max('numero', { where: { estado: true } });
                 let arrmadre = body.madrenombreusuario.split(' ');
                 let numeroUsuariomadre = maxValormadre + 1;
                 await Usuario.create({
                     nombre: arrmadre[0],
                     numero: numeroUsuariomadre,
-                    email: arrmadre[0] + '' + numeroUsuariomadre + '@mail.com',
+                    email: arrmadre[0] + '' + numeroUsuariomadre + '@demo.com',
                     password: bcrypt.hashSync(body.madredniusuario, salt),
                     roleId: roles[3].id,
                     personaId: personaIdUsuario2
@@ -550,7 +527,7 @@ export const postAlumno = async (req: Request, res: Response) => {
             }
         }
 
-        if(body.padreId && body.madreId && body.responsableId){
+        if (body.padreId && body.madreId && body.responsableId) {
             const alumno = Alumno.build({
                 personaId: body.personaId,
                 padreId: body.padreId,
@@ -575,13 +552,9 @@ export const postAlumno = async (req: Request, res: Response) => {
             ok: false,
             msg: "No se pudo crear el alumno."
         });
-       
+
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const putAlumno = async (req: Request, res: Response) => {
@@ -609,7 +582,7 @@ export const putAlumno = async (req: Request, res: Response) => {
                 });
                 await padre1.save();
                 body.padreId = padre1.id;
-                personaIdUsuario1= persona1.id
+                personaIdUsuario1 = persona1.id
             } else {
                 const persona2: any = Persona.build({
                     dni: body.padredni,
@@ -621,15 +594,15 @@ export const putAlumno = async (req: Request, res: Response) => {
                     tipodocumentoId: body.padretipodocumentoId
                 });
                 await persona2.save();
-                const padre2:any = Padre.build({
+                const padre2: any = Padre.build({
                     personaId: persona2.id,
                     vive: body.padrevive
                 });
                 await padre2.save();
                 body.padreId = padre2.id;
-                personaIdUsuario1= persona2.id
+                personaIdUsuario1 = persona2.id
             }
-            if (body.padrevive && body.padredni !="00000000") {
+            if (body.padrevive && body.padredni != "00000000") {
                 let maxValorpadre: any = await Usuario.max('numero', { where: { estado: true } });
                 let arrpadre = body.padrenombreusuario.split(' ');
                 let numeroUsuariopadre = maxValorpadre + 1;
@@ -660,7 +633,7 @@ export const putAlumno = async (req: Request, res: Response) => {
                 });
                 await madre1.save();
                 body.madreId = madre1.id;
-                personaIdUsuario2= persona3.id
+                personaIdUsuario2 = persona3.id
             } else {
                 const persona4: any = Persona.build({
                     dni: body.madredni,
@@ -672,15 +645,15 @@ export const putAlumno = async (req: Request, res: Response) => {
                     tipodocumentoId: body.madretipodocumentoId
                 });
                 await persona4.save();
-                const madre2:any = Madre.build({
+                const madre2: any = Madre.build({
                     personaId: persona4.id,
                     vive: body.madrevive
                 });
                 await madre2.save();
                 body.madreId = madre2.id;
-                personaIdUsuario2= persona4.id
+                personaIdUsuario2 = persona4.id
             }
-            if (body.madrevive && body.padredni !="00000000") {
+            if (body.madrevive && body.padredni != "00000000") {
                 let maxValormadre: any = await Usuario.max('numero', { where: { estado: true } });
                 let arrmadre = body.madrenombreusuario.split(' ');
                 let numeroUsuariomadre = maxValormadre + 1;
@@ -702,7 +675,7 @@ export const putAlumno = async (req: Request, res: Response) => {
                 msg: `No existe un alumno con el id: ${id}`
             });
         }
-        if(body.padreId && body.madreId && body.responsableId){
+        if (body.padreId && body.madreId && body.responsableId) {
             await alumno?.update(body);
             return res.json({
                 ok: true,
@@ -716,11 +689,7 @@ export const putAlumno = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const deleteAlumno = async (req: Request, res: Response) => {
@@ -770,11 +739,7 @@ export const deleteAlumno = async (req: Request, res: Response) => {
             alumno
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const busquedaAlumnos = async (req: Request, res: Response) => {
@@ -874,10 +839,7 @@ export const busquedaAlumnos = async (req: Request, res: Response) => {
             busquedas: data
         });
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const searchDNI = async (req: Request, res: Response) => {
@@ -907,11 +869,7 @@ export const searchDNI = async (req: Request, res: Response) => {
             ok: false,
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const alumnoPorPersona = async (req: Request, res: Response) => {
@@ -948,11 +906,7 @@ export const alumnoPorPersona = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const busquedaAlumnosApellido = async (req: Request, res: Response) => {
@@ -981,10 +935,7 @@ export const busquedaAlumnosApellido = async (req: Request, res: Response) => {
             busquedas: data
         });
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -1011,10 +962,7 @@ export const tieneMatricula = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -1044,10 +992,7 @@ export const busquedaAlumnosDocumento = async (req: Request, res: Response) => {
             busquedas: data
         });
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -1096,10 +1041,7 @@ export const busquedaAlumnosNombres = async (req: Request, res: Response) => {
             busquedas: data
         });
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 

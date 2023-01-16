@@ -4,6 +4,7 @@ import Alumno from "../models/alumno";
 import Apreciacion from "../models/apreciacion";
 import Periodo from "../models/periodo";
 import Persona from "../models/persona";
+import { handleHttpError } from "../utils/handleError";
 
 export const getTodo = async (req: Request, res: Response) => {
     try {
@@ -38,11 +39,7 @@ export const getTodo = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -91,11 +88,7 @@ export const getApreciaciones = async (req: Request, res: Response) => {
             total
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -134,11 +127,7 @@ export const getApreciacion = async (req: Request, res: Response) => {
             apreciacion
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const postApreciacion = async (req: Request, res: Response) => {
@@ -152,11 +141,7 @@ export const postApreciacion = async (req: Request, res: Response) => {
             apreciacion
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const putApreciacion = async (req: Request, res: Response) => {
@@ -177,11 +162,7 @@ export const putApreciacion = async (req: Request, res: Response) => {
             apreciacion
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const deleteApreciacion = async (req: Request, res: Response) => {
@@ -201,11 +182,7 @@ export const deleteApreciacion = async (req: Request, res: Response) => {
             apreciacion
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const busquedaApreciaciones = async (req: Request, res: Response) => {
@@ -254,11 +231,7 @@ export const busquedaApreciaciones = async (req: Request, res: Response) => {
             busquedas: data
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -278,10 +251,6 @@ export const getApreciacionesPeriodoAlumno = async (req: Request, res: Response)
             apreciaciones
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }

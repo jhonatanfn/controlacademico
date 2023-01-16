@@ -7,6 +7,7 @@ import Tipodocumento from "../models/tipodocumento";
 import Programacion from "../models/programacion";
 import Usuario from "../models/usuario";
 import Role from "../models/role";
+import { handleHttpError } from "../utils/handleError";
 
 export const getTodo = async (req: Request, res: Response) => {
 
@@ -32,11 +33,7 @@ export const getTodo = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getDocentes = async (req: Request, res: Response) => {
@@ -81,11 +78,7 @@ export const getDocentes = async (req: Request, res: Response) => {
             total
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getDocente = async (req: Request, res: Response) => {
@@ -122,11 +115,7 @@ export const getDocente = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getDocentePersona = async (req: Request, res: Response) => {
@@ -162,11 +151,7 @@ export const getDocentePersona = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const postDocente = async (req: Request, res: Response) => {
@@ -185,7 +170,7 @@ export const postDocente = async (req: Request, res: Response) => {
         await Usuario.create({
             nombre: arr[0],
             numero: numeroUsuario,
-            email: arr[0] + '' + numeroUsuario + '@mail.com',
+            email: arr[0] + '' + numeroUsuario + '@demo.com',
             password: bcrypt.hashSync(body.dniusuario, salt),
             roleId: roles[1].id,
             personaId: body.personaId
@@ -196,11 +181,7 @@ export const postDocente = async (req: Request, res: Response) => {
             docente
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const putDocente = async (req: Request, res: Response) => {
@@ -225,11 +206,7 @@ export const putDocente = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const deleteDocente = async (req: Request, res: Response) => {
@@ -280,11 +257,7 @@ export const deleteDocente = async (req: Request, res: Response) => {
             docente
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -332,11 +305,7 @@ export const busquedaDocentes = async (req: Request, res: Response) => {
             busquedas: data
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -369,11 +338,7 @@ export const searchDNI = async (req: Request, res: Response) => {
             ok: false,
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -394,10 +359,7 @@ export const maxDocenteNumero = async (req: Request, res: Response) => {
         }
 
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const busquedaDocentePorApellido = async (req: Request, res: Response) => {
@@ -426,10 +388,7 @@ export const busquedaDocentePorApellido = async (req: Request, res: Response) =>
             busquedas: data
         });
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -456,10 +415,7 @@ export const tieneProgramaciones = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 
@@ -490,10 +446,7 @@ export const busquedaDocentePorDocumento = async (req: Request, res: Response) =
             busquedas: data
         });
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -542,11 +495,7 @@ export const busquedaDocentePorNombres = async (req: Request, res: Response) => 
             busquedas: data
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }

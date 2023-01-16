@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Seccion from "../models/seccion";
 import { Op } from 'sequelize';
 import Aula from "../models/aula";
+import { handleHttpError } from "../utils/handleError";
 
 
 export const busquedaSecciones= async (req:Request,res:Response)=>{
@@ -22,11 +23,7 @@ export const busquedaSecciones= async (req:Request,res:Response)=>{
             busquedas:data
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -42,11 +39,7 @@ export const getTodo = async (req:Request,res:Response)=>{
             secciones
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -77,11 +70,7 @@ export const getSecciones= async (req:Request,res:Response)=>{
             total
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -104,11 +93,7 @@ export const getSeccion= async (req:Request,res:Response)=>{
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -123,11 +108,7 @@ export const postSeccion= async (req:Request,res:Response)=>{
             seccion
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }
@@ -150,11 +131,7 @@ export const putSeccion= async (req:Request,res:Response)=>{
             seccion
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const deleteSeccion= async (req:Request,res:Response)=>{
@@ -174,11 +151,7 @@ export const deleteSeccion= async (req:Request,res:Response)=>{
             seccion
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -204,10 +177,7 @@ export const tieneAulas = async (req:Request,res:Response)=>{
         });
 
     } catch (error) {
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const nombreRepetido = async (req: Request, res: Response) => {
@@ -231,11 +201,7 @@ export const nombreRepetido = async (req: Request, res: Response) => {
             ok: false
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const nombreRepetidoEditar = async (req: Request, res: Response) => {
@@ -262,10 +228,6 @@ export const nombreRepetidoEditar = async (req: Request, res: Response) => {
             ok: false
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }

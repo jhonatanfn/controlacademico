@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNotasArea = exports.getNotasMatricula = exports.getNotasProgramacionFechaEvaluacionCiclo = exports.getNotasCicloMatriculadetalle = exports.getNotasPeriodoAulaAlumno = exports.getNotasPeriodoAulaCicloAlumno = exports.getNotasPeriodoAulaAreaCicloAlumno = exports.getNotasPeriodoAulaAreaCiclo = exports.getNotasPeriodoAulaArea = exports.getNotasPeriodoAula = exports.getNotasPeriodo = exports.getNotasMatriculaCicloEvaluacion = exports.getNotasHoyVigesimal = exports.getNotasHoyLiteral = exports.getNotasProgramacionFechaEvaluacionCicloCompetencia = exports.cambiarEstadoNota = exports.deleteNota = exports.putNota = exports.postNota = exports.getNota = exports.getNotas = exports.busquedaNotas = void 0;
+exports.getNotasArea = exports.getNotasMatricula = exports.getNotasProgramacionFechaEvaluacionCiclo = exports.existeNotasMatricula = exports.getNotasCicloMatriculadetalle = exports.getNotasPeriodoAulaAlumno = exports.getNotasPeriodoAulaCicloAlumno = exports.getNotasPeriodoAulaAreaCicloAlumno = exports.getNotasPeriodoAulaAreaCiclo = exports.getNotasPeriodoAulaArea = exports.getNotasPeriodoAula = exports.getNotasPeriodo = exports.getNotasMatriculaCicloEvaluacion = exports.getNotasHoyVigesimal = exports.getNotasHoyLiteral = exports.getNotasProgramacionFechaEvaluacionCicloCompetencia = exports.cambiarEstadoNota = exports.deleteNota = exports.putNota = exports.postNota = exports.getNota = exports.getNotas = exports.busquedaNotas = void 0;
 const alumno_1 = __importDefault(require("../models/alumno"));
 const persona_1 = __importDefault(require("../models/persona"));
 const sequelize_1 = require("sequelize");
@@ -31,6 +31,7 @@ const ciclo_1 = __importDefault(require("../models/ciclo"));
 const matriculadetalle_1 = __importDefault(require("../models/matriculadetalle"));
 const competencia_1 = __importDefault(require("../models/competencia"));
 const area_1 = __importDefault(require("../models/area"));
+const handleError_1 = require("../utils/handleError");
 const busquedaNotas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { valor } = req.params;
     try {
@@ -118,11 +119,7 @@ const busquedaNotas = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaNotas = busquedaNotas;
@@ -225,11 +222,7 @@ const getNotas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getNotas = getNotas;
@@ -330,11 +323,7 @@ const getNota = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getNota = getNota;
@@ -345,16 +334,12 @@ const postNota = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         yield nota.save();
         res.json({
             ok: true,
-            msg: 'Nota creada exitosamente',
+            msg: 'Nota creada exitosamente.',
             nota
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.postNota = postNota;
@@ -377,11 +362,7 @@ const putNota = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.putNota = putNota;
@@ -403,11 +384,7 @@ const deleteNota = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.deleteNota = deleteNota;
@@ -438,11 +415,7 @@ const cambiarEstadoNota = (req, res) => __awaiter(void 0, void 0, void 0, functi
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.cambiarEstadoNota = cambiarEstadoNota;
@@ -521,11 +494,7 @@ const getNotasProgramacionFechaEvaluacionCicloCompetencia = (req, res) => __awai
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getNotasProgramacionFechaEvaluacionCicloCompetencia = getNotasProgramacionFechaEvaluacionCicloCompetencia;
@@ -572,11 +541,7 @@ const getNotasHoyLiteral = (req, res) => __awaiter(void 0, void 0, void 0, funct
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getNotasHoyLiteral = getNotasHoyLiteral;
@@ -623,11 +588,7 @@ const getNotasHoyVigesimal = (req, res) => __awaiter(void 0, void 0, void 0, fun
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getNotasHoyVigesimal = getNotasHoyVigesimal;
@@ -673,11 +634,7 @@ const getNotasMatriculaCicloEvaluacion = (req, res) => __awaiter(void 0, void 0,
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getNotasMatriculaCicloEvaluacion = getNotasMatriculaCicloEvaluacion;
@@ -723,11 +680,7 @@ const getNotasPeriodo = (req, res) => __awaiter(void 0, void 0, void 0, function
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getNotasPeriodo = getNotasPeriodo;
@@ -774,11 +727,7 @@ const getNotasPeriodoAula = (req, res) => __awaiter(void 0, void 0, void 0, func
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getNotasPeriodoAula = getNotasPeriodoAula;
@@ -831,11 +780,7 @@ const getNotasPeriodoAulaArea = (req, res) => __awaiter(void 0, void 0, void 0, 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getNotasPeriodoAulaArea = getNotasPeriodoAulaArea;
@@ -894,11 +839,7 @@ const getNotasPeriodoAulaAreaCiclo = (req, res) => __awaiter(void 0, void 0, voi
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getNotasPeriodoAulaAreaCiclo = getNotasPeriodoAulaAreaCiclo;
@@ -987,11 +928,7 @@ const getNotasPeriodoAulaAreaCicloAlumno = (req, res) => __awaiter(void 0, void 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getNotasPeriodoAulaAreaCicloAlumno = getNotasPeriodoAulaAreaCicloAlumno;
@@ -1079,11 +1016,7 @@ const getNotasPeriodoAulaCicloAlumno = (req, res) => __awaiter(void 0, void 0, v
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getNotasPeriodoAulaCicloAlumno = getNotasPeriodoAulaCicloAlumno;
@@ -1165,11 +1098,7 @@ const getNotasPeriodoAulaAlumno = (req, res) => __awaiter(void 0, void 0, void 0
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getNotasPeriodoAulaAlumno = getNotasPeriodoAulaAlumno;
@@ -1209,14 +1138,48 @@ const getNotasCicloMatriculadetalle = (req, res) => __awaiter(void 0, void 0, vo
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getNotasCicloMatriculadetalle = getNotasCicloMatriculadetalle;
+const existeNotasMatricula = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { matriculaId } = req.params;
+    try {
+        const notas = yield nota_1.default.findAll({
+            where: {
+                '$matriculadetalle.matricula.id$': matriculaId,
+            },
+            attributes: ['id'],
+            include: [
+                {
+                    model: matriculadetalle_1.default,
+                    as: 'matriculadetalle',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: matricula_1.default,
+                            as: 'matricula',
+                            attributes: ['id']
+                        }
+                    ]
+                }
+            ]
+        });
+        if (notas.length > 0) {
+            return res.json({
+                ok: true,
+                msg: "No se puede eliminar la matricula."
+            });
+        }
+        res.json({
+            ok: false
+        });
+    }
+    catch (error) {
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
+    }
+});
+exports.existeNotasMatricula = existeNotasMatricula;
 const getNotasProgramacionFechaEvaluacionCiclo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { programacionId, fecha, evaluacionId, cicloId } = req.params;
     try {
@@ -1309,11 +1272,7 @@ const getNotasProgramacionFechaEvaluacionCiclo = (req, res) => __awaiter(void 0,
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getNotasProgramacionFechaEvaluacionCiclo = getNotasProgramacionFechaEvaluacionCiclo;
@@ -1342,11 +1301,7 @@ const getNotasMatricula = (req, res) => __awaiter(void 0, void 0, void 0, functi
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getNotasMatricula = getNotasMatricula;
@@ -1447,11 +1402,7 @@ const getNotasArea = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getNotasArea = getNotasArea;

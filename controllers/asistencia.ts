@@ -15,6 +15,7 @@ import Seccion from "../models/seccion";
 import Situacion from "../models/situacion";
 import Matriculadetalle from "../models/matriculadetalle";
 import Area from "../models/area";
+import { handleHttpError } from "../utils/handleError";
 
 export const getTodo = async (req: Request, res: Response) => {
 
@@ -28,11 +29,7 @@ export const getTodo = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getAsistencias = async (req: Request, res: Response) => {
@@ -119,11 +116,7 @@ export const getAsistencias = async (req: Request, res: Response) => {
             total
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getAsistencia = async (req: Request, res: Response) => {
@@ -208,11 +201,7 @@ export const getAsistencia = async (req: Request, res: Response) => {
             asistencia
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const postAsistencia = async (req: Request, res: Response) => {
@@ -226,11 +215,7 @@ export const postAsistencia = async (req: Request, res: Response) => {
             asistencia
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const putAsistencia = async (req: Request, res: Response) => {
@@ -252,11 +237,7 @@ export const putAsistencia = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const deleteAsistencia = async (req: Request, res: Response) => {
@@ -276,11 +257,7 @@ export const deleteAsistencia = async (req: Request, res: Response) => {
             asistencia
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const existeAsistencia = async (req: Request, res: Response) => {
@@ -330,11 +307,7 @@ export const existeAsistencia = async (req: Request, res: Response) => {
             ok: false,
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -414,11 +387,7 @@ export const listadoAsistencias = async (req: Request, res: Response) => {
             asistencias
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getAsistenciasHoy = async (req: Request, res: Response) => {
@@ -464,10 +433,7 @@ export const getAsistenciasHoy = async (req: Request, res: Response) => {
             asistencias
         });
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getAsistenciasAlumno = async (req: Request, res: Response) => {
@@ -535,11 +501,7 @@ export const getAsistenciasAlumno = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getAsistenciasPeriodo = async (req: Request, res: Response) => {
@@ -578,17 +540,12 @@ export const getAsistenciasPeriodo = async (req: Request, res: Response) => {
                 }
             ]
         });
-
         res.json({
             ok: true,
             asistencias
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getAsistenciasPeriodoAula = async (req: Request, res: Response) => {
@@ -638,11 +595,7 @@ export const getAsistenciasPeriodoAula = async (req: Request, res: Response) => 
             asistencias
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -697,11 +650,7 @@ export const getAsistenciasPeriodoAulaRango = async (req: Request, res: Response
             asistencias
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -775,11 +724,7 @@ export const getAsistenciasPeriodoAulaRangoAlumno = async (req: Request, res: Re
             asistencias
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getAsistenciasRango = async (req: Request, res: Response) => {
@@ -890,10 +835,7 @@ export const getAsistenciasRango = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 }

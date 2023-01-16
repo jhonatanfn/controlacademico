@@ -19,6 +19,7 @@ const usuario_1 = __importDefault(require("../models/usuario"));
 const role_1 = __importDefault(require("../models/role"));
 const persona_1 = __importDefault(require("../models/persona"));
 const tipodocumento_1 = __importDefault(require("../models/tipodocumento"));
+const handleError_1 = require("../utils/handleError");
 const getUsuariosTodos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const usuarios = yield usuario_1.default.findAll({
@@ -38,11 +39,7 @@ const getUsuariosTodos = (req, res) => __awaiter(void 0, void 0, void 0, functio
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador',
-            error
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getUsuariosTodos = getUsuariosTodos;
@@ -77,11 +74,7 @@ const getUsuariosLimitado = (req, res) => __awaiter(void 0, void 0, void 0, func
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador',
-            error
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getUsuariosLimitado = getUsuariosLimitado;
@@ -146,12 +139,7 @@ const getUsuariosPorRol = (req, res) => __awaiter(void 0, void 0, void 0, functi
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador',
-            error
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getUsuariosPorRol = getUsuariosPorRol;
@@ -206,12 +194,7 @@ const getUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador',
-            error
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getUsuarios = getUsuarios;
@@ -250,12 +233,7 @@ const getUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador',
-            error
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getUsuario = getUsuario;
@@ -299,11 +277,7 @@ const postUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador',
-            error
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.postUsuario = postUsuario;
@@ -343,11 +317,7 @@ const putUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: "Se produjo un error. Hable con el administrador",
-            error
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.putUsuario = putUsuario;
@@ -371,11 +341,7 @@ const actualizarPassword = (req, res) => __awaiter(void 0, void 0, void 0, funct
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: "Se produjo un error. Hable con el administrador",
-            error
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.actualizarPassword = actualizarPassword;
@@ -397,11 +363,7 @@ const deleteUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: "Se produjo un error. Hable con el administrador"
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.deleteUsuario = deleteUsuario;
@@ -467,11 +429,7 @@ const busquedaUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, functio
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: "Se produjo un error. Hable con el administrador"
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaUsuarios = busquedaUsuarios;
@@ -494,10 +452,7 @@ const emailRepetido = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.emailRepetido = emailRepetido;
@@ -520,10 +475,7 @@ const habilitarDesabilitarUsuario = (req, res) => __awaiter(void 0, void 0, void
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: "Se produjo un error. Hable con el administrador"
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.habilitarDesabilitarUsuario = habilitarDesabilitarUsuario;
@@ -588,11 +540,7 @@ const busquedaUsuariosPorRol = (req, res) => __awaiter(void 0, void 0, void 0, f
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: "Se produjo un error. Hable con el administrador"
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaUsuariosPorRol = busquedaUsuariosPorRol;
@@ -628,12 +576,7 @@ const obtenerUsuarioEmail = (req, res) => __awaiter(void 0, void 0, void 0, func
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador',
-            error
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.obtenerUsuarioEmail = obtenerUsuarioEmail;

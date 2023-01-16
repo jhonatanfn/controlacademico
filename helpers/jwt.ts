@@ -1,10 +1,7 @@
 import jwt from 'jsonwebtoken';
 
-
 export const generarJWT= (email:string)=>{
-
     return new Promise((resolve, reject)=>{
-
         const payload={
             email
         }
@@ -19,9 +16,4 @@ export const generarJWT= (email:string)=>{
             }
         });
     });
-
-
-  
-
-
 }

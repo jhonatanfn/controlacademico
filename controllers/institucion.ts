@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Institucion from "../models/institucion";
+import { handleHttpError } from "../utils/handleError";
 
 export const getInstituciones= (req:Request,res:Response)=>{
     
@@ -26,11 +27,7 @@ export const getInstitucion= async (req:Request,res:Response)=>{
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -46,10 +43,7 @@ export const postInstitucion= async (req:Request,res:Response)=>{
             institucion
         });
     } catch (error) {
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 
 
@@ -72,10 +66,7 @@ export const putInstitucion= async (req:Request,res:Response)=>{
             institucion
         });
     } catch (error) {
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const deleteInstitucion= async (req:Request,res:Response)=>{
@@ -95,9 +86,6 @@ export const deleteInstitucion= async (req:Request,res:Response)=>{
             institucion
         });
     } catch (error) {
-        res.status(500).json({
-            ok:false,
-            msg:'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }

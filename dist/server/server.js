@@ -16,7 +16,6 @@ const path_1 = __importDefault(require("path"));
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const connection_1 = __importDefault(require("../db/connection"));
-const environments_1 = require("../environments/environments");
 const usuario_1 = __importDefault(require("../routes/usuario"));
 const auth_1 = __importDefault(require("../routes/auth"));
 const area_1 = __importDefault(require("../routes/area"));
@@ -100,7 +99,7 @@ class Server {
             apreciaciondetalles: '/api/apreciaciondetalles'
         };
         this.app = (0, express_1.default)();
-        this.port = process.env.PORT || environments_1.environment.PORT;
+        this.port = process.env.PORT || '8000';
         this.dbConnection();
         this.middlewares();
         this.routes();

@@ -50,5 +50,7 @@ router.put('/:id', [
     validar_campos_1.validarCampos
 ], matriculadetalle_1.putMatriculadetalle);
 router.delete('/:id', validar_jwt_1.validarJWT, matriculadetalle_1.deleteMatriculadetalle);
+router.get('/alumno/porpadre/:padreId/:periodoId', validar_jwt_1.validarJWT, matriculadetalle_1.matriculasPadrePeriodo);
+router.get('/alumno/pormadre/:madreId/:periodoId', validar_jwt_1.validarJWT, matriculadetalle_1.matriculasMadrePeriodo);
 exports.default = router;
 //# sourceMappingURL=matriculadetalle.js.map

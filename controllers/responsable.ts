@@ -7,6 +7,7 @@ import Alumno from "../models/alumno";
 import bcrypt from 'bcryptjs';
 import Role from "../models/role";
 import Usuario from "../models/usuario";
+import { handleHttpError } from "../utils/handleError";
 
 export const getResponsables = async (req: Request, res: Response) => {
     const desde = Number(req.query.desde) || 0;
@@ -25,13 +26,13 @@ export const getResponsables = async (req: Request, res: Response) => {
                 {
                     model: Persona,
                     as: 'persona',
-                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img','correo'],
-                    include:[
-                       {
-                        model: Tipodocumento,
-                        as: 'tipodocumento',
-                        attributes: ['id', 'nombre']
-                       }
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                    include: [
+                        {
+                            model: Tipodocumento,
+                            as: 'tipodocumento',
+                            attributes: ['id', 'nombre']
+                        }
                     ]
                 }
             ]
@@ -43,11 +44,7 @@ export const getResponsables = async (req: Request, res: Response) => {
             total
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const getResponsablesTodos = async (req: Request, res: Response) => {
@@ -64,14 +61,14 @@ export const getResponsablesTodos = async (req: Request, res: Response) => {
                 {
                     model: Persona,
                     as: 'persona',
-                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img','correo'],
-                    include:[
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                    include: [
                         {
-                         model: Tipodocumento,
-                         as: 'tipodocumento',
-                         attributes: ['id', 'nombre']
+                            model: Tipodocumento,
+                            as: 'tipodocumento',
+                            attributes: ['id', 'nombre']
                         }
-                     ]
+                    ]
                 }
             ]
         });
@@ -80,11 +77,7 @@ export const getResponsablesTodos = async (req: Request, res: Response) => {
             responsables
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -96,14 +89,14 @@ export const getResponsable = async (req: Request, res: Response) => {
                 {
                     model: Persona,
                     as: 'persona',
-                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img','correo'],
-                    include:[
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                    include: [
                         {
-                         model: Tipodocumento,
-                         as: 'tipodocumento',
-                         attributes: ['id', 'nombre']
+                            model: Tipodocumento,
+                            as: 'tipodocumento',
+                            attributes: ['id', 'nombre']
                         }
-                     ]
+                    ]
                 }
             ]
         });
@@ -119,11 +112,7 @@ export const getResponsable = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const postResponsable = async (req: Request, res: Response) => {
@@ -139,11 +128,11 @@ export const postResponsable = async (req: Request, res: Response) => {
             personaId: body.personaId
         });
         await responsable.save();
-        if(!body.padrevive && !body.medrevive){
+        if (!body.padrevive && !body.medrevive) {
             await Usuario.create({
                 nombre: arr[0],
                 numero: numeroUsuario,
-                email: arr[0] + '' + numeroUsuario + '@mail.com',
+                email: arr[0] + '' + numeroUsuario + '@demo.com',
                 password: bcrypt.hashSync(body.dniusuario, salt),
                 roleId: roles[5].id,
                 personaId: body.personaId
@@ -155,11 +144,7 @@ export const postResponsable = async (req: Request, res: Response) => {
             responsable
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const putResponsable = async (req: Request, res: Response) => {
@@ -181,11 +166,7 @@ export const putResponsable = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const deleteResponsable = async (req: Request, res: Response) => {
@@ -217,11 +198,7 @@ export const deleteResponsable = async (req: Request, res: Response) => {
             responsable
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 export const busquedaResponsables = async (req: Request, res: Response) => {
@@ -258,14 +235,14 @@ export const busquedaResponsables = async (req: Request, res: Response) => {
                 {
                     model: Persona,
                     as: 'persona',
-                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img','correo'],
-                    include:[
+                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                    include: [
                         {
-                         model: Tipodocumento,
-                         as: 'tipodocumento',
-                         attributes: ['id', 'nombre']
+                            model: Tipodocumento,
+                            as: 'tipodocumento',
+                            attributes: ['id', 'nombre']
                         }
-                     ]
+                    ]
                 }
             ]
         });
@@ -275,10 +252,7 @@ export const busquedaResponsables = async (req: Request, res: Response) => {
             busquedas: data
         });
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -309,11 +283,7 @@ export const searchDNI = async (req: Request, res: Response) => {
             ok: false,
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -333,7 +303,7 @@ export const responsablePorPersona = async (req: Request, res: Response) => {
                     include: [{
                         model: Tipodocumento,
                         as: 'tipodocumento',
-                        attributes:['id','nombre']
+                        attributes: ['id', 'nombre']
                     }]
                 }
             ]
@@ -350,11 +320,7 @@ export const responsablePorPersona = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 
@@ -387,11 +353,7 @@ export const getResponsableDNI = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
 

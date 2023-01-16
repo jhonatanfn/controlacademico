@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.matriculasAlumnoReporte = exports.busquedaMatriculasPorAlumnoPeriodo = exports.matriculasAlumnoPeriodo = exports.getMatriculasAnualApoderado = exports.getMatriculasPeriodoAulaSubareaaApoderado = exports.getMatriculasPeriodoAulaSubareaCicloApoderado = exports.matriculasApoderado = exports.getMatriculaCiclo = exports.getMatriculasPeriodoAulaSubarea = exports.busquedaMatriculasSubarea = exports.getMatriculasAnual = exports.busquedaMatriculasPorAlumno = exports.getMatriculasPeriodoAulaSubareaCiclo = exports.getMatriculasProgramacionRangoFechas = exports.matriculasProgramacionCiclo = exports.perteneceMatriculaAlumno = exports.matriculasAlumno = exports.busquedaMatriculas = exports.getMatriculasSubarea = exports.getMatriculadetallesPeriodoAulaArea = exports.getMatriculadetallesPeriodoAula = exports.perteneceMatriculaMadre = exports.perteneceMatriculaPadre = exports.busquedaMatriculadetallesPorAlumnoMadrePeriodo = exports.busquedaMatriculadetallesPorAlumnoPadrePeriodo = exports.busquedaMatriculadetallesPorAlumnoMadre = exports.busquedaMatriculadetallesPorAlumnoPadre = exports.matriculasAlumnoPorMadrePeriodo = exports.matriculasAlumnoPorPadrePeriodo = exports.matriculasAlumnoPorMadre = exports.matriculasAlumnoPorPadre = exports.perteneceProgramacionAlumno = exports.perteneceMatriculadetalleAlumno = exports.busquedaMatriculadetallesPorAlumnoPeriodo = exports.busquedaMatriculadetallesPorAlumno = exports.matriculadetallesAlumnoPeriodo = exports.matriculadetallesAlumno = exports.getListadoAlumnosProgramacion = exports.getListadoAlumnos = exports.getMatriculadetallesProgramacion = exports.getMatriculadetallesMatricula = exports.listarmatriculasanterior = exports.aprobadoAlumno = exports.existeMatricula = exports.busquedaMatriculadetalles = exports.deleteMatriculadetalle = exports.putMatriculadetalle = exports.postMatriculadetalle = exports.getMatriculadetalle = exports.getMatriculadetalles = void 0;
-exports.getMatriculasPeriodoAulaAreaApoderado = exports.getMatriculasPeriodoAulaArea = exports.matriculasApoderadoPeriodoAula = exports.getMatriculaAnual = void 0;
+exports.matriculasMadrePeriodo = exports.matriculasPadrePeriodo = exports.getMatriculasPeriodoAulaAreaApoderado = exports.getMatriculasPeriodoAulaArea = exports.matriculasApoderadoPeriodoAula = exports.getMatriculaAnual = void 0;
 const sequelize_1 = require("sequelize");
 const alumno_1 = __importDefault(require("../models/alumno"));
 const persona_1 = __importDefault(require("../models/persona"));
@@ -34,6 +34,7 @@ const asistencia_1 = __importDefault(require("../models/asistencia"));
 const matriculadetalle_1 = __importDefault(require("../models/matriculadetalle"));
 const padre_1 = __importDefault(require("../models/padre"));
 const madre_1 = __importDefault(require("../models/madre"));
+const handleError_1 = require("../utils/handleError");
 const getMatriculadetalles = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const desde = Number(req.query.desde) || 0;
     try {
@@ -126,11 +127,7 @@ const getMatriculadetalles = (req, res) => __awaiter(void 0, void 0, void 0, fun
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getMatriculadetalles = getMatriculadetalles;
@@ -228,11 +225,7 @@ const getMatriculadetalle = (req, res) => __awaiter(void 0, void 0, void 0, func
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getMatriculadetalle = getMatriculadetalle;
@@ -255,11 +248,7 @@ const postMatriculadetalle = (req, res) => __awaiter(void 0, void 0, void 0, fun
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.postMatriculadetalle = postMatriculadetalle;
@@ -282,11 +271,7 @@ const putMatriculadetalle = (req, res) => __awaiter(void 0, void 0, void 0, func
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.putMatriculadetalle = putMatriculadetalle;
@@ -315,11 +300,7 @@ const deleteMatriculadetalle = (req, res) => __awaiter(void 0, void 0, void 0, f
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.deleteMatriculadetalle = deleteMatriculadetalle;
@@ -437,11 +418,7 @@ const busquedaMatriculadetalles = (req, res) => __awaiter(void 0, void 0, void 0
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaMatriculadetalles = busquedaMatriculadetalles;
@@ -498,11 +475,7 @@ const existeMatricula = (req, res) => __awaiter(void 0, void 0, void 0, function
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.existeMatricula = existeMatricula;
@@ -542,11 +515,7 @@ const aprobadoAlumno = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.aprobadoAlumno = aprobadoAlumno;
@@ -583,11 +552,7 @@ const listarmatriculasanterior = (req, res) => __awaiter(void 0, void 0, void 0,
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.listarmatriculasanterior = listarmatriculasanterior;
@@ -678,11 +643,7 @@ const getMatriculadetallesMatricula = (req, res) => __awaiter(void 0, void 0, vo
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getMatriculadetallesMatricula = getMatriculadetallesMatricula;
@@ -783,11 +744,7 @@ const getMatriculadetallesProgramacion = (req, res) => __awaiter(void 0, void 0,
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getMatriculadetallesProgramacion = getMatriculadetallesProgramacion;
@@ -805,12 +762,45 @@ const getListadoAlumnos = (req, res) => __awaiter(void 0, void 0, void 0, functi
                 msg: "Area no encontrada"
             });
         }
+        const listado = yield matriculadetalle_1.default.findAll({
+            where: {
+                estado: true,
+                '$programacion.aula.id$': aulaId,
+                '$programacion.periodo.id$': periodoId,
+            },
+            attributes: ['id'],
+            include: [
+                {
+                    model: programacion_1.default,
+                    as: 'programacion',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: aula_1.default,
+                            as: 'aula',
+                            attributes: ['id'],
+                        },
+                        {
+                            model: periodo_1.default,
+                            as: 'periodo',
+                            attributes: ['id']
+                        },
+                        {
+                            model: area_1.default,
+                            as: 'area',
+                            attributes: ['id']
+                        }
+                    ]
+                }
+            ]
+        });
+        const areaId = listado[0].programacion.area.id;
         const matriculadetalles = yield matriculadetalle_1.default.findAll({
             where: {
                 estado: true,
                 '$programacion.aula.id$': aulaId,
                 '$programacion.periodo.id$': periodoId,
-                '$programacion.area.id$': areas[0].id,
+                '$programacion.area.id$': areaId,
             },
             attributes: ['id', 'aprobado'],
             order: [
@@ -882,6 +872,7 @@ const getListadoAlumnos = (req, res) => __awaiter(void 0, void 0, void 0, functi
                 }
             ]
         });
+        console.log(areas[0].id);
         res.json({
             ok: true,
             matriculadetalles,
@@ -889,11 +880,7 @@ const getListadoAlumnos = (req, res) => __awaiter(void 0, void 0, void 0, functi
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getListadoAlumnos = getListadoAlumnos;
@@ -948,11 +935,7 @@ const getListadoAlumnosProgramacion = (req, res) => __awaiter(void 0, void 0, vo
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getListadoAlumnosProgramacion = getListadoAlumnosProgramacion;
@@ -1067,11 +1050,7 @@ const matriculadetallesAlumno = (req, res) => __awaiter(void 0, void 0, void 0, 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.matriculadetallesAlumno = matriculadetallesAlumno;
@@ -1200,11 +1179,7 @@ const matriculadetallesAlumnoPeriodo = (req, res) => __awaiter(void 0, void 0, v
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.matriculadetallesAlumnoPeriodo = matriculadetallesAlumnoPeriodo;
@@ -1329,11 +1304,7 @@ const busquedaMatriculadetallesPorAlumno = (req, res) => __awaiter(void 0, void 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaMatriculadetallesPorAlumno = busquedaMatriculadetallesPorAlumno;
@@ -1459,11 +1430,7 @@ const busquedaMatriculadetallesPorAlumnoPeriodo = (req, res) => __awaiter(void 0
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaMatriculadetallesPorAlumnoPeriodo = busquedaMatriculadetallesPorAlumnoPeriodo;
@@ -1501,11 +1468,7 @@ const perteneceMatriculadetalleAlumno = (req, res) => __awaiter(void 0, void 0, 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.perteneceMatriculadetalleAlumno = perteneceMatriculadetalleAlumno;
@@ -1543,11 +1506,7 @@ const perteneceProgramacionAlumno = (req, res) => __awaiter(void 0, void 0, void
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.perteneceProgramacionAlumno = perteneceProgramacionAlumno;
@@ -1683,11 +1642,7 @@ const matriculasAlumnoPorPadre = (req, res) => __awaiter(void 0, void 0, void 0,
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.matriculasAlumnoPorPadre = matriculasAlumnoPorPadre;
@@ -1823,11 +1778,7 @@ const matriculasAlumnoPorMadre = (req, res) => __awaiter(void 0, void 0, void 0,
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.matriculasAlumnoPorMadre = matriculasAlumnoPorMadre;
@@ -1977,11 +1928,7 @@ const matriculasAlumnoPorPadrePeriodo = (req, res) => __awaiter(void 0, void 0, 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.matriculasAlumnoPorPadrePeriodo = matriculasAlumnoPorPadrePeriodo;
@@ -2131,11 +2078,7 @@ const matriculasAlumnoPorMadrePeriodo = (req, res) => __awaiter(void 0, void 0, 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.matriculasAlumnoPorMadrePeriodo = matriculasAlumnoPorMadrePeriodo;
@@ -2273,10 +2216,7 @@ const busquedaMatriculadetallesPorAlumnoPadre = (req, res) => __awaiter(void 0, 
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaMatriculadetallesPorAlumnoPadre = busquedaMatriculadetallesPorAlumnoPadre;
@@ -2414,10 +2354,7 @@ const busquedaMatriculadetallesPorAlumnoMadre = (req, res) => __awaiter(void 0, 
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaMatriculadetallesPorAlumnoMadre = busquedaMatriculadetallesPorAlumnoMadre;
@@ -2556,10 +2493,7 @@ const busquedaMatriculadetallesPorAlumnoPadrePeriodo = (req, res) => __awaiter(v
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaMatriculadetallesPorAlumnoPadrePeriodo = busquedaMatriculadetallesPorAlumnoPadrePeriodo;
@@ -2698,10 +2632,7 @@ const busquedaMatriculadetallesPorAlumnoMadrePeriodo = (req, res) => __awaiter(v
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaMatriculadetallesPorAlumnoMadrePeriodo = busquedaMatriculadetallesPorAlumnoMadrePeriodo;
@@ -2746,11 +2677,7 @@ const perteneceMatriculaPadre = (req, res) => __awaiter(void 0, void 0, void 0, 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.perteneceMatriculaPadre = perteneceMatriculaPadre;
@@ -2795,11 +2722,7 @@ const perteneceMatriculaMadre = (req, res) => __awaiter(void 0, void 0, void 0, 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.perteneceMatriculaMadre = perteneceMatriculaMadre;
@@ -2808,16 +2731,54 @@ const getMatriculadetallesPeriodoAula = (req, res) => __awaiter(void 0, void 0, 
     try {
         const areas = yield area_1.default.findAll({
             where: {
+                estado: true
+            }
+        });
+        if (areas.length == 0) {
+            return res.status(400).json({
+                ok: false,
+                msg: "Area no encontrada"
+            });
+        }
+        const listado = yield matriculadetalle_1.default.findAll({
+            where: {
                 estado: true,
+                '$programacion.aula.id$': aulaId,
+                '$programacion.periodo.id$': periodoId,
             },
             attributes: ['id'],
+            include: [
+                {
+                    model: programacion_1.default,
+                    as: 'programacion',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: aula_1.default,
+                            as: 'aula',
+                            attributes: ['id'],
+                        },
+                        {
+                            model: periodo_1.default,
+                            as: 'periodo',
+                            attributes: ['id']
+                        },
+                        {
+                            model: area_1.default,
+                            as: 'area',
+                            attributes: ['id']
+                        }
+                    ]
+                }
+            ]
         });
+        const areaId = listado[0].programacion.area.id;
         const matriculadetalles = yield matriculadetalle_1.default.findAll({
             where: {
                 estado: true,
                 '$programacion.periodo.id$': periodoId,
                 '$programacion.aula.id$': aulaId,
-                '$programacion.area.id$': areas[0].id
+                '$programacion.area.id$': areaId
             },
             order: [
                 [
@@ -2878,11 +2839,7 @@ const getMatriculadetallesPeriodoAula = (req, res) => __awaiter(void 0, void 0, 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getMatriculadetallesPeriodoAula = getMatriculadetallesPeriodoAula;
@@ -2955,11 +2912,7 @@ const getMatriculadetallesPeriodoAulaArea = (req, res) => __awaiter(void 0, void
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getMatriculadetallesPeriodoAulaArea = getMatriculadetallesPeriodoAulaArea;
@@ -3062,11 +3015,7 @@ const getMatriculasSubarea = (req, res) => __awaiter(void 0, void 0, void 0, fun
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getMatriculasSubarea = getMatriculasSubarea;
@@ -3142,11 +3091,7 @@ const busquedaMatriculas = (req, res) => __awaiter(void 0, void 0, void 0, funct
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaMatriculas = busquedaMatriculas;
@@ -3229,11 +3174,7 @@ const matriculasAlumno = (req, res) => __awaiter(void 0, void 0, void 0, functio
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.matriculasAlumno = matriculasAlumno;
@@ -3257,11 +3198,7 @@ const perteneceMatriculaAlumno = (req, res) => __awaiter(void 0, void 0, void 0,
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.perteneceMatriculaAlumno = perteneceMatriculaAlumno;
@@ -3353,11 +3290,7 @@ const matriculasProgramacionCiclo = (req, res) => __awaiter(void 0, void 0, void
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.matriculasProgramacionCiclo = matriculasProgramacionCiclo;
@@ -3444,11 +3377,7 @@ const getMatriculasProgramacionRangoFechas = (req, res) => __awaiter(void 0, voi
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getMatriculasProgramacionRangoFechas = getMatriculasProgramacionRangoFechas;
@@ -3555,10 +3484,7 @@ const getMatriculasPeriodoAulaSubareaCiclo = (req, res) => __awaiter(void 0, voi
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getMatriculasPeriodoAulaSubareaCiclo = getMatriculasPeriodoAulaSubareaCiclo;
@@ -3672,10 +3598,7 @@ const busquedaMatriculasPorAlumno = (req, res) => __awaiter(void 0, void 0, void
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaMatriculasPorAlumno = busquedaMatriculasPorAlumno;
@@ -3779,10 +3702,7 @@ const getMatriculasAnual = (req, res) => __awaiter(void 0, void 0, void 0, funct
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getMatriculasAnual = getMatriculasAnual;
@@ -3859,11 +3779,7 @@ const busquedaMatriculasSubarea = (req, res) => __awaiter(void 0, void 0, void 0
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaMatriculasSubarea = busquedaMatriculasSubarea;
@@ -3949,10 +3865,7 @@ const getMatriculasPeriodoAulaSubarea = (req, res) => __awaiter(void 0, void 0, 
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getMatriculasPeriodoAulaSubarea = getMatriculasPeriodoAulaSubarea;
@@ -4053,10 +3966,7 @@ const getMatriculaCiclo = (req, res) => __awaiter(void 0, void 0, void 0, functi
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getMatriculaCiclo = getMatriculaCiclo;
@@ -4132,11 +4042,7 @@ const matriculasApoderado = (req, res) => __awaiter(void 0, void 0, void 0, func
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.matriculasApoderado = matriculasApoderado;
@@ -4244,11 +4150,7 @@ const getMatriculasPeriodoAulaSubareaCicloApoderado = (req, res) => __awaiter(vo
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getMatriculasPeriodoAulaSubareaCicloApoderado = getMatriculasPeriodoAulaSubareaCicloApoderado;
@@ -4335,10 +4237,7 @@ const getMatriculasPeriodoAulaSubareaaApoderado = (req, res) => __awaiter(void 0
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getMatriculasPeriodoAulaSubareaaApoderado = getMatriculasPeriodoAulaSubareaaApoderado;
@@ -4443,10 +4342,7 @@ const getMatriculasAnualApoderado = (req, res) => __awaiter(void 0, void 0, void
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getMatriculasAnualApoderado = getMatriculasAnualApoderado;
@@ -4549,11 +4445,7 @@ const matriculasAlumnoPeriodo = (req, res) => __awaiter(void 0, void 0, void 0, 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.matriculasAlumnoPeriodo = matriculasAlumnoPeriodo;
@@ -4668,10 +4560,7 @@ const busquedaMatriculasPorAlumnoPeriodo = (req, res) => __awaiter(void 0, void 
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaMatriculasPorAlumnoPeriodo = busquedaMatriculasPorAlumnoPeriodo;
@@ -4746,11 +4635,7 @@ const matriculasAlumnoReporte = (req, res) => __awaiter(void 0, void 0, void 0, 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.matriculasAlumnoReporte = matriculasAlumnoReporte;
@@ -4848,10 +4733,7 @@ const getMatriculaAnual = (req, res) => __awaiter(void 0, void 0, void 0, functi
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getMatriculaAnual = getMatriculaAnual;
@@ -4929,11 +4811,7 @@ const matriculasApoderadoPeriodoAula = (req, res) => __awaiter(void 0, void 0, v
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.matriculasApoderadoPeriodoAula = matriculasApoderadoPeriodoAula;
@@ -5024,11 +4902,7 @@ const getMatriculasPeriodoAulaArea = (req, res) => __awaiter(void 0, void 0, voi
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getMatriculasPeriodoAulaArea = getMatriculasPeriodoAulaArea;
@@ -5115,11 +4989,150 @@ const getMatriculasPeriodoAulaAreaApoderado = (req, res) => __awaiter(void 0, vo
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getMatriculasPeriodoAulaAreaApoderado = getMatriculasPeriodoAulaAreaApoderado;
+const matriculasPadrePeriodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { padreId, periodoId } = req.params;
+    try {
+        const matriculadetalles = yield matriculadetalle_1.default.findAll({
+            where: {
+                estado: true,
+                '$matricula.alumno.padre.id$': padreId,
+                '$programacion.periodo.id$': periodoId,
+            },
+            order: [
+                [
+                    { model: matricula_1.default, as: 'matricula' },
+                    { model: alumno_1.default, as: 'alumno' },
+                    { model: persona_1.default, as: 'persona' },
+                    'apellidopaterno', 'ASC'
+                ]
+            ],
+            include: [
+                {
+                    model: matricula_1.default,
+                    as: 'matricula',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: alumno_1.default,
+                            as: 'alumno',
+                            attributes: ['id'],
+                            include: [
+                                {
+                                    model: persona_1.default,
+                                    as: 'persona',
+                                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                                },
+                                {
+                                    model: padre_1.default,
+                                    as: 'padre',
+                                    attributes: ['id']
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    model: programacion_1.default,
+                    as: 'programacion',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: aula_1.default,
+                            as: 'aula',
+                            attributes: ['id', 'nombre', 'tipovalor'],
+                        },
+                        {
+                            model: periodo_1.default,
+                            as: 'periodo',
+                            attributes: ['id', 'nombre']
+                        }
+                    ]
+                },
+            ]
+        });
+        return res.json({
+            ok: true,
+            matriculadetalles
+        });
+    }
+    catch (error) {
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
+    }
+});
+exports.matriculasPadrePeriodo = matriculasPadrePeriodo;
+const matriculasMadrePeriodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { madreId, periodoId } = req.params;
+    try {
+        const matriculadetalles = yield matriculadetalle_1.default.findAll({
+            where: {
+                estado: true,
+                '$matricula.alumno.madre.id$': madreId,
+                '$programacion.periodo.id$': periodoId,
+            },
+            order: [
+                [
+                    { model: matricula_1.default, as: 'matricula' },
+                    { model: alumno_1.default, as: 'alumno' },
+                    { model: persona_1.default, as: 'persona' },
+                    'apellidopaterno', 'ASC'
+                ]
+            ],
+            include: [
+                {
+                    model: matricula_1.default,
+                    as: 'matricula',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: alumno_1.default,
+                            as: 'alumno',
+                            attributes: ['id'],
+                            include: [
+                                {
+                                    model: persona_1.default,
+                                    as: 'persona',
+                                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img', 'correo'],
+                                },
+                                {
+                                    model: madre_1.default,
+                                    as: 'madre',
+                                    attributes: ['id']
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    model: programacion_1.default,
+                    as: 'programacion',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: aula_1.default,
+                            as: 'aula',
+                            attributes: ['id', 'nombre', 'tipovalor'],
+                        },
+                        {
+                            model: periodo_1.default,
+                            as: 'periodo',
+                            attributes: ['id', 'nombre']
+                        }
+                    ]
+                },
+            ]
+        });
+        return res.json({
+            ok: true,
+            matriculadetalles
+        });
+    }
+    catch (error) {
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
+    }
+});
+exports.matriculasMadrePeriodo = matriculasMadrePeriodo;
 //# sourceMappingURL=matriculadetalle.js.map

@@ -20,6 +20,7 @@ const tipodocumento_1 = __importDefault(require("../models/tipodocumento"));
 const usuario_1 = __importDefault(require("../models/usuario"));
 const role_1 = __importDefault(require("../models/role"));
 const auxiliar_1 = __importDefault(require("../models/auxiliar"));
+const handleError_1 = require("../utils/handleError");
 const getTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const auxiliares = yield auxiliar_1.default.findAll({
@@ -43,11 +44,7 @@ const getTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getTodo = getTodo;
@@ -93,11 +90,7 @@ const getAuxiliares = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getAuxiliares = getAuxiliares;
@@ -131,11 +124,7 @@ const getAuxiliar = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getAuxiliar = getAuxiliar;
@@ -172,11 +161,7 @@ const getAuxiliarPersona = (req, res) => __awaiter(void 0, void 0, void 0, funct
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getAuxiliarPersona = getAuxiliarPersona;
@@ -195,7 +180,7 @@ const postAuxiliar = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         yield usuario_1.default.create({
             nombre: arr[0],
             numero: numeroUsuario,
-            email: arr[0] + '' + numeroUsuario + '@mail.com',
+            email: arr[0] + '' + numeroUsuario + '@demo.com',
             password: bcryptjs_1.default.hashSync(body.dniusuario, salt),
             roleId: roles[4].id,
             personaId: body.personaId
@@ -207,11 +192,7 @@ const postAuxiliar = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.postAuxiliar = postAuxiliar;
@@ -234,11 +215,7 @@ const putAuxiliar = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.putAuxiliar = putAuxiliar;
@@ -269,11 +246,7 @@ const deleteAuxiliar = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.deleteAuxiliar = deleteAuxiliar;
@@ -321,11 +294,7 @@ const busquedaAuxiliares = (req, res) => __awaiter(void 0, void 0, void 0, funct
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaAuxiliares = busquedaAuxiliares;
@@ -356,11 +325,7 @@ const searchDNI = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.searchDNI = searchDNI;
@@ -381,10 +346,7 @@ const maxAuxiliarNumero = (req, res) => __awaiter(void 0, void 0, void 0, functi
         }
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.maxAuxiliarNumero = maxAuxiliarNumero;

@@ -108,8 +108,8 @@ export const secciones = [
     { id: 4, nombre: 'D' }
 ];
 export const periodos = [
-    { id: 1, nombre: '2022', fechainicial: "2022-03-01", fechafinal: "2022-12-31" },
-    { id: 2, nombre: '2023', fechainicial: "2023-03-01", fechafinal: "2023-12-31" }
+    { id: 1, nombre: '2022', fechainicial: "2022-01-01", fechafinal: "2022-12-31" },
+    { id: 2, nombre: '2023', fechainicial: "2023-01-01", fechafinal: "2023-12-31" }
 ];
 export const evaluaciones = [
     { id: 1, nombre: 'TRABAJOS INDIVIDUALES', abreviatura: 'PA' },
@@ -147,7 +147,7 @@ export const rangos = [
 export const personas = [
 
     /* Administrador */
-    { id: 1, dni: '46556963', sexo: 1, fechanacimiento: moment(new Date("1994/07/15")).format('YYYY-MM-DD'), nombres: 'DARWIN JHONATAN', apellidopaterno: 'FLORES', apellidomaterno: 'NUÑEZ', tipodocumentoId: 1 },
+    { id: 1, dni: '73494108', sexo: 1, fechanacimiento: moment(new Date("1994/07/15")).format('YYYY-MM-DD'), nombres: 'JHONATAN SMITH', apellidopaterno: 'URBINA', apellidomaterno: 'CARRASCO', tipodocumentoId: 1 },
 
     /*  Docentes */
     { id: 2, dni: '03648131', sexo: 2, fechanacimiento: moment(new Date("1968/10/12")).format('YYYY-MM-DD'), telefono: "915201079", correo: "valdiviezomary12@gmail.com", nombres: 'MARIA DEL PILAR', apellidopaterno: 'CAMACHO', apellidomaterno: 'VALDIVIEZO', tipodocumentoId: 1 },
@@ -300,49 +300,49 @@ export const personas = [
 export const usuarios = [
 
     /** ADMINISTRADOR */
-    { id: 1, numero: 1, nombre: "Darwin Jhonatan", email: "jhonatan@mail.com", password: "123456", roleId: 1, personaId: 1 },
+    { id: 1, numero: 1, nombre: "Darwin Jhonatan", email: "jhonatan@demo.com", password: "123456", roleId: 1, personaId: 1 },
 
     /** DOCENTES */
-    { id: 2, numero: 2, nombre: "Maria", email: "maria2@mail.com", password: "123456", roleId: 2, personaId: 2 },
-    { id: 3, numero: 3, nombre: "Jose", email: "jose3@mail.com", password: "123456", roleId: 2, personaId: 3 },
-    { id: 4, numero: 4, nombre: "Cesar", email: "cesar4@mail.com", password: "123456", roleId: 2, personaId: 4 },
-    { id: 5, numero: 5, nombre: "Santos", email: "santos5@mail.com", password: "123456", roleId: 2, personaId: 5 },
-    { id: 6, numero: 6, nombre: "Victor", email: "victor6@mail.com", password: "123456", roleId: 2, personaId: 6 },
-    { id: 7, numero: 7, nombre: "Gipsy", email: "gipsy7@mail.com", password: "123456", roleId: 2, personaId: 7 },
-    { id: 8, numero: 8, nombre: "Humberto", email: "humberto8@mail.com", password: "123456", roleId: 2, personaId: 8 },
-    { id: 9, numero: 9, nombre: "Luis", email: "luis9@mail.com", password: "123456", roleId: 2, personaId: 9 },
-    { id: 10, numero: 10, nombre: "Liz", email: "liz10@mail.com", password: "123456", roleId: 2, personaId: 10 },
-    { id: 11, numero: 11, nombre: "Miguel", email: "miguel11@mail.com", password: "123456", roleId: 2, personaId: 11 },
-    { id: 12, numero: 12, nombre: "Cesar", email: "cesar12@mail.com", password: "123456", roleId: 2, personaId: 12 },
-    { id: 13, numero: 13, nombre: "Segundo", email: "segundo13@mail.com", password: "123456", roleId: 2, personaId: 13 },
-    { id: 14, numero: 14, nombre: "Jaime", email: "jaime14@mail.com", password: "123456", roleId: 2, personaId: 14 },
+    { id: 2, numero: 2, nombre: "Maria", email: "maria2@demo.com", password: "123456", roleId: 2, personaId: 2 },
+    { id: 3, numero: 3, nombre: "Jose", email: "jose3@demo.com", password: "123456", roleId: 2, personaId: 3 },
+    { id: 4, numero: 4, nombre: "Cesar", email: "cesar4@demo.com", password: "123456", roleId: 2, personaId: 4 },
+    { id: 5, numero: 5, nombre: "Santos", email: "santos5@demo.com", password: "123456", roleId: 2, personaId: 5 },
+    { id: 6, numero: 6, nombre: "Victor", email: "victor6@demo.com", password: "123456", roleId: 2, personaId: 6 },
+    { id: 7, numero: 7, nombre: "Gipsy", email: "gipsy7@demo.com", password: "123456", roleId: 2, personaId: 7 },
+    { id: 8, numero: 8, nombre: "Humberto", email: "humberto8@demo.com", password: "123456", roleId: 2, personaId: 8 },
+    { id: 9, numero: 9, nombre: "Luis", email: "luis9@demo.com", password: "123456", roleId: 2, personaId: 9 },
+    { id: 10, numero: 10, nombre: "Liz", email: "liz10@demo.com", password: "123456", roleId: 2, personaId: 10 },
+    { id: 11, numero: 11, nombre: "Miguel", email: "miguel11@demo.com", password: "123456", roleId: 2, personaId: 11 },
+    { id: 12, numero: 12, nombre: "Cesar", email: "cesar12@demo.com", password: "123456", roleId: 2, personaId: 12 },
+    { id: 13, numero: 13, nombre: "Segundo", email: "segundo13@demo.com", password: "123456", roleId: 2, personaId: 13 },
+    { id: 14, numero: 14, nombre: "Jaime", email: "jaime14@demo.com", password: "123456", roleId: 2, personaId: 14 },
 
     /**Auxiliares */
-    { id: 15, numero: 15, nombre: "Silvia", email: "silvia15@mail.com", password: "123456", roleId: 5, personaId: 95 },
+    { id: 15, numero: 15, nombre: "Silvia", email: "silvia15@demo.com", password: "123456", roleId: 5, personaId: 95 },
 
     /** PADRES */
-    { id: 16, numero: 16, nombre: "Asencion", email: "asencion16@mail.com", password: "123456", roleId: 3, personaId: 100 },
-    { id: 17, numero: 17, nombre: "Paul", email: "paul17@mail.com", password: "123456", roleId: 3, personaId: 101 },
-    { id: 18, numero: 18, nombre: "Carlos", email: "carlos18@mail.com", password: "123456", roleId: 3, personaId: 102 },
-    { id: 19, numero: 19, nombre: "Carlos", email: "carlos19@mail.com", password: "123456", roleId: 3, personaId: 103 },
-    { id: 20, numero: 20, nombre: "William", email: "william20@mail.com", password: "123456", roleId: 3, personaId: 104 },
-    { id: 21, numero: 21, nombre: "Fidel", email: "fidel21@mail.com", password: "123456", roleId: 3, personaId: 105 },
-    { id: 22, numero: 22, nombre: "Felipe", email: "felipe22@mail.com", password: "123456", roleId: 3, personaId: 106 },
-    { id: 23, numero: 23, nombre: "Segundo", email: "segundo23@mail.com", password: "123456", roleId: 3, personaId: 107 },
-    { id: 24, numero: 24, nombre: "Alejandro", email: "alejandro24@mail.com", password: "123456", roleId: 3, personaId: 108 },
-    { id: 25, numero: 25, nombre: "Segundo", email: "segundo25@mail.com", password: "123456", roleId: 3, personaId: 109 },
+    { id: 16, numero: 16, nombre: "Asencion", email: "asencion16@demo.com", password: "123456", roleId: 3, personaId: 100 },
+    { id: 17, numero: 17, nombre: "Paul", email: "paul17@demo.com", password: "123456", roleId: 3, personaId: 101 },
+    { id: 18, numero: 18, nombre: "Carlos", email: "carlos18@demo.com", password: "123456", roleId: 3, personaId: 102 },
+    { id: 19, numero: 19, nombre: "Carlos", email: "carlos19@demo.com", password: "123456", roleId: 3, personaId: 103 },
+    { id: 20, numero: 20, nombre: "William", email: "william20@demo.com", password: "123456", roleId: 3, personaId: 104 },
+    { id: 21, numero: 21, nombre: "Fidel", email: "fidel21@demo.com", password: "123456", roleId: 3, personaId: 105 },
+    { id: 22, numero: 22, nombre: "Felipe", email: "felipe22@demo.com", password: "123456", roleId: 3, personaId: 106 },
+    { id: 23, numero: 23, nombre: "Segundo", email: "segundo23@demo.com", password: "123456", roleId: 3, personaId: 107 },
+    { id: 24, numero: 24, nombre: "Alejandro", email: "alejandro24@demo.com", password: "123456", roleId: 3, personaId: 108 },
+    { id: 25, numero: 25, nombre: "Segundo", email: "segundo25@demo.com", password: "123456", roleId: 3, personaId: 109 },
 
     /* MADRES */
-    { id: 26, numero: 26, nombre: "Yovanny", email: "yovanny26@mail.com", password: "123456", roleId: 4, personaId: 110 },
-    { id: 27, numero: 27, nombre: "Maria", email: "maria27@mail.com", password: "123456", roleId: 4, personaId: 111 },
-    { id: 28, numero: 28, nombre: "Sugey", email: "sugey28@mail.com", password: "123456", roleId: 4, personaId: 112 },
-    { id: 29, numero: 29, nombre: "Dalila", email: "dalila29@mail.com", password: "123456", roleId: 4, personaId: 113 },
-    { id: 30, numero: 30, nombre: "Ruth", email: "ruth30@mail.com", password: "123456", roleId: 4, personaId: 114 },
-    { id: 31, numero: 31, nombre: "Maria", email: "maria31@mail.com", password: "123456", roleId: 4, personaId: 115 },
-    { id: 32, numero: 32, nombre: "Mariela", email: "mariela32@mail.com", password: "123456", roleId: 4, personaId: 116 },
-    { id: 33, numero: 33, nombre: "Jessica", email: "jessica33@mail.com", password: "123456", roleId: 4, personaId: 117 },
-    { id: 34, numero: 34, nombre: "Evelyn", email: "evelyn34@mail.com", password: "123456", roleId: 4, personaId: 118 },
-    { id: 35, numero: 35, nombre: "Aracely", email: "aracely35@mail.com", password: "123456", roleId: 4, personaId: 119 },
+    { id: 26, numero: 26, nombre: "Yovanny", email: "yovanny26@demo.com", password: "123456", roleId: 4, personaId: 110 },
+    { id: 27, numero: 27, nombre: "Maria", email: "maria27@demo.com", password: "123456", roleId: 4, personaId: 111 },
+    { id: 28, numero: 28, nombre: "Sugey", email: "sugey28@demo.com", password: "123456", roleId: 4, personaId: 112 },
+    { id: 29, numero: 29, nombre: "Dalila", email: "dalila29@demo.com", password: "123456", roleId: 4, personaId: 113 },
+    { id: 30, numero: 30, nombre: "Ruth", email: "ruth30@demo.com", password: "123456", roleId: 4, personaId: 114 },
+    { id: 31, numero: 31, nombre: "Maria", email: "maria31@demo.com", password: "123456", roleId: 4, personaId: 115 },
+    { id: 32, numero: 32, nombre: "Mariela", email: "mariela32@demo.com", password: "123456", roleId: 4, personaId: 116 },
+    { id: 33, numero: 33, nombre: "Jessica", email: "jessica33@demo.com", password: "123456", roleId: 4, personaId: 117 },
+    { id: 34, numero: 34, nombre: "Evelyn", email: "evelyn34@demo.com", password: "123456", roleId: 4, personaId: 118 },
+    { id: 35, numero: 35, nombre: "Aracely", email: "aracely35@demo.com", password: "123456", roleId: 4, personaId: 119 },
 ];
 
 export const docentes = [
@@ -1685,8 +1685,8 @@ export const matriculadetalles = [
 export const mensajerias = [
     {
         id: 1,
-        emisor: "jhonatan@mail.com",
-        receptor: "maria2@mail.com",
+        emisor: "jhonatan@demo.com",
+        receptor: "maria2@demo.com",
         asunto: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
         contenido: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum earum molestiae iste explicabo laboriosam adipisci quas debitis temporibus accusamus at, impedit eos ducimus cum. Dicta accusantium enim iure omnis optio!",
         fecha: moment().format('YYYY-MM-DD'),
@@ -1694,8 +1694,8 @@ export const mensajerias = [
     },
     {
         id: 2,
-        emisor: "jhonatan@mail.com",
-        receptor: "maria2@mail.com",
+        emisor: "jhonatan@demo.com",
+        receptor: "maria2@demo.com",
         asunto: "Harum earum molestiae iste explicabo laboriosam adipisci.",
         contenido: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum earum molestiae iste explicabo laboriosam adipisci quas debitis temporibus accusamus at, impedit eos ducimus cum. Dicta accusantium enim iure omnis optio!",
         fecha: moment().format('YYYY-MM-DD'),
@@ -1703,8 +1703,8 @@ export const mensajerias = [
     },
     {
         id: 3,
-        emisor: "maria2@mail.com",
-        receptor: "jhonatan@mail.com",
+        emisor: "maria2@demo.com",
+        receptor: "jhonatan@demo.com",
         asunto: "debitis temporibus accusamus at.",
         contenido: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum earum molestiae iste explicabo laboriosam adipisci quas debitis temporibus accusamus at, impedit eos ducimus cum. Dicta accusantium enim iure omnis optio!",
         fecha: moment().format('YYYY-MM-DD'),
@@ -1712,8 +1712,8 @@ export const mensajerias = [
     },
     {
         id: 4,
-        emisor: "maria2@mail.com",
-        receptor: "jhonatan@mail.com",
+        emisor: "maria2@demo.com",
+        receptor: "jhonatan@demo.com",
         asunto: "Dicta accusantium enim iure omnis optio.",
         contenido: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum earum molestiae iste explicabo laboriosam adipisci quas debitis temporibus accusamus at, impedit eos ducimus cum. Dicta accusantium enim iure omnis optio!",
         fecha: moment().format('YYYY-MM-DD'),

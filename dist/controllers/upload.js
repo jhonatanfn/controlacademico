@@ -18,18 +18,18 @@ const fs_1 = __importDefault(require("fs"));
 const uuid_1 = require("uuid");
 const actualizaArchivo_1 = require("../helpers/actualizaArchivo");
 const usuario_1 = __importDefault(require("../models/usuario"));
-const environments_1 = require("../environments/environments");
 const parser_1 = __importDefault(require("datauri/parser"));
 const persona_1 = __importDefault(require("../models/persona"));
 const area_1 = __importDefault(require("../models/area"));
 const material_1 = __importDefault(require("../models/material"));
 const institucion_1 = __importDefault(require("../models/institucion"));
+const handleError_1 = require("../utils/handleError");
 const parser = new parser_1.default();
 var cloudinary = require('cloudinary').v2;
 cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME || environments_1.environment.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY || environments_1.environment.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET || environments_1.environment.CLOUDINARY_API_SECRET
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
 });
 const fileUpload = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
@@ -80,11 +80,7 @@ const fileUpload = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.fileUpload = fileUpload;
@@ -150,11 +146,7 @@ const fileUploadCloudinary = (req, res) => __awaiter(void 0, void 0, void 0, fun
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.fileUploadCloudinary = fileUploadCloudinary;
@@ -202,11 +194,7 @@ const fileUploadCloudinaryArea = (req, res) => __awaiter(void 0, void 0, void 0,
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.fileUploadCloudinaryArea = fileUploadCloudinaryArea;
@@ -254,11 +242,7 @@ const fileUploadPdf = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.fileUploadPdf = fileUploadPdf;
@@ -318,10 +302,7 @@ const fileUploadCloudinaryInstitucion = (req, res) => __awaiter(void 0, void 0, 
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.fileUploadCloudinaryInstitucion = fileUploadCloudinaryInstitucion;

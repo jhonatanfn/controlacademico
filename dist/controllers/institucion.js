@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteInstitucion = exports.putInstitucion = exports.postInstitucion = exports.getInstitucion = exports.getInstituciones = void 0;
 const institucion_1 = __importDefault(require("../models/institucion"));
+const handleError_1 = require("../utils/handleError");
 const getInstituciones = (req, res) => {
 };
 exports.getInstituciones = getInstituciones;
@@ -35,11 +36,7 @@ const getInstitucion = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getInstitucion = getInstitucion;
@@ -55,10 +52,7 @@ const postInstitucion = (req, res) => __awaiter(void 0, void 0, void 0, function
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.postInstitucion = postInstitucion;
@@ -81,10 +75,7 @@ const putInstitucion = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.putInstitucion = putInstitucion;
@@ -106,10 +97,7 @@ const deleteInstitucion = (req, res) => __awaiter(void 0, void 0, void 0, functi
         });
     }
     catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.deleteInstitucion = deleteInstitucion;

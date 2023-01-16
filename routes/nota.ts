@@ -4,7 +4,7 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
 import {
-    busquedaNotas, cambiarEstadoNota, deleteNota, getNota, getNotas,
+    busquedaNotas, cambiarEstadoNota, deleteNota, existeNotasMatricula, getNota, getNotas,
     getNotasArea,
     getNotasCicloMatriculadetalle,
     getNotasHoyLiteral,
@@ -71,5 +71,6 @@ router.put('/:id', [
 router.delete('/:id', validarJWT, deleteNota);
 
 router.put('/cambiarestado/:id', validarJWT, cambiarEstadoNota);
+router.get('/existenotas/:matriculaId', validarJWT,existeNotasMatricula);
 
 export default router;

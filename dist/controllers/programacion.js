@@ -23,6 +23,7 @@ const periodo_1 = __importDefault(require("../models/periodo"));
 const persona_1 = __importDefault(require("../models/persona"));
 const programacion_1 = __importDefault(require("../models/programacion"));
 const seccion_1 = __importDefault(require("../models/seccion"));
+const handleError_1 = require("../utils/handleError");
 const getProgramacionesDocente = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { docente } = req.params;
     const desde = Number(req.query.desde) || 0;
@@ -98,11 +99,7 @@ const getProgramacionesDocente = (req, res) => __awaiter(void 0, void 0, void 0,
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getProgramacionesDocente = getProgramacionesDocente;
@@ -171,11 +168,7 @@ const getProgramacionesDocenteTodo = (req, res) => __awaiter(void 0, void 0, voi
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getProgramacionesDocenteTodo = getProgramacionesDocenteTodo;
@@ -243,11 +236,7 @@ const getProgramacionesDocentePeriodo = (req, res) => __awaiter(void 0, void 0, 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getProgramacionesDocentePeriodo = getProgramacionesDocentePeriodo;
@@ -321,11 +310,7 @@ const getProgramaciones = (req, res) => __awaiter(void 0, void 0, void 0, functi
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getProgramaciones = getProgramaciones;
@@ -391,11 +376,7 @@ const getProgramacion = (req, res) => __awaiter(void 0, void 0, void 0, function
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getProgramacion = getProgramacion;
@@ -475,11 +456,7 @@ const getProgramacionesPeriodoAula = (req, res) => __awaiter(void 0, void 0, voi
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getProgramacionesPeriodoAula = getProgramacionesPeriodoAula;
@@ -495,11 +472,7 @@ const postProgramacion = (req, res) => __awaiter(void 0, void 0, void 0, functio
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.postProgramacion = postProgramacion;
@@ -522,11 +495,7 @@ const putProgramacion = (req, res) => __awaiter(void 0, void 0, void 0, function
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.putProgramacion = putProgramacion;
@@ -548,11 +517,7 @@ const deleteProgramacion = (req, res) => __awaiter(void 0, void 0, void 0, funct
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.deleteProgramacion = deleteProgramacion;
@@ -636,11 +601,7 @@ const busquedaProgramaciones = (req, res) => __awaiter(void 0, void 0, void 0, f
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaProgramaciones = busquedaProgramaciones;
@@ -666,11 +627,7 @@ const existeProgramacion = (req, res) => __awaiter(void 0, void 0, void 0, funct
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.existeProgramacion = existeProgramacion;
@@ -699,11 +656,7 @@ const existeProgramacionEditar = (req, res) => __awaiter(void 0, void 0, void 0,
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.existeProgramacionEditar = existeProgramacionEditar;
@@ -798,11 +751,7 @@ const busquedaProgramacionesSubareaPorDocentePeriodo = (req, res) => __awaiter(v
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaProgramacionesSubareaPorDocentePeriodo = busquedaProgramacionesSubareaPorDocentePeriodo;
@@ -896,11 +845,7 @@ const busquedaProgramacionesSubareaPorDocente = (req, res) => __awaiter(void 0, 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaProgramacionesSubareaPorDocente = busquedaProgramacionesSubareaPorDocente;
@@ -981,11 +926,7 @@ const getProgramacionesDocentePeriodoPaginado = (req, res) => __awaiter(void 0, 
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getProgramacionesDocentePeriodoPaginado = getProgramacionesDocentePeriodoPaginado;
@@ -1054,11 +995,7 @@ const getProgramacionesDocentePeriodoPaginadoTodo = (req, res) => __awaiter(void
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getProgramacionesDocentePeriodoPaginadoTodo = getProgramacionesDocentePeriodoPaginadoTodo;
@@ -1082,11 +1019,7 @@ const perteneceProgramacionDocente = (req, res) => __awaiter(void 0, void 0, voi
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.perteneceProgramacionDocente = perteneceProgramacionDocente;
@@ -1110,11 +1043,7 @@ const perteneceAulaDocente = (req, res) => __awaiter(void 0, void 0, void 0, fun
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.perteneceAulaDocente = perteneceAulaDocente;
@@ -1176,11 +1105,7 @@ const programacionPeriodo = (req, res) => __awaiter(void 0, void 0, void 0, func
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.programacionPeriodo = programacionPeriodo;
@@ -1244,11 +1169,7 @@ const busquedaProgramacionesSubarea = (req, res) => __awaiter(void 0, void 0, vo
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaProgramacionesSubarea = busquedaProgramacionesSubarea;
@@ -1324,11 +1245,7 @@ const programacionPeriodoPaginado = (req, res) => __awaiter(void 0, void 0, void
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.programacionPeriodoPaginado = programacionPeriodoPaginado;
@@ -1417,11 +1334,7 @@ const busquedaProgramacionesPorDocente = (req, res) => __awaiter(void 0, void 0,
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.busquedaProgramacionesPorDocente = busquedaProgramacionesPorDocente;
@@ -1512,11 +1425,7 @@ const getProgramacionesAdministradorPeriodo = (req, res) => __awaiter(void 0, vo
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getProgramacionesAdministradorPeriodo = getProgramacionesAdministradorPeriodo;
@@ -1606,11 +1515,7 @@ const getProgramacionesAdministrador = (req, res) => __awaiter(void 0, void 0, v
         });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Se produjo un error. Hable con el administrador'
-        });
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
     }
 });
 exports.getProgramacionesAdministrador = getProgramacionesAdministrador;
