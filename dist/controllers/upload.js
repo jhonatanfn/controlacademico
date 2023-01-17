@@ -27,9 +27,9 @@ const handleError_1 = require("../utils/handleError");
 const parser = new parser_1.default();
 var cloudinary = require('cloudinary').v2;
 cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME || 'archivos',
+    api_key: process.env.CLOUDINARY_API_KEY || '229177161422146',
+    api_secret: process.env.CLOUDINARY_API_SECRET || '50CFAia_nxawmNLcdUH7uIACHEU'
 });
 const fileUpload = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;

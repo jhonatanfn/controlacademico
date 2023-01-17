@@ -273,7 +273,7 @@ exports.personas = [
 ];
 exports.usuarios = [
     /** ADMINISTRADOR */
-    { id: 1, numero: 1, nombre: "Darwin Jhonatan", email: "jhonatan@demo.com", password: "123456", roleId: 1, personaId: 1 },
+    { id: 1, numero: 1, nombre: "Jhonatan", email: "jhonatan@demo.com", password: "123456", roleId: 1, personaId: 1 },
     /** DOCENTES */
     { id: 2, numero: 2, nombre: "Maria", email: "maria2@demo.com", password: "123456", roleId: 2, personaId: 2 },
     { id: 3, numero: 3, nombre: "Jose", email: "jose3@demo.com", password: "123456", roleId: 2, personaId: 3 },

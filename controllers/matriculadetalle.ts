@@ -260,6 +260,27 @@ export const putMatriculadetalle = async (req: Request, res: Response) => {
         handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
+
+export const cambiarEstadoMatriculadetalle = async (req: Request, res: Response) =>{
+    const { id, estado } = req.params;
+    try {
+        const matriculadetalle: any = await Matriculadetalle.findByPk(id);
+        if (!matriculadetalle) {
+            return res.status(400).json({
+                ok: false,
+                msg: `No existe una matriculadetalle con el id: ${id}`
+            });
+        }
+        await matriculadetalle?.update({ estado });
+        res.json({
+            ok: true,
+            msg: 'Matriculadetalle actualizada exitosamente',
+        });
+    } catch (error) {
+        handleHttpError(res, "Se produjo un error.", 500, error);
+    }
+}
+
 export const deleteMatriculadetalle = async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
@@ -545,7 +566,7 @@ export const getMatriculadetallesMatricula = async (req: Request, res: Response)
                 estado: true,
                 matriculaId: req.params.matriculaId
             },
-            attributes: ['id', 'aprobado'],
+            attributes: ['id', 'aprobado','estado'],
             include: [
                 {
                     model: Matricula,
@@ -628,6 +649,98 @@ export const getMatriculadetallesMatricula = async (req: Request, res: Response)
         handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
+
+export const getMatriculadetallesMatriculaEstado = async (req: Request, res: Response) => {
+    try {
+        const matriculadetalles = await Matriculadetalle.findAll({
+            where: {
+                matriculaId: req.params.matriculaId
+            },
+            attributes: ['id', 'aprobado','estado'],
+            include: [
+                {
+                    model: Matricula,
+                    as: 'matricula',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: Alumno,
+                            as: 'alumno',
+                            attributes: ['id'],
+                            include: [
+                                {
+                                    model: Persona,
+                                    as: 'persona',
+                                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    model: Programacion,
+                    as: 'programacion',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: Aula,
+                            as: 'aula',
+                            attributes: ['id', 'nombre', 'tipovalor'],
+                            include: [
+                                {
+                                    model: Nivel,
+                                    as: 'nivel',
+                                    attributes: ['id', 'nombre'],
+                                },
+                                {
+                                    model: Grado,
+                                    as: 'grado',
+                                    attributes: ['id', 'nombre'],
+                                },
+                                {
+                                    model: Seccion,
+                                    as: 'seccion',
+                                    attributes: ['id', 'nombre'],
+                                }
+                            ]
+                        },
+                        {
+                            model: Docente,
+                            as: 'docente',
+                            attributes: ['id'],
+                            include: [
+                                {
+                                    model: Persona,
+                                    as: 'persona',
+                                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
+                                }
+                            ]
+                        },
+                        {
+                            model: Periodo,
+                            as: 'periodo',
+                            attributes: ['id', 'nombre']
+                        },
+                        {
+                            model: Area,
+                            as: 'area',
+                            attributes: ['id', 'nombre']
+                        }
+
+                    ]
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            matriculadetalles
+        });
+    } catch (error) {
+        handleHttpError(res, "Se produjo un error.", 500, error);
+    }
+}
+
+
 export const getMatriculadetallesProgramacion = async (req: Request, res: Response) => {
     const { programacionId } = req.params;
     try {
@@ -778,7 +891,12 @@ export const getListadoAlumnos = async (req: Request, res: Response) => {
                 }
             ]
         });
-
+        if(listado.length==0){
+            return res.status(400).json({
+                ok: false,
+                msg: "No hay matriculas registradas para este periodo."
+            });
+        }
         const areaId = listado[0].programacion.area.id;
         const matriculadetalles = await Matriculadetalle.findAll({
             where: {
@@ -857,7 +975,6 @@ export const getListadoAlumnos = async (req: Request, res: Response) => {
                 }
             ]
         });
-        console.log(areas[0].id);
         res.json({
             ok: true,
             matriculadetalles,

@@ -12,8 +12,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.matriculasAlumnoReporte = exports.busquedaMatriculasPorAlumnoPeriodo = exports.matriculasAlumnoPeriodo = exports.getMatriculasAnualApoderado = exports.getMatriculasPeriodoAulaSubareaaApoderado = exports.getMatriculasPeriodoAulaSubareaCicloApoderado = exports.matriculasApoderado = exports.getMatriculaCiclo = exports.getMatriculasPeriodoAulaSubarea = exports.busquedaMatriculasSubarea = exports.getMatriculasAnual = exports.busquedaMatriculasPorAlumno = exports.getMatriculasPeriodoAulaSubareaCiclo = exports.getMatriculasProgramacionRangoFechas = exports.matriculasProgramacionCiclo = exports.perteneceMatriculaAlumno = exports.matriculasAlumno = exports.busquedaMatriculas = exports.getMatriculasSubarea = exports.getMatriculadetallesPeriodoAulaArea = exports.getMatriculadetallesPeriodoAula = exports.perteneceMatriculaMadre = exports.perteneceMatriculaPadre = exports.busquedaMatriculadetallesPorAlumnoMadrePeriodo = exports.busquedaMatriculadetallesPorAlumnoPadrePeriodo = exports.busquedaMatriculadetallesPorAlumnoMadre = exports.busquedaMatriculadetallesPorAlumnoPadre = exports.matriculasAlumnoPorMadrePeriodo = exports.matriculasAlumnoPorPadrePeriodo = exports.matriculasAlumnoPorMadre = exports.matriculasAlumnoPorPadre = exports.perteneceProgramacionAlumno = exports.perteneceMatriculadetalleAlumno = exports.busquedaMatriculadetallesPorAlumnoPeriodo = exports.busquedaMatriculadetallesPorAlumno = exports.matriculadetallesAlumnoPeriodo = exports.matriculadetallesAlumno = exports.getListadoAlumnosProgramacion = exports.getListadoAlumnos = exports.getMatriculadetallesProgramacion = exports.getMatriculadetallesMatricula = exports.listarmatriculasanterior = exports.aprobadoAlumno = exports.existeMatricula = exports.busquedaMatriculadetalles = exports.deleteMatriculadetalle = exports.putMatriculadetalle = exports.postMatriculadetalle = exports.getMatriculadetalle = exports.getMatriculadetalles = void 0;
-exports.matriculasMadrePeriodo = exports.matriculasPadrePeriodo = exports.getMatriculasPeriodoAulaAreaApoderado = exports.getMatriculasPeriodoAulaArea = exports.matriculasApoderadoPeriodoAula = exports.getMatriculaAnual = void 0;
+exports.matriculasAlumnoPeriodo = exports.getMatriculasAnualApoderado = exports.getMatriculasPeriodoAulaSubareaaApoderado = exports.getMatriculasPeriodoAulaSubareaCicloApoderado = exports.matriculasApoderado = exports.getMatriculaCiclo = exports.getMatriculasPeriodoAulaSubarea = exports.busquedaMatriculasSubarea = exports.getMatriculasAnual = exports.busquedaMatriculasPorAlumno = exports.getMatriculasPeriodoAulaSubareaCiclo = exports.getMatriculasProgramacionRangoFechas = exports.matriculasProgramacionCiclo = exports.perteneceMatriculaAlumno = exports.matriculasAlumno = exports.busquedaMatriculas = exports.getMatriculasSubarea = exports.getMatriculadetallesPeriodoAulaArea = exports.getMatriculadetallesPeriodoAula = exports.perteneceMatriculaMadre = exports.perteneceMatriculaPadre = exports.busquedaMatriculadetallesPorAlumnoMadrePeriodo = exports.busquedaMatriculadetallesPorAlumnoPadrePeriodo = exports.busquedaMatriculadetallesPorAlumnoMadre = exports.busquedaMatriculadetallesPorAlumnoPadre = exports.matriculasAlumnoPorMadrePeriodo = exports.matriculasAlumnoPorPadrePeriodo = exports.matriculasAlumnoPorMadre = exports.matriculasAlumnoPorPadre = exports.perteneceProgramacionAlumno = exports.perteneceMatriculadetalleAlumno = exports.busquedaMatriculadetallesPorAlumnoPeriodo = exports.busquedaMatriculadetallesPorAlumno = exports.matriculadetallesAlumnoPeriodo = exports.matriculadetallesAlumno = exports.getListadoAlumnosProgramacion = exports.getListadoAlumnos = exports.getMatriculadetallesProgramacion = exports.getMatriculadetallesMatriculaEstado = exports.getMatriculadetallesMatricula = exports.listarmatriculasanterior = exports.aprobadoAlumno = exports.existeMatricula = exports.busquedaMatriculadetalles = exports.deleteMatriculadetalle = exports.cambiarEstadoMatriculadetalle = exports.putMatriculadetalle = exports.postMatriculadetalle = exports.getMatriculadetalle = exports.getMatriculadetalles = void 0;
+exports.matriculasMadrePeriodo = exports.matriculasPadrePeriodo = exports.getMatriculasPeriodoAulaAreaApoderado = exports.getMatriculasPeriodoAulaArea = exports.matriculasApoderadoPeriodoAula = exports.getMatriculaAnual = exports.matriculasAlumnoReporte = exports.busquedaMatriculasPorAlumnoPeriodo = void 0;
 const sequelize_1 = require("sequelize");
 const alumno_1 = __importDefault(require("../models/alumno"));
 const persona_1 = __importDefault(require("../models/persona"));
@@ -275,6 +275,27 @@ const putMatriculadetalle = (req, res) => __awaiter(void 0, void 0, void 0, func
     }
 });
 exports.putMatriculadetalle = putMatriculadetalle;
+const cambiarEstadoMatriculadetalle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id, estado } = req.params;
+    try {
+        const matriculadetalle = yield matriculadetalle_1.default.findByPk(id);
+        if (!matriculadetalle) {
+            return res.status(400).json({
+                ok: false,
+                msg: `No existe una matriculadetalle con el id: ${id}`
+            });
+        }
+        yield (matriculadetalle === null || matriculadetalle === void 0 ? void 0 : matriculadetalle.update({ estado }));
+        res.json({
+            ok: true,
+            msg: 'Matriculadetalle actualizada exitosamente',
+        });
+    }
+    catch (error) {
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
+    }
+});
+exports.cambiarEstadoMatriculadetalle = cambiarEstadoMatriculadetalle;
 const deleteMatriculadetalle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
@@ -563,7 +584,7 @@ const getMatriculadetallesMatricula = (req, res) => __awaiter(void 0, void 0, vo
                 estado: true,
                 matriculaId: req.params.matriculaId
             },
-            attributes: ['id', 'aprobado'],
+            attributes: ['id', 'aprobado', 'estado'],
             include: [
                 {
                     model: matricula_1.default,
@@ -647,6 +668,96 @@ const getMatriculadetallesMatricula = (req, res) => __awaiter(void 0, void 0, vo
     }
 });
 exports.getMatriculadetallesMatricula = getMatriculadetallesMatricula;
+const getMatriculadetallesMatriculaEstado = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const matriculadetalles = yield matriculadetalle_1.default.findAll({
+            where: {
+                matriculaId: req.params.matriculaId
+            },
+            attributes: ['id', 'aprobado', 'estado'],
+            include: [
+                {
+                    model: matricula_1.default,
+                    as: 'matricula',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: alumno_1.default,
+                            as: 'alumno',
+                            attributes: ['id'],
+                            include: [
+                                {
+                                    model: persona_1.default,
+                                    as: 'persona',
+                                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    model: programacion_1.default,
+                    as: 'programacion',
+                    attributes: ['id'],
+                    include: [
+                        {
+                            model: aula_1.default,
+                            as: 'aula',
+                            attributes: ['id', 'nombre', 'tipovalor'],
+                            include: [
+                                {
+                                    model: nivel_1.default,
+                                    as: 'nivel',
+                                    attributes: ['id', 'nombre'],
+                                },
+                                {
+                                    model: grado_1.default,
+                                    as: 'grado',
+                                    attributes: ['id', 'nombre'],
+                                },
+                                {
+                                    model: seccion_1.default,
+                                    as: 'seccion',
+                                    attributes: ['id', 'nombre'],
+                                }
+                            ]
+                        },
+                        {
+                            model: docente_1.default,
+                            as: 'docente',
+                            attributes: ['id'],
+                            include: [
+                                {
+                                    model: persona_1.default,
+                                    as: 'persona',
+                                    attributes: ['id', 'dni', 'nombres', 'apellidopaterno', 'apellidomaterno', 'domicilio', 'telefono', 'nacionalidad', 'distrito', 'fechanacimiento', 'sexo', 'img'],
+                                }
+                            ]
+                        },
+                        {
+                            model: periodo_1.default,
+                            as: 'periodo',
+                            attributes: ['id', 'nombre']
+                        },
+                        {
+                            model: area_1.default,
+                            as: 'area',
+                            attributes: ['id', 'nombre']
+                        }
+                    ]
+                }
+            ]
+        });
+        res.json({
+            ok: true,
+            matriculadetalles
+        });
+    }
+    catch (error) {
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
+    }
+});
+exports.getMatriculadetallesMatriculaEstado = getMatriculadetallesMatriculaEstado;
 const getMatriculadetallesProgramacion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { programacionId } = req.params;
     try {
@@ -794,6 +905,12 @@ const getListadoAlumnos = (req, res) => __awaiter(void 0, void 0, void 0, functi
                 }
             ]
         });
+        if (listado.length == 0) {
+            return res.status(400).json({
+                ok: false,
+                msg: "No hay matriculas registradas para este periodo."
+            });
+        }
         const areaId = listado[0].programacion.area.id;
         const matriculadetalles = yield matriculadetalle_1.default.findAll({
             where: {
@@ -872,7 +989,6 @@ const getListadoAlumnos = (req, res) => __awaiter(void 0, void 0, void 0, functi
                 }
             ]
         });
-        console.log(areas[0].id);
         res.json({
             ok: true,
             matriculadetalles,

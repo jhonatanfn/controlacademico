@@ -11,6 +11,7 @@ const validar_jwt_1 = require("../middlewares/validar-jwt");
 const router = (0, express_1.Router)();
 router.get('/', validar_jwt_1.validarJWT, matriculadetalle_1.getMatriculadetalles);
 router.get('/matricula/:matriculaId', validar_jwt_1.validarJWT, matriculadetalle_1.getMatriculadetallesMatricula);
+router.get('/matriculaestado/:matriculaId', validar_jwt_1.validarJWT, matriculadetalle_1.getMatriculadetallesMatriculaEstado);
 router.get('/:id', validar_jwt_1.validarJWT, matriculadetalle_1.getMatriculadetalle);
 router.get('/busqueda/:valor', validar_jwt_1.validarJWT, matriculadetalle_1.busquedaMatriculadetalles);
 router.get('/listado/:periodoId/:aulaId', validar_jwt_1.validarJWT, matriculadetalle_1.getListadoAlumnos);
@@ -43,6 +44,9 @@ router.post('/', [
     (0, express_validator_1.check)('programacionId', 'La programacion es obligatoria').not().isEmpty(),
     validar_campos_1.validarCampos
 ], matriculadetalle_1.postMatriculadetalle);
+router.put('/cambiarestado/:estado/:id', [
+    validar_jwt_1.validarJWT,
+], matriculadetalle_1.cambiarEstadoMatriculadetalle);
 router.put('/:id', [
     validar_jwt_1.validarJWT,
     (0, express_validator_1.check)('matriculaId', 'La matricula es obligatoria').not().isEmpty(),

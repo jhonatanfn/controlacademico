@@ -7,9 +7,10 @@ import {
     aprobadoAlumno, busquedaMatriculadetalles, busquedaMatriculadetallesPorAlumno,
     busquedaMatriculadetallesPorAlumnoMadre, busquedaMatriculadetallesPorAlumnoMadrePeriodo,
     busquedaMatriculadetallesPorAlumnoPadre, busquedaMatriculadetallesPorAlumnoPadrePeriodo,
-    busquedaMatriculadetallesPorAlumnoPeriodo, deleteMatriculadetalle,
+    busquedaMatriculadetallesPorAlumnoPeriodo, cambiarEstadoMatriculadetalle, deleteMatriculadetalle,
     existeMatricula, getListadoAlumnos, getListadoAlumnosProgramacion, getMatriculadetalle,
     getMatriculadetalles, getMatriculadetallesMatricula,
+    getMatriculadetallesMatriculaEstado,
     getMatriculadetallesPeriodoAula, getMatriculadetallesPeriodoAulaArea, getMatriculadetallesProgramacion, listarmatriculasanterior,
     matriculadetallesAlumno, matriculadetallesAlumnoPeriodo, matriculasAlumnoPorMadre,
     matriculasAlumnoPorMadrePeriodo, matriculasAlumnoPorPadre, matriculasAlumnoPorPadrePeriodo,
@@ -26,6 +27,7 @@ const router = Router();
 
 router.get('/', validarJWT, getMatriculadetalles);
 router.get('/matricula/:matriculaId', validarJWT, getMatriculadetallesMatricula);
+router.get('/matriculaestado/:matriculaId', validarJWT, getMatriculadetallesMatriculaEstado);
 router.get('/:id', validarJWT, getMatriculadetalle);
 router.get('/busqueda/:valor', validarJWT, busquedaMatriculadetalles);
 router.get('/listado/:periodoId/:aulaId', validarJWT, getListadoAlumnos);
@@ -68,12 +70,17 @@ router.post('/', [
     validarCampos
 ], postMatriculadetalle);
 
+router.put('/cambiarestado/:estado/:id', [
+    validarJWT,
+], cambiarEstadoMatriculadetalle);
+
 router.put('/:id', [
     validarJWT,
     check('matriculaId', 'La matricula es obligatoria').not().isEmpty(),
     check('programacionId', 'La programacion es obligatoria').not().isEmpty(),
     validarCampos
 ], putMatriculadetalle);
+
 
 router.delete('/:id', validarJWT, deleteMatriculadetalle);
 
