@@ -79,7 +79,20 @@ const postPersona = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 msg: `Ya existe una persona con el dni: ${body.dni}`
             });
         }
-        const persona = persona_1.default.build(body);
+        const persona = persona_1.default.build({
+            dni: body.dni,
+            nombres: body.nombres,
+            apellidopaterno: body.apellidopaterno,
+            apellidomaterno: body.apellidomaterno,
+            domicilio: body.domicilio,
+            telefono: body.telefono,
+            nacionalidad: body.nacionalidad,
+            distrito: body.distrito,
+            fechanacimiento: body.fechanacimiento,
+            sexo: body.sexo,
+            correo: body.correo,
+            tipodocumentoId: body.tipodocumentoId
+        });
         yield persona.save();
         res.json({
             ok: true,

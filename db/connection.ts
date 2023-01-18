@@ -9,6 +9,12 @@ const db= new Sequelize(
         host: process.env.HOST || environment.HOST,
         port: Number(process.env.DB_PORT),
         dialect:'mysql',
+        /*
+        dialectOptions: {
+            charset: 'utf8mb4',
+            collate: 'utf8mb4_general_ci',
+        },
+        */
         pool: {
             max: 5,
             min: 0,

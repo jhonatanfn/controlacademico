@@ -68,7 +68,20 @@ export const postPersona = async (req: Request, res: Response) => {
                 msg: `Ya existe una persona con el dni: ${body.dni}`
             });
         }
-        const persona: any = Persona.build(body);
+        const persona: any = Persona.build({
+            dni: body.dni,
+            nombres: body.nombres,
+            apellidopaterno: body.apellidopaterno,
+            apellidomaterno: body.apellidomaterno,
+            domicilio: body.domicilio,
+            telefono: body.telefono,
+            nacionalidad: body.nacionalidad,
+            distrito: body.distrito,
+            fechanacimiento: body.fechanacimiento,
+            sexo: body.sexo,
+            correo: body.correo,
+            tipodocumentoId:body.tipodocumentoId
+        });
         await persona.save();
         res.json({
             ok: true,

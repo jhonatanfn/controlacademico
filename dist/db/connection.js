@@ -6,6 +6,12 @@ const db = new sequelize_1.Sequelize(process.env.BASE_DATOS || environments_1.en
     host: process.env.HOST || environments_1.environment.HOST,
     port: Number(process.env.DB_PORT),
     dialect: 'mysql',
+    /*
+    dialectOptions: {
+        charset: 'utf8mb4',
+        collate: 'utf8mb4_general_ci',
+    },
+    */
     pool: {
         max: 5,
         min: 0,
