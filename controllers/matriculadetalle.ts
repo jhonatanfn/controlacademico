@@ -225,10 +225,12 @@ export const postMatriculadetalle = async (req: Request, res: Response) => {
         const programacion: any = await Programacion.findOne({
             where: {
                 id: body.programacionId
-            }
+            },
+            attributes:['id','numeromat','numeromaxmat']
         });
-        programacion.numeromat = programacion.numeromat + 1;
-        programacion.save();
+        await programacion?.update({
+            numeromat: Number(programacion.numeromat) + 1
+        });
         res.json({
             ok: true,
             msg: 'Matriculadetalle guardada exitosamente',

@@ -237,10 +237,12 @@ const postMatriculadetalle = (req, res) => __awaiter(void 0, void 0, void 0, fun
         const programacion = yield programacion_1.default.findOne({
             where: {
                 id: body.programacionId
-            }
+            },
+            attributes: ['id', 'numeromat', 'numeromaxmat']
         });
-        programacion.numeromat = programacion.numeromat + 1;
-        programacion.save();
+        yield (programacion === null || programacion === void 0 ? void 0 : programacion.update({
+            numeromat: Number(programacion.numeromat) + 1
+        }));
         res.json({
             ok: true,
             msg: 'Matriculadetalle guardada exitosamente',
