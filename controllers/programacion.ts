@@ -1518,3 +1518,41 @@ export const getProgramacionesAdministrador = async (req: Request, res: Response
         handleHttpError(res, "Se produjo un error.", 500, error);
     }
 }
+
+export const isProgramacionesCompletas = async (req: Request, res: Response) => {
+    const { periodoId, aulaId } = req.params;
+    try {
+        const areas: any = await Area.findAll({
+            where: {
+                estado: true
+            },
+            attributes:['id']
+        });
+        if(areas.length>0){
+            const data = await Programacion.findAll({
+                where: {
+                    periodoId: periodoId,
+                    aulaId: aulaId,
+                    estado: true
+                },
+                attributes: ['id']
+            });
+            if(data.length!==areas.length){
+                return res.json({
+                    ok: false,
+                    msg: "Programar todas las asignaciones para el periodo y aula seleccionado."
+                });
+            }
+        }else{
+            return res.json({
+                ok: false,
+                msg: "No hay areas registradas"
+            });
+        }
+        res.json({
+            ok: true,
+        });
+    } catch (error) {
+        handleHttpError(res, "Se produjo un error.", 500, error);
+    }
+}

@@ -153,6 +153,7 @@ const putMatricula = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 });
 exports.putMatricula = putMatricula;
 const deleteMatricula = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const { id } = req.params;
     try {
         const matricula = yield matricula_1.default.findByPk(id);
@@ -163,6 +164,23 @@ const deleteMatricula = (req, res) => __awaiter(void 0, void 0, void 0, function
             });
         }
         yield (matricula === null || matricula === void 0 ? void 0 : matricula.update({ estado: false }));
+        const matriculadetalles = yield matriculadetalle_1.default.findAll({
+            where: {
+                matriculaId: matricula.id,
+                estado: true
+            }
+        });
+        if (matriculadetalles.length > 0) {
+            for (var i = 0; i < matriculadetalles.length; i++) {
+                yield ((_a = matriculadetalles[i]) === null || _a === void 0 ? void 0 : _a.update({ estado: false }));
+            }
+        }
+        else {
+            return res.json({
+                ok: false,
+                msg: "No se pudo eliminar los detalles de la matricula."
+            });
+        }
         res.json({
             ok: true,
             msg: 'Matricula eliminada exitosamente',

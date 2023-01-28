@@ -21,7 +21,8 @@ getProgramacionesAdministradorPeriodo,
 existeProgramacionEditar,
 getProgramacionesDocenteTodo,
 getProgramacionesDocentePeriodoPaginadoTodo,
-perteneceAulaDocente} from '../controllers/programacion';
+perteneceAulaDocente,
+isProgramacionesCompletas} from '../controllers/programacion';
 import { validarCampos } from '../middlewares/validar-campos';
 import { validarJWT } from '../middlewares/validar-jwt';
 
@@ -51,6 +52,9 @@ router.get('/busqueda/docente/:valor',validarJWT,busquedaProgramacionesPorDocent
 
 router.get('/busqueda/administradorperiodo/:periodoId/:valor',validarJWT,getProgramacionesAdministradorPeriodo);
 router.get('/busqueda/administrador/:valor',validarJWT,getProgramacionesAdministrador);
+
+
+router.get('/completas/todos/:periodoId/:aulaId',validarJWT,isProgramacionesCompletas);
 
 router.post('/',[
     validarJWT,

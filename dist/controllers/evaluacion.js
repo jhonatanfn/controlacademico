@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTodo = exports.getEvaluaciones = void 0;
+exports.deleteEvaluacion = exports.putEvaluacion = exports.postEvaluacion = exports.getEvaluacion = exports.getTodo = exports.getEvaluaciones = void 0;
 const evaluacion_1 = __importDefault(require("../models/evaluacion"));
 const handleError_1 = require("../utils/handleError");
 const getEvaluaciones = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -23,6 +23,7 @@ const getEvaluaciones = (req, res) => __awaiter(void 0, void 0, void 0, function
         })).length;
         const evaluaciones = yield evaluacion_1.default.findAll({
             where: { estado: true },
+            attributes: ['id', 'nombre', 'abreviatura', 'estado'],
             limit: 5,
             offset: desde,
         });
@@ -41,7 +42,8 @@ exports.getEvaluaciones = getEvaluaciones;
 const getTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const evaluaciones = yield evaluacion_1.default.findAll({
-            where: { estado: true }
+            where: { estado: true },
+            attributes: ['id', 'nombre', 'abreviatura', 'estado'],
         });
         res.json({
             ok: true,
@@ -53,4 +55,85 @@ const getTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getTodo = getTodo;
+const getEvaluacion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    try {
+        const evaluacion = yield evaluacion_1.default.findByPk(id);
+        if (!evaluacion) {
+            return res.status(400).json({
+                ok: false,
+                msg: `No existe una evaluacion con el id: ${id}`
+            });
+        }
+        res.json({
+            ok: true,
+            evaluacion
+        });
+    }
+    catch (error) {
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
+    }
+});
+exports.getEvaluacion = getEvaluacion;
+const postEvaluacion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { body } = req;
+    try {
+        const evaluacion = evaluacion_1.default.build(body);
+        yield evaluacion.save();
+        res.json({
+            ok: true,
+            msg: 'Evaluacion creada exitosamente',
+            evaluacion
+        });
+    }
+    catch (error) {
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
+    }
+});
+exports.postEvaluacion = postEvaluacion;
+const putEvaluacion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const { body } = req;
+    try {
+        const evaluacion = yield evaluacion_1.default.findByPk(id);
+        if (!evaluacion) {
+            return res.status(400).json({
+                ok: false,
+                msg: `No existe una evaluacion con el id: ${id}`
+            });
+        }
+        yield (evaluacion === null || evaluacion === void 0 ? void 0 : evaluacion.update(body));
+        res.json({
+            ok: true,
+            msg: 'Evaluacion actualizada exitosamente',
+            evaluacion
+        });
+    }
+    catch (error) {
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
+    }
+});
+exports.putEvaluacion = putEvaluacion;
+const deleteEvaluacion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    try {
+        const evaluacion = yield evaluacion_1.default.findByPk(id);
+        if (!evaluacion) {
+            return res.status(400).json({
+                ok: false,
+                msg: `No existe un evaluacion con el id: ${id}`
+            });
+        }
+        yield (evaluacion === null || evaluacion === void 0 ? void 0 : evaluacion.update({ estado: false }));
+        res.json({
+            ok: true,
+            msg: 'Evaluacion eliminada exitosamente',
+            evaluacion
+        });
+    }
+    catch (error) {
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
+    }
+});
+exports.deleteEvaluacion = deleteEvaluacion;
 //# sourceMappingURL=evaluacion.js.map

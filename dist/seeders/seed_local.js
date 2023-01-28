@@ -105,12 +105,12 @@ exports.periodos = [
     { id: 2, nombre: '2023', fechainicial: "2023-01-01", fechafinal: "2023-12-31" }
 ];
 exports.evaluaciones = [
-    { id: 1, nombre: 'TRABAJOS INDIVIDUALES', abreviatura: 'PA' },
-    { id: 2, nombre: 'TRABAJOS GRUPALES', abreviatura: 'PA' },
-    { id: 3, nombre: 'TAREAS', abreviatura: 'TAR' },
-    { id: 4, nombre: 'PARTICIPACIONES EN CLASE', abreviatura: 'PC' },
-    { id: 5, nombre: 'EXPOSICIONES', abreviatura: 'EXPO' },
-    { id: 6, nombre: 'EXAMENES ESCRITOS', abreviatura: 'EX' }
+    { id: 1, nombre: 'DESEMPEÑO 1', abreviatura: 'PA' },
+    { id: 2, nombre: 'DESEMPEÑO 2', abreviatura: 'PA' },
+    { id: 3, nombre: 'DESEMPEÑO 3', abreviatura: 'TAR' },
+    { id: 4, nombre: 'DESEMPEÑO 4', abreviatura: 'PC' },
+    { id: 5, nombre: 'DESEMPEÑO 5', abreviatura: 'EXPO' },
+    { id: 6, nombre: 'DESEMPEÑO 6', abreviatura: 'EX' }
 ];
 exports.ciclos = [
     { id: 4, nombre: 'B1' },

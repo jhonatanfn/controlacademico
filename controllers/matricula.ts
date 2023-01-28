@@ -149,6 +149,24 @@ export const deleteMatricula = async (req: Request, res: Response) => {
         }
         await matricula?.update({ estado: false });
 
+        const matriculadetalles:any = await Matriculadetalle.findAll({
+            where: {
+                matriculaId: matricula.id,
+                estado: true
+            }
+        });
+
+        if (matriculadetalles.length > 0) {
+            for (var i = 0; i < matriculadetalles.length; i++) {
+                await matriculadetalles[i]?.update({estado: false});
+            }
+        }else{
+            return res.json({
+                ok: false,
+                msg: "No se pudo eliminar los detalles de la matricula."
+            });
+        }
+
         res.json({
             ok: true,
             msg: 'Matricula eliminada exitosamente',

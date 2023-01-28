@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getProgramacionesAdministrador = exports.getProgramacionesAdministradorPeriodo = exports.busquedaProgramacionesPorDocente = exports.programacionPeriodoPaginado = exports.busquedaProgramacionesSubarea = exports.programacionPeriodo = exports.perteneceAulaDocente = exports.perteneceProgramacionDocente = exports.getProgramacionesDocentePeriodoPaginadoTodo = exports.getProgramacionesDocentePeriodoPaginado = exports.busquedaProgramacionesSubareaPorDocente = exports.busquedaProgramacionesSubareaPorDocentePeriodo = exports.existeProgramacionEditar = exports.existeProgramacion = exports.busquedaProgramaciones = exports.deleteProgramacion = exports.putProgramacion = exports.postProgramacion = exports.getProgramacionesPeriodoAula = exports.getProgramacion = exports.getProgramaciones = exports.getProgramacionesDocentePeriodo = exports.getProgramacionesDocenteTodo = exports.getProgramacionesDocente = void 0;
+exports.isProgramacionesCompletas = exports.getProgramacionesAdministrador = exports.getProgramacionesAdministradorPeriodo = exports.busquedaProgramacionesPorDocente = exports.programacionPeriodoPaginado = exports.busquedaProgramacionesSubarea = exports.programacionPeriodo = exports.perteneceAulaDocente = exports.perteneceProgramacionDocente = exports.getProgramacionesDocentePeriodoPaginadoTodo = exports.getProgramacionesDocentePeriodoPaginado = exports.busquedaProgramacionesSubareaPorDocente = exports.busquedaProgramacionesSubareaPorDocentePeriodo = exports.existeProgramacionEditar = exports.existeProgramacion = exports.busquedaProgramaciones = exports.deleteProgramacion = exports.putProgramacion = exports.postProgramacion = exports.getProgramacionesPeriodoAula = exports.getProgramacion = exports.getProgramaciones = exports.getProgramacionesDocentePeriodo = exports.getProgramacionesDocenteTodo = exports.getProgramacionesDocente = void 0;
 const sequelize_1 = require("sequelize");
 const area_1 = __importDefault(require("../models/area"));
 const aula_1 = __importDefault(require("../models/aula"));
@@ -1519,4 +1519,44 @@ const getProgramacionesAdministrador = (req, res) => __awaiter(void 0, void 0, v
     }
 });
 exports.getProgramacionesAdministrador = getProgramacionesAdministrador;
+const isProgramacionesCompletas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { periodoId, aulaId } = req.params;
+    try {
+        const areas = yield area_1.default.findAll({
+            where: {
+                estado: true
+            },
+            attributes: ['id']
+        });
+        if (areas.length > 0) {
+            const data = yield programacion_1.default.findAll({
+                where: {
+                    periodoId: periodoId,
+                    aulaId: aulaId,
+                    estado: true
+                },
+                attributes: ['id']
+            });
+            if (data.length !== areas.length) {
+                return res.json({
+                    ok: false,
+                    msg: "Programar todas las asignaciones para el periodo y aula seleccionado."
+                });
+            }
+        }
+        else {
+            return res.json({
+                ok: false,
+                msg: "No hay areas registradas"
+            });
+        }
+        res.json({
+            ok: true,
+        });
+    }
+    catch (error) {
+        (0, handleError_1.handleHttpError)(res, "Se produjo un error.", 500, error);
+    }
+});
+exports.isProgramacionesCompletas = isProgramacionesCompletas;
 //# sourceMappingURL=programacion.js.map

@@ -30,6 +30,7 @@ router.get('/periodopaginado/:id', validar_jwt_1.validarJWT, programacion_1.prog
 router.get('/busqueda/docente/:valor', validar_jwt_1.validarJWT, programacion_1.busquedaProgramacionesPorDocente);
 router.get('/busqueda/administradorperiodo/:periodoId/:valor', validar_jwt_1.validarJWT, programacion_1.getProgramacionesAdministradorPeriodo);
 router.get('/busqueda/administrador/:valor', validar_jwt_1.validarJWT, programacion_1.getProgramacionesAdministrador);
+router.get('/completas/todos/:periodoId/:aulaId', validar_jwt_1.validarJWT, programacion_1.isProgramacionesCompletas);
 router.post('/', [
     validar_jwt_1.validarJWT,
     (0, express_validator_1.check)('periodoId', 'El periodo es obligatorio').not().isEmpty(),
