@@ -511,7 +511,7 @@ export const aprobadoAlumno = async (req: Request, res: Response) => {
                 }
             ]
         });
-        if (matriculadetalles.length > 0) {
+        if (matriculadetalles.length > 0){
             return res.json({
                 ok: true,
                 msg: "Alumno aprobado"
