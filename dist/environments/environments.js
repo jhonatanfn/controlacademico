@@ -9,16 +9,9 @@ exports.environment = {
       PASSWORD: '',
     */
     /*CLEVERCLOUD */
-    HOST: process.env.HOST || 'bwz9w5r5qvtblhvj3fvj-mysql.services.clever-cloud.com',
-    BASE_DATOS: process.env.BASE_DATOS || 'bwz9w5r5qvtblhvj3fvj',
-    USUARIO: process.env.USUARIO || 'u354a4jbczsjnjxd',
-    PASSWORD: process.env.PASSWORD || 'QaJkMVf9yXyHGkBpeipw',
-    PORT: Number(process.env.DB_PORT) || 3306
-    /*CLEVERCLOUD2
-      HOST: 'b3sifwpmanjto43xfyxb-mysql.services.clever-cloud.com',
-      BASE_DATOS: 'b3sifwpmanjto43xfyxb',
-      USUARIO: 'uv6pimggigpi2qc1',
-      PASSWORD: 'WWpMBGbbX2rKERyADobM',
-    */
+    HOST: 'b6rxuumzqflusdqfkpjn-mysql.services.clever-cloud.com',
+    BASE_DATOS: 'b6rxuumzqflusdqfkpjn',
+    USUARIO: 'u259nytine8kqi7u',
+    PASSWORD: 'WaaCG52nrS3MFSiyYhwI',
 };
 //# sourceMappingURL=environments.js.map
