@@ -7,7 +7,7 @@ exports.environment = {
       BASE_DATOS: 'bdcolegio',
       USUARIO: 'root',
       PASSWORD: '',
-    */
+   */
     /*CLEVERCLOUD */
     HOST: 'b6rxuumzqflusdqfkpjn-mysql.services.clever-cloud.com',
     BASE_DATOS: 'b6rxuumzqflusdqfkpjn',
