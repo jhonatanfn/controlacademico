@@ -1,11 +1,7 @@
-# repositorio frontend
-  controlacademico_frontend
-# repositorio backend
-  controlacademico
 {
     "builds":[
         {
-            "src": "./dist/app.js",
+            "src": "./dist/index.js",
             "use": "@vercel/node"
         }
     ],
