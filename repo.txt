@@ -2,3 +2,18 @@
   controlacademico_frontend
 # repositorio backend
   controlacademico
+
+  {
+    "builds":[
+        {
+            "src": "./dist/app.js",
+            "use": "@vercel/node"
+        }
+    ],
+    "routes":[
+        {
+            "src": "/(.*)",
+            "dest": "/"
+        }
+    ]
+}
